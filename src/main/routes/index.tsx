@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react'
 
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from 'react-router-dom'
 
-import { ROUTES } from "./routes";
+import { ROUTES } from './routes'
 
 export const Router: React.FC = () => {
 	return (
@@ -11,7 +11,7 @@ export const Router: React.FC = () => {
 				<Route key={key} path={route.path()} element={route.component} />
 			))}
 
-			<Route path="*" element={<h1>404</h1>} />
+			<Route path='*' element={<h1>404</h1>} />
 		</Routes>
-	);
-};
+	)
+}

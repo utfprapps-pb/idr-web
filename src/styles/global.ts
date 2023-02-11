@@ -1,6 +1,6 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components'
 
-import { sg } from ".";
+import { sg } from '.'
 
 export const GlobalStyles = createGlobalStyle`
   * {
@@ -24,4 +24,4 @@ export const GlobalStyles = createGlobalStyle`
     height: 100%;
     min-height: 100vh;
   }
-`;
+`
