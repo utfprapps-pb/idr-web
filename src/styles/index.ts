@@ -9,13 +9,11 @@ export const sg = Object.freeze({
 		primary: "'Figtree', 'Roboto'"
 	},
 	fontSize: {
-		default: '16px',
-		smaller: '12px',
-		small: '14px',
-		medium: '18px',
 		large: '20px',
-		xlarge: '24px',
-		xxlarge: '28px'
+		medium: '18px',
+		default: '16px',
+		small: '14px',
+		smaller: '12px'
 	},
 	heading: {
 		1: '104px',
