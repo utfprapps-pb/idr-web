@@ -1,17 +1,17 @@
-import React from "react";
+import React from 'react'
 
 type RouteProps = {
-	path: () => string;
-	component: React.ReactNode;
-};
+	path: () => string
+	component: React.ReactNode
+}
 
 type RoutesProps = {
-	[key: string]: RouteProps;
-};
+	[key: string]: RouteProps
+}
 
 export const ROUTES = Object.freeze<RoutesProps>({
 	login: {
-		path: () => "/",
-		component: <h1>Hello</h1>,
-	},
-});
+		path: () => '/',
+		component: <h1>Hello</h1>
+	}
+})
