@@ -5,8 +5,7 @@
 		"lib": ["DOM", "DOM.Iterable", "ESNext"],
 		"allowJs": false,
 		"skipLibCheck": true,
-		"esModuleInterop": false,
-		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
 		"strict": true,
 		"forceConsistentCasingInFileNames": true,
 		"module": "ESNext",
@@ -14,13 +13,14 @@
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"noEmit": true,
-		"jsx": "react-jsx",
-		"rootDir": "src",
-		"baseUrl": "src",
+		"jsx": "preserve",
+		"incremental": true,
+		"baseUrl": ".",
 		"paths": {
-			"@/*": ["*"]
-		}
+			"@/*": ["./src/*"]
+		},
 	},
-	"include": ["src"],
+	"include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.json"],
+	"exclude": ["node_modules"],
 	"references": [{ "path": "./tsconfig.node.json" }]
 }
