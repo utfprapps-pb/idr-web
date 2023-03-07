@@ -18,7 +18,7 @@ export const theme: Theme = {
 		lightgray: '#8D8D8D',
 		gray: '#444545',
 		darkgray: '#202328',
-		background: '#e4eeea',
+		background: '#F7F7F7',
 		error: '#D51A52'
 	},
 	fontFamily: {
