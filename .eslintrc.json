@@ -14,7 +14,8 @@
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:import/typescript",
-    "plugin:cypress/recommended"
+    "plugin:cypress/recommended",
+		"plugin:jsdoc/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -32,7 +33,8 @@
     "jsx-a11y",
     "react-hooks",
     "cypress",
-    "vitest"
+    "vitest",
+		"jsdoc"
   ],
   "rules": {
     "prettier/prettier": "error",
