@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components'
 
-import { theme } from '@/styles'
+import { theme } from '@/styles/themes'
 
 export const ResetStyle = createGlobalStyle`
   * {
@@ -15,6 +15,6 @@ export const ResetStyle = createGlobalStyle`
 
   body {
 		font-family: ${theme.fontFamily.primary};
-		background-color: ${theme.colors.lightgray};
+		background-color: ${theme.colors.background};
   }
 `
