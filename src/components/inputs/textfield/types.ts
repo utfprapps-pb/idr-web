@@ -1,6 +1,4 @@
-import { HTMLProps } from 'react'
-
-type Props = {
+export type TextFieldProps = {
 	/**
 	 * The label of the text field
 	 *
@@ -10,6 +8,16 @@ type Props = {
 	 * ```
 	 */
 	label: string
+
+	/**
+	 * The value of the text field
+	 *
+	 *	@example
+	 * ```tsx
+	 * <TextField value='Value' />
+	 * ```
+	 */
+	value: string
 
 	/**
 	 * The function that will be called when the value of the text field changes
@@ -33,35 +41,13 @@ type Props = {
 	type?: 'text' | 'password'
 
 	/**
-	 * The icon of the text field
+	 * The placeholder of the text field
 	 *
 	 * @example
 	 * ```tsx
-	 * <TextField icon={<EmailIcon />} />
-	 * ```
+	 * <TextField placeholder='Example of placeholder />
 	 */
-	icon?: React.ReactNode
-
-	/**
-	 * The position of the icon of the text field
-	 *
-	 * @example
-	 * ```tsx
-	 * <TextField iconPosition='right />
-	 * ```
-	 * @default 'left'
-	 */
-	iconPosition?: 'left' | 'right'
-
-	/**
-	 * The icon of the password of the text field
-	 *
-	 * @example
-	 * ```tsx
-	 * <TextField passwordIcon={<EyeIcon />} />
-	 * ```
-	 */
-	passwordIcon?: React.ReactNode
+	placeholder?: string
 
 	/**
 	 * The error of the text field
@@ -86,6 +72,39 @@ type Props = {
 	touched?: boolean
 
 	/**
+	 * The disable condition of the Text field
+	 *
+	 * @example
+	 * ```tsx
+	 * <TextField disabled={true} />
+	 *
+	 * @default false
+	 */
+	disabled?: boolean
+
+	/**
+	 * The array of icons that will be positioned at the beginning
+	 *
+	 * @example
+	 * ```tsx
+	 * <TextField iconsStart={[<Lock />, <Eye />]} />
+	 * ```
+	 * @default []
+	 */
+	iconsStart?: React.ReactNode[]
+
+	/**
+	 * The array of icons that will be positioned at the end
+	 *
+	 * @example
+	 * ```tsx
+	 * <TextField iconsEnd={[<Lock />, <Eye />]} />
+	 * ```
+	 * @default []
+	 */
+	iconsEnd?: React.ReactNode[]
+
+	/**
 	 * The dependency of the validation of the text field
 	 *
 	 * @example
@@ -105,5 +124,3 @@ type Props = {
 	 */
 	validator?: () => string | null
 }
-
-export type TextFieldProps = HTMLProps<HTMLInputElement> & Props

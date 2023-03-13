@@ -2,6 +2,9 @@ import styled, { css } from 'styled-components'
 
 import { darken, lighten } from '@/utils'
 
+const ICONS_START_POSITION = 12
+const ICONS_END_POSITION = 18
+
 export const Container = styled.section`
 	display: flex;
 	flex-direction: column;
@@ -9,42 +12,11 @@ export const Container = styled.section`
 	gap: 4px;
 `
 
-type InputContainerProps = {
-	iconPosition: 'left' | 'right'
-	hasPasswordIcon: boolean
-}
-
-export const InputContainer = styled.div<InputContainerProps>`
+export const InputContainer = styled.div`
 	display: flex;
 	align-items: center;
 
 	position: relative;
-
-	.icon {
-		position: absolute;
-		${({ iconPosition, hasPasswordIcon }) => css`
-			${iconPosition}: ${hasPasswordIcon && iconPosition === 'right'
-				? '28px;'
-				: '16px;'};
-		`}
-	}
-
-	.error-icon {
-		color: ${({ theme }) => theme.colors.error};
-		position: absolute;
-		right: ${({ iconPosition, hasPasswordIcon }) => {
-			if (iconPosition === 'right') {
-				return hasPasswordIcon ? '64px;' : '40px;'
-			}
-
-			return hasPasswordIcon ? '40px;' : '16px;'
-		}};
-	}
-
-	.password-icon {
-		position: absolute;
-		right: '16px;';
-	}
 `
 
 export const Icon = styled.i`
@@ -54,8 +26,8 @@ export const Icon = styled.i`
 
 type InputProps = {
 	hasError: boolean
-	hasIcon: boolean
-	iconPosition: 'left' | 'right'
+	paddingLeft: number
+	paddingRight: number
 }
 
 export const Input = styled.input<InputProps>`
@@ -69,16 +41,18 @@ export const Input = styled.input<InputProps>`
 	color: ${({ theme }) => theme.colors.gray};
 
 	font-size: ${({ theme }) => theme.fontSizes.b3};
-	font-weight: 400;
+	font-weight: ${({ theme }) => theme.fontWeights.regular};
 	font-family: ${({ theme }) => theme.fontFamily.primary};
 
 	height: 44px;
 	width: 100%;
 	padding: 16px;
+	${({ paddingLeft, paddingRight }) => css`
+		padding-left: calc(${paddingLeft}px + ${ICONS_START_POSITION}px + 4px);
+		padding-right: calc(${paddingRight}px + ${ICONS_END_POSITION}px + 4px);
+	`}
 
 	outline: none;
-
-	${({ iconPosition, hasIcon }) => hasIcon && `padding-${iconPosition}: 40px;`}
 
 	${({ hasError, theme }) =>
 		!hasError &&
@@ -96,7 +70,7 @@ export const Input = styled.input<InputProps>`
 			color: ${darken({ color: theme.colors.primary, percentage: 0.8 })};
 			background-color: ${lighten({
 				color: theme.colors.lightgray,
-				percentage: 0.3
+				percentage: 0.32
 			})};
 			border: 1px solid
 				${darken({ color: theme.colors.primary, percentage: 0.3 })};
@@ -105,11 +79,12 @@ export const Input = styled.input<InputProps>`
 
 	::placeholder {
 		${({ theme }) => css`
-			color: ${darken({ color: theme.colors.primary })};
-			font-size: ${theme.fontSizes.b4};
-			font-weight: 400;
+			color: ${lighten({ color: theme.colors.gray, percentage: 0.4 })};
+			font-size: ${theme.fontSizes.b3};
+			font-weight: ${theme.fontWeights.light};
 			font-family: ${theme.fontFamily.primary};
 		`}
+	}
 `
 
 export const Error = styled.span`
@@ -122,4 +97,23 @@ export const Error = styled.span`
 
 	text-align: end;
 	font-weight: 400;
+`
+
+const commonIconsContainer = css`
+	display: flex;
+	width: max-content;
+	gap: 4px;
+	position: absolute;
+`
+
+export const IconsStart = styled.div`
+	${commonIconsContainer}
+
+	left: ${ICONS_START_POSITION}px;
+`
+
+export const IconsEnd = styled.div`
+	${commonIconsContainer}
+
+	right: ${ICONS_END_POSITION}px;
 `
