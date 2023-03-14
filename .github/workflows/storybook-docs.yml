@@ -3,13 +3,7 @@ on:
   pull_request:
     branches:
       - main
-    paths:
-      - "src/**/stories.@(js|jsx|ts|tsx)"
-  push:
-    branches:
-      - main
-    paths:
-      - "src/**/stories.@(js|jsx|ts|tsx)"
+      - develop
 
 jobs:
   build-and-deploy:
