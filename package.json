@@ -9,7 +9,7 @@
 		"prepare": "husky install",
 		"lint": "lint-staged",
 		"storybook": "NODE_OPTIONS=--openssl-legacy-provider start-storybook -p 6006",
-		"build-storybook": "build-storybook"
+		"build-storybook": "build-storybook -o docs-build"
 	},
 	"dependencies": {
 		"colord": "^2.9.3",
