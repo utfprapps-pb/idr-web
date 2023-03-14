@@ -1,30 +1,39 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, {
+	Fragment,
+	useCallback,
+	useEffect,
+	useRef,
+	useState
+} from 'react'
 
+import { faker } from '@faker-js/faker/locale/en'
 import { WarningCircle } from 'phosphor-react'
 
 import * as S from './styles'
 import { TextFieldProps } from './types'
 import { Text } from '@/components'
+import { theme } from '@/styles'
 
 export * from './types'
 
 export const TextField: React.FC<TextFieldProps> = ({
 	label,
+	value,
 	onChange,
 	type = 'text',
-	value = '',
-	placeholder = '',
-	icon,
-	iconPosition = 'left',
-	passwordIcon,
+	placeholder,
 	disabled = false,
 	error = '',
+	iconsStart = [],
+	iconsEnd = [],
 	touched = false,
 	validationDependency,
 	validator
 }) => {
 	const [inputError, setInputError] = useState<string | null>(error)
 	const [inputTouched, setInputTouched] = useState(touched)
+	const iconsStartRef = useRef<HTMLDivElement>(null)
+	const iconsEndRef = useRef<HTMLDivElement>(null)
 
 	const handleCheckErrors = useCallback(
 		() => validator && inputTouched && setInputError(validator()),
@@ -63,12 +72,12 @@ export const TextField: React.FC<TextFieldProps> = ({
 				{label}
 			</Text>
 
-			<S.InputContainer
-				iconPosition={iconPosition}
-				hasPasswordIcon={!!passwordIcon}
-			>
-				<S.Icon className="icon">{icon}</S.Icon>
-				<S.Icon className="password-icon">{passwordIcon}</S.Icon>
+			<S.InputContainer>
+				<S.IconsStart ref={iconsStartRef}>
+					{iconsStart.map((icon) => (
+						<Fragment key={faker.datatype.uuid()}>{icon}</Fragment>
+					))}
+				</S.IconsStart>
 
 				<S.Input
 					value={value}
@@ -78,11 +87,16 @@ export const TextField: React.FC<TextFieldProps> = ({
 					disabled={disabled}
 					placeholder={placeholder}
 					hasError={!!inputError}
-					iconPosition={iconPosition}
-					hasIcon={!!icon}
+					paddingLeft={iconsStartRef.current?.clientWidth || 0}
+					paddingRight={iconsEndRef.current?.clientWidth || 0}
 				/>
 
-				{!!inputError && <WarningCircle className="error-icon" />}
+				<S.IconsEnd ref={iconsEndRef}>
+					{iconsEnd.map((icon) => (
+						<Fragment key={faker.datatype.uuid()}>{icon}</Fragment>
+					))}
+					{inputError && <WarningCircle color={theme.colors.error} />}
+				</S.IconsEnd>
 			</S.InputContainer>
 
 			{!!inputError && <S.Error>{inputError}</S.Error>}

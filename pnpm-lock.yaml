@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@commitlint/config-conventional': ^17.4.2
+  '@faker-js/faker': ^7.6.0
   '@minozzzi/eslint-config': ^1.0.3
   '@storybook/addon-actions': ^6.5.3
   '@storybook/addon-essentials': ^6.5.3
@@ -58,6 +59,7 @@ dependencies:
 
 devDependencies:
   '@commitlint/config-conventional': 17.4.4
+  '@faker-js/faker': 7.6.0
   '@minozzzi/eslint-config': 1.0.3_ycpbpc6yetojsgtrx3mwntkhsu
   '@storybook/addon-actions': 6.5.16_biqbaboplfbrettd7655fr4n2y
   '@storybook/addon-essentials': 6.5.16_mmsxepu5s6ul2gihrjsvvollgq
@@ -1925,6 +1927,11 @@ packages:
   /@eslint/js/8.35.0:
     resolution: {integrity: sha512-JXdzbRiWclLVoD8sNUjR443VVlYqiYmDVT6rGUEIEHU5YJW0gaVZwV2xgM7D4arkvASqD0IlLUVjHiFuxaftRw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    dev: true
+
+  /@faker-js/faker/7.6.0:
+    resolution: {integrity: sha512-XK6BTq1NDMo9Xqw/YkYyGjSsg44fbNwYRx7QK2CuoQgyy+f1rrTDHoExVM5PsyXCtfl2vs2vVJ0MN0yN6LppRw==}
+    engines: {node: '>=14.0.0', npm: '>=6.0.0'}
     dev: true
 
   /@gar/promisify/1.1.3:
