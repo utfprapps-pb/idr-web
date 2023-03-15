@@ -23,9 +23,9 @@ module.exports = {
 		const {config: userConfig} = await loadConfigFromFile(
 			viteConfig
 		)
+		userConfig.base = './'
 		return mergeConfig(config, {
-			...userConfig,
-			plugins: []
+			...userConfig
 		})
 
 	}
