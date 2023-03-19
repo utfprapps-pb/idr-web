@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { DesignSystemMapperProps, TextProps } from './types'
-import { Typography } from '@/components'
+import { Typography } from '@/presentation/components'
 
 export * from './types'
 

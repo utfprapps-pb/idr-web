@@ -11,7 +11,7 @@ import { WarningCircle } from 'phosphor-react'
 
 import * as S from './styles'
 import { TextFieldProps } from './types'
-import { Text } from '@/components'
+import { Text } from '@/presentation/components'
 import { theme } from '@/styles'
 
 export * from './types'

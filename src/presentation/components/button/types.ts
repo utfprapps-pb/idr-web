@@ -1,4 +1,4 @@
-import { ButtonThemes } from '@/components'
+import { ButtonThemes } from '@/presentation/components'
 
 export type ButtonProps = {
 	/**

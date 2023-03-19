@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react'
 
 import { Eye, EyeClosed } from 'phosphor-react'
 
-import { TextField, TextFieldProps } from '@/components'
+import { TextField, TextFieldProps } from '@/presentation/components'
 
 export type PasswordInputProps = TextFieldProps
 
