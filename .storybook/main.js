@@ -25,7 +25,8 @@ module.exports = {
 		)
 		userConfig.base = './'
 		return mergeConfig(config, {
-			...userConfig
+			...userConfig,
+			plugins: []
 		})
 
 	}
