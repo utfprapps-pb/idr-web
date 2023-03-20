@@ -37,6 +37,7 @@
 		"jsdoc"
   ],
   "rules": {
+		"class-methods-use-this": "off",
     "prettier/prettier": "error",
     "space-before-function-paren": "off",
     "react/prop-types": "off",
