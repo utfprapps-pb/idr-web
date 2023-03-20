@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { MakeLoginPage } from '@/main/factories/pages'
+
 type RouteProps = {
 	path: () => string
 	component: React.ReactNode
@@ -11,7 +13,7 @@ type RoutesProps = {
 
 export const ROUTES = Object.freeze<RoutesProps>({
 	login: {
-		path: () => '/',
-		component: <h1>Hello</h1>
+		path: () => '/login',
+		component: <MakeLoginPage />
 	}
 })

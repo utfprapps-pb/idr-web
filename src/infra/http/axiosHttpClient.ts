@@ -12,9 +12,7 @@ export const baseAxios = axios.create({
 	validateStatus: (status: number) => status >= 200 && status < 300
 })
 
-export class AxiosHttpClient<F extends Record<string, string>, T = unknown>
-	implements HttpClient<F, T>
-{
+export class AxiosHttpClient<T = unknown> implements HttpClient<T> {
 	async request(data: HttpRequest): Promise<HttpResponse<T>> {
 		let axiosResponse: AxiosResponse
 

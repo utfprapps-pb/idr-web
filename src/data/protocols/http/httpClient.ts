@@ -29,6 +29,6 @@ export type HttpResponse<T = unknown> = {
 	body?: T
 }
 
-export interface HttpClient<F = Record<string, string>, T = unknown> {
+export interface HttpClient<T = unknown, F = Record<string, string>> {
 	request: (data: HttpRequest<F>) => Promise<HttpResponse<T>>
 }
