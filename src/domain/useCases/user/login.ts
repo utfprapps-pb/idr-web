@@ -5,4 +5,6 @@ export type LoginUserParams = {
 	cpf: string
 }
 
-export type LoginUser = (params: LoginUserParams) => Promise<UserModel>
+export interface LoginUser {
+	login: (params: LoginUserParams) => Promise<UserModel>
+}
