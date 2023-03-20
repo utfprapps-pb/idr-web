@@ -6,7 +6,7 @@ import { LoginUser, LoginUserParams } from '@/domain/useCases'
 export class RemoteLoginUser implements LoginUser {
 	constructor(
 		private readonly url: string,
-		private readonly httpClient: HttpClient<unknown, UserModel>
+		private readonly httpClient: HttpClient<UserModel>
 	) {}
 
 	async login(params: LoginUserParams): Promise<UserModel> {
