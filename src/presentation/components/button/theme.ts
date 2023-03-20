@@ -1,5 +1,5 @@
+import { lighten } from '@/main/utils'
 import { theme } from '@/styles'
-import { lighten } from '@/utils'
 
 export enum ButtonThemes {
 	primary = 'primary',

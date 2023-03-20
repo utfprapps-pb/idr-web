@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 
-import { darken, lighten } from '@/utils'
+import { darken, lighten } from '@/main/utils'
 
 const ICONS_START_POSITION = 12
 const ICONS_END_POSITION = 18

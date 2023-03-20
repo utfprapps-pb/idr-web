@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
 
+import { darken, lighten } from '@/main/utils'
 import { ButtonThemeProps } from '@/presentation/components'
-import { darken, lighten } from '@/utils'
 
 export const Container = styled.section`
 	display: flex;
