@@ -15,5 +15,9 @@ export const ROUTES = Object.freeze<RoutesProps>({
 	login: {
 		path: () => '/login',
 		component: <MakeLoginPage />
+	},
+	dashboard: {
+		path: () => '/',
+		component: <h1>Dashboard</h1>
 	}
 })
