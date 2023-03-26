@@ -1,3 +1,5 @@
 import React from 'react'
 
-export const MakeLoginPage: React.FC = () => <h1>LoginPage</h1>
+import { LoginPage } from '@/presentation/pages'
+
+export const MakeLoginPage: React.FC = () => <LoginPage />

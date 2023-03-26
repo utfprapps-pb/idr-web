@@ -45,26 +45,17 @@ export class AxiosHttpClient<T = unknown> implements HttpClient<T> {
 		filters: HttpRequest['filters']
 		pagination: HttpRequest['pagination']
 	}) {
-		const {
-			url,
-			filters = {},
-			pagination = {
-				page: 1,
-				perPage: 10
-			}
-		} = params
+		const { url, filters = {}, pagination = {} } = params
 
 		const paginationKeys = Object.keys(pagination)
 		const filtersKeys = Object.keys(filters)
 
 		if (!filtersKeys.length && !paginationKeys.length) return url
 
-		if (!paginationKeys.includes('perPage')) pagination.perPage = 10
-
 		const esc = encodeURIComponent
 		const filtersAndPagination = [
 			...Object.entries(pagination).map(
-				([key, value]) => `${esc(key)}=${esc(value)}`
+				([key, value]) => `${esc(key)}=${esc(String(value))}`
 			),
 			...Object.entries(filters).map(
 				([key, value]) => `${esc(key)}=${esc(value)}`

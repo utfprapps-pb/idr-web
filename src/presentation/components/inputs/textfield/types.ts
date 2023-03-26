@@ -91,7 +91,7 @@ export type TextFieldProps = {
 	 * ```
 	 * @default []
 	 */
-	iconsStart?: React.ReactNode[]
+	iconsStart?: React.ReactElement[]
 
 	/**
 	 * The array of icons that will be positioned at the end
@@ -102,7 +102,7 @@ export type TextFieldProps = {
 	 * ```
 	 * @default []
 	 */
-	iconsEnd?: React.ReactNode[]
+	iconsEnd?: React.ReactElement[]
 
 	/**
 	 * The dependency of the validation of the text field

@@ -6,6 +6,7 @@ import { ButtonThemeProps } from '@/presentation/components'
 export const Container = styled.section`
 	display: flex;
 	justify-content: center;
+	width: 100%;
 `
 
 export const Button = styled.button<{
@@ -25,6 +26,8 @@ export const Button = styled.button<{
 	border: none;
 	border-radius: 8px;
 
+	width: 100%;
+
 	padding: 12px 24px;
 
 	svg {
@@ -36,13 +39,14 @@ export const Button = styled.button<{
 		css`
 			color: ${buttonTheme.color};
 			background: ${buttonTheme.background};
+			border: ${buttonTheme.border};
 
 			${!disabled &&
 			css`
 				&:hover {
 					background: ${buttonTheme.backgroundHover};
 				}
-			`}
+			`};
 		`}
 
 	${({ disabled, theme }) =>
@@ -53,6 +57,8 @@ export const Button = styled.button<{
 				color: theme.colors.lightgray,
 				percentage: 0.25
 			})};
+			border: 1px solid
+				${lighten({ color: theme.colors.lightgray, percentage: 0.25 })};
 			cursor: not-allowed;
 		`}
 `

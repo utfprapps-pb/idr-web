@@ -2,7 +2,7 @@ import { UserModel } from '@/domain/models'
 
 export type LoginUserParams = {
 	username: string
-	cpf: string
+	password: string
 }
 
 export interface LoginUser {

@@ -1,5 +1,5 @@
 export class LocalStorageAdapter {
-	readonly LOCAL_STORAGE_KEYS = {
+	static readonly LOCAL_STORAGE_KEYS = {
 		AUTH: 'auth'
 	}
 
