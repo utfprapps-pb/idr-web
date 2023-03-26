@@ -9,6 +9,7 @@ export const Container = styled.section`
 	display: flex;
 	flex-direction: column;
 
+	width: 100%;
 	gap: 4px;
 `
 
@@ -17,11 +18,6 @@ export const InputContainer = styled.div`
 	align-items: center;
 
 	position: relative;
-`
-
-export const Icon = styled.i`
-	display: flex;
-	align-items: center;
 `
 
 type InputProps = {
@@ -34,7 +30,7 @@ export const Input = styled.input<InputProps>`
 	background-color: ${({ theme }) => theme.colors.white};
 	border: 1px solid
 		${({ hasError, theme }) =>
-			hasError ? theme.colors.error : darken({ color: theme.colors.primary })};
+			hasError ? theme.colors.error : theme.colors.darkgray};
 	border-radius: 4px;
 	box-sizing: border-box;
 
@@ -59,8 +55,7 @@ export const Input = styled.input<InputProps>`
 		css`
 			:active,
 			:focus {
-				border: 1px solid
-					${darken({ color: theme.colors.primary, percentage: 0.2 })};
+				border: 2px solid ${theme.colors.primary};
 				box-shadow: inset 0px 4px 5px rgba(33, 1, 38, 0.03);
 			}
 		`}
@@ -116,4 +111,14 @@ export const IconsEnd = styled.div`
 	${commonIconsContainer}
 
 	right: ${ICONS_END_POSITION}px;
+`
+
+export const Icon = styled.i<{ isClickable: boolean }>`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	${({ isClickable }) => css`
+		cursor: ${isClickable ? 'pointer' : 'default'};
+	`}
 `

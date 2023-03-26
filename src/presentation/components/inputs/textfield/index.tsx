@@ -32,6 +32,9 @@ export const TextField: React.FC<TextFieldProps> = ({
 }) => {
 	const [inputError, setInputError] = useState<string | null>(error)
 	const [inputTouched, setInputTouched] = useState(touched)
+	const [iconsStartWidth, setIconsStartWidth] = useState(0)
+	const [iconsEndWidth, setIconsEndWidth] = useState(0)
+
 	const iconsStartRef = useRef<HTMLDivElement>(null)
 	const iconsEndRef = useRef<HTMLDivElement>(null)
 
@@ -66,17 +69,33 @@ export const TextField: React.FC<TextFieldProps> = ({
 		if (inputTouched) handleCheckErrors()
 	}, [handleCheckErrors, inputTouched])
 
+	useEffect(() => {
+		const start = iconsStartRef.current
+		const end = iconsEndRef.current
+
+		if (!start || !end) return
+
+		setIconsStartWidth(start.getBoundingClientRect().width)
+		setIconsEndWidth(end.getBoundingClientRect().width)
+	}, [])
+
 	return (
 		<S.Container>
-			<Text size="b2" color="gray">
+			<Text size="b3" color="gray">
 				{label}
 			</Text>
 
 			<S.InputContainer>
 				<S.IconsStart ref={iconsStartRef}>
-					{iconsStart.map((icon) => (
-						<Fragment key={faker.datatype.uuid()}>{icon}</Fragment>
-					))}
+					{iconsStart.map((icon) => {
+						const isClickable = !!icon?.props?.onClick
+
+						return (
+							<Fragment key={faker.datatype.uuid()}>
+								<S.Icon isClickable={isClickable}>{icon}</S.Icon>
+							</Fragment>
+						)
+					})}
 				</S.IconsStart>
 
 				<S.Input
@@ -87,14 +106,20 @@ export const TextField: React.FC<TextFieldProps> = ({
 					disabled={disabled}
 					placeholder={placeholder}
 					hasError={!!inputError}
-					paddingLeft={iconsStartRef.current?.clientWidth || 0}
-					paddingRight={iconsEndRef.current?.clientWidth || 0}
+					paddingLeft={iconsStartWidth}
+					paddingRight={iconsEndWidth}
 				/>
 
 				<S.IconsEnd ref={iconsEndRef}>
-					{iconsEnd.map((icon) => (
-						<Fragment key={faker.datatype.uuid()}>{icon}</Fragment>
-					))}
+					{iconsEnd.map((icon) => {
+						const isClickable = !!icon?.props?.onClick
+
+						return (
+							<Fragment key={faker.datatype.uuid()}>
+								<S.Icon isClickable={isClickable}>{icon}</S.Icon>
+							</Fragment>
+						)
+					})}
 					{inputError && <WarningCircle color={theme.colors.error} />}
 				</S.IconsEnd>
 			</S.InputContainer>
