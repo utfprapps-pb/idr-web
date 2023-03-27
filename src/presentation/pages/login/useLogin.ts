@@ -16,7 +16,7 @@ export const useLogin = () => {
 
 	const handleSubmit = useCallback(async () => {
 		await handleSignIn(formData)
-	}, [])
+	}, [formData, handleSignIn])
 
 	return {
 		loading,

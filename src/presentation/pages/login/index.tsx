@@ -3,6 +3,7 @@ import React from 'react'
 import { EnvelopeSimple, LockKey } from 'phosphor-react'
 
 import { useLogin } from './useLogin'
+import { LoginUserParams } from '@/domain/useCases'
 import {
 	Button,
 	Loading,
@@ -14,7 +15,7 @@ import { AuthContainerTemplate } from '@/presentation/templates'
 
 export const LoginPage: React.FC = () => {
 	const { loading, formData, setFormData, handleSubmit } = useLogin()
-	const { handleChange } = useHandleChangeFormData({
+	const { handleChange } = useHandleChangeFormData<LoginUserParams>({
 		formData,
 		setFormData
 	})
