@@ -1,6 +1,17 @@
 import React from 'react'
 
 import { MakeLoginPage } from '@/main/factories/pages'
+import { useAuth } from '@/presentation/store'
+
+const Dash = () => {
+	const { auth } = useAuth()
+	return (
+		<>
+			<h1>Hello logged!!</h1>
+			<h2>{auth?.token}</h2>
+		</>
+	)
+}
 
 type RouteProps = {
 	path: () => string
@@ -18,6 +29,6 @@ export const ROUTES = Object.freeze<RoutesProps>({
 	},
 	dashboard: {
 		path: () => '/',
-		component: <h1>Dashboard</h1>
+		component: <Dash />
 	}
 })
