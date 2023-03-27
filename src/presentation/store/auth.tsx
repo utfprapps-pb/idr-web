@@ -81,12 +81,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 				authData
 			)
 
-			baseAxios.defaults.headers['X-Authorization'] = `Bearer ${authData.token}`
+			baseAxios.defaults.headers.Authorization = `Bearer ${authData.token}`
 
 			return
 		}
 
-		delete baseAxios.defaults.headers['X-Authorization']
+		delete baseAxios.defaults.headers.Authorization
 		LocalStorageAdapter.set(LocalStorageAdapter.LOCAL_STORAGE_KEYS.AUTH)
 	}, [authData])
 
