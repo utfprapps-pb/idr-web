@@ -97,7 +97,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 			handleSignIn,
 			handleSignOut
 		}),
-		[]
+		[authData, handleSignIn, handleSignOut, loading]
 	)
 
 	return (
