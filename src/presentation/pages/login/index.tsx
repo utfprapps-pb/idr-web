@@ -29,8 +29,8 @@ export const LoginPage: React.FC = () => {
 					<TextField
 						label="E-mail"
 						placeholder="Digite seu e-mail"
-						value={formData.username}
-						onChange={handleChange('username')}
+						value={formData.email}
+						onChange={handleChange('email')}
 						disabled={loading}
 						iconsStart={[<EnvelopeSimple key={EnvelopeSimple.displayName} />]}
 					/>

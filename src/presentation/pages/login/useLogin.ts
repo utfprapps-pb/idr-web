@@ -4,7 +4,7 @@ import { LoginUserParams } from '@/domain/useCases'
 import { useAuth } from '@/presentation/store'
 
 const INITIAL_FORM_DATA: LoginUserParams = {
-	username: '',
+	email: '',
 	password: ''
 }
 

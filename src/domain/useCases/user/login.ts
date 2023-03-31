@@ -1,7 +1,7 @@
 import { UserModel } from '@/domain/models'
 
 export type LoginUserParams = {
-	username: string
+	email: string
 	password: string
 }
 
