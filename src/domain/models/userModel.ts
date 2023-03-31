@@ -2,7 +2,7 @@ export type UserModel = {
 	token: string
 }
 
-export type UserCreateParams = {
+export type CreateUserModel = {
 	name: string
 	email: string
 	phone: string
