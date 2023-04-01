@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { MakeLoginPage } from '@/main/factories/pages'
+import { MakeLoginPage, MakeSignUpPage } from '@/main/factories/pages'
 import { useAuth } from '@/presentation/store'
 
 const Dash = () => {
@@ -26,6 +26,10 @@ export const ROUTES = Object.freeze<RoutesProps>({
 	login: {
 		path: () => '/login',
 		component: <MakeLoginPage />
+	},
+	signUp: {
+		path: () => '/signUp',
+		component: <MakeSignUpPage />
 	},
 	dashboard: {
 		path: () => '/',
