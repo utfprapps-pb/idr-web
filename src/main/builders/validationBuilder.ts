@@ -4,7 +4,9 @@ import {
 	EmailValidation,
 	MinLengthValidation,
 	PasswordValidation,
-	RequiredFieldValidation
+	PhoneValidation,
+	RequiredFieldValidation,
+	YearValidation
 } from '@/validation/validators'
 
 export class ValidationBuilder {
@@ -13,7 +15,7 @@ export class ValidationBuilder {
 		private readonly validations: FieldValidation[]
 	) {}
 
-	static field(fieldName: string): ValidationBuilder {
+	static field<T extends string = string>(fieldName: T): ValidationBuilder {
 		return new ValidationBuilder(fieldName, [])
 	}
 
@@ -41,6 +43,16 @@ export class ValidationBuilder {
 
 	password(): ValidationBuilder {
 		this.validations.push(new PasswordValidation(this.fieldName))
+		return this
+	}
+
+	phone(): ValidationBuilder {
+		this.validations.push(new PhoneValidation(this.fieldName))
+		return this
+	}
+
+	year(): ValidationBuilder {
+		this.validations.push(new YearValidation(this.fieldName))
 		return this
 	}
 
