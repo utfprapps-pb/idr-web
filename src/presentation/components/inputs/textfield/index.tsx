@@ -1,83 +1,38 @@
-import React, {
-	Fragment,
-	useCallback,
-	useEffect,
-	useRef,
-	useState
-} from 'react'
+import React, { Fragment } from 'react'
 
 import { faker } from '@faker-js/faker/locale/en'
 import { WarningCircle } from 'phosphor-react'
 
 import * as S from './styles'
 import { TextFieldProps } from './types'
+import { useTextField } from './useTextField'
 import { Text } from '@/presentation/components'
 import { theme } from '@/styles'
 
 export * from './types'
 
-export const TextField: React.FC<TextFieldProps> = ({
-	label,
-	value,
-	onChange,
-	type = 'text',
-	placeholder,
-	disabled = false,
-	error = '',
-	iconsStart = [],
-	iconsEnd = [],
-	touched = false,
-	validationDependency,
-	validator
-}) => {
-	const [inputError, setInputError] = useState<string | null>(error)
-	const [inputTouched, setInputTouched] = useState(touched)
-	const [iconsStartWidth, setIconsStartWidth] = useState(0)
-	const [iconsEndWidth, setIconsEndWidth] = useState(0)
+export const TextField: React.FC<TextFieldProps> = (props) => {
+	const {
+		label,
+		value,
+		type = 'text',
+		placeholder,
+		disabled = false,
+		iconsStart = [],
+		iconsEnd = []
+	} = props
 
-	const iconsStartRef = useRef<HTMLDivElement>(null)
-	const iconsEndRef = useRef<HTMLDivElement>(null)
-
-	const handleCheckErrors = useCallback(
-		() => validator && inputTouched && setInputError(validator()),
-		[inputTouched, setInputError, validator]
-	)
-
-	const handleOnChange = useCallback(
-		(event: React.ChangeEvent<HTMLInputElement>) => {
-			setInputTouched(true)
-			handleCheckErrors()
-			onChange(event.target.value)
-		},
-		[handleCheckErrors, onChange]
-	)
-
-	const handleOnBlur = useCallback(() => {
-		handleCheckErrors()
-	}, [handleCheckErrors])
-
-	useEffect(() => {
-		handleCheckErrors()
-	}, [value, validationDependency, handleCheckErrors])
-
-	useEffect(() => {
-		if (touched !== undefined && inputTouched !== touched)
-			setInputTouched(touched)
-	}, [touched, inputTouched])
-
-	useEffect(() => {
-		if (inputTouched) handleCheckErrors()
-	}, [handleCheckErrors, inputTouched])
-
-	useEffect(() => {
-		const start = iconsStartRef.current
-		const end = iconsEndRef.current
-
-		if (!start || !end) return
-
-		setIconsStartWidth(start.getBoundingClientRect().width)
-		setIconsEndWidth(end.getBoundingClientRect().width)
-	}, [])
+	const {
+		iconsStartWidth,
+		iconsEndWidth,
+		warningCircleWidth,
+		iconsStartRef,
+		iconsEndRef,
+		warningCircleRef,
+		inputError,
+		handleOnBlur,
+		handleOnChange
+	} = useTextField(props)
 
 	return (
 		<S.Container>
@@ -107,7 +62,7 @@ export const TextField: React.FC<TextFieldProps> = ({
 					placeholder={placeholder}
 					hasError={!!inputError}
 					paddingLeft={iconsStartWidth}
-					paddingRight={iconsEndWidth}
+					paddingRight={iconsEndWidth + warningCircleWidth}
 				/>
 
 				<S.IconsEnd ref={iconsEndRef}>
@@ -120,7 +75,9 @@ export const TextField: React.FC<TextFieldProps> = ({
 							</Fragment>
 						)
 					})}
-					{inputError && <WarningCircle color={theme.colors.error} />}
+					{inputError && (
+						<WarningCircle ref={warningCircleRef} color={theme.colors.error} />
+					)}
 				</S.IconsEnd>
 			</S.InputContainer>
 

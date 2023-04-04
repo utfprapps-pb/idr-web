@@ -122,5 +122,5 @@ export type TextFieldProps = {
 	 * <TextField validator={() => 'This field is required'} />
 	 * ```
 	 */
-	validator?: () => string | null
+	validator?: () => string
 }
