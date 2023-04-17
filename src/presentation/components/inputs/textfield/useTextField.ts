@@ -11,7 +11,8 @@ export const useTextField = (props: UseTextFieldProps) => {
 		value,
 		validationDependency,
 		validator,
-		onChange
+		onChange,
+		mask
 	} = props
 
 	const [inputError, setInputError] = useState<string>(error || '')
@@ -33,9 +34,10 @@ export const useTextField = (props: UseTextFieldProps) => {
 		(event: React.ChangeEvent<HTMLInputElement>) => {
 			setInputTouched(true)
 			handleCheckErrors()
-			if (onChange) onChange(event.target.value)
+			const maskedValue = mask ? mask(event.target.value) : event.target.value
+			if (onChange) onChange(maskedValue)
 		},
-		[handleCheckErrors, onChange]
+		[handleCheckErrors, mask, onChange]
 	)
 
 	const handleOnBlur = useCallback(() => {
@@ -61,13 +63,10 @@ export const useTextField = (props: UseTextFieldProps) => {
 		const end = iconsEndRef.current
 		const warningCircle = warningCircleRef.current
 
-		if (!start || !end || !warningCircle) return
-
-		setIconsStartWidth(start.getBoundingClientRect().width)
-		setIconsEndWidth(end.getBoundingClientRect().width)
-		setWarningCircleWidth(warningCircle.getBoundingClientRect().width)
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [!inputError])
+		setIconsStartWidth(start?.getBoundingClientRect().width || 0)
+		setIconsEndWidth(end?.getBoundingClientRect().width || 0)
+		setWarningCircleWidth(warningCircle?.getBoundingClientRect().width || 0)
+	}, [inputError])
 
 	return {
 		inputError,

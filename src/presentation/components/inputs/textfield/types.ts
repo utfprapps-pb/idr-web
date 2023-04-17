@@ -123,4 +123,18 @@ export type TextFieldProps = {
 	 * ```
 	 */
 	validator?: () => string
+
+	/**
+	 * The mask of the text field
+	 *
+	 * @example
+	 * ```tsx
+	 * const phoneMask = () => {
+	 * 	// do something
+	 * }
+	 *
+	 * <TextField mask={phoneMask} />
+	 * ```
+	 */
+	mask?: (value: string) => string
 }
