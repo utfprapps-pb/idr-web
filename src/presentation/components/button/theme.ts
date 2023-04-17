@@ -25,7 +25,7 @@ export const buttonThemes: { [key in ButtonThemes]: ButtonThemeProps } = {
 	outline: {
 		color: theme.colors.primary,
 		background: theme.colors.white,
-		backgroundHover: darken({ color: theme.colors.white, percentage: 0.024 }),
+		backgroundHover: darken({ color: theme.colors.white, percentage: 0.05 }),
 		border: `1px solid ${theme.colors.primary}`
 	},
 	success: {
