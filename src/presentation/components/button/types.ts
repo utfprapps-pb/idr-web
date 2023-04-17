@@ -47,7 +47,7 @@ export type ButtonProps = {
 	 * ```
 	 * @default 'primary'
 	 */
-	theme?: keyof typeof ButtonThemes
+	theme?: ButtonThemes
 
 	/**
 	 * The type of the button
