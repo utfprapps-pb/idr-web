@@ -18,8 +18,10 @@ type RouteProps = {
 	component: React.ReactNode
 }
 
+type Pages = 'login' | 'signUp' | 'dashboard'
+
 type RoutesProps = {
-	[key: string]: RouteProps
+	[key in Pages]: RouteProps
 }
 
 export const ROUTES = Object.freeze<RoutesProps>({
