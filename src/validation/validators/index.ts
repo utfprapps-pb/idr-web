@@ -1,4 +1,5 @@
 export * from '@/validation/validators/compareFieldValidation'
+export * from '@/validation/validators/cpfValidation'
 export * from '@/validation/validators/emailValidation'
 export * from '@/validation/validators/minLengthValidation'
 export * from '@/validation/validators/passwordValidation'

@@ -1,6 +1,7 @@
 import { FieldValidation } from '@/validation/protocols'
 import {
 	CompareFieldsValidation,
+	CpfValidation,
 	EmailValidation,
 	MinLengthValidation,
 	PasswordValidation,
@@ -34,7 +35,7 @@ export class ValidationBuilder {
 		return this
 	}
 
-	sameAs(fieldToCompare: string): ValidationBuilder {
+	sameAs<T extends string = string>(fieldToCompare: T): ValidationBuilder {
 		this.validations.push(
 			new CompareFieldsValidation(this.fieldName, fieldToCompare)
 		)
@@ -53,6 +54,11 @@ export class ValidationBuilder {
 
 	year(): ValidationBuilder {
 		this.validations.push(new YearValidation(this.fieldName))
+		return this
+	}
+
+	cpf(): ValidationBuilder {
+		this.validations.push(new CpfValidation(this.fieldName))
 		return this
 	}
 
