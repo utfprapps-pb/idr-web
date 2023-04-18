@@ -4,13 +4,14 @@ import { EnvelopeSimple, LockKey } from 'phosphor-react'
 
 import { useLogin } from './useLogin'
 import { LoginUserParams } from '@/domain/useCases'
+import { ROUTES } from '@/main/routes/routes'
 import {
 	Button,
 	Loading,
 	PasswordInput,
 	TextField
 } from '@/presentation/components'
-import { useHandleChangeFormData } from '@/presentation/hooks'
+import { useHandleChangeFormData, useIdrHistory } from '@/presentation/hooks'
 import { AuthContainerTemplate } from '@/presentation/templates'
 
 export const LoginPage: React.FC = () => {
@@ -19,11 +20,13 @@ export const LoginPage: React.FC = () => {
 		formData,
 		setFormData
 	})
+	const { navigate } = useIdrHistory()
 
 	return (
 		<AuthContainerTemplate
 			title="Bem vindo!"
 			description="Digite seus dados para continuar"
+			maxWidth="540px"
 			body={
 				<>
 					<TextField
@@ -50,7 +53,16 @@ export const LoginPage: React.FC = () => {
 					<Button type="submit" disabled={loading}>
 						{loading ? <Loading /> : 'Entrar'}
 					</Button>
-					<Button type="submit" disabled={loading} theme="outline">
+
+					<Button
+						onClick={() => navigate(ROUTES.signUp.path())}
+						disabled={loading}
+						theme="outline"
+					>
+						Nova Conta
+					</Button>
+
+					<Button disabled={loading} theme="text">
 						Esqueci a senha
 					</Button>
 				</>
