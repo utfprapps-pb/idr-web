@@ -11,10 +11,12 @@ export const AuthContainerTemplate: React.FC<AuthContainerTemplateProps> = ({
 	description,
 	body,
 	footer,
+	maxWidth,
 	handleSubmit
 }) => (
 	<S.Container>
 		<S.Form
+			maxWidth={maxWidth}
 			onSubmit={(e) => {
 				e.preventDefault()
 				handleSubmit()
