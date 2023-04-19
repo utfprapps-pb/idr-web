@@ -1,5 +1,5 @@
 import { HttpClient, HttpStatusCode } from '@/data/protocols/http'
-import { InvalidCredentialsError, UnexpectedError } from '@/domain/errors'
+import { UnexpectedError } from '@/domain/errors'
 import { CreateUserModel } from '@/domain/models'
 import { CreateUser } from '@/domain/useCases'
 
@@ -10,20 +10,23 @@ export class RemoteCreateUser implements CreateUser {
 	) {}
 
 	async create(params: CreateUserModel): Promise<void> {
-		const payload = {
-			...params
+		const body = {
+			...params,
+			username: params.email,
+			displayName: params.name,
+			cpf: params.cpf.replace(/\D/g, ''),
+			phone: params.phone.replace(/\D/g, ''),
+			cep: params.cep.replace(/\D/g, ''),
+			county: params.city
 		}
 
-		const { statusCode, body } = await this.httpClient.request({
+		const { statusCode } = await this.httpClient.request({
 			url: this.url,
 			method: 'post',
-			body: payload
+			body
 		})
 
-		if (statusCode === HttpStatusCode.unauthorized)
-			throw new InvalidCredentialsError()
-
-		if (statusCode === HttpStatusCode.ok && !!body) return body
+		if (statusCode === HttpStatusCode.created) return
 
 		throw new UnexpectedError()
 	}
