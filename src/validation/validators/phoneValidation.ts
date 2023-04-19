@@ -11,7 +11,9 @@ export class PhoneValidation implements FieldValidation {
 			Object.entries(input).find(([fieldName]) => fieldName === this.field) ||
 			[]
 
-		if (isMobilePhone(phone, 'pt-BR')) {
+		const phoneWithoutMask = phone.replace(/\D/g, '')
+
+		if (isMobilePhone(phoneWithoutMask, 'pt-BR')) {
 			return null
 		}
 
