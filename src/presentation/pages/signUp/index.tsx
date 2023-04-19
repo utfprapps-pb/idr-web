@@ -5,7 +5,7 @@ import { CreateUserModel } from '@/domain/models'
 import { CreateUser } from '@/domain/useCases'
 import { ValidationComposite } from '@/main/composite'
 import { ROUTES } from '@/main/routes/routes'
-import { cpfMask, onlyNumbersMask, phoneMask } from '@/masker'
+import { cepMask, cpfMask, onlyNumbersMask, phoneMask } from '@/masker'
 import {
 	Button,
 	InputGroup,
@@ -148,6 +148,7 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
 							disabled={loading}
 							touched={touched}
 							validator={handleValidate('cep')}
+							mask={cepMask}
 						/>
 
 						<TextField
