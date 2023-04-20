@@ -16,9 +16,15 @@ type UseSignUpProps = {
 const INITIAL_FORM_DATA: CreateUserModel = {
 	name: '',
 	email: '',
+	password: '',
+	confirmPassword: '',
+	cpf: '',
 	phone: '',
 	graduationYear: '',
 	professionalRegister: '',
+	cep: '',
+	street: '',
+	city: '',
 	houseNumber: ''
 }
 
