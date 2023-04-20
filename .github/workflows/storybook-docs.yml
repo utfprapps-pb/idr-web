@@ -2,12 +2,15 @@ name: Build and Deploy
 on:
   pull_request:
     branches:
-      - main
       - develop
+    paths:
+      - 'src/presentation/components/**'
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
