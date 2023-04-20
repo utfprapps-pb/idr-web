@@ -2,8 +2,9 @@ name: Build and Deploy
 on:
   pull_request:
     branches:
-      - main
       - develop
+    paths:
+      - 'src/presentation/components/**'
 
 jobs:
   build-and-deploy:
