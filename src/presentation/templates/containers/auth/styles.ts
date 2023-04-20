@@ -18,13 +18,17 @@ export const Container = styled.section`
 	min-height: 100vh;
 `
 
-export const Form = styled.form`
+type FormProps = {
+	maxWidth: string
+}
+
+export const Form = styled.form<FormProps>`
 	background: ${({ theme }) => theme.colors.white};
 	border-radius: 12px;
 
 	padding: 42px 64px;
 	width: 100%;
-	max-width: 480px;
+	max-width: ${({ maxWidth }) => maxWidth};
 
 	display: flex;
 	flex-direction: column;

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 
 import * as S from './styles'
-import { buttonThemes, ButtonThemes } from './theme'
+import { buttonThemes } from './theme'
 import { ButtonProps } from './types'
 
 export * from './types'
@@ -12,7 +12,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 		{
 			children,
 			disabled = false,
-			theme = ButtonThemes.primary,
+			theme = 'primary',
 			type = 'button',
 			icon,
 			onClick = () => null,

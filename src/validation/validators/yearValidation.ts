@@ -1,20 +1,19 @@
-import isEmail from 'validator/es/lib/isEmail'
-
 import { InvalidFieldError } from '../errors'
 import { FieldValidation } from '../protocols'
 
-export class EmailValidation implements FieldValidation {
+export class YearValidation implements FieldValidation {
 	constructor(readonly field: string) {}
 
 	validate(input: object): Error | null {
-		const [, email] =
+		const [, year] =
 			Object.entries(input).find(([fieldName]) => fieldName === this.field) ||
 			[]
 
-		if (isEmail(email)) {
-			return null
-		}
+		const yearAsNumber = Number(year)
 
-		return new InvalidFieldError('Email inválido')
+		if (yearAsNumber >= 1900 && yearAsNumber <= new Date().getFullYear())
+			return null
+
+		return new InvalidFieldError('O ano inserido é inválido')
 	}
 }
