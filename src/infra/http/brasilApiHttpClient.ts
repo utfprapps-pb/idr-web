@@ -7,7 +7,7 @@ import {
 } from '@/data/protocols/http'
 
 export const brasilApi = axios.create({
-	baseURL: 'https://brasilapi.com.br/',
+	baseURL: 'https://brasilapi.com.br/api/',
 	headers: {
 		'Content-Type': 'application/json'
 	},
