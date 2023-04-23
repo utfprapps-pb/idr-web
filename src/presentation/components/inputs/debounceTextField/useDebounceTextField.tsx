@@ -26,7 +26,7 @@ export const useDebounceTextField = (props: DebounceTextFieldProps) => {
 	const iconsEnd = useMemo(() => {
 		const icons: React.ReactElement[] = []
 
-		if (!isReady()) icons.push(<Loading />)
+		if (!isReady()) icons.push(<Loading size={10} />)
 		if (value) icons.push(<XCircle onClick={clear} />)
 
 		return icons
