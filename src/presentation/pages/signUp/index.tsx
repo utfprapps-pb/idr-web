@@ -71,6 +71,7 @@ export const SignUpPage: React.FC<SignUpPageProps> = (props) => {
 							disabled={loading}
 							touched={touched}
 							validator={handleValidate('password')}
+							validationDependency={formData.confirmPassword}
 						/>
 
 						<PasswordInput
