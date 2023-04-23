@@ -1,13 +1,13 @@
 import React from 'react'
 
+import { SignUpPageProps } from './types'
 import { useSignUp } from './useSignUp'
 import { CreateUserModel } from '@/domain/models'
-import { CreateUser } from '@/domain/useCases'
-import { ValidationComposite } from '@/main/composite'
 import { ROUTES } from '@/main/routes/routes'
 import { cepMask, cpfMask, onlyNumbersMask, phoneMask } from '@/masker'
 import {
 	Button,
+	DebounceTextField,
 	InputGroup,
 	Loading,
 	PasswordInput,
@@ -16,26 +16,17 @@ import {
 import { useHandleChangeFormData, useIdrHistory } from '@/presentation/hooks'
 import { AuthContainerTemplate } from '@/presentation/templates'
 
-type SignUpPageProps = {
-	createUser: CreateUser
-	validation: ValidationComposite
-}
-
-export const SignUpPage: React.FC<SignUpPageProps> = ({
-	createUser,
-	validation
-}) => {
+export const SignUpPage: React.FC<SignUpPageProps> = (props) => {
 	const {
 		touched,
 		loading,
+		cepLoading,
 		formData,
 		setFormData,
 		handleSubmit,
-		handleValidate
-	} = useSignUp({
-		createUser,
-		validation
-	})
+		handleValidate,
+		handleFetchCep
+	} = useSignUp(props)
 	const { handleChange } = useHandleChangeFormData<CreateUserModel>({
 		formData,
 		setFormData
@@ -140,11 +131,13 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
 					</InputGroup>
 
 					<InputGroup>
-						<TextField
+						<DebounceTextField
 							label="CEP"
 							placeholder="Digite seu CEP"
 							value={formData.cep}
 							onChange={handleChange('cep')}
+							callback={() => handleFetchCep(formData.cep)}
+							callbackLoading={cepLoading}
 							disabled={loading}
 							touched={touched}
 							validator={handleValidate('cep')}
