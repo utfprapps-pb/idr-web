@@ -13,14 +13,24 @@ type Props = {
 	debounce?: number
 
 	/**
-	 * The callback function that is triggered when the user types in the input.
+	 * The loading when the debounce is active.
 	 *
 	 * @example
 	 * ```tsx
-	 * <DebounceTextField onSearch={value => console.log(value)} />
+	 * <DebounceTextField callbackLoading={true} />
 	 * ```
 	 */
-	onSearch: (value: string) => void
+	callbackLoading: boolean
+
+	/**
+	 * The function to be called after the debounce time.
+	 *
+	 * @example
+	 * ```tsx
+	 * <DebounceTextField callback={() => console.log('Hello World!')} />
+	 * ```
+	 */
+	callback: () => void
 }
 
 export type DebounceTextFieldProps = TextFieldProps & Props

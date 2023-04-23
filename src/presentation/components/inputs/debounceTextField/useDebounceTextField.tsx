@@ -3,38 +3,32 @@ import { useCallback, useMemo } from 'react'
 import { XCircle } from 'phosphor-react'
 
 import { DebounceTextFieldProps } from './types'
-import { Loading } from '@/presentation/components'
 import { useDebounce } from '@/presentation/hooks'
 
 export const useDebounceTextField = (props: DebounceTextFieldProps) => {
-	const { debounce = 500, value, onChange, onSearch } = props
+	const { debounce = 500, value, onChange, callback } = props
 
-	const handleOnChange = useCallback(
-		(inputValue: string) => {
-			onChange(inputValue)
-			onSearch(inputValue)
-		},
-		[onChange, onSearch]
-	)
-
-	const { isReady, clear } = useDebounce({
-		deps: [value, onChange, onSearch],
+	const { clear } = useDebounce({
+		deps: [value],
 		ms: debounce,
-		fn: () => handleOnChange
+		fn: callback
 	})
+
+	const handleOnClear = useCallback(() => {
+		onChange('')
+		clear()
+	}, [clear, onChange])
 
 	const iconsEnd = useMemo(() => {
 		const icons: React.ReactElement[] = []
 
-		if (!isReady()) icons.push(<Loading size={10} />)
-		if (value) icons.push(<XCircle onClick={clear} />)
+		if (value) icons.push(<XCircle onClick={handleOnClear} />)
 
 		return icons
-	}, [clear, isReady, value])
+	}, [handleOnClear, value])
 
 	return {
 		iconsEnd,
-		handleOnChange,
 		...props
 	}
 }
