@@ -16,7 +16,8 @@ export type UseDebounce = (params: {
 export const useDebounce: UseDebounce = ({ fn, ms = 0, deps = [] }) => {
 	const { isReady, clear, set } = useTimeoutFn(fn, ms)
 
-	useEffect(set, [deps, set])
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	useEffect(set, deps)
 
 	return { isReady, clear }
 }
