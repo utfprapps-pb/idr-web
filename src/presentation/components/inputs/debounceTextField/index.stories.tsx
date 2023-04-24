@@ -16,5 +16,6 @@ const Template: StoryFn<DebounceTextFieldProps> = (args) => (
 export const Default = Template.bind({})
 Default.args = {
 	label: 'Label Example',
-	onSearch: () => null
+	callbackLoading: false,
+	callback: () => null
 }
