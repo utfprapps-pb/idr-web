@@ -1,4 +1,4 @@
-import { TextFieldProps } from '../textfield'
+import { TextFieldProps } from '@/presentation/components'
 
 type Props = {
 	/**

@@ -1,6 +1,6 @@
 import { DebounceTextFieldProps } from './types'
 import { useDebounceTextField } from './useDebounceTextField'
-import { TextField } from '../textfield'
+import { TextField } from '@/presentation/components'
 
 export type { DebounceTextFieldProps } from './types'
 
