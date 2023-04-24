@@ -9,7 +9,6 @@ networks:
 
 services:
   app:
-    image: idr-app:latest
     build:
       context: .
       dockerfile: Dockerfile
