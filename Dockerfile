@@ -8,6 +8,6 @@ RUN pnpm build
 
 FROM nginx:stable-alpine
 COPY --from=build-step /app/dist /usr/share/nginx/html
-# @viniciuspegorini alterar a porta conforme a necessidade
+COPY default-custom.conf /etc/nginx/conf.d/default.conf
 EXPOSE 8200
 CMD ["nginx", "-g", "daemon off;"]
