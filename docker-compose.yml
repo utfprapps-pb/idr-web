@@ -1,10 +1,11 @@
 version: "3.9"
 
 networks:
-  idr-app-network:
+  web:
+    name: web
+    driver: bridge
     external: true
-  local:
-    external: false
+    attachable: true
 
 services:
   app:
@@ -16,12 +17,10 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.idr-app.rule=Host(`app.pb.utfpr.edu.br`)"
+      - "traefik.http.routers.idr-app.rule=Host(`idr.app.pb.utfpr.edu.br`)"
       - "traefik.http.routers.idr-app.entrypoints=websecure"
-      - "traefik.http.routers.idr-app.tls.domains[0].main=app.pb.utfpr.edu.br"
-      - "traefik.http.routers.idr-app.tls.domains[0].sans=*.app.pb.utfpr.edu.br"
       - "traefik.http.routers.idr-app.tls.certresolver=letsencrypt"
     ports:
       - "8200:80"
     networks:
-      - idr-app-network
+      - web
