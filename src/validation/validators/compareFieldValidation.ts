@@ -18,7 +18,7 @@ export class CompareFieldsValidation implements FieldValidation {
 			) || []
 
 		if (value !== valueToCompare) {
-			return new InvalidFieldError()
+			return new InvalidFieldError('Os campos precisam ser iguais')
 		}
 
 		return null
