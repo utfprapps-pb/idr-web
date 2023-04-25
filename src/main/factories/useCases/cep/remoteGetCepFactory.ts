@@ -1,4 +1,4 @@
-import { RemoteGetCep } from '@/data/useCases/cep/remoteGetCep'
+import { RemoteGetCep } from '@/data/useCases/cep'
 import { CepModel } from '@/domain/models'
 import { GetCep } from '@/domain/useCases/cep'
 import { makeBrasilApiHttpClient } from '@/main/factories/http'
