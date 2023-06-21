@@ -7,7 +7,8 @@
 		"build": "tsc && vite build",
 		"preview": "vite preview",
 		"prepare": "husky install",
-		"lint": "lint-staged",
+		"lint:staged": "lint-staged",
+    "lint": "eslint src --ext .ts,.tsx --fix",
 		"storybook": "NODE_OPTIONS=--openssl-legacy-provider start-storybook -p 6006",
 		"build-storybook": "NODE_OPTIONS=--openssl-legacy-provider build-storybook -o docs-build"
 	},
