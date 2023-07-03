@@ -29,7 +29,7 @@ export const Input = styled.input<InputProps>`
 	outline: none;
 
 	${({ paddingLeft, paddingRight }) => css`
-		padding: 0 ${paddingRight}px 0 ${paddingLeft}px;
+		padding: 0 ${paddingRight || 16}px 0 ${paddingLeft || 16}px;
 	`}
 
 	${({ hasError, theme }) =>
