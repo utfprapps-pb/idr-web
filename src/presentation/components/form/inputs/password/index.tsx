@@ -1,14 +1,9 @@
-import React, { ReactElement, ReactNode, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 
 import { Eye, EyeClosed } from 'phosphor-react'
 
-import { TextField, TextFieldProps } from '../textField'
-
-export type PasswordInputProps = TextFieldProps & {
-	label: string
-	iconsStart?: ReactElement
-	iconsEnd?: ReactNode
-}
+import { PasswordInputProps } from './types'
+import { TextField } from '../textField'
 
 export const PasswordInput: React.FC<PasswordInputProps> = (props) => {
 	const { label, iconsStart, iconsEnd } = props

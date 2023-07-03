@@ -3,14 +3,13 @@ import React from 'react'
 import { Meta, StoryFn } from '@storybook/react/'
 import { GithubLogo } from 'phosphor-react'
 
-import { TextField } from '.'
-import { TextFieldProviderProps } from './contexts/textFieldContext'
+import { TextField, TextFieldProps } from '.'
 
 export default {
 	title: 'Components/Form/Inputs/Text Field'
 } as Meta
 
-const Template: StoryFn<TextFieldProviderProps> = (args) => (
+const Template: StoryFn<TextFieldProps> = (args) => (
 	<TextField.Root {...args} error="error">
 		<TextField.Label label="Label Example" />
 		<TextField.InputContainer>
