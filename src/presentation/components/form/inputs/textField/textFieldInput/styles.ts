@@ -44,10 +44,9 @@ export const Input = styled.input<InputProps>`
 
 	:disabled {
 		${({ theme }) => css`
-			color: ${darken({ color: theme.colors.primary, percentage: 0.8 })};
 			background-color: ${lighten({
-				color: theme.colors.lightgray,
-				percentage: 0.32
+				color: theme.colors.gray,
+				percentage: 0.2
 			})};
 			border: 1px solid
 				${darken({ color: theme.colors.primary, percentage: 0.3 })};

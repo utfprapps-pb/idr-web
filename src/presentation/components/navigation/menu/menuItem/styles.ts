@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 
 import { MenuItemProps } from './types'
-import { lighten } from '@/main/utils'
 
 export const MenuItem = styled(Link)<MenuItemProps>`
 	all: unset;
@@ -10,8 +9,6 @@ export const MenuItem = styled(Link)<MenuItemProps>`
 	display: flex;
 	align-items: center;
 	cursor: pointer;
-
-	border-radius: 12px;
 
 	gap: 16px;
 	margin: 16px 34px;
@@ -22,15 +19,10 @@ export const MenuItem = styled(Link)<MenuItemProps>`
 	${({ active }) =>
 		active &&
 		css`
-			color: ${({ theme }) => theme.colors.text};
-			background-color: ${({ theme }) =>
-				lighten({
-					color: theme.colors.primary,
-					percentage: 0.2
-				})};
+			border-right: 8px solid ${({ theme }) => theme.colors.primary};
 
 			p {
-				color: ${({ theme }) => theme.colors.text};
+				color: ${({ theme }) => theme.colors.darkgray};
 				font-weight: 700;
 			}
 		`};
