@@ -1,4 +1,4 @@
-import { withResetStyle, withTheme } from './decorators'
+import { withResetStyle, withRouter, withTheme } from './decorators'
 
 export const parameters = {
 	backgrounds: {
@@ -13,4 +13,4 @@ export const parameters = {
 	}
 }
 
-export const decorators = [withResetStyle, withTheme]
+export const decorators = [withResetStyle, withTheme, withRouter]
