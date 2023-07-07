@@ -5,7 +5,7 @@ import { Meta, StoryFn } from '@storybook/react/'
 import { Text, TextProps } from '.'
 
 export default {
-	title: 'Components/Text',
+	title: 'Components/UI/Text',
 	component: Text
 } as Meta
 

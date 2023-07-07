@@ -6,7 +6,7 @@ import { Lock } from 'phosphor-react'
 import { Button, ButtonProps } from '.'
 
 export default {
-	title: 'Components/Button',
+	title: 'Components/UI/Button',
 	component: Button
 } as Meta
 

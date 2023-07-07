@@ -5,7 +5,7 @@ import { Meta, StoryFn } from '@storybook/react/'
 import { Typography, TypographyProps } from '.'
 
 export default {
-	title: 'Components/Typography',
+	title: 'Components/UI/Typography',
 	component: Typography
 } as Meta
 
