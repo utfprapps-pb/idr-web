@@ -1,41 +1,11 @@
-import React, { useMemo } from 'react'
+import { ButtonContainer } from './buttonContainer'
+import { ButtonIcon } from './buttonIcon'
+import { ButtonRoot } from './buttonRoot'
 
-import * as S from './styles'
-import { buttonThemes } from './theme'
-import { ButtonProps } from './types'
+export type { ButtonProps } from './buttonContainer/types'
 
-export * from './types'
-export * from './theme'
-
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-	(
-		{
-			children,
-			disabled = false,
-			theme = 'primary',
-			type = 'button',
-			icon,
-			onClick = () => null,
-			...props
-		},
-		ref
-	) => {
-		const buttonTheme = useMemo(() => buttonThemes[theme], [theme])
-
-		return (
-			<S.Container>
-				<S.Button
-					buttonTheme={buttonTheme}
-					ref={ref}
-					type={type}
-					disabled={disabled}
-					onClick={onClick}
-					{...props}
-				>
-					{icon}
-					{children}
-				</S.Button>
-			</S.Container>
-		)
-	}
-)
+export const Button = {
+	Root: ButtonRoot,
+	Container: ButtonContainer,
+	Icon: ButtonIcon
+}

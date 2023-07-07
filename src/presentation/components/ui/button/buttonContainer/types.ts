@@ -1,18 +1,8 @@
-import { ButtonThemes } from '@/presentation/components'
+import { MutableRefObject, PropsWithChildren } from 'react'
 
-export type ButtonProps = {
-	/**
-	 * The button content
-	 *
-	 * @example
-	 * ```tsx
-	 * <Button>
-	 * 	<p>children</p>
-	 * </Button>
-	 * ```
-	 */
-	children: React.ReactNode
+import { ButtonThemes } from '../theme'
 
+export type ButtonProps = PropsWithChildren<{
 	/**
 	 * The disable condition of the button
 	 *
@@ -36,7 +26,7 @@ export type ButtonProps = {
 	 * <Button ref={myRef} />
 	 * ```
 	 */
-	ref?: React.MutableRefObject<null>
+	ref?: MutableRefObject<null>
 
 	/**
 	 * The theme of the button
@@ -61,16 +51,6 @@ export type ButtonProps = {
 	type?: 'submit' | 'button'
 
 	/**
-	 * The icon of the button
-	 *
-	 * @example
-	 * ```tsx
-	 * <Button icon={<Eye />} />
-	 * ```
-	 */
-	icon?: React.ReactNode
-
-	/**
 	 * The onClick function of the button
 	 *
 	 * @example
@@ -83,4 +63,4 @@ export type ButtonProps = {
 	 * ```
 	 */
 	onClick?: () => void
-}
+}>
