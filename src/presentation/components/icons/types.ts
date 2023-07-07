@@ -1,5 +1,3 @@
-import { WithDefault } from '@/types'
-
 export type IconProps = {
 	/**
 	 * The size of the icon
@@ -10,7 +8,7 @@ export type IconProps = {
 	 * ```
 	 * @default 32
 	 */
-	size: WithDefault<number, 32>
+	size?: number
 
 	/**
 	 * The color of the icon
@@ -21,5 +19,5 @@ export type IconProps = {
 	 * ```
 	 * @default '#202328'
 	 */
-	color: WithDefault<string, '#202328'>
+	color?: string
 }
