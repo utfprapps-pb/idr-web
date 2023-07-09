@@ -5,7 +5,6 @@ export const PopoverContent = styled(Content)`
 	border-radius: 8px;
 
 	width: max-content;
-	min-width: 200px;
 
 	font-size: ${({ theme }) => theme.fontSizes.b3};
 	color: ${({ theme }) => theme.colors.text};

@@ -7,6 +7,7 @@ export const PopoverTrigger = styled(Trigger)`
 	justify-content: center;
 
 	border-radius: 8px;
+	border: 2px solid ${({ theme }) => theme.colors.gray};
 	padding: 0 12px;
 
 	cursor: pointer;
@@ -22,9 +23,5 @@ export const PopoverTrigger = styled(Trigger)`
 
 	&:hover {
 		background-color: ${({ theme }) => theme.colors.lightgray};
-	}
-
-	&:focus {
-		box-shadow: 0 0 0 0.5px ${({ theme }) => theme.colors.darkgray};
 	}
 `
