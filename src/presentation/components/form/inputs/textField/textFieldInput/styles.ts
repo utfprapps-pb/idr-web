@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components'
 
 import { InputProps } from './types'
 import { TextFieldIcons } from '../textFieldIcons'
-import { darken, lighten } from '@/main/utils'
+import { lighten } from '@/main/utils'
 
 export const ContainerActions = styled(TextFieldIcons)`
 	padding: 0 8px;
@@ -44,12 +44,8 @@ export const Input = styled.input<InputProps>`
 
 	:disabled {
 		${({ theme }) => css`
-			background-color: ${lighten({
-				color: theme.colors.gray,
-				percentage: 0.2
-			})};
-			border: 1px solid
-				${darken({ color: theme.colors.primary, percentage: 0.3 })};
+			background-color: ${theme.colors.disabled.background};
+			border: 1px solid ${theme.colors.disabled.border};
 		`}
 	}
 
