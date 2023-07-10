@@ -1,8 +1,8 @@
 import styled, { css } from 'styled-components'
 
-import { StyledAvatarProps } from './types'
+import { AvatarProps } from './types'
 
-export const Avatar = styled.img<StyledAvatarProps>`
+export const Avatar = styled.img<AvatarProps>`
 	border-radius: ${({ type }) => (type === 'circle' ? '50%' : '0%')};
 
 	object-fit: cover;

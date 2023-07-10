@@ -1,3 +1,4 @@
+import { darken, lighten } from '@/main/utils'
 import { Theme } from '@/styles'
 
 const breakpoints = Object.freeze({
@@ -14,23 +15,33 @@ export const theme: Theme = {
 		primary: '#0B71B9',
 		secondary: '#038657',
 		white: '#FFFFFF',
-		black: '#424242',
-		lightgray: '#8D8D8D',
-		gray: '#444545',
-		darkgray: '#202328',
+		black: '#262626',
+		text: '#495057',
+		lightgray: '#DEE2E6',
+		gray: '#ADB5BD',
+		darkgray: '#343A40',
+		disabled: {
+			background: lighten({
+				color: '#ADB5BD',
+				percentage: 0.2
+			}),
+			border: darken({ color: '#0B71B9', percentage: 0.3 }),
+			text: '#343A40'
+		},
 		background: '#F7F7F7',
 		error: '#D51A52'
 	},
 	fontFamily: {
 		primary:
-			"'Work Sans', '-apple-system', 'Roboto', 'Helvetica', 'Arial', sans-serif"
+			"'Work Sans', '-apple-system', 'Roboto', 'Helvetica', 'Arial', sans-serif",
+		logo: 'Mochiy Pop P One'
 	},
 	fontSizes: {
 		h1: '104px',
 		h2: '76px',
 		h3: '48px',
 		h4: '32px',
-		h5: '24px',
+		h5: '28px',
 		b1: '24px',
 		b2: '20px',
 		b3: '16px',

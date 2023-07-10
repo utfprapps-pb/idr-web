@@ -1,6 +1,9 @@
 import { ActionsDropdownItem } from './actionsDropdownItem'
 import { ActionsDropdownItemContainer } from './actionsDropdownItemContainer'
-import { ActionsDropdownItemIcon } from './actionsDropdownItemIcon'
+import {
+	ActionsDropdownItemIcon,
+	ActionsDropdownItemIconProps
+} from './actionsDropdownItemIcon'
 import { ActionsDropdownRoot } from './actionsDropdownRoot'
 
 export const ActionsDropdown = {
@@ -8,4 +11,14 @@ export const ActionsDropdown = {
 	Item: ActionsDropdownItemContainer,
 	Text: ActionsDropdownItem,
 	Icon: ActionsDropdownItemIcon
+}
+
+type Item = {
+	text: string
+	icon: ActionsDropdownItemIconProps['icon']
+	onClick: () => void
+}
+
+export type ActionsDropdownProps = {
+	Item: Item
 }

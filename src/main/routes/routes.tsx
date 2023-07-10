@@ -1,24 +1,13 @@
 import React from 'react'
 
 import { MakeLoginPage, MakeSignUpPage } from '@/main/factories/pages'
-import { useAuth } from '@/presentation/store'
-
-const Dash = () => {
-	const { auth } = useAuth()
-	return (
-		<>
-			<h1>Hello logged!!</h1>
-			<h2>{auth?.token}</h2>
-		</>
-	)
-}
 
 type RouteProps = {
 	path: () => string
 	component: React.ReactNode
 }
 
-type Pages = 'login' | 'signUp' | 'dashboard'
+type Pages = 'login' | 'signUp' | 'dashboard' | 'animals'
 
 type RoutesProps = {
 	[key in Pages]: RouteProps
@@ -35,6 +24,10 @@ export const ROUTES = Object.freeze<RoutesProps>({
 	},
 	dashboard: {
 		path: () => '/',
-		component: <Dash />
+		component: <h1>Under construction!</h1>
+	},
+	animals: {
+		path: () => '/animals',
+		component: <h1>Animals</h1>
 	}
 })

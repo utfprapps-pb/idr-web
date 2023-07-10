@@ -1,6 +1,6 @@
 import { MenuContainer } from './menuContainer'
 import { MenuItem } from './menuItem'
-import { MenuItemIcon } from './menuItemIcon'
+import { MenuItemIcon, MenuItemIconProps } from './menuItemIcon'
 import { MenuItemText } from './menuItemText'
 import { MenuLogo } from './menuLogo'
 import { MenuRoot } from './menuRoot'
@@ -12,4 +12,14 @@ export const Menu = {
 	Item: MenuItem,
 	ItemIcon: MenuItemIcon,
 	ItemText: MenuItemText
+}
+
+type Item = {
+	text: string
+	to: string
+	icon: MenuItemIconProps['icon']
+}
+
+export type MenuProps = {
+	Item: Item
 }

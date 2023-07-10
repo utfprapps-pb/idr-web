@@ -1,4 +1,6 @@
-export type AvatarProps = {
+import { HTMLAttributes } from 'react'
+
+interface Props extends HTMLAttributes<HTMLImageElement> {
 	/**
 	 * The source of the avatar image
 	 *
@@ -8,6 +10,16 @@ export type AvatarProps = {
 	 * ```
 	 */
 	src: string
+
+	/**
+	 * The alt text of the avatar image
+	 *
+	 * @example
+	 * ```tsx
+	 * <Avatar alt="Avatar" />
+	 * ```
+	 */
+	alt: string
 
 	/**
 	 * The size of the avatar
@@ -32,4 +44,4 @@ export type AvatarProps = {
 	type?: 'circle' | 'square'
 }
 
-export type StyledAvatarProps = Pick<AvatarProps, 'size' | 'type'>
+export type AvatarProps = Props

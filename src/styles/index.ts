@@ -1,2 +1,2 @@
-export * from '@/styles/base'
-export * from '@/styles/themes'
+export * from './base'
+export * from './themes'

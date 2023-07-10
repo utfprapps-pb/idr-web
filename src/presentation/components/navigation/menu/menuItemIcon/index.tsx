@@ -2,7 +2,7 @@ import { ElementType } from 'react'
 
 import { IconProps } from 'phosphor-react'
 
-type MenuItemIconProps = {
+export type MenuItemIconProps = {
 	icon: ElementType<IconProps>
 }
 

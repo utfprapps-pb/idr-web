@@ -1,8 +1,7 @@
 import React from 'react'
 
+import { IconProps } from 'phosphor-react'
 import { useTheme } from 'styled-components'
-
-import { IconProps } from './types'
 
 export const CowIcon: React.FC<IconProps> = (props) => {
 	const { colors } = useTheme()
@@ -18,6 +17,7 @@ export const CowIcon: React.FC<IconProps> = (props) => {
 			xmlns="http://www.w3.org/2000/svg"
 			viewBox="0 0 512 512"
 			xmlSpace="preserve"
+			{...props}
 		>
 			<g>
 				<g>

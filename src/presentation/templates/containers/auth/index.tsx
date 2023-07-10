@@ -4,7 +4,7 @@ import { GithubLogo } from 'phosphor-react'
 
 import * as S from './styles'
 import { AuthContainerTemplateProps } from './types'
-import { Text } from '@/presentation/components'
+import { Text } from '@/presentation/components/ui'
 
 export const AuthContainerTemplate: React.FC<AuthContainerTemplateProps> = ({
 	title,
@@ -26,11 +26,11 @@ export const AuthContainerTemplate: React.FC<AuthContainerTemplateProps> = ({
 			<GithubLogo size={64} style={S.iconStyles} />
 
 			<S.FormHeader>
-				<Text size="h4" color="black">
+				<Text size="h4" color="text">
 					{title}
 				</Text>
 
-				<Text size="b3" color="black">
+				<Text size="b3" color="text">
 					{description}
 				</Text>
 			</S.FormHeader>

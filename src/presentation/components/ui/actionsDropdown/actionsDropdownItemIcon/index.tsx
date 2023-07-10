@@ -1,9 +1,10 @@
 import React, { ElementType } from 'react'
 
+import { IconProps } from 'phosphor-react'
 import styled from 'styled-components'
 
-type ActionsDropdownItemIconProps = {
-	icon: ElementType
+export type ActionsDropdownItemIconProps = {
+	icon: ElementType<IconProps>
 }
 
 const StyledIcon = styled.div`
