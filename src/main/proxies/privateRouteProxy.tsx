@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 
 import { CaretDown, SignOut, UserCircle } from 'phosphor-react'
+import { toast } from 'react-hot-toast'
 import { Navigate, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -42,7 +43,7 @@ export const PrivateRouteProxy: React.FC<{ children: React.ReactNode }> = ({
 			{
 				icon: UserCircle,
 				text: 'Perfil',
-				onClick: () => alert('Under Construction')
+				onClick: () => toast('Em breve')
 			},
 			{
 				icon: SignOut,
