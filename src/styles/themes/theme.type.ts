@@ -4,14 +4,21 @@ export interface Theme {
 		secondary: string
 		white: string
 		black: string
+		text: string
 		lightgray: string
 		gray: string
 		darkgray: string
+		disabled: {
+			background: string
+			border: string
+			text: string
+		}
 		background: string
 		error: string
 	}
 	fontFamily: {
 		primary: string
+		logo: string
 	}
 	fontSizes: {
 		h1: string

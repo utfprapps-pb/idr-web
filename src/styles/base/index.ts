@@ -1,1 +1,1 @@
-export * from '@/styles/base/reset'
+export * from './reset'

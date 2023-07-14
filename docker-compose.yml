@@ -1,0 +1,25 @@
+version: "3.9"
+
+networks:
+  web:
+    name: web
+    driver: bridge
+    external: true
+    attachable: true
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: idr-app
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.idr-app.rule=Host(`idr.app.pb.utfpr.edu.br`)"
+      - "traefik.http.routers.idr-app.entrypoints=websecure"
+      - "traefik.http.routers.idr-app.tls.certresolver=letsencrypt"
+    ports:
+      - "8200:80"
+    networks:
+      - web

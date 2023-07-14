@@ -4,6 +4,9 @@ import { Route, Routes } from 'react-router-dom'
 
 import { ROUTES } from './routes'
 
+export * from './routes'
+export * from './menu'
+
 export const Router: React.FC = () => (
 	<Routes>
 		{Object.entries(ROUTES).map(([key, route]) => (
