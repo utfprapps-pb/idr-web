@@ -14,14 +14,14 @@ const Template: StoryFn<TextFieldProps> = (args) => (
 		<TextField.Label label="Label Example" />
 		<TextField.InputContainer>
 			<TextField.Icons position="left">
-				<TextField.Icon icon={<GithubLogo />} />
-				<TextField.Icon icon={<GithubLogo />} />
-				<TextField.Icon icon={<GithubLogo />} />
+				<TextField.Icon icon={GithubLogo} />
+				<TextField.Icon icon={GithubLogo} />
+				<TextField.Icon icon={GithubLogo} />
 			</TextField.Icons>
 			<TextField.Icons position="right" isWithError>
-				<TextField.Icon icon={<GithubLogo />} />
-				<TextField.Icon icon={<GithubLogo />} />
-				<TextField.Icon icon={<GithubLogo />} />
+				<TextField.Icon icon={GithubLogo} />
+				<TextField.Icon icon={GithubLogo} />
+				<TextField.Icon icon={GithubLogo} />
 			</TextField.Icons>
 			<TextField.Input />
 		</TextField.InputContainer>

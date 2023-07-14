@@ -17,7 +17,10 @@ export default {
 export const WithUserContentTemplate: StoryFn = () => (
 	<Header.Root>
 		<Header.UserContent>
-			<Avatar src="https://avatars.githubusercontent.com/u/61752597?v=4" />
+			<Avatar
+				src="https://avatars.githubusercontent.com/u/61752597?v=4"
+				alt="User profile"
+			/>
 			<Text size="b2" color="text">
 				Guilherme Minozzi
 			</Text>
