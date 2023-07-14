@@ -23,6 +23,26 @@ type Props = {
 	debounce?: number
 
 	/**
+	 * Placeholder of the input.
+	 *
+	 * @example
+	 * ```tsx
+	 * <PasswordInput placeholder="Password" />
+	 * ```
+	 */
+	placeholder?: string
+
+	/**
+	 * Disabled condition of the input.
+	 *
+	 * @example
+	 * ```tsx
+	 * <PasswordInput disabled={false} />
+	 * ```
+	 */
+	disabled?: boolean
+
+	/**
 	 * The loading when the debounce is active.
 	 *
 	 * @example

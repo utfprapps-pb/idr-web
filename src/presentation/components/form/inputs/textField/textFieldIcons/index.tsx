@@ -1,7 +1,6 @@
 import { PropsWithChildren } from 'react'
 
 import { WarningCircle } from 'phosphor-react'
-import { useTheme } from 'styled-components'
 
 import * as S from './styles'
 import { Props } from './types'
@@ -13,7 +12,6 @@ export const TextFieldIcons: React.FC<PropsWithChildren<Props>> = ({
 	position = 'left',
 	isWithError = false
 }) => {
-	const { colors } = useTheme()
 	const { actionsContainerLeftRef, actionsContainerRightRef, error } =
 		useTextFieldContext()
 
@@ -26,9 +24,7 @@ export const TextFieldIcons: React.FC<PropsWithChildren<Props>> = ({
 			position={position}
 		>
 			{children}
-			{error && isWithError && (
-				<TextFieldIcon icon={<WarningCircle color={colors.error} />} />
-			)}
+			{error && isWithError && <TextFieldIcon icon={WarningCircle} />}
 		</S.Icons>
 	)
 }

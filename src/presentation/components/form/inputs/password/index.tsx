@@ -5,27 +5,41 @@ import { Eye, EyeClosed } from 'phosphor-react'
 import { PasswordInputProps } from './types'
 import { TextField } from '../textField'
 
+export * from './types'
+
 export const PasswordInput: React.FC<PasswordInputProps> = (props) => {
 	const { label, iconsStart, iconsEnd } = props
 
 	const [viewPassword, setViewPassword] = useState(false)
 
-	const icon = useMemo(() => {
+	const iconProps = useMemo(() => {
 		if (!viewPassword)
-			return <EyeClosed onClick={() => setViewPassword(!viewPassword)} />
+			return {
+				icon: EyeClosed,
+				onClick: () => setViewPassword(!viewPassword)
+			}
 
-		return <Eye onClick={() => setViewPassword(!viewPassword)} />
+		return {
+			icon: Eye,
+			onClick: () => setViewPassword(!viewPassword)
+		}
 	}, [viewPassword])
 
 	return (
 		<TextField.Root {...props}>
 			<TextField.Label label={label} />
 			<TextField.InputContainer>
-				<TextField.Icons position="left">{iconsStart}</TextField.Icons>
-				<TextField.Icons position="right">
+				<TextField.Icons position="left">
+					{iconsStart?.map(({ icon: Icon, key }) => (
+						<TextField.Icon key={key} icon={Icon} />
+					))}
+				</TextField.Icons>
+				<TextField.Icons position="right" isWithError>
 					<>
-						{iconsEnd}
-						<TextField.Icon icon={icon} />
+						{iconsEnd?.map(({ icon: Icon, key }) => (
+							<TextField.Icon key={key} icon={Icon} />
+						))}
+						<TextField.Icon icon={iconProps.icon} onClick={iconProps.onClick} />
 					</>
 				</TextField.Icons>
 				<TextField.Input type={viewPassword ? 'text' : 'password'} />

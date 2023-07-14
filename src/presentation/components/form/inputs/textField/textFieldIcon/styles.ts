@@ -1,11 +1,10 @@
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
-export const Container = styled.em<{ isClickable: boolean }>`
+export const Container = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
 
-	${({ isClickable }) => css`
-		cursor: ${isClickable ? 'pointer' : 'default'};
-	`}
+	color: ${({ theme }) => theme.colors.darkgray};
+	font-size: ${({ theme }) => theme.fontSizes.b2};
 `

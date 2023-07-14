@@ -15,10 +15,8 @@ export const DebounceTextField: React.FC<DebounceTextFieldProps> = (props) => {
 		<TextField.Root {...hookProps}>
 			<TextField.Label label={label} />
 			<TextField.InputContainer>
-				<TextField.Icons position="right">
-					<TextField.Icon
-						icon={<XCircle onClick={hookProps.handleOnClear} />}
-					/>
+				<TextField.Icons position="right" isWithError>
+					<TextField.Icon icon={XCircle} onClick={hookProps.handleOnClear} />
 				</TextField.Icons>
 				<TextField.Input />
 			</TextField.InputContainer>

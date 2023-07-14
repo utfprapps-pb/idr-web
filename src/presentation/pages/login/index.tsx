@@ -5,12 +5,8 @@ import { EnvelopeSimple, LockKey } from 'phosphor-react'
 import { useLogin } from './useLogin'
 import { LoginUserParams } from '@/domain/useCases'
 import { ROUTES } from '@/main/routes/routes'
-import {
-	Button,
-	Loading,
-	PasswordInput,
-	TextField
-} from '@/presentation/components'
+import { PasswordInput, TextField } from '@/presentation/components/form'
+import { Button, Loading } from '@/presentation/components/ui'
 import { useHandleChangeFormData, useIdrHistory } from '@/presentation/hooks'
 import { AuthContainerTemplate } from '@/presentation/templates'
 
@@ -29,14 +25,21 @@ export const LoginPage: React.FC = () => {
 			maxWidth="540px"
 			body={
 				<>
-					<TextField
-						label="E-mail"
-						placeholder="Digite seu e-mail"
+					<TextField.Root
 						value={formData.email}
 						onChange={handleChange('email')}
-						disabled={loading}
-						iconsStart={[<EnvelopeSimple key={EnvelopeSimple.displayName} />]}
-					/>
+					>
+						<TextField.Label label="Email" />
+						<TextField.InputContainer>
+							<TextField.Icons position="left">
+								<TextField.Icon icon={EnvelopeSimple} />
+							</TextField.Icons>
+							<TextField.Input
+								disabled={loading}
+								placeholder="Digite seu email"
+							/>
+						</TextField.InputContainer>
+					</TextField.Root>
 
 					<PasswordInput
 						label="Senha"
@@ -44,27 +47,38 @@ export const LoginPage: React.FC = () => {
 						value={formData.password}
 						onChange={handleChange('password')}
 						disabled={loading}
-						iconsStart={[<LockKey key={LockKey.displayName} />]}
+						iconsStart={[
+							{
+								icon: LockKey,
+								key: LockKey.displayName ?? LockKey.name
+							}
+						]}
 					/>
 				</>
 			}
 			footer={
 				<>
-					<Button type="submit" disabled={loading}>
-						{loading ? <Loading /> : 'Entrar'}
-					</Button>
+					<Button.Root>
+						<Button.Container type="submit" disabled={loading}>
+							{loading ? <Loading /> : 'Entrar'}
+						</Button.Container>
+					</Button.Root>
 
-					<Button
-						onClick={() => navigate(ROUTES.signUp.path())}
-						disabled={loading}
-						theme="outline"
-					>
-						Nova Conta
-					</Button>
+					<Button.Root>
+						<Button.Container
+							onClick={() => navigate(ROUTES.signUp.path())}
+							disabled={loading}
+							theme="outline"
+						>
+							Nova conta
+						</Button.Container>
+					</Button.Root>
 
-					<Button disabled={loading} theme="text">
-						Esqueci a senha
-					</Button>
+					<Button.Root>
+						<Button.Container disabled={loading} theme="text">
+							Esqueci a senha
+						</Button.Container>
+					</Button.Root>
 				</>
 			}
 			handleSubmit={handleSubmit}

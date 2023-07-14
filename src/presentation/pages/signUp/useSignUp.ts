@@ -5,8 +5,9 @@ import { toast } from 'react-hot-toast'
 
 import { SignUpPageProps } from './types'
 import { CreateUserModel } from '@/domain/models'
+import { ROUTES } from '@/main/routes'
 import { onlyNumbersMask } from '@/masker'
-import { useHandleValidate } from '@/presentation/hooks'
+import { useHandleValidate, useIdrHistory } from '@/presentation/hooks'
 
 const INITIAL_FORM_DATA: CreateUserModel = {
 	name: '',
@@ -31,6 +32,8 @@ export const useSignUp = (props: SignUpPageProps) => {
 	const [touched, setTouched] = useState(false)
 	const [formData, setFormData] = useState<CreateUserModel>(INITIAL_FORM_DATA)
 
+	const { navigate } = useIdrHistory()
+
 	const { formIsValid, handleValidate } = useHandleValidate<
 		keyof CreateUserModel,
 		CreateUserModel
@@ -38,6 +41,11 @@ export const useSignUp = (props: SignUpPageProps) => {
 		formData,
 		validation
 	})
+
+	const goToLoginPage = useCallback(
+		() => navigate(ROUTES.login.path()),
+		[navigate]
+	)
 
 	const handleSubmit = useCallback(async () => {
 		try {
@@ -50,7 +58,7 @@ export const useSignUp = (props: SignUpPageProps) => {
 			}
 
 			await createUser.create(formData)
-
+			goToLoginPage()
 			toast.success('Conta criada com sucesso')
 		} catch (error) {
 			const axiosError = error as AxiosError
@@ -58,7 +66,7 @@ export const useSignUp = (props: SignUpPageProps) => {
 		} finally {
 			setLoading(false)
 		}
-	}, [createUser, formData, formIsValid])
+	}, [createUser, formData, formIsValid, goToLoginPage])
 
 	const handleFetchCep = useCallback(
 		async (cep: string) => {
@@ -70,12 +78,12 @@ export const useSignUp = (props: SignUpPageProps) => {
 
 				const { city, street } = await getCep.get(onlyNumbersCep)
 
-				setFormData({
-					...formData,
+				setFormData((state) => ({
+					...state,
 					cep,
 					city,
 					street
-				})
+				}))
 			} catch (error) {
 				const axiosError = error as AxiosError
 				toast.error(axiosError.message)
@@ -83,18 +91,18 @@ export const useSignUp = (props: SignUpPageProps) => {
 				setCepLoading(false)
 			}
 		},
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[getCep]
 	)
 
 	return {
-		touched,
-		loading,
 		cepLoading,
 		formData,
-		setFormData,
+		loading,
+		touched,
+		goToLoginPage,
+		handleFetchCep,
 		handleSubmit,
 		handleValidate,
-		handleFetchCep
+		setFormData
 	}
 }

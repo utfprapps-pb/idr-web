@@ -1,4 +1,6 @@
-import { ReactElement } from 'react'
+import { ElementType } from 'react'
+
+import { IconProps } from 'phosphor-react'
 
 import { TextFieldProps } from '../textField'
 
@@ -14,22 +16,48 @@ export type PasswordInputProps = TextFieldProps & {
 	label: string
 
 	/**
+	 * Placeholder of the input.
+	 *
+	 * @example
+	 * ```tsx
+	 * <PasswordInput placeholder="Password" />
+	 * ```
+	 */
+	placeholder?: string
+
+	/**
+	 * Disabled condition of the input.
+	 *
+	 * @example
+	 * ```tsx
+	 * <PasswordInput disabled={false} />
+	 * ```
+	 */
+	disabled?: boolean
+
+	/**
 	 * Icons to be rendered at the start of the input.
 	 *
 	 * @example
 	 * ```tsx
-	 * <PasswordInput iconsStart={[<Eye />]} />
+	 * <PasswordInput iconsStart={[{key: 'eyeIcon', icon: Eye}]} />
 	 * ```
 	 */
-	iconsStart?: ReactElement[]
+	iconsStart?: {
+		key: string
+		icon: ElementType<IconProps>
+	}[]
 
 	/**
 	 * Icons to be rendered at the end of the input.
 	 *
 	 * @example
 	 * ```tsx
-	 * <PasswordInput iconsEnd={[<Eye />]} />
+	 * <PasswordInput iconsEnd={[{key: 'eyeIcon', icon: Eye}]} />
 	 * ```
 	 */
-	iconsEnd?: ReactElement[]
+	iconsEnd?: {
+		key: string
+		icon: ElementType<IconProps>
+	}[]
 }

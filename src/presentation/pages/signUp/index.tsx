@@ -3,35 +3,33 @@ import React from 'react'
 import { SignUpPageProps } from './types'
 import { useSignUp } from './useSignUp'
 import { CreateUserModel } from '@/domain/models'
-import { ROUTES } from '@/main/routes/routes'
 import { cepMask, cpfMask, onlyNumbersMask, phoneMask } from '@/masker'
 import {
-	Button,
 	DebounceTextField,
 	InputGroup,
-	Loading,
 	PasswordInput,
 	TextField
-} from '@/presentation/components'
-import { useHandleChangeFormData, useIdrHistory } from '@/presentation/hooks'
+} from '@/presentation/components/form'
+import { Button, Loading } from '@/presentation/components/ui'
+import { useHandleChangeFormData } from '@/presentation/hooks'
 import { AuthContainerTemplate } from '@/presentation/templates'
 
 export const SignUpPage: React.FC<SignUpPageProps> = (props) => {
 	const {
-		touched,
-		loading,
 		cepLoading,
 		formData,
-		setFormData,
+		loading,
+		touched,
+		goToLoginPage,
+		handleFetchCep,
 		handleSubmit,
 		handleValidate,
-		handleFetchCep
+		setFormData
 	} = useSignUp(props)
 	const { handleChange } = useHandleChangeFormData<CreateUserModel>({
 		formData,
 		setFormData
 	})
-	const { navigate } = useIdrHistory()
 
 	return (
 		<AuthContainerTemplate
@@ -41,25 +39,39 @@ export const SignUpPage: React.FC<SignUpPageProps> = (props) => {
 			body={
 				<>
 					<InputGroup>
-						<TextField
-							label="Nome"
-							placeholder="Digite seu nome"
+						<TextField.Root
 							value={formData.name}
-							onChange={handleChange('name')}
-							disabled={loading}
 							touched={touched}
+							onChange={handleChange('name')}
 							validator={handleValidate('name')}
-						/>
+						>
+							<TextField.Label label="Nome" />
+							<TextField.InputContainer>
+								<TextField.Icons isWithError position="right" />
+								<TextField.Input
+									disabled={loading}
+									placeholder="Digite seu nome"
+								/>
+							</TextField.InputContainer>
+							<TextField.Error />
+						</TextField.Root>
 
-						<TextField
-							label="E-mail"
-							placeholder="Digite seu e-mail"
+						<TextField.Root
 							value={formData.email}
 							onChange={handleChange('email')}
-							disabled={loading}
 							touched={touched}
 							validator={handleValidate('email')}
-						/>
+						>
+							<TextField.Label label="Email" />
+							<TextField.InputContainer>
+								<TextField.Icons isWithError position="right" />
+								<TextField.Input
+									disabled={loading}
+									placeholder="Digite seu email"
+								/>
+							</TextField.InputContainer>
+							<TextField.Error />
+						</TextField.Root>
 					</InputGroup>
 
 					<InputGroup>
@@ -86,49 +98,77 @@ export const SignUpPage: React.FC<SignUpPageProps> = (props) => {
 					</InputGroup>
 
 					<InputGroup>
-						<TextField
-							label="CPF"
-							placeholder="Digite seu CPF"
+						<TextField.Root
 							value={formData.cpf}
 							onChange={handleChange('cpf')}
-							disabled={loading}
 							touched={touched}
 							validator={handleValidate('cpf')}
 							mask={cpfMask}
-						/>
+						>
+							<TextField.Label label="CPF" />
+							<TextField.InputContainer>
+								<TextField.Icons isWithError position="right" />
+								<TextField.Input
+									disabled={loading}
+									placeholder="Digite seu CPF"
+								/>
+							</TextField.InputContainer>
+							<TextField.Error />
+						</TextField.Root>
 
-						<TextField
-							label="Celular"
-							placeholder="Digite seu número de celular"
+						<TextField.Root
 							value={formData.phone}
 							onChange={handleChange('phone')}
-							disabled={loading}
 							touched={touched}
 							validator={handleValidate('phone')}
 							mask={phoneMask}
-						/>
+						>
+							<TextField.Label label="Celular" />
+							<TextField.InputContainer>
+								<TextField.Icons isWithError position="right" />
+								<TextField.Input
+									disabled={loading}
+									placeholder="Digite seu número de celular"
+								/>
+							</TextField.InputContainer>
+							<TextField.Error />
+						</TextField.Root>
 
-						<TextField
-							label="Registro Profissional"
-							placeholder="Digite seu registro profissional"
+						<TextField.Root
 							value={formData.professionalRegister}
 							onChange={handleChange('professionalRegister')}
-							disabled={loading}
 							touched={touched}
 							validator={handleValidate('professionalRegister')}
 							mask={onlyNumbersMask}
-						/>
+						>
+							<TextField.Label label="Registro Profissional" />
+							<TextField.InputContainer>
+								<TextField.Icons isWithError position="right" />
+								<TextField.Input
+									disabled={loading}
+									placeholder="Digite seu registro profissional"
+								/>
+							</TextField.InputContainer>
+							<TextField.Error />
+						</TextField.Root>
 
-						<TextField
-							label="Ano de Graduação"
-							placeholder="Digite o ano de sua graduação"
+						<TextField.Root
 							value={formData.graduationYear}
 							onChange={handleChange('graduationYear')}
-							disabled={loading}
 							touched={touched}
 							validator={handleValidate('graduationYear')}
 							mask={onlyNumbersMask}
-						/>
+						>
+							<TextField.Label label="Ano de Graduação" />
+							<TextField.InputContainer>
+								<TextField.Icons isWithError position="right" />
+								<TextField.Input
+									disabled={loading}
+									placeholder="Digite o ano de sua graduação"
+								/>
+							</TextField.InputContainer>
+							<TextField.Error />
+						</TextField.Root>
 					</InputGroup>
 
 					<InputGroup>
@@ -145,50 +185,76 @@ export const SignUpPage: React.FC<SignUpPageProps> = (props) => {
 							mask={cepMask}
 						/>
 
-						<TextField
-							label="Rua"
-							placeholder="Digite seu endereço"
+						<TextField.Root
 							value={formData.street}
 							onChange={handleChange('street')}
-							disabled={loading}
 							touched={touched}
 							validator={handleValidate('street')}
-						/>
+						>
+							<TextField.Label label="Rua" />
+							<TextField.InputContainer>
+								<TextField.Icons isWithError position="right" />
+								<TextField.Input
+									disabled={loading}
+									placeholder="Digite seu endereço"
+								/>
+							</TextField.InputContainer>
+							<TextField.Error />
+						</TextField.Root>
 
-						<TextField
-							label="Cidade"
-							placeholder="Digite sua cidade"
+						<TextField.Root
 							value={formData.city}
 							onChange={handleChange('city')}
-							disabled={loading}
 							touched={touched}
 							validator={handleValidate('city')}
-						/>
+						>
+							<TextField.Label label="Cidade" />
+							<TextField.InputContainer>
+								<TextField.Icons isWithError position="right" />
+								<TextField.Input
+									disabled={loading}
+									placeholder="Digite sua cidade"
+								/>
+							</TextField.InputContainer>
+							<TextField.Error />
+						</TextField.Root>
 
-						<TextField
-							label="Nº da casa"
-							placeholder="Digite o número da sua casa"
+						<TextField.Root
 							value={formData.houseNumber}
 							onChange={handleChange('houseNumber')}
-							disabled={loading}
 							touched={touched}
 							validator={handleValidate('houseNumber')}
-						/>
+						>
+							<TextField.Label label="Nº da casa" />
+							<TextField.InputContainer>
+								<TextField.Icons isWithError position="right" />
+								<TextField.Input
+									disabled={loading}
+									placeholder="Digite o número da sua casa"
+								/>
+							</TextField.InputContainer>
+							<TextField.Error />
+						</TextField.Root>
 					</InputGroup>
 				</>
 			}
 			footer={
 				<>
-					<Button type="submit" disabled={loading}>
-						{loading ? <Loading /> : 'Criar conta'}
-					</Button>
-					<Button
-						onClick={() => navigate(ROUTES.login.path())}
-						disabled={loading}
-						theme="outline"
-					>
-						Voltar para o login
-					</Button>
+					<Button.Root>
+						<Button.Container type="submit" disabled={loading}>
+							{loading ? <Loading /> : 'Cadastrar'}
+						</Button.Container>
+					</Button.Root>
+
+					<Button.Root>
+						<Button.Container
+							onClick={goToLoginPage}
+							disabled={loading}
+							theme="outline"
+						>
+							Voltar para o login
+						</Button.Container>
+					</Button.Root>
 				</>
 			}
 			handleSubmit={handleSubmit}
