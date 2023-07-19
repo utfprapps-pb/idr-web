@@ -50,7 +50,7 @@ export const LoginPage: React.FC = () => {
 						iconsStart={[
 							{
 								icon: LockKey,
-								key: LockKey.displayName ?? LockKey.name
+								key: LockKey.displayName
 							}
 						]}
 					/>

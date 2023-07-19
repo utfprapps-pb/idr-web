@@ -8,7 +8,7 @@ import { TextField } from '../textField'
 export * from './types'
 
 export const PasswordInput: React.FC<PasswordInputProps> = (props) => {
-	const { label, iconsStart, iconsEnd } = props
+	const { disabled, iconsEnd, iconsStart, label, placeholder } = props
 
 	const [viewPassword, setViewPassword] = useState(false)
 
@@ -42,7 +42,11 @@ export const PasswordInput: React.FC<PasswordInputProps> = (props) => {
 						<TextField.Icon icon={iconProps.icon} onClick={iconProps.onClick} />
 					</>
 				</TextField.Icons>
-				<TextField.Input type={viewPassword ? 'text' : 'password'} />
+				<TextField.Input
+					type={viewPassword ? 'text' : 'password'}
+					disabled={disabled}
+					placeholder={placeholder}
+				/>
 			</TextField.InputContainer>
 			<TextField.Error />
 		</TextField.Root>

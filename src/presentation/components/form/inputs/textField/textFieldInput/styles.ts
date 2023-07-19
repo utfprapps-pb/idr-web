@@ -1,13 +1,6 @@
 import styled, { css } from 'styled-components'
 
 import { InputProps } from './types'
-import { TextFieldIcons } from '../textFieldIcons'
-import { lighten } from '@/main/utils'
-
-export const ContainerActions = styled(TextFieldIcons)`
-	padding: 0 8px;
-	right: 0;
-`
 
 export const Input = styled.input<InputProps>`
 	background-color: ${({ theme }) => theme.colors.white};
@@ -29,7 +22,7 @@ export const Input = styled.input<InputProps>`
 	outline: none;
 
 	${({ paddingLeft, paddingRight }) => css`
-		padding: 0 ${paddingRight || 16}px 0 ${paddingLeft || 16}px;
+		padding: 0 ${paddingRight}px 0 ${paddingLeft}px;
 	`}
 
 	${({ hasError, theme }) =>
@@ -51,7 +44,7 @@ export const Input = styled.input<InputProps>`
 
 	::placeholder {
 		${({ theme }) => css`
-			color: ${lighten({ color: theme.colors.gray, percentage: 0.4 })};
+			color: ${theme.colors.gray};
 			font-size: ${theme.fontSizes.b3};
 			font-weight: ${theme.fontWeights.light};
 			font-family: ${theme.fontFamily.primary};

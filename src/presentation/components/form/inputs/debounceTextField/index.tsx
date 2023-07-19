@@ -7,7 +7,7 @@ import { TextField } from '../textField'
 export * from './types'
 
 export const DebounceTextField: React.FC<DebounceTextFieldProps> = (props) => {
-	const { label } = props
+	const { label, placeholder, disabled } = props
 
 	const hookProps = useDebounceTextField(props)
 
@@ -18,7 +18,7 @@ export const DebounceTextField: React.FC<DebounceTextFieldProps> = (props) => {
 				<TextField.Icons position="right" isWithError>
 					<TextField.Icon icon={XCircle} onClick={hookProps.handleOnClear} />
 				</TextField.Icons>
-				<TextField.Input />
+				<TextField.Input disabled={disabled} placeholder={placeholder} />
 			</TextField.InputContainer>
 			<TextField.Error />
 		</TextField.Root>

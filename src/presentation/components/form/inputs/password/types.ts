@@ -44,7 +44,7 @@ export type PasswordInputProps = TextFieldProps & {
 	 * ```
 	 */
 	iconsStart?: {
-		key: string
+		key?: string
 		icon: ElementType<IconProps>
 	}[]
 
