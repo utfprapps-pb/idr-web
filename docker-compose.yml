@@ -8,7 +8,7 @@ networks:
     attachable: true
 
 services:
-  app:
+  idr-app:
     build:
       context: .
       dockerfile: Dockerfile
