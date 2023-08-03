@@ -11,7 +11,8 @@ export class RemoteLoginUser implements LoginUser {
 
 	async login(params: LoginUserParams): Promise<UserModel> {
 		const payload = {
-			...params
+			username: params.email,
+			password: params.password
 		}
 
 		const { statusCode, body } = await this.httpClient.request({
