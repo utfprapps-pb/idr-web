@@ -1,1 +1,1 @@
-export * from '@/main/utils/time/freeze'
+export * from './freeze'

@@ -1,2 +1,2 @@
-export * from '@/data/useCases/user/remoteCreateUser'
-export * from '@/data/useCases/user/remoteLoginUser'
+export * from './remoteCreateUser'
+export * from './remoteLoginUser'

@@ -1,2 +1,2 @@
-export * from '@/main/factories/useCases/user/remoteCreateUserFactory'
-export * from '@/main/factories/useCases/user/remoteLoginFactory'
+export * from './remoteCreateUserFactory'
+export * from './remoteLoginFactory'

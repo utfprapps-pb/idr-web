@@ -1,2 +1,2 @@
-export * from '@/infra/http/axiosHttpClient'
-export * from '@/infra/http/brasilApiHttpClient'
+export * from './axiosHttpClient'
+export * from './brasilApiHttpClient'

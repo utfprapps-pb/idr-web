@@ -1,1 +1,1 @@
-export * from '@/data/useCases/cep/remoteGetCep'
+export * from './remoteGetCep'

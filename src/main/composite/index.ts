@@ -1,1 +1,1 @@
-export * from '@/main/composite/validationComposite'
+export * from './validationComposite'

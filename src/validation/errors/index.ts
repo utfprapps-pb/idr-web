@@ -1,2 +1,2 @@
-export * from '@/validation/errors/invalidFieldError'
-export * from '@/validation/errors/requiredFieldError'
+export * from './invalidFieldError'
+export * from './requiredFieldError'

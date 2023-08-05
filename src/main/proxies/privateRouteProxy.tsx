@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { PropsWithChildren, useMemo } from 'react'
 
 import { CaretDown, SignOut, UserCircle } from 'phosphor-react'
 import { toast } from 'react-hot-toast'
@@ -21,6 +21,7 @@ type HeaderItems = ActionsDropdownProps['Item'][]
 const Main = styled.main`
 	width: 100vw;
 	height: 100vh;
+	height: 100dvh;
 
 	display: grid;
 	grid-template-columns: 320px 1fr;
@@ -30,7 +31,7 @@ const Main = styled.main`
 		'Sidebar Content';
 `
 
-export const PrivateRouteProxy: React.FC<{ children: React.ReactNode }> = ({
+export const PrivateRouteProxy: React.FC<PropsWithChildren> = ({
 	children
 }) => {
 	const { auth, handleSignOut } = useAuth()
@@ -73,7 +74,7 @@ export const PrivateRouteProxy: React.FC<{ children: React.ReactNode }> = ({
 						{/* ToDo: fix it with API */}
 						<Avatar src="" alt="User profile photo" />
 						<Text size="b2" color="darkgray">
-							{auth?.token}
+							Nome do user
 						</Text>
 						<Popover.Root>
 							<Popover.Trigger>

@@ -4,7 +4,7 @@ import { EnvelopeSimple, LockKey } from 'phosphor-react'
 
 import { useLogin } from './useLogin'
 import { LoginUserParams } from '@/domain/useCases'
-import { ROUTES } from '@/main/routes/routes'
+import { ROUTES } from '@/main/routes'
 import { PasswordInput, TextField } from '@/presentation/components/form'
 import { Button, Loading } from '@/presentation/components/ui'
 import { useHandleChangeFormData, useIdrHistory } from '@/presentation/hooks'

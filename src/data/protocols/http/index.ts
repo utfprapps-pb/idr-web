@@ -1,2 +1,2 @@
-export * from '@/data/protocols/http/httpClient'
-export * from '@/data/protocols/http/httpClientBrasilApi'
+export * from './httpClient'
+export * from './httpClientBrasilApi'

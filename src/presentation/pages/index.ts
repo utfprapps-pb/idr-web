@@ -1,2 +1,2 @@
-export * from '@/presentation/pages/login'
-export * from '@/presentation/pages/signUp'
+export * from './login'
+export * from './signUp'

@@ -1,2 +1,2 @@
-export * from '@/main/utils/colors'
-export * from '@/main/utils/time'
+export * from './colors'
+export * from './time'

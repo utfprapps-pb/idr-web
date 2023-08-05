@@ -1,1 +1,1 @@
-export * from '@/main/factories/validations/signUpValidationFactory'
+export * from './signUpValidationFactory'
