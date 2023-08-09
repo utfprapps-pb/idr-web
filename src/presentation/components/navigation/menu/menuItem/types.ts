@@ -11,3 +11,7 @@ export type MenuItemProps = LinkProps & {
 	 */
 	active: boolean
 }
+
+export type MenuItemStyledProps = {
+	active: string
+}

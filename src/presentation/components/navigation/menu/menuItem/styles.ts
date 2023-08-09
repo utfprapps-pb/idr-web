@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 
-import { MenuItemProps } from './types'
+import { MenuItemStyledProps } from './types'
 
-export const MenuItem = styled(Link)<MenuItemProps>`
+export const MenuItem = styled(Link)<MenuItemStyledProps>`
 	all: unset;
 
 	display: flex;
@@ -17,7 +17,7 @@ export const MenuItem = styled(Link)<MenuItemProps>`
 	transition: color 0.3s ease-in-out;
 
 	${({ active }) =>
-		active &&
+		active === 'true' &&
 		css`
 			border-right: 8px solid ${({ theme }) => theme.colors.primary};
 
