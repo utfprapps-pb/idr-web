@@ -1,4 +1,4 @@
-const { mergeConfig, loadConfigFromFile } = require("vite")
+const { mergeConfig, loadConfigFromFile } = require('vite')
 const viteConfig = require('path').resolve(__dirname, '../vite.config.ts')
 
 module.exports = {
@@ -20,13 +20,10 @@ module.exports = {
 		storyStoreV7: true
 	},
 	async viteFinal(config) {
-		const {config: userConfig} = await loadConfigFromFile(
-			viteConfig
-		)
+		const { config: userConfig } = await loadConfigFromFile(viteConfig)
 		userConfig.base = './'
 		return mergeConfig(config, {
 			...userConfig
 		})
-
 	}
 }

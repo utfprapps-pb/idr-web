@@ -5,7 +5,6 @@ import { Theme } from '@/styles'
 type Props = {
 	/**
 	 * Size of the text
-	 *
 	 * @example
 	 * ```tsx
 	 * <Text size="b1" />
@@ -15,7 +14,6 @@ type Props = {
 
 	/**
 	 * Color of the text
-	 *
 	 * @example
 	 * ```tsx
 	 * <Text color="primary" />
@@ -25,7 +23,6 @@ type Props = {
 
 	/**
 	 * The family of the font
-	 *
 	 * @example
 	 * ```tsx
 	 * <Text fontFamily="secondary" />
@@ -35,7 +32,6 @@ type Props = {
 
 	/**
 	 * The class name of the text
-	 *
 	 * @example
 	 * ```tsx
 	 * <Text className="my-class" />
@@ -45,7 +41,6 @@ type Props = {
 
 	/**
 	 * Function to be called when the text is clicked
-	 *
 	 * @example
 	 * ```tsx
 	 * <Text onClick={() => console.log('Text clicked')} />

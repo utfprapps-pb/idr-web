@@ -1,7 +1,6 @@
 type Props = {
 	/**
 	 * The title of auth container
-	 *
 	 * @example
 	 * ```tsx
 	 * <AuthContainerTemplate title="Sign in" />
@@ -11,7 +10,6 @@ type Props = {
 
 	/**
 	 * The description of auth container
-	 *
 	 * @example
 	 * ```tsx
 	 * <AuthContainerTemplate description="Sign in to your account" />
@@ -21,7 +19,6 @@ type Props = {
 
 	/**
 	 * The main content of the form
-	 *
 	 * @example
 	 * ```tsx
 	 * <AuthContainerTemplate body={<h1>main content</h1>} />
@@ -31,7 +28,6 @@ type Props = {
 
 	/**
 	 * The footer of the form
-	 *
 	 * @example
 	 * ```tsx
 	 * <AuthContainerTemplate footer={<h1>footer content</h1>} />
@@ -41,7 +37,6 @@ type Props = {
 
 	/**
 	 * The max width of the form
-	 *
 	 * @example
 	 * ```tsx
 	 * <AuthContainerTemplate maxWidth='100px' />
@@ -51,7 +46,6 @@ type Props = {
 
 	/**
 	 * The submit of the button
-	 *
 	 * @example
 	 * ```tsx
 	 * <AuthContainerTemplate handleSubmit={() => doSomething()} />

@@ -1,4 +1,5 @@
 import React, {
+	PropsWithChildren,
 	createContext,
 	useCallback,
 	useContext,
@@ -27,9 +28,7 @@ type AuthContextProps = {
 
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps)
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
-	children
-}) => {
+export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const { navigateToSignedBasePath } = useIdrHistory()
 
 	const [authData, setAuthData] = useState<AuthContextProps['auth'] | null>(

@@ -7,7 +7,6 @@ export type InputProps = {
 export type TextFieldInputProps = {
 	/**
 	 * The type of the text field
-	 *
 	 * @example
 	 * ```tsx
 	 * <TextFieldInput type='password' />
@@ -18,7 +17,6 @@ export type TextFieldInputProps = {
 
 	/**
 	 * The placeholder of the text field
-	 *
 	 * @example
 	 * ```tsx
 	 * <TextFieldInput placeholder='Example of placeholder />
@@ -27,7 +25,6 @@ export type TextFieldInputProps = {
 
 	/**
 	 * The disable condition of the Text field
-	 *
 	 * @example
 	 * ```tsx
 	 * <TextFieldInput disabled={true} />

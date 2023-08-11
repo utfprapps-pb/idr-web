@@ -5,7 +5,6 @@ import { ButtonThemes } from '../theme'
 export type ButtonProps = PropsWithChildren<{
 	/**
 	 * The disable condition of the button
-	 *
 	 * @example
 	 * ```tsx
 	 * <Button disabled />
@@ -16,7 +15,6 @@ export type ButtonProps = PropsWithChildren<{
 
 	/**
 	 * The reference of the Button element
-	 *
 	 * @example
 	 * ```tsx
 	 * import { useRef } from 'react'
@@ -30,7 +28,6 @@ export type ButtonProps = PropsWithChildren<{
 
 	/**
 	 * The theme of the button
-	 *
 	 * @example
 	 * ```tsx
 	 * <Button theme='primary' />
@@ -41,7 +38,6 @@ export type ButtonProps = PropsWithChildren<{
 
 	/**
 	 * The type of the button
-	 *
 	 * @example
 	 * ```tsx
 	 * <Button type='button' />
@@ -52,7 +48,6 @@ export type ButtonProps = PropsWithChildren<{
 
 	/**
 	 * The onClick function of the button
-	 *
 	 * @example
 	 * ```tsx
 	 * const doSomething = () => {

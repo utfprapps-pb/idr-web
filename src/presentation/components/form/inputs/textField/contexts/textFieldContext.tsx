@@ -23,7 +23,6 @@ type TextFieldContextProps = {
 export type TextFieldProviderProps = PropsWithChildren<{
 	/**
 	 * The value of the text field
-	 *
 	 *	@example
 	 * ```tsx
 	 * <TextFieldInput value='Value' />
@@ -33,7 +32,6 @@ export type TextFieldProviderProps = PropsWithChildren<{
 
 	/**
 	 * The function that will be called when the value of the text field changes
-	 *
 	 * @example
 	 * ```tsx
 	 * <TextFieldInput onChange={value => console.log(value)} />
@@ -43,7 +41,6 @@ export type TextFieldProviderProps = PropsWithChildren<{
 
 	/**
 	 * The error of the text field
-	 *
 	 * @example
 	 * ```tsx
 	 * <TextField error='This field is required' />
@@ -54,7 +51,6 @@ export type TextFieldProviderProps = PropsWithChildren<{
 
 	/**
 	 * The touched state of the text field
-	 *
 	 * @example
 	 * ```tsx
 	 * <TextFieldInput touched />
@@ -65,7 +61,6 @@ export type TextFieldProviderProps = PropsWithChildren<{
 
 	/**
 	 * The mask of the text field
-	 *
 	 * @example
 	 * ```tsx
 	 * <TextFieldInput mask={value => value.toUpperCase()} />
@@ -75,7 +70,6 @@ export type TextFieldProviderProps = PropsWithChildren<{
 
 	/**
 	 * The validator of the text field
-	 *
 	 * @example
 	 * ```tsx
 	 * <TextFieldInput validator={() => 'This field is required'} />
@@ -86,7 +80,6 @@ export type TextFieldProviderProps = PropsWithChildren<{
 	/**
 	 * The dependency of the validator of the text field.
 	 * This is used to revalidate the text field when the dependency changes
-	 *
 	 * @example
 	 * ```tsx
 	 * <TextFieldInput validator={() => 'This field is required'} validationDependency={value} />

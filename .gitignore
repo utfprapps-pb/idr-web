@@ -28,3 +28,7 @@ dist-ssr
 
 # Build
 tsconfig.tsbuildinfo
+storybook-docs
+
+# Cache
+.eslintcache

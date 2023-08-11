@@ -1,4 +1,4 @@
-version: "3.9"
+version: '3.9'
 
 networks:
   web:
@@ -15,11 +15,11 @@ services:
     container_name: idr-app
     restart: unless-stopped
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.idr-app.rule=Host(`idr.app.pb.utfpr.edu.br`)"
-      - "traefik.http.routers.idr-app.entrypoints=websecure"
-      - "traefik.http.routers.idr-app.tls.certresolver=letsencrypt"
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.idr-app.rule=Host(`idr.app.pb.utfpr.edu.br`)'
+      - 'traefik.http.routers.idr-app.entrypoints=websecure'
+      - 'traefik.http.routers.idr-app.tls.certresolver=letsencrypt'
     ports:
-      - "8200:80"
+      - '8200:80'
     networks:
       - web

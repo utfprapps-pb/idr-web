@@ -35,6 +35,10 @@
 		"vitest",
 		"jsdoc"
 	],
+	"ignorePatterns": [
+		"*.js",
+		"*.jsx"
+	],
 	"rules": {
 		"consistent-return": "off",
 		"class-methods-use-this": "off",

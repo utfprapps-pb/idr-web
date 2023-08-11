@@ -7,7 +7,6 @@ import { TextFieldProps } from '../textField'
 export type PasswordInputProps = TextFieldProps & {
 	/**
 	 * Label of the input.
-	 *
 	 * @example
 	 * ```tsx
 	 * <PasswordInput label="Password" />
@@ -17,7 +16,6 @@ export type PasswordInputProps = TextFieldProps & {
 
 	/**
 	 * Placeholder of the input.
-	 *
 	 * @example
 	 * ```tsx
 	 * <PasswordInput placeholder="Password" />
@@ -27,7 +25,6 @@ export type PasswordInputProps = TextFieldProps & {
 
 	/**
 	 * Disabled condition of the input.
-	 *
 	 * @example
 	 * ```tsx
 	 * <PasswordInput disabled={false} />
@@ -37,7 +34,6 @@ export type PasswordInputProps = TextFieldProps & {
 
 	/**
 	 * Icons to be rendered at the start of the input.
-	 *
 	 * @example
 	 * ```tsx
 	 * <PasswordInput iconsStart={[{key: 'eyeIcon', icon: Eye}]} />
@@ -50,7 +46,6 @@ export type PasswordInputProps = TextFieldProps & {
 
 	/**
 	 * Icons to be rendered at the end of the input.
-	 *
 	 * @example
 	 * ```tsx
 	 * <PasswordInput iconsEnd={[{key: 'eyeIcon', icon: Eye}]} />
