@@ -1,4 +1,7 @@
+export * from './actionsDropdown'
+export * from './avatar'
 export * from './button'
+export * from './compose'
 export * from './header'
 export * from './loading'
 export * from './text'

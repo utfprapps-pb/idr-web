@@ -72,9 +72,8 @@
 		"vite": "^4.4.9"
 	},
 	"lint-staged": {
-		"*.{js, jsx, ts,tsx}": [
-			"pnpm lint:fix",
-			"pretty-quick --staged"
+		"*.{ts,tsx}": [
+			"pnpm lint:fix"
 		],
 		"*.{json,js,jsx,ts,tsx,htm,html,md}": "pnpm format:fix"
 	},
