@@ -53,6 +53,15 @@ type Props = {
 	className?: string
 
 	/**
+	 * The style of the typography
+	 * @example
+	 * ```tsx
+	 * <Typography styles={{ color: 'red' }} />
+	 * ```
+	 */
+	styles?: React.CSSProperties
+
+	/**
 	 * Function to be called when the text is clicked
 	 * @example
 	 * ```tsx

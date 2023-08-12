@@ -12,6 +12,7 @@ export const Typography: React.FC<TypographyProps> = ({
 	size = 'b1',
 	family = 'primary',
 	className,
+	styles,
 	onClick
 }) => {
 	const headingRegex = /^h[1-6]$/
@@ -25,6 +26,7 @@ export const Typography: React.FC<TypographyProps> = ({
 			size={size}
 			family={family}
 			className={className}
+			style={styles}
 			onClick={onClick}
 			hasOnClick={!!onClick}
 		>

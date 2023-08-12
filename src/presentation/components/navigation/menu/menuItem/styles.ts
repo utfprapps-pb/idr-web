@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 
 import { MenuItemStyledProps } from './types'
+import { lighten } from '@/main/utils'
 
 export const MenuItem = styled(Link)<MenuItemStyledProps>`
 	all: unset;
@@ -11,8 +12,7 @@ export const MenuItem = styled(Link)<MenuItemStyledProps>`
 	cursor: pointer;
 
 	gap: 16px;
-	margin: 16px 34px;
-	padding: 16px 34px;
+	padding: 24px 48px;
 
 	transition: color 0.3s ease-in-out;
 
@@ -20,6 +20,11 @@ export const MenuItem = styled(Link)<MenuItemStyledProps>`
 		active === 'true' &&
 		css`
 			border-right: 8px solid ${({ theme }) => theme.colors.primary};
+			background-color: ${({ theme }) =>
+				lighten({
+					color: theme.colors.primary,
+					percentage: 0.55
+				})};
 
 			p {
 				color: ${({ theme }) => theme.colors.darkgray};

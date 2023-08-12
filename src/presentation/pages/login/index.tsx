@@ -57,29 +57,33 @@ export const LoginPage: React.FC = () => {
 				</>
 			}
 			footer={
-				<>
-					<Button.Root>
-						<Button.Container type="submit" disabled={loading}>
-							{loading ? <Loading /> : 'Entrar'}
-						</Button.Container>
-					</Button.Root>
+				loading ? (
+					<Loading />
+				) : (
+					<>
+						<Button.Root>
+							<Button.Container type="submit" disabled={loading}>
+								Entrar
+							</Button.Container>
+						</Button.Root>
 
-					<Button.Root>
-						<Button.Container
-							onClick={() => navigate(ROUTES.signUp.path())}
-							disabled={loading}
-							theme="outline"
-						>
-							Nova conta
-						</Button.Container>
-					</Button.Root>
+						<Button.Root>
+							<Button.Container
+								onClick={() => navigate(ROUTES.signUp.path())}
+								disabled={loading}
+								theme="outline"
+							>
+								Nova conta
+							</Button.Container>
+						</Button.Root>
 
-					<Button.Root>
-						<Button.Container disabled={loading} theme="text">
-							Esqueci a senha
-						</Button.Container>
-					</Button.Root>
-				</>
+						<Button.Root>
+							<Button.Container disabled={loading} theme="text">
+								Esqueci a senha
+							</Button.Container>
+						</Button.Root>
+					</>
+				)
 			}
 			handleSubmit={handleSubmit}
 		/>

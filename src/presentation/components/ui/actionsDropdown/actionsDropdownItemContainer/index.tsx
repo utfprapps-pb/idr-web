@@ -5,4 +5,6 @@ import { ActionsDropdownItemContainerProps } from './types'
 
 export const ActionsDropdownItemContainer: React.FC<
 	ActionsDropdownItemContainerProps
-> = ({ children }) => <S.Container>{children}</S.Container>
+> = ({ children, onClick }) => (
+	<S.Container onClick={onClick}>{children}</S.Container>
+)
