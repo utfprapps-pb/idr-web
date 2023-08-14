@@ -6,5 +6,5 @@ export type LoginUserParams = {
 }
 
 export interface LoginUser {
-	login: (params: LoginUserParams) => Promise<UserModel>
+	execute: (params: LoginUserParams) => Promise<UserModel>
 }

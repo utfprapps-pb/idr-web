@@ -1,2 +1,2 @@
-export * from './axiosHttpClientFactory'
+export * from './apiHttpClientFactory'
 export * from './brasilApiHttpClientFactory'

@@ -9,7 +9,7 @@ export class RemoteCreateUser implements CreateUser {
 		private readonly httpClient: HttpClient<void>
 	) {}
 
-	async create(params: CreateUserModel): Promise<void> {
+	async execute(params: CreateUserModel): Promise<void> {
 		const body = {
 			...params,
 			username: params.email,

@@ -9,7 +9,7 @@ export class RemoteLoginUser implements LoginUser {
 		private readonly httpClient: HttpClient<UserModel>
 	) {}
 
-	async login(params: LoginUserParams): Promise<UserModel> {
+	async execute(params: LoginUserParams): Promise<UserModel> {
 		const payload = {
 			username: params.email,
 			password: params.password

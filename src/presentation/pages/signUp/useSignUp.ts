@@ -57,7 +57,7 @@ export const useSignUp = (props: SignUpPageProps) => {
 				return
 			}
 
-			await createUser.create(formData)
+			await createUser.execute(formData)
 			goToLoginPage()
 			toast.success('Conta criada com sucesso')
 		} catch (error) {
@@ -76,7 +76,7 @@ export const useSignUp = (props: SignUpPageProps) => {
 
 				if (onlyNumbersCep.length !== 8) return
 
-				const { city, street } = await getCep.get(onlyNumbersCep)
+				const { city, street } = await getCep.execute(onlyNumbersCep)
 
 				setFormData((state) => ({
 					...state,

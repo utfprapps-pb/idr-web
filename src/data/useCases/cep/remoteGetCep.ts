@@ -9,7 +9,7 @@ export class RemoteGetCep implements GetCep {
 		private readonly httpClient: HttpClient<CepModel>
 	) {}
 
-	async get(cep: string): Promise<CepModel> {
+	async execute(cep: string): Promise<CepModel> {
 		const { statusCode, body } = await this.httpClient.request({
 			url: `${this.url}/${cep}`,
 			method: 'get'
