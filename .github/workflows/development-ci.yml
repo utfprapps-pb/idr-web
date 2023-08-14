@@ -46,7 +46,7 @@ jobs:
         run: pnpm install
 
       - name: Run Linters
-        run: pnpm eslint --fix . && pnpm pretty-quick
+        run: pnpm lint:check && pnpm format:check
 
       - name: Check if build fails
         run: pnpm build
