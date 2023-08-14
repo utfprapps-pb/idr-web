@@ -6,6 +6,7 @@ import { Navigate, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { menuItems, ROUTES } from '../routes'
+import { uiAvatarsApi } from '@/infra/http'
 import { Menu, Popover } from '@/presentation/components/navigation'
 import { Header, Text } from '@/presentation/components/ui'
 import {
@@ -72,7 +73,10 @@ export const PrivateRouteProxy: React.FC<PropsWithChildren> = ({
 				<Header.Root>
 					<Header.UserContent>
 						{/* ToDo: fix it with API */}
-						<Avatar src="" alt="User profile photo" />
+						<Avatar
+							src={`${uiAvatarsApi.defaults.baseURL}?name=Nome do usuário`}
+							alt="User profile photo"
+						/>
 						<Text size="b2" color="darkgray">
 							Nome do user
 						</Text>
