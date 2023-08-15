@@ -73,7 +73,7 @@
 		"*.{ts,tsx}": [
 			"pnpm lint:fix"
 		],
-		"*.{json,js,jsx,ts,tsx,htm,html,md}": "pnpm format:fix"
+		"*.{json,js,jsx,ts,tsx,htm,html,md}": "pnpm format:check"
 	},
 	"packageManager": "pnpm@7.26.3",
 	"engines": {
