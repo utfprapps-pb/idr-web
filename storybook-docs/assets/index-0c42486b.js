@@ -1,0 +1,37 @@
+import{j as v,s as y}from"./styled-components.browser.esm-f24d23a7.js";import{r as o}from"./index-76fb7be0.js";import{$ as E,a as R,b as S,c as I,d as k,e as U,f as j,g as L,h as z,_ as b,i as P,j as K,k as G,l as V,m as q,n as H,o as Z,p as B,q as J}from"./Combination-deff489c.js";import{r as Q}from"./index-d3ea75b5.js";function W(e,t){return o.useReducer((n,s)=>{const c=t[n][s];return c??n},e)}const N=e=>{const{present:t,children:n}=e,s=X(t),c=typeof n=="function"?n({present:s.isPresent}):o.Children.only(n),r=E(s.ref,c.ref);return typeof n=="function"||s.isPresent?o.cloneElement(c,{ref:r}):null};N.displayName="Presence";function X(e){const[t,n]=o.useState(),s=o.useRef({}),c=o.useRef(e),r=o.useRef("none"),i=e?"mounted":"unmounted",[a,p]=W(i,{mounted:{UNMOUNT:"unmounted",ANIMATION_OUT:"unmountSuspended"},unmountSuspended:{MOUNT:"mounted",ANIMATION_END:"unmounted"},unmounted:{MOUNT:"mounted"}});return o.useEffect(()=>{const d=x(s.current);r.current=a==="mounted"?d:"none"},[a]),R(()=>{const d=s.current,u=c.current;if(u!==e){const l=r.current,$=x(d);e?p("MOUNT"):$==="none"||(d==null?void 0:d.display)==="none"?p("UNMOUNT"):p(u&&l!==$?"ANIMATION_OUT":"UNMOUNT"),c.current=e}},[e,p]),R(()=>{if(t){const d=f=>{const $=x(s.current).includes(f.animationName);f.target===t&&$&&Q.flushSync(()=>p("ANIMATION_END"))},u=f=>{f.target===t&&(r.current=x(s.current))};return t.addEventListener("animationstart",u),t.addEventListener("animationcancel",d),t.addEventListener("animationend",d),()=>{t.removeEventListener("animationstart",u),t.removeEventListener("animationcancel",d),t.removeEventListener("animationend",d)}}else p("ANIMATION_END")},[t,p]),{isPresent:["mounted","unmountSuspended"].includes(a),ref:o.useCallback(d=>{d&&(s.current=getComputedStyle(d)),n(d)},[])}}function x(e){return(e==null?void 0:e.animationName)||"none"}const M="Popover",[T,he]=S(M,[I]),A=I(),[Y,m]=T(M),ee=e=>{const{__scopePopover:t,children:n,open:s,defaultOpen:c,onOpenChange:r,modal:i=!1}=e,a=A(t),p=o.useRef(null),[d,u]=o.useState(!1),[f=!1,l]=k({prop:s,defaultProp:c,onChange:r});return o.createElement(U,a,o.createElement(Y,{scope:t,contentId:j(),triggerRef:p,open:f,onOpenChange:l,onOpenToggle:o.useCallback(()=>l($=>!$),[l]),hasCustomAnchor:d,onCustomAnchorAdd:o.useCallback(()=>u(!0),[]),onCustomAnchorRemove:o.useCallback(()=>u(!1),[]),modal:i},n))},oe="PopoverTrigger",te=o.forwardRef((e,t)=>{const{__scopePopover:n,...s}=e,c=m(oe,n),r=A(n),i=E(t,c.triggerRef),a=o.createElement(z.button,b({type:"button","aria-haspopup":"dialog","aria-expanded":c.open,"aria-controls":c.contentId,"data-state":D(c.open)},s,{ref:i,onClick:P(e.onClick,c.onOpenToggle)}));return c.hasCustomAnchor?a:o.createElement(K,b({asChild:!0},r),a)}),w="PopoverPortal",[ne,ce]=T(w,{forceMount:void 0}),re=e=>{const{__scopePopover:t,forceMount:n,children:s,container:c}=e,r=m(w,t);return o.createElement(ne,{scope:t,forceMount:n},o.createElement(N,{present:n||r.open},o.createElement(L,{asChild:!0,container:c},s)))},g="PopoverContent",se=o.forwardRef((e,t)=>{const n=ce(g,e.__scopePopover),{forceMount:s=n.forceMount,...c}=e,r=m(g,e.__scopePopover);return o.createElement(N,{present:s||r.open},r.modal?o.createElement(ae,b({},c,{ref:t})):o.createElement(ie,b({},c,{ref:t})))}),ae=o.forwardRef((e,t)=>{const n=m(g,e.__scopePopover),s=o.useRef(null),c=E(t,s),r=o.useRef(!1);return o.useEffect(()=>{const i=s.current;if(i)return G(i)},[]),o.createElement(V,{as:q,allowPinchZoom:!0},o.createElement(F,b({},e,{ref:c,trapFocus:n.open,disableOutsidePointerEvents:!0,onCloseAutoFocus:P(e.onCloseAutoFocus,i=>{var a;i.preventDefault(),r.current||(a=n.triggerRef.current)===null||a===void 0||a.focus()}),onPointerDownOutside:P(e.onPointerDownOutside,i=>{const a=i.detail.originalEvent,p=a.button===0&&a.ctrlKey===!0,d=a.button===2||p;r.current=d},{checkForDefaultPrevented:!1}),onFocusOutside:P(e.onFocusOutside,i=>i.preventDefault(),{checkForDefaultPrevented:!1})})))}),ie=o.forwardRef((e,t)=>{const n=m(g,e.__scopePopover),s=o.useRef(!1),c=o.useRef(!1);return o.createElement(F,b({},e,{ref:t,trapFocus:!1,disableOutsidePointerEvents:!1,onCloseAutoFocus:r=>{var i;if((i=e.onCloseAutoFocus)===null||i===void 0||i.call(e,r),!r.defaultPrevented){var a;s.current||(a=n.triggerRef.current)===null||a===void 0||a.focus(),r.preventDefault()}s.current=!1,c.current=!1},onInteractOutside:r=>{var i,a;(i=e.onInteractOutside)===null||i===void 0||i.call(e,r),r.defaultPrevented||(s.current=!0,r.detail.originalEvent.type==="pointerdown"&&(c.current=!0));const p=r.target;((a=n.triggerRef.current)===null||a===void 0?void 0:a.contains(p))&&r.preventDefault(),r.detail.originalEvent.type==="focusin"&&c.current&&r.preventDefault()}}))}),F=o.forwardRef((e,t)=>{const{__scopePopover:n,trapFocus:s,onOpenAutoFocus:c,onCloseAutoFocus:r,disableOutsidePointerEvents:i,onEscapeKeyDown:a,onPointerDownOutside:p,onFocusOutside:d,onInteractOutside:u,...f}=e,l=m(g,n),$=A(n);return H(),o.createElement(Z,{asChild:!0,loop:!0,trapped:s,onMountAutoFocus:c,onUnmountAutoFocus:r},o.createElement(B,{asChild:!0,disableOutsidePointerEvents:i,onInteractOutside:u,onEscapeKeyDown:a,onPointerDownOutside:p,onFocusOutside:d,onDismiss:()=>l.onOpenChange(!1)},o.createElement(J,b({"data-state":D(l.open),role:"dialog",id:l.contentId},$,f,{ref:t,style:{...f.style,"--radix-popover-content-transform-origin":"var(--radix-popper-transform-origin)","--radix-popover-content-available-width":"var(--radix-popper-available-width)","--radix-popover-content-available-height":"var(--radix-popper-available-height)","--radix-popover-trigger-width":"var(--radix-popper-anchor-width)","--radix-popover-trigger-height":"var(--radix-popper-anchor-height)"}}))))});function D(e){return e?"open":"closed"}const de=ee,pe=te,ue=re,fe=se,h=({children:e})=>{const[t,n]=o.useState(!1);return v.jsx(de,{open:t,onOpenChange:()=>n(!t),children:e})};try{h.displayName="PopoverRoot",h.__docgenInfo={description:"",displayName:"PopoverRoot",props:{}}}catch{}const le=o.createContext({}),_=({children:e})=>{const[t,n]=o.useState(!1),s=o.useMemo(()=>({open:t,setOpen:n}),[t,n]);return v.jsx(le.Provider,{value:s,children:v.jsx(h,{children:e})})};try{_.displayName="PopoverProvider",_.__docgenInfo={description:"",displayName:"PopoverProvider",props:{}}}catch{}const $e=y(fe)`
+	border-radius: 8px;
+
+	width: max-content;
+
+	font-size: ${({theme:e})=>e.fontSizes.b3};
+	color: ${({theme:e})=>e.colors.text};
+	background-color: ${({theme:e})=>e.colors.white};
+
+	box-shadow:
+		hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
+		hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+`,O=({children:e})=>v.jsx(ue,{children:v.jsx($e,{sideOffset:4,children:e})});try{O.displayName="PopoverContent",O.__docgenInfo={description:"",displayName:"PopoverContent",props:{}}}catch{}const be=y(pe)`
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+
+	border-radius: 8px;
+	border: 2px solid ${({theme:e})=>e.colors.gray};
+	padding: 0 12px;
+
+	cursor: pointer;
+
+	font-size: ${({theme:e})=>e.fontSizes.b3};
+	font-weight: 500;
+
+	height: 34px;
+	background-color: ${({theme:e})=>e.colors.white};
+
+	color: ${({theme:e})=>e.colors.text};
+	box-shadow: inset 0px 4px 5px rgba(33, 1, 38, 0.03);
+
+	&:hover {
+		background-color: ${({theme:e})=>e.colors.lightgray};
+	}
+`,C=({children:e})=>v.jsx(be,{children:e});try{C.displayName="PopoverTrigger",C.__docgenInfo={description:"",displayName:"PopoverTrigger",props:{}}}catch{}const _e={Root:_,Trigger:C,Content:O};export{_e as P};
+//# sourceMappingURL=index-0c42486b.js.map
