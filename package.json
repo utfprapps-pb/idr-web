@@ -15,8 +15,8 @@
 		"lint:check": "pnpm lint",
 		"type:check": "tsc --noEmit",
 		"lint:staged": "lint-staged",
-		"storybook": "NODE_OPTIONS=--openssl-legacy-provider start-storybook -p 6006",
-		"storybook:build": "NODE_OPTIONS=--openssl-legacy-provider build-storybook -o docs-build"
+		"storybook:dev": "storybook dev -p 6006",
+		"storybook:build": "storybook build -o docs-build"
 	},
 	"dependencies": {
 		"@radix-ui/react-popover": "^1.0.6",
@@ -34,13 +34,13 @@
 	"devDependencies": {
 		"@commitlint/config-conventional": "^17.7.0",
 		"@faker-js/faker": "^8.0.2",
-		"@storybook/addon-actions": "^7.2.2",
-		"@storybook/addon-essentials": "^7.2.2",
-		"@storybook/addon-interactions": "^7.2.2",
-		"@storybook/addon-links": "^7.2.2",
-		"@storybook/builder-vite": "^7.2.2",
-		"@storybook/preview-web": "^7.2.2",
-		"@storybook/react": "^7.2.2",
+		"@storybook/addon-actions": "^7.3.0",
+		"@storybook/addon-essentials": "^7.3.0",
+		"@storybook/addon-interactions": "^7.3.0",
+		"@storybook/addon-links": "^7.3.0",
+		"@storybook/preview-web": "^7.3.0",
+		"@storybook/react": "^7.3.0",
+		"@storybook/react-vite": "^7.3.0",
 		"@storybook/testing-library": "^0.2.0",
 		"@types/react": "^18.2.20",
 		"@types/react-dom": "^18.2.7",
@@ -65,7 +65,7 @@
 		"husky": "^8.0.3",
 		"lint-staged": "^13.2.3",
 		"prettier": "^3.0.1",
-		"storybook": "^7.2.2",
+		"storybook": "^7.3.0",
 		"typescript": "^5.1.6",
 		"vite": "^4.4.9"
 	},
