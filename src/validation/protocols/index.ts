@@ -1,1 +1,1 @@
-export * from '@/validation/protocols/fieldValidation'
+export * from './fieldValidation'

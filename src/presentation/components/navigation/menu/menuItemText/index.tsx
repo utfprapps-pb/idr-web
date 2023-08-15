@@ -5,7 +5,13 @@ type MenuItemTextProps = {
 }
 
 export const MenuItemText: React.FC<MenuItemTextProps> = ({ text }) => (
-	<Text color="gray" size="b2">
+	<Text
+		color="gray"
+		size="b2"
+		styles={{
+			cursor: 'pointer'
+		}}
+	>
 		{text}
 	</Text>
 )

@@ -1,1 +1,1 @@
-export * from '@/domain/useCases/user'
+export * from './user'

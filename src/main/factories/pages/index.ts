@@ -1,2 +1,2 @@
-export * from '@/main/factories/pages/loginPageFactory'
-export * from '@/main/factories/pages/signUpPageFactory'
+export * from './loginPageFactory'
+export * from './signUpPageFactory'

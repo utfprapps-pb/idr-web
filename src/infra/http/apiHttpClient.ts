@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from 'axios'
 import { HttpClient, HttpRequest, HttpResponse } from '@/data/protocols/http'
 import { env } from '@/main/env'
 
-export const baseAxios = axios.create({
+export const baseApi = axios.create({
 	baseURL: env.VITE_API_BASE_URL,
 	headers: {
 		'Content-Type': 'application/json'
@@ -12,7 +12,7 @@ export const baseAxios = axios.create({
 	validateStatus: (status: number) => status >= 200 && status < 300
 })
 
-export class AxiosHttpClient<T = unknown> implements HttpClient<T> {
+export class ApiHttpClient<T = unknown> implements HttpClient<T> {
 	async request(data: HttpRequest): Promise<HttpResponse<T>> {
 		let axiosResponse: AxiosResponse
 
@@ -25,7 +25,7 @@ export class AxiosHttpClient<T = unknown> implements HttpClient<T> {
 				pagination
 			})
 
-			axiosResponse = await baseAxios.request({
+			axiosResponse = await baseApi.request({
 				...data,
 				url,
 				data: data.body

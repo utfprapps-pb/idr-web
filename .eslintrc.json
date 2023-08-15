@@ -15,7 +15,6 @@
 		"plugin:import/warnings",
 		"plugin:import/typescript",
 		"plugin:react-hooks/recommended",
-		"plugin:cypress/recommended",
 		"plugin:jsdoc/recommended"
 	],
 	"parser": "@typescript-eslint/parser",
@@ -33,7 +32,6 @@
 		"prettier",
 		"jsx-a11y",
 		"react-hooks",
-		"cypress",
 		"vitest",
 		"jsdoc"
 	],
@@ -61,6 +59,7 @@
 		"import/prefer-default-export": "off",
 		"import/no-unresolved": "off",
 		"import/no-named-as-default": "off",
+		"import/no-cycle": "error",
 		"import/extensions": [
 			"error",
 			"never",
@@ -107,12 +106,6 @@
 				"storybook/hierarchy-separator": "error",
 				"storybook/default-exports": "off",
 				"import/no-extraneous-dependencies": "off"
-			}
-		},
-		{
-			"files": ["**/services/**"],
-			"rules": {
-				"import/no-cycle": "off"
 			}
 		}
 	],

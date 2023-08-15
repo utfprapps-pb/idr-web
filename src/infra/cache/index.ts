@@ -1,1 +1,1 @@
-export * from '@/infra/cache/localStorageAdapter'
+export * from './localStorageAdapter'

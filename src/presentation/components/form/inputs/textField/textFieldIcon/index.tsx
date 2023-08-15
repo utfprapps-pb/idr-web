@@ -9,7 +9,6 @@ import { useTextFieldContext } from '../contexts/textFieldContext'
 type TextFieldIconProps = {
 	/**
 	 * The icon to be rendered.
-	 *
 	 * @example
 	 * ```tsx
 	 * <TextFieldIcon icon={UserCircle} />
@@ -19,7 +18,6 @@ type TextFieldIconProps = {
 
 	/**
 	 * The function that be called when click on icon.
-	 *
 	 * @example
 	 * ```tsx
 	 * <TextFieldIcon icon={UserCircle} onClick={() => alert('Hello World!')} />

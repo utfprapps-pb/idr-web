@@ -1,1 +1,1 @@
-export * from '@/presentation/templates/containers/auth'
+export * from './auth'

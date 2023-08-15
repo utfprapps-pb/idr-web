@@ -1,4 +1,6 @@
-import styled, { CSSProperties } from 'styled-components'
+import { CSSProperties } from 'react'
+
+import styled from 'styled-components'
 
 import { darken } from '@/main/utils'
 
@@ -75,7 +77,7 @@ export const FormBody = styled.div`
 export const FormFooter = styled.div`
 	display: flex;
 	flex-direction: column;
-	align-items: flex-start;
+	align-items: center;
 
 	width: 100%;
 	gap: 8px;

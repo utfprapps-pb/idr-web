@@ -1,2 +1,2 @@
-export * from '@/masker/masker'
-export * from '@/masker/masks'
+export * from './masker'
+export * from './masks'

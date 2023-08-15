@@ -1,1 +1,1 @@
-export * from '@/domain/useCases/cep/get'
+export * from './get'

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { PropsWithChildren, useMemo } from 'react'
 
 import { CaretDown, SignOut, UserCircle } from 'phosphor-react'
 import { toast } from 'react-hot-toast'
@@ -6,6 +6,7 @@ import { Navigate, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { menuItems, ROUTES } from '../routes'
+import { uiAvatarsApi } from '@/infra/http'
 import { Menu, Popover } from '@/presentation/components/navigation'
 import { Header, Text } from '@/presentation/components/ui'
 import {
@@ -21,6 +22,7 @@ type HeaderItems = ActionsDropdownProps['Item'][]
 const Main = styled.main`
 	width: 100vw;
 	height: 100vh;
+	height: 100dvh;
 
 	display: grid;
 	grid-template-columns: 320px 1fr;
@@ -30,7 +32,7 @@ const Main = styled.main`
 		'Sidebar Content';
 `
 
-export const PrivateRouteProxy: React.FC<{ children: React.ReactNode }> = ({
+export const PrivateRouteProxy: React.FC<PropsWithChildren> = ({
 	children
 }) => {
 	const { auth, handleSignOut } = useAuth()
@@ -71,9 +73,12 @@ export const PrivateRouteProxy: React.FC<{ children: React.ReactNode }> = ({
 				<Header.Root>
 					<Header.UserContent>
 						{/* ToDo: fix it with API */}
-						<Avatar src="" alt="User profile photo" />
+						<Avatar
+							src={`${uiAvatarsApi.defaults.baseURL}?name=Nome do usuário`}
+							alt="User profile photo"
+						/>
 						<Text size="b2" color="darkgray">
-							{auth?.token}
+							Nome do user
 						</Text>
 						<Popover.Root>
 							<Popover.Trigger>

@@ -1,1 +1,1 @@
-export * from '@/presentation/templates/containers'
+export * from './containers'

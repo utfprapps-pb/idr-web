@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { MakeLoginPage, MakeSignUpPage } from '@/main/factories/pages'
+import { PrivateRouteProxy } from '@/main/proxies'
 
 type RouteProps = {
 	path: () => string
@@ -24,10 +25,18 @@ export const ROUTES = Object.freeze<RoutesProps>({
 	},
 	dashboard: {
 		path: () => '/',
-		component: <h1>Under construction!</h1>
+		component: (
+			<PrivateRouteProxy>
+				<h1>Under construction!</h1>
+			</PrivateRouteProxy>
+		)
 	},
 	animals: {
 		path: () => '/animals',
-		component: <h1>Animals</h1>
+		component: (
+			<PrivateRouteProxy>
+				<h1>Animals</h1>
+			</PrivateRouteProxy>
+		)
 	}
 })

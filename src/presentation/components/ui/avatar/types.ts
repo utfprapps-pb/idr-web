@@ -3,7 +3,6 @@ import { HTMLAttributes } from 'react'
 interface Props extends HTMLAttributes<HTMLImageElement> {
 	/**
 	 * The source of the avatar image
-	 *
 	 * @example
 	 * ```tsx
 	 * <Avatar src="https://example.com/avatar.png" />
@@ -13,7 +12,6 @@ interface Props extends HTMLAttributes<HTMLImageElement> {
 
 	/**
 	 * The alt text of the avatar image
-	 *
 	 * @example
 	 * ```tsx
 	 * <Avatar alt="Avatar" />
@@ -23,7 +21,6 @@ interface Props extends HTMLAttributes<HTMLImageElement> {
 
 	/**
 	 * The size of the avatar
-	 *
 	 * @example
 	 * ```tsx
 	 * <Avatar size={50} />
@@ -34,7 +31,6 @@ interface Props extends HTMLAttributes<HTMLImageElement> {
 
 	/**
 	 * The type of the avatar
-	 *
 	 * @example
 	 * ```tsx
 	 * <Avatar type="circle" />

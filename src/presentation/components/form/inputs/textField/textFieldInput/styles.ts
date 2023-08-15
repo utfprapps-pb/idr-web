@@ -28,21 +28,21 @@ export const Input = styled.input<InputProps>`
 	${({ hasError, theme }) =>
 		!hasError &&
 		css`
-			:active,
-			:focus {
+			&:active,
+			&:focus {
 				border: 2px solid ${theme.colors.primary};
 				box-shadow: inset 0px 4px 5px rgba(33, 1, 38, 0.03);
 			}
 		`}
 
-	:disabled {
+	&:disabled {
 		${({ theme }) => css`
 			background-color: ${theme.colors.disabled.background};
 			border: 1px solid ${theme.colors.disabled.border};
 		`}
 	}
 
-	::placeholder {
+	&::placeholder {
 		${({ theme }) => css`
 			color: ${theme.colors.gray};
 			font-size: ${theme.fontSizes.b3};

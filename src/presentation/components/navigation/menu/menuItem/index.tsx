@@ -8,7 +8,8 @@ export const MenuItem: React.FC<PropsWithChildren<MenuItemProps>> = ({
 	active,
 	to
 }) => (
-	<S.MenuItem active={active} to={to}>
+	// Fazer parse para String para evitar erro no console do navegador
+	<S.MenuItem active={String(active)} to={to}>
 		{children}
 	</S.MenuItem>
 )

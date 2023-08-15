@@ -5,7 +5,6 @@ import { Theme } from '@/styles'
 type Props = {
 	/**
 	 * Color of the typography
-	 *
 	 * @example
 	 * ```tsx
 	 * <Typography color="primary" />
@@ -16,7 +15,6 @@ type Props = {
 
 	/**
 	 * Weight of the typography
-	 *
 	 * @example
 	 * ```tsx
 	 * <Typography weight="bold" />
@@ -27,7 +25,6 @@ type Props = {
 
 	/**
 	 * Size of the typography
-	 *
 	 * @example
 	 * ```tsx
 	 * <Typography size="b2" />
@@ -38,7 +35,6 @@ type Props = {
 
 	/**
 	 * Family of the text
-	 *
 	 * @example
 	 * ```tsx
 	 * <Typography family="secondary" />
@@ -49,7 +45,6 @@ type Props = {
 
 	/**
 	 * The class name of the typography
-	 *
 	 * @example
 	 * ```tsx
 	 * <Typography className="my-class" />
@@ -58,8 +53,16 @@ type Props = {
 	className?: string
 
 	/**
+	 * The style of the typography
+	 * @example
+	 * ```tsx
+	 * <Typography styles={{ color: 'red' }} />
+	 * ```
+	 */
+	styles?: React.CSSProperties
+
+	/**
 	 * Function to be called when the text is clicked
-	 *
 	 * @example
 	 * ```tsx
 	 * <Text onClick={() => console.log('Text clicked')} />

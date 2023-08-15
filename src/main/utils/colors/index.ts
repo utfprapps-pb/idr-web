@@ -1,2 +1,2 @@
-export * from '@/main/utils/colors/darken'
-export * from '@/main/utils/colors/lighten'
+export * from './darken'
+export * from './lighten'

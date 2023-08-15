@@ -1,4 +1,5 @@
 import React, {
+	PropsWithChildren,
 	createContext,
 	useCallback,
 	useContext,
@@ -13,7 +14,7 @@ import { InvalidCredentialsError } from '@/domain/errors'
 import { UserModel } from '@/domain/models'
 import { LoginUserParams } from '@/domain/useCases'
 import { LocalStorageAdapter } from '@/infra/cache'
-import { baseAxios } from '@/infra/http'
+import { baseApi } from '@/infra/http'
 import { makeRemoteLoginUser } from '@/main/factories/useCases/user'
 import { useIdrHistory } from '@/presentation/hooks/'
 
@@ -27,9 +28,7 @@ type AuthContextProps = {
 
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps)
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
-	children
-}) => {
+export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const { navigateToSignedBasePath } = useIdrHistory()
 
 	const [authData, setAuthData] = useState<AuthContextProps['auth'] | null>(
@@ -52,7 +51,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
 				const remoteLoginAccount = makeRemoteLoginUser()
 
-				const currentAccount = await remoteLoginAccount.login(params)
+				const currentAccount = await remoteLoginAccount.execute(params)
 
 				setAuthData(currentAccount)
 				navigateToSignedBasePath()
@@ -81,12 +80,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 				authData
 			)
 
-			baseAxios.defaults.headers.Authorization = `Bearer ${authData.token}`
+			baseApi.defaults.headers.Authorization = `Bearer ${authData.token}`
 
 			return
 		}
 
-		delete baseAxios.defaults.headers.Authorization
+		delete baseApi.defaults.headers.Authorization
 		LocalStorageAdapter.set(LocalStorageAdapter.LOCAL_STORAGE_KEYS.AUTH)
 	}, [authData])
 

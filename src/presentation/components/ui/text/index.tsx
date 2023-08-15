@@ -41,6 +41,7 @@ export const Text: React.FC<TextProps> = ({
 	color,
 	fontFamily,
 	className,
+	styles,
 	onClick,
 
 	children
@@ -54,6 +55,7 @@ export const Text: React.FC<TextProps> = ({
 			family={fontFamily}
 			color={color}
 			className={className}
+			styles={styles}
 			onClick={onClick}
 		>
 			{children}

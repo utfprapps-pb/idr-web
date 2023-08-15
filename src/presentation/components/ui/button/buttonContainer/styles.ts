@@ -23,19 +23,18 @@ export const Button = styled.button<{
 
 	padding: 12px 24px;
 
-	${({ buttonTheme, disabled }) =>
-		css`
-			color: ${buttonTheme.color};
-			background: ${buttonTheme.background};
-			border: ${buttonTheme.border};
+	${({ buttonTheme, disabled }) => css`
+		color: ${buttonTheme.color};
+		background: ${buttonTheme.background};
+		border: ${buttonTheme.border};
 
-			${!disabled &&
-			css`
-				&:hover {
-					background: ${buttonTheme.backgroundHover};
-				}
-			`};
-		`}
+		${!disabled &&
+		css`
+			&:hover {
+				background: ${buttonTheme.backgroundHover};
+			}
+		`};
+	`}
 
 	${({ disabled, theme }) =>
 		disabled &&

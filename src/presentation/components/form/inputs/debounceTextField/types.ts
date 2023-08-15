@@ -3,7 +3,6 @@ import { TextFieldProps } from '../textField'
 type Props = {
 	/**
 	 * The label of the input.
-	 *
 	 * @example
 	 * ```tsx
 	 * <DebounceTextField label="Name" />
@@ -13,7 +12,6 @@ type Props = {
 
 	/**
 	 * The debounce time in milliseconds.
-	 *
 	 * @example
 	 * ```tsx
 	 * <DebounceTextField debounce={1000} />
@@ -24,7 +22,6 @@ type Props = {
 
 	/**
 	 * Placeholder of the input.
-	 *
 	 * @example
 	 * ```tsx
 	 * <PasswordInput placeholder="Password" />
@@ -34,7 +31,6 @@ type Props = {
 
 	/**
 	 * Disabled condition of the input.
-	 *
 	 * @example
 	 * ```tsx
 	 * <PasswordInput disabled={false} />
@@ -44,7 +40,6 @@ type Props = {
 
 	/**
 	 * The loading when the debounce is active.
-	 *
 	 * @example
 	 * ```tsx
 	 * <DebounceTextField callbackLoading={true} />
@@ -54,7 +49,6 @@ type Props = {
 
 	/**
 	 * The function to be called after the debounce time.
-	 *
 	 * @example
 	 * ```tsx
 	 * <DebounceTextField callback={() => console.log('Hello World!')} />

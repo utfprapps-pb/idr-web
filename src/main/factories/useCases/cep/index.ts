@@ -1,1 +1,1 @@
-export * from '@/main/factories/useCases/cep/remoteGetCepFactory'
+export * from './remoteGetCepFactory'
