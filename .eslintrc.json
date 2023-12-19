@@ -7,7 +7,8 @@
 		"airbnb",
 		"prettier",
 		"plugin:react-hooks/recommended",
-		"plugin:storybook/recommended"
+		"plugin:storybook/recommended",
+		"plugin:jsdoc/recommended"
 	],
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
