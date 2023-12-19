@@ -1,103 +1,89 @@
 {
 	"env": {
 		"browser": true,
-		"es2021": true,
-		"node": true
+		"es2021": true
 	},
 	"extends": [
-		"plugin:react/recommended",
 		"airbnb",
-		"airbnb-typescript",
-		"plugin:@typescript-eslint/recommended",
 		"prettier",
-		"plugin:storybook/recommended",
-		"plugin:import/errors",
-		"plugin:import/warnings",
-		"plugin:import/typescript",
 		"plugin:react-hooks/recommended",
-		"plugin:jsdoc/recommended"
+		"plugin:storybook/recommended"
 	],
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
-		"ecmaFeatures": {
-			"jsx": true
-		},
 		"ecmaVersion": "latest",
-		"sourceType": "module",
-		"project": "./tsconfig.json"
+		"sourceType": "module"
 	},
-	"plugins": [
-		"react",
-		"@typescript-eslint",
-		"prettier",
-		"jsx-a11y",
-		"react-hooks",
-		"vitest",
-		"jsdoc"
-	],
+	"plugins": ["@typescript-eslint", "prettier", "jsx-a11y"],
 	"rules": {
-		"consistent-return": "off",
-		"class-methods-use-this": "off",
-		"no-restricted-syntax": "off",
 		"prettier/prettier": "error",
-		"space-before-function-paren": "off",
-		"react/prop-types": "off",
-		"react/require-default-props": "off",
-		"react/react-in-jsx-scope": "off",
-		"react/jsx-props-no-spreading": "off",
-		"react/function-component-definition": [
-			2,
-			{ "namedComponents": "arrow-function" }
+		"no-empty": [
+			"error",
+			{
+				"allowEmptyCatch": true
+			}
 		],
-		"react/jsx-filename-extension": [
-			2,
-			{ "extensions": [".js", ".jsx", ".ts", ".tsx"] }
+		"no-useless-constructor": "off",
+		"no-empty-function": [
+			"error",
+			{
+				"allow": ["constructors", "methods", "asyncMethods"]
+			}
 		],
-		"@typescript-eslint/no-explicit-any": "off",
-		"@typescript-eslint/no-unused-vars": "error",
-		"import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
-		"import/prefer-default-export": "off",
-		"import/no-unresolved": "off",
-		"import/no-named-as-default": "off",
-		"import/no-cycle": "error",
+		"no-console": [
+			"warn",
+			{
+				"allow": ["info", "warn", "error"]
+			}
+		],
 		"import/extensions": [
 			"error",
-			"never",
+			"ignorePackages",
 			{
-				"svg": "always"
+				"ts": "never",
+				"tsx": "never"
 			}
 		],
 		"import/order": [
 			"error",
 			{
-				"groups": ["builtin", "external", "internal"],
-				"pathGroups": [
-					{
-						"pattern": "react",
-						"group": "external",
-						"position": "before"
-					}
+				"groups": [
+					"builtin",
+					"external",
+					"internal",
+					"parent",
+					"sibling",
+					"index",
+					"type",
+					"object"
 				],
-				"pathGroupsExcludedImportTypes": ["react"],
-				"newlines-between": "always",
 				"alphabetize": {
 					"order": "asc",
 					"caseInsensitive": true
+				},
+				"newlines-between": "always"
+			}
+		],
+		"@typescript-eslint/naming-convention": [
+			"error",
+			{
+				"selector": "interface",
+				"format": ["PascalCase"],
+				"custom": {
+					"regex": "^I[A-Z]",
+					"match": true
 				}
 			}
 		],
-		"jsx-a11y/alt-text": [
-			"warn",
+		"react/jsx-filename-extension": [
+			1,
 			{
-				"elements": ["img"],
-				"img": ["Image"]
+				"extensions": [".tsx"]
 			}
 		],
-		"jsx-a11y/aria-props": "warn",
-		"jsx-a11y/aria-proptypes": "warn",
-		"jsx-a11y/aria-unsupported-elements": "warn",
-		"jsx-a11y/role-has-required-aria-props": "warn",
-		"jsx-a11y/role-supports-aria-props": "warn"
+		"react/react-in-jsx-scope": "off",
+		"react/jsx-props-no-spreading": "off",
+		"react/jsx-no-bind": "off"
 	},
 	"overrides": [
 		{
@@ -108,10 +94,5 @@
 				"import/no-extraneous-dependencies": "off"
 			}
 		}
-	],
-	"settings": {
-		"react": {
-			"version": "detect"
-		}
-	}
+	]
 }

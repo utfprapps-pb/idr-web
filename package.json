@@ -71,7 +71,7 @@
 	},
 	"lint-staged": {
 		"*.{ts,tsx}": [
-			"pnpm lint:fix"
+			"pnpm lint:check"
 		],
 		"*.{json,js,jsx,ts,tsx,htm,html,md}": "pnpm format:check"
 	},
