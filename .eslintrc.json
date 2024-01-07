@@ -16,6 +16,11 @@
 		"sourceType": "module"
 	},
 	"plugins": ["@typescript-eslint", "prettier", "jsx-a11y"],
+	"settings": {
+		"import/resolver": {
+			"typescript": {}
+		}
+	},
 	"rules": {
 		"prettier/prettier": "error",
 		"no-empty": [
@@ -91,8 +96,15 @@
 			"files": ["*.stories.@(ts|tsx|js|jsx|mjs|cjs)"],
 			"rules": {
 				"storybook/hierarchy-separator": "error",
-				"storybook/default-exports": "off",
-				"import/no-extraneous-dependencies": "off"
+				"import/no-extraneous-dependencies": "off",
+				"react/function-component-definition": "off"
+			},
+			"settings": {
+				"import/resolver": {
+					"node": {
+						"extensions": [".js", ".jsx", ".ts", ".tsx"]
+					}
+				}
 			}
 		}
 	]
