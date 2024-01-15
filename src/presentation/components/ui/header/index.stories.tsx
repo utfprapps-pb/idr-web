@@ -1,13 +1,13 @@
-import React from 'react'
-
 import { Meta, StoryFn } from '@storybook/react/'
 import { CaretDown } from 'phosphor-react'
+import React from 'react'
 
-import { Header } from '.'
 import { Popover } from '../../navigation'
 import { ActionsDropdown } from '../actionsDropdown'
 import { Avatar } from '../avatar'
 import { Text } from '../text'
+
+import { Header } from '.'
 
 export default {
 	title: 'Components/UI/Header',

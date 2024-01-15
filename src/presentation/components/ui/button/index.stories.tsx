@@ -1,7 +1,6 @@
-import React from 'react'
-
 import { Meta, StoryFn } from '@storybook/react/'
 import { GithubLogo } from 'phosphor-react'
+import React from 'react'
 
 import { Button, ButtonProps } from '.'
 
