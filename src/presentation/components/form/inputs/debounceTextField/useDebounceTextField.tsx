@@ -1,7 +1,8 @@
 import { useCallback } from 'react'
 
-import { DebounceTextFieldProps } from './types'
 import { useDebounce } from '@/presentation/hooks'
+
+import { DebounceTextFieldProps } from './types'
 
 export const useDebounceTextField = (props: DebounceTextFieldProps) => {
 	const { debounce = 500, value, onChange, callback } = props

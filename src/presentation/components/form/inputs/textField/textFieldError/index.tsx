@@ -1,5 +1,6 @@
-import * as S from './styles'
 import { useTextFieldContext } from '../contexts/textFieldContext'
+
+import * as S from './styles'
 
 export const TextFieldError: React.FC = () => {
 	const { error } = useTextFieldContext()

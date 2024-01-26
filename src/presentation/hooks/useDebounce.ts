@@ -1,6 +1,6 @@
 import { DependencyList, useEffect } from 'react'
 
-import { useTimeoutFn } from '@/presentation/hooks'
+import { useTimeoutFn } from './useTimeout'
 
 export type UseDebounceReturn = {
 	isReady: () => boolean | null

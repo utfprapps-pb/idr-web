@@ -3,8 +3,9 @@ import { ElementType } from 'react'
 import { IconProps } from 'phosphor-react'
 import { useTheme } from 'styled-components'
 
-import * as S from './styles'
 import { useTextFieldContext } from '../contexts/textFieldContext'
+
+import * as S from './styles'
 
 type TextFieldIconProps = {
 	/**

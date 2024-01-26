@@ -3,11 +3,12 @@ import { useCallback, useState } from 'react'
 import { AxiosError } from 'axios'
 import { toast } from 'react-hot-toast'
 
-import { SignUpPageProps } from './types'
 import { CreateUserModel } from '@/domain/models'
-import { ROUTES } from '@/main/routes'
+import { PAGE_PATHS } from '@/main/routes/paths'
 import { onlyNumbersMask } from '@/masker'
 import { useHandleValidate, useIdrHistory } from '@/presentation/hooks'
+
+import { SignUpPageProps } from './types'
 
 const INITIAL_FORM_DATA: CreateUserModel = {
 	name: '',
@@ -43,7 +44,7 @@ export const useSignUp = (props: SignUpPageProps) => {
 	})
 
 	const goToLoginPage = useCallback(
-		() => navigate(ROUTES.login.path()),
+		() => navigate(PAGE_PATHS.login),
 		[navigate]
 	)
 

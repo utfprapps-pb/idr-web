@@ -1,8 +1,9 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 
+import { useTextFieldContext } from '../contexts/textFieldContext'
+
 import * as S from './styles'
 import { TextFieldInputProps } from './types'
-import { useTextFieldContext } from '../contexts/textFieldContext'
 
 const MIN_PADDING = 16
 

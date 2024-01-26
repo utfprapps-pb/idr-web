@@ -1,12 +1,12 @@
-import { HttpClient, HttpStatusCode } from '@/data/protocols/http'
+import { IHttpClient, HttpStatusCode } from '@/data/protocols/http'
 import { InvalidCredentialsError, UnexpectedError } from '@/domain/errors'
 import { UserModel } from '@/domain/models'
-import { LoginUser, LoginUserParams } from '@/domain/useCases'
+import { ILoginUser, LoginUserParams } from '@/domain/useCases'
 
-export class RemoteLoginUser implements LoginUser {
+export class RemoteLoginUser implements ILoginUser {
 	constructor(
 		private readonly url: string,
-		private readonly httpClient: HttpClient<UserModel>
+		private readonly httpClient: IHttpClient<UserModel>
 	) {}
 
 	async execute(params: LoginUserParams): Promise<UserModel> {

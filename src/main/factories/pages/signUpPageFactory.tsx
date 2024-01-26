@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { makeRemoteGetCep } from '@/main/factories/useCases/cep'
 import { makeRemoteCreateUser } from '@/main/factories/useCases/user'
 import { makeSignUpValidation } from '@/main/factories/validations'

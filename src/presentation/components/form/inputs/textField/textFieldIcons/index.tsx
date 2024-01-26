@@ -2,10 +2,11 @@ import { PropsWithChildren } from 'react'
 
 import { WarningCircle } from 'phosphor-react'
 
-import * as S from './styles'
-import { Props } from './types'
 import { useTextFieldContext } from '../contexts/textFieldContext'
 import { TextFieldIcon } from '../textFieldIcon'
+
+import * as S from './styles'
+import { Props } from './types'
 
 export const TextFieldIcons: React.FC<PropsWithChildren<Props>> = ({
 	children,

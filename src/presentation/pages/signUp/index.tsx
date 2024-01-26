@@ -1,7 +1,3 @@
-import React from 'react'
-
-import { SignUpPageProps } from './types'
-import { useSignUp } from './useSignUp'
 import { CreateUserModel } from '@/domain/models'
 import { cepMask, cpfMask, onlyNumbersMask, phoneMask } from '@/masker'
 import {
@@ -13,6 +9,9 @@ import {
 import { Button, Loading } from '@/presentation/components/ui'
 import { useHandleChangeFormData } from '@/presentation/hooks'
 import { AuthContainerTemplate } from '@/presentation/templates'
+
+import { SignUpPageProps } from './types'
+import { useSignUp } from './useSignUp'
 
 export const SignUpPage: React.FC<SignUpPageProps> = (props) => {
 	const {

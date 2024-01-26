@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
 
-import { HttpClient, HttpRequest, HttpResponse } from '@/data/protocols/http'
+import { IHttpClient, HttpRequest, HttpResponse } from '@/data/protocols/http'
 import { env } from '@/main/env'
 
 export const baseApi = axios.create({
@@ -12,7 +12,7 @@ export const baseApi = axios.create({
 	validateStatus: (status: number) => status >= 200 && status < 300
 })
 
-export class ApiHttpClient<T = unknown> implements HttpClient<T> {
+export class ApiHttpClient<T = unknown> implements IHttpClient<T> {
 	async request(data: HttpRequest): Promise<HttpResponse<T>> {
 		let axiosResponse: AxiosResponse
 

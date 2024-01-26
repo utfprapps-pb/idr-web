@@ -1,12 +1,12 @@
-import { HttpClient, HttpStatusCode } from '@/data/protocols/http'
+import { IHttpClient, HttpStatusCode } from '@/data/protocols/http'
 import { UnexpectedError } from '@/domain/errors'
 import { CreateUserModel } from '@/domain/models'
-import { CreateUser } from '@/domain/useCases'
+import { ICreateUser } from '@/domain/useCases'
 
-export class RemoteCreateUser implements CreateUser {
+export class RemoteCreateUser implements ICreateUser {
 	constructor(
 		private readonly url: string,
-		private readonly httpClient: HttpClient<void>
+		private readonly httpClient: IHttpClient<void>
 	) {}
 
 	async execute(params: CreateUserModel): Promise<void> {

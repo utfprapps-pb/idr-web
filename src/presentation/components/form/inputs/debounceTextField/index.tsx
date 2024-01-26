@@ -1,8 +1,9 @@
 import { XCircle } from 'phosphor-react'
 
+import { TextField } from '../textField'
+
 import { DebounceTextFieldProps } from './types'
 import { useDebounceTextField } from './useDebounceTextField'
-import { TextField } from '../textField'
 
 export * from './types'
 

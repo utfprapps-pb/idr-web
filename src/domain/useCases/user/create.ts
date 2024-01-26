@@ -1,5 +1,5 @@
 import { CreateUserModel } from '@/domain/models'
 
-export interface CreateUser {
+export interface ICreateUser {
 	execute: (params: CreateUserModel) => Promise<void>
 }

@@ -1,8 +1,9 @@
 import { forwardRef, useMemo } from 'react'
 
+import { buttonThemes } from '../theme'
+
 import * as S from './styles'
 import { ButtonProps } from './types'
-import { buttonThemes } from '../theme'
 
 export const ButtonContainer = forwardRef<HTMLButtonElement, ButtonProps>(
 	(

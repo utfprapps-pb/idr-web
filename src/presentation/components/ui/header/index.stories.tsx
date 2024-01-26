@@ -1,6 +1,5 @@
 import { Meta, StoryFn } from '@storybook/react/'
 import { CaretDown } from 'phosphor-react'
-import React from 'react'
 
 import { Popover } from '../../navigation'
 import { ActionsDropdown } from '../actionsDropdown'

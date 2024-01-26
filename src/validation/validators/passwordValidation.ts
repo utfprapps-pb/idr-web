@@ -1,9 +1,9 @@
 import isStrongPassword from 'validator/es/lib/isStrongPassword'
 
 import { InvalidFieldError } from '../errors'
-import { FieldValidation } from '../protocols'
+import { IFieldValidation } from '../protocols'
 
-export class PasswordValidation implements FieldValidation {
+export class PasswordValidation implements IFieldValidation {
 	constructor(readonly field: string) {}
 
 	validate(input: object): Error | null {

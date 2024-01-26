@@ -1,7 +1,6 @@
-import React from 'react'
+import { Text } from '../../text'
 
 import { ActionsDropdownItemProps } from './types'
-import { Text } from '../../text'
 
 export const ActionsDropdownItem: React.FC<ActionsDropdownItemProps> = ({
 	text

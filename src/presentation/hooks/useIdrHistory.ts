@@ -1,12 +1,11 @@
 import { useNavigate } from 'react-router-dom'
 
-export const useIdrHistory = () => {
-	const basePath = '/login'
-	const signedBasePath = '/'
+import { PAGE_PATHS } from '@/main/routes/paths'
 
+export const useIdrHistory = () => {
 	const navigate = useNavigate()
-	const navigateToBasePath = () => navigate(basePath)
-	const navigateToSignedBasePath = () => navigate(signedBasePath)
+	const navigateToBasePath = () => navigate(PAGE_PATHS.login)
+	const navigateToSignedBasePath = () => navigate(PAGE_PATHS.dashboard)
 
 	return {
 		navigate,

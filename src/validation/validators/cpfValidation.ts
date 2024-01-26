@@ -1,7 +1,7 @@
 import { InvalidFieldError } from '../errors'
-import { FieldValidation } from '../protocols'
+import { IFieldValidation } from '../protocols'
 
-export class CpfValidation implements FieldValidation {
+export class CpfValidation implements IFieldValidation {
 	constructor(readonly field: string) {}
 
 	isCpf(cpf: string): boolean {

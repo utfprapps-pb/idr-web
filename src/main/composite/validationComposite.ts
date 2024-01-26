@@ -1,10 +1,10 @@
-import { Validation } from '@/presentation/protocols'
-import { FieldValidation } from '@/validation/protocols'
+import { IValidation } from '@/presentation/protocols'
+import { IFieldValidation } from '@/validation/protocols'
 
-export class ValidationComposite implements Validation {
-	private constructor(private readonly validators: FieldValidation[]) {}
+export class ValidationComposite implements IValidation {
+	private constructor(private readonly validators: IFieldValidation[]) {}
 
-	static build(validators: FieldValidation[]): ValidationComposite {
+	static build(validators: IFieldValidation[]): ValidationComposite {
 		return new ValidationComposite(validators)
 	}
 

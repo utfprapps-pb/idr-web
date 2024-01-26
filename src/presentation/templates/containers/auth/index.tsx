@@ -1,10 +1,9 @@
-import React from 'react'
-
 import { GithubLogo } from 'phosphor-react'
+
+import { Text } from '@/presentation/components/ui'
 
 import * as S from './styles'
 import { AuthContainerTemplateProps } from './types'
-import { Text } from '@/presentation/components/ui'
 
 export const AuthContainerTemplate: React.FC<AuthContainerTemplateProps> = ({
 	title,

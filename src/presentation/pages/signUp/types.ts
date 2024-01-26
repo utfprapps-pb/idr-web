@@ -1,9 +1,9 @@
-import { CreateUser } from '@/domain/useCases'
-import { GetCep } from '@/domain/useCases/cep'
+import { ICreateUser } from '@/domain/useCases'
+import { IGetCep } from '@/domain/useCases/cep'
 import { ValidationComposite } from '@/main/composite'
 
 export type SignUpPageProps = {
-	createUser: CreateUser
-	getCep: GetCep
+	createUser: ICreateUser
+	getCep: IGetCep
 	validation: ValidationComposite
 }

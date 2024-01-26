@@ -1,5 +1,6 @@
 import { darken, lighten } from '@/main/utils'
-import { Theme } from '@/styles'
+
+import { ITheme } from './theme.type'
 
 const breakpoints = Object.freeze({
 	xsmall: 600,
@@ -10,7 +11,7 @@ const breakpoints = Object.freeze({
 
 const extractBreakpointValue = (breakpoint: number) => `${breakpoint}px`
 
-export const theme: Theme = {
+export const theme: ITheme = {
 	colors: {
 		primary: '#0B71B9',
 		secondary: '#038657',

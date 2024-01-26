@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 
-import { MenuItemStyledProps } from './types'
 import { lighten } from '@/main/utils'
+
+import { MenuItemStyledProps } from './types'
 
 export const MenuItem = styled(Link)<MenuItemStyledProps>`
 	all: unset;

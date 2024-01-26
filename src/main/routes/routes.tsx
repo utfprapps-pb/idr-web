@@ -1,14 +1,13 @@
-import React from 'react'
-
 import { MakeLoginPage, MakeSignUpPage } from '@/main/factories/pages'
 import { PrivateRouteProxy } from '@/main/proxies'
+
+import { Pages } from './pages.type'
+import { PAGE_PATHS } from './paths'
 
 type RouteProps = {
 	path: () => string
 	component: React.ReactNode
 }
-
-type Pages = 'login' | 'signUp' | 'dashboard' | 'animals'
 
 type RoutesProps = {
 	[key in Pages]: RouteProps
@@ -16,15 +15,15 @@ type RoutesProps = {
 
 export const ROUTES = Object.freeze<RoutesProps>({
 	login: {
-		path: () => '/login',
+		path: () => PAGE_PATHS.login,
 		component: <MakeLoginPage />
 	},
 	signUp: {
-		path: () => '/signUp',
+		path: () => PAGE_PATHS.signUp,
 		component: <MakeSignUpPage />
 	},
 	dashboard: {
-		path: () => '/',
+		path: () => PAGE_PATHS.dashboard,
 		component: (
 			<PrivateRouteProxy>
 				<h1>Under construction!</h1>
@@ -32,7 +31,7 @@ export const ROUTES = Object.freeze<RoutesProps>({
 		)
 	},
 	animals: {
-		path: () => '/animals',
+		path: () => PAGE_PATHS.animals,
 		component: (
 			<PrivateRouteProxy>
 				<h1>Animals</h1>

@@ -1,4 +1,4 @@
-import React, { ElementType } from 'react'
+import { ElementType } from 'react'
 
 import { IconProps } from 'phosphor-react'
 import styled from 'styled-components'

@@ -1,9 +1,10 @@
-import React, { useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { Eye, EyeClosed } from 'phosphor-react'
 
-import { PasswordInputProps } from './types'
 import { TextField } from '../textField'
+
+import { PasswordInputProps } from './types'
 
 export * from './types'
 

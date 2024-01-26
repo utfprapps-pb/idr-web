@@ -1,9 +1,9 @@
 import isMobilePhone from 'validator/es/lib/isMobilePhone'
 
 import { InvalidFieldError } from '../errors'
-import { FieldValidation } from '../protocols'
+import { IFieldValidation } from '../protocols'
 
-export class PhoneValidation implements FieldValidation {
+export class PhoneValidation implements IFieldValidation {
 	constructor(readonly field: string) {}
 
 	validate(input: object): Error | null {

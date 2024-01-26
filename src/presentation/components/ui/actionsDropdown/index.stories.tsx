@@ -1,6 +1,5 @@
 import { Meta, StoryFn } from '@storybook/react/'
 import { GithubLogo, InstagramLogo, YoutubeLogo } from 'phosphor-react'
-import React from 'react'
 
 import { ActionsDropdown } from '.'
 

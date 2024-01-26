@@ -1,7 +1,7 @@
 import { InvalidFieldError } from '../errors'
-import { FieldValidation } from '../protocols'
+import { IFieldValidation } from '../protocols'
 
-export class YearValidation implements FieldValidation {
+export class YearValidation implements IFieldValidation {
 	constructor(readonly field: string) {}
 
 	validate(input: object): Error | null {

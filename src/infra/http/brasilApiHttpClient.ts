@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
 
-import { HttpClient, HttpRequest, HttpResponse } from '@/data/protocols/http'
+import { IHttpClient, HttpRequest, HttpResponse } from '@/data/protocols/http'
 
 export const brasilApi = axios.create({
 	baseURL: 'https://brasilapi.com.br/api/',
@@ -11,7 +11,7 @@ export const brasilApi = axios.create({
 	validateStatus: (status: number) => status >= 200 && status < 300
 })
 
-export class BrasilApiHttpClient<T = unknown> implements HttpClient<T> {
+export class BrasilApiHttpClient<T = unknown> implements IHttpClient<T> {
 	async request(data: HttpRequest): Promise<HttpResponse<T>> {
 		let axiosResponse: AxiosResponse
 

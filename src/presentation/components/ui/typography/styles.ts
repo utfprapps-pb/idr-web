@@ -1,12 +1,12 @@
 import styled from 'styled-components'
 
-import { Theme } from '@/styles/themes'
+import { ITheme } from '@/styles/themes'
 
 export const Text = styled.div<{
-	color: keyof Theme['colors']
-	weight: keyof Theme['fontWeights']
-	size: keyof Theme['fontSizes']
-	family: keyof Theme['fontFamily']
+	color: keyof ITheme['colors']
+	weight: keyof ITheme['fontWeights']
+	size: keyof ITheme['fontSizes']
+	family: keyof ITheme['fontFamily']
 	hasOnClick?: boolean
 }>`
 	color: ${(props) => props.theme.colors[props.color]};

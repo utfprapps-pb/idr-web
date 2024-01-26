@@ -1,12 +1,12 @@
-import { HttpClient, HttpStatusCode } from '@/data/protocols/http'
+import { IHttpClient, HttpStatusCode } from '@/data/protocols/http'
 import { UnexpectedError, NotFoundError } from '@/domain/errors'
 import { CepModel } from '@/domain/models'
-import { GetCep } from '@/domain/useCases/cep'
+import { IGetCep } from '@/domain/useCases/cep'
 
-export class RemoteGetCep implements GetCep {
+export class RemoteGetCep implements IGetCep {
 	constructor(
 		private readonly url: string,
-		private readonly httpClient: HttpClient<CepModel>
+		private readonly httpClient: IHttpClient<CepModel>
 	) {}
 
 	async execute(cep: string): Promise<CepModel> {

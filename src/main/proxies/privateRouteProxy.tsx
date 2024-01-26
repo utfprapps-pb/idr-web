@@ -1,12 +1,12 @@
-import React, { PropsWithChildren, useMemo } from 'react'
+import { PropsWithChildren, useMemo } from 'react'
 
 import { CaretDown, SignOut, UserCircle } from 'phosphor-react'
 import { toast } from 'react-hot-toast'
 import { Navigate, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { menuItems, ROUTES } from '../routes'
 import { uiAvatarsApi } from '@/infra/http'
+import { menuItems } from '@/main/routes/menu'
 import { Menu, Popover } from '@/presentation/components/navigation'
 import { Header, Text } from '@/presentation/components/ui'
 import {
@@ -16,6 +16,8 @@ import {
 import { Avatar } from '@/presentation/components/ui/avatar'
 import { LoggedContainer } from '@/presentation/containers'
 import { useAuth } from '@/presentation/store'
+
+import { PAGE_PATHS } from '../routes/paths'
 
 type HeaderItems = ActionsDropdownProps['Item'][]
 
@@ -101,5 +103,5 @@ export const PrivateRouteProxy: React.FC<PropsWithChildren> = ({
 			</Main>
 		)
 
-	return <Navigate to={ROUTES.login.path()} />
+	return <Navigate to={PAGE_PATHS.login} />
 }

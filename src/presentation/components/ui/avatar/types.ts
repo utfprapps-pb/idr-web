@@ -1,6 +1,6 @@
 import { HTMLAttributes } from 'react'
 
-interface Props extends HTMLAttributes<HTMLImageElement> {
+interface IProps extends HTMLAttributes<HTMLImageElement> {
 	/**
 	 * The source of the avatar image
 	 * @example
@@ -40,4 +40,4 @@ interface Props extends HTMLAttributes<HTMLImageElement> {
 	type?: 'circle' | 'square'
 }
 
-export type AvatarProps = Props
+export type AvatarProps = IProps

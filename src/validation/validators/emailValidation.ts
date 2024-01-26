@@ -1,9 +1,9 @@
 import isEmail from 'validator/es/lib/isEmail'
 
 import { InvalidFieldError } from '../errors'
-import { FieldValidation } from '../protocols'
+import { IFieldValidation } from '../protocols'
 
-export class EmailValidation implements FieldValidation {
+export class EmailValidation implements IFieldValidation {
 	constructor(readonly field: string) {}
 
 	validate(input: object): Error | null {

@@ -1,4 +1,4 @@
-import { FieldValidation } from '@/validation/protocols'
+import { IFieldValidation } from '@/validation/protocols'
 import {
 	CompareFieldsValidation,
 	CpfValidation,
@@ -13,7 +13,7 @@ import {
 export class ValidationBuilder {
 	private constructor(
 		private readonly fieldName: string,
-		private readonly validations: FieldValidation[]
+		private readonly validations: IFieldValidation[]
 	) {}
 
 	static field<T extends string = string>(fieldName: T): ValidationBuilder {
@@ -62,7 +62,7 @@ export class ValidationBuilder {
 		return this
 	}
 
-	build(): FieldValidation[] {
+	build(): IFieldValidation[] {
 		return this.validations
 	}
 }

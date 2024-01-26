@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react'
 
-import { Theme } from '@/styles'
+import { ITheme } from '@/styles/themes'
 
 type Props = {
 	/**
@@ -10,7 +10,7 @@ type Props = {
 	 * <Text size="b1" />
 	 * ```
 	 */
-	size: keyof Theme['fontSizes']
+	size: keyof ITheme['fontSizes']
 
 	/**
 	 * Color of the text
@@ -19,7 +19,7 @@ type Props = {
 	 * <Text color="primary" />
 	 * ```
 	 */
-	color?: keyof Theme['colors']
+	color?: keyof ITheme['colors']
 
 	/**
 	 * The family of the font
@@ -28,7 +28,7 @@ type Props = {
 	 * <Text fontFamily="secondary" />
 	 * ```
 	 */
-	fontFamily?: keyof Theme['fontFamily']
+	fontFamily?: keyof ITheme['fontFamily']
 
 	/**
 	 * The class name of the text
@@ -61,7 +61,7 @@ type Props = {
 export type TextProps = PropsWithChildren<Props>
 
 export type DesignSystemMapperProps = {
-	[key in keyof Theme['fontSizes']]: {
-		weight: keyof Theme['fontWeights']
+	[key in keyof ITheme['fontSizes']]: {
+		weight: keyof ITheme['fontWeights']
 	}
 }

@@ -1,14 +1,13 @@
-import React from 'react'
-
 import { EnvelopeSimple, LockKey } from 'phosphor-react'
 
-import { useLogin } from './useLogin'
 import { LoginUserParams } from '@/domain/useCases'
-import { ROUTES } from '@/main/routes'
+import { PAGE_PATHS } from '@/main/routes/paths'
 import { PasswordInput, TextField } from '@/presentation/components/form'
 import { Button, Loading } from '@/presentation/components/ui'
 import { useHandleChangeFormData, useIdrHistory } from '@/presentation/hooks'
 import { AuthContainerTemplate } from '@/presentation/templates'
+
+import { useLogin } from './useLogin'
 
 export const LoginPage: React.FC = () => {
 	const { loading, formData, setFormData, handleSubmit } = useLogin()
@@ -69,7 +68,7 @@ export const LoginPage: React.FC = () => {
 
 						<Button.Root>
 							<Button.Container
-								onClick={() => navigate(ROUTES.signUp.path())}
+								onClick={() => navigate(PAGE_PATHS.signUp)}
 								disabled={loading}
 								theme="outline"
 							>

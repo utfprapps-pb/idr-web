@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react'
 
-import { Theme } from '@/styles'
+import { ITheme } from '@/styles/themes'
 
 type Props = {
 	/**
@@ -11,7 +11,7 @@ type Props = {
 	 * ```
 	 * @default 'white'
 	 */
-	color?: keyof Theme['colors']
+	color?: keyof ITheme['colors']
 
 	/**
 	 * Weight of the typography
@@ -21,7 +21,7 @@ type Props = {
 	 * ```
 	 * @default 'regular'
 	 */
-	weight?: keyof Theme['fontWeights']
+	weight?: keyof ITheme['fontWeights']
 
 	/**
 	 * Size of the typography
@@ -31,7 +31,7 @@ type Props = {
 	 * ```
 	 * @default 'b1'
 	 */
-	size?: keyof Theme['fontSizes']
+	size?: keyof ITheme['fontSizes']
 
 	/**
 	 * Family of the text
@@ -41,7 +41,7 @@ type Props = {
 	 * ```
 	 * @default 'primary'
 	 */
-	family?: keyof Theme['fontFamily']
+	family?: keyof ITheme['fontFamily']
 
 	/**
 	 * The class name of the typography

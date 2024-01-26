@@ -1,7 +1,8 @@
-import { InvalidFieldError } from '../errors/invalidFieldError'
-import { FieldValidation } from '@/validation/protocols'
+import { IFieldValidation } from '@/validation/protocols'
 
-export class CompareFieldsValidation implements FieldValidation {
+import { InvalidFieldError } from '../errors/invalidFieldError'
+
+export class CompareFieldsValidation implements IFieldValidation {
 	constructor(
 		readonly field: string,
 		private readonly fieldToCompare: string

@@ -1,5 +1,5 @@
 import { CepModel } from '@/domain/models'
 
-export interface GetCep {
+export interface IGetCep {
 	execute: (cep: string) => Promise<CepModel>
 }
