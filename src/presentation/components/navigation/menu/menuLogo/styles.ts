@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { darken } from '@/main/utils'
+import { darken } from '@/main/utils/colors'
 
 export const Logo = styled.div`
 	display: grid;
