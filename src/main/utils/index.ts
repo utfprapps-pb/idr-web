@@ -1,2 +1,2 @@
-export * from './colors'
 export * from './time'
+export * from './tailwind'
