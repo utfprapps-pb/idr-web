@@ -1,8 +1,10 @@
+import { ComponentPropsWithRef } from 'react'
+
 import { VariantProps } from 'class-variance-authority'
 
 import { buttonVariants } from './styles'
 
-export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
+export type ButtonProps = ComponentPropsWithRef<'button'> &
 	VariantProps<typeof buttonVariants> & {
 		asChild?: boolean
 	}
