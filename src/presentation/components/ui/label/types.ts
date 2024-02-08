@@ -5,8 +5,7 @@ import { VariantProps } from 'class-variance-authority'
 
 import { labelVariants } from './styles'
 
-export type HtmlLabelProps = React.ElementRef<typeof LabelPrimitive.Root>
-export type LabelProps = React.ComponentPropsWithoutRef<
+export type LabelProps = React.ComponentPropsWithRef<
 	typeof LabelPrimitive.Root
 > &
 	VariantProps<typeof labelVariants>
