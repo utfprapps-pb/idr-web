@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	darkMode: ['class', '[data-mode="dark"]'],
-	content: ['./src/presentation/**/*.{ts,tsx}'],
+	content: ['./index.html', './src/presentation/**/*.{ts,tsx}'],
 	prefix: '',
 	theme: {
 		container: {
@@ -66,6 +66,9 @@ module.exports = {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				}
+			},
+			fontFamily: {
+				primary: ['var(--font-primary)', 'var(--font-primary-fallback)']
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
