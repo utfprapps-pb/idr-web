@@ -25,6 +25,7 @@
 		}
 	},
 	"rules": {
+		"jsdoc/tag-lines": ["warn", "always", { "endLines": 1, "startLines": 2 }],
 		"prettier/prettier": "error",
 		"no-empty": [
 			"error",
