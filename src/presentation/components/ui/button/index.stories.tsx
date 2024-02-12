@@ -1,26 +1,14 @@
 import { Meta, StoryFn } from '@storybook/react/'
-import { GithubLogo } from 'phosphor-react'
 
-import { Button, ButtonProps } from '.'
+import { Button, type ButtonProps } from '.'
 
 export default {
 	title: 'Components/UI/Button',
-	component: Button.Root
+	component: Button
 } as Meta
 
 const Template: StoryFn<ButtonProps> = (args) => (
-	<Button.Root>
-		<Button.Container {...args}>
-			<Button.Icon icon={GithubLogo} />
-			Label example
-		</Button.Container>
-	</Button.Root>
+	<Button {...args}>Click me!</Button>
 )
 
 export const Default = Template.bind({})
-Default.args = {
-	disabled: false,
-	onClick: () => null,
-	theme: 'primary',
-	type: 'button'
-}

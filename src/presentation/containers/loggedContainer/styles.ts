@@ -1,7 +1,8 @@
-import styled from 'styled-components'
+import { StylesProps } from './types'
 
-export const Content = styled.section`
-	grid-area: Content;
-	padding: 34px;
-	overflow-y: auto;
-`
+export const styles: StylesProps = {
+	inline: {
+		gridArea: 'Content'
+	},
+	className: ['p-8', 'overflow-y-auto']
+}

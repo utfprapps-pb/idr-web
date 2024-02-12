@@ -1,4 +1,7 @@
-import { withResetStyle, withRouter, withTheme } from './decorators'
+import { withThemeByClassName } from '@storybook/addon-themes'
+
+import '../src/styles/globals.css'
+import { withRouter } from './decorators'
 
 export const parameters = {
 	backgrounds: {
@@ -13,4 +16,13 @@ export const parameters = {
 	}
 }
 
-export const decorators = [withResetStyle, withTheme, withRouter]
+export const decorators = [
+	withRouter,
+	withThemeByClassName({
+		themes: {
+			light: 'light',
+			dark: 'dark'
+		},
+		defaultTheme: 'light'
+	})
+]

@@ -1,3 +1,12 @@
-import { PropsWithChildren } from 'react'
+import { CSSProperties, PropsWithChildren } from 'react'
 
-export type LoggedContainerProps = PropsWithChildren
+import { ClassValue } from 'clsx'
+
+type SectionProps = React.HTMLAttributes<HTMLDivElement>
+
+export type LoggedContainerProps = PropsWithChildren<SectionProps>
+
+export type StylesProps = {
+	inline: CSSProperties
+	className: ClassValue[]
+}
