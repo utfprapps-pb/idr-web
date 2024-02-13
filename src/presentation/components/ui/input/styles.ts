@@ -1,6 +1,6 @@
-import { ClassValue } from 'clsx'
+import clsx from 'clsx'
 
-export const styles: ClassValue[] = [
+export const styles = clsx`
 	'flex h-10 w-full',
 	'rounded-md border border-slate-300',
 	'px-3 py-2',
@@ -10,4 +10,4 @@ export const styles: ClassValue[] = [
 	'placeholder:text-slate-400',
 	'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400',
 	'disabled:cursor-not-allowed disabled:opacity-50'
-]
+`
