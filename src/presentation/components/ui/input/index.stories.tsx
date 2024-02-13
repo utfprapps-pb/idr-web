@@ -1,7 +1,6 @@
 import { Meta, StoryFn } from '@storybook/react/'
 
-import { Input } from './input'
-import { InputProps } from './types'
+import { Input, InputProps } from '.'
 
 export default {
 	title: 'Components/UI/Input',
