@@ -3,7 +3,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 
-import { Compose } from '@/presentation/components/ui'
+import { Compose } from '@/presentation/components/utils'
 
 import { App } from './App'
 import { AuthProvider } from './presentation/store'
