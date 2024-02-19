@@ -7,7 +7,7 @@ import { cn } from '@/main/utils'
 import { labelVariants } from './styles'
 import { LabelProps } from './types'
 
-const Label: React.FC<LabelProps> = ({ className, ...props }, ref) => (
+const Label: React.FC<LabelProps> = ({ className, ref, ...props }) => (
 	<LabelPrimitive.Root
 		ref={ref}
 		className={cn(labelVariants(), className)}
