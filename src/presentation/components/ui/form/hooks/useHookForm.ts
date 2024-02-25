@@ -1,68 +1,45 @@
-import { yupResolver } from '@hookform/resolvers/yup'
-import { zodResolver, Resolver } from '@hookform/resolvers/zod'
-import { FieldValues, UseFormProps, useForm } from 'react-hook-form'
-import * as yup from 'yup'
-import { z } from 'zod'
+import {
+	DefaultValues,
+	FieldValues,
+	Resolver,
+	UseFormProps,
+	useForm
+} from 'react-hook-form'
 
-type UseHookFormProps<
-	TSchema,
-	TSchemaResolver extends Function,
-	TDefaultValues extends FieldValues
-> = UseFormProps<TDefaultValues> & {
-	schema: TSchema
-	schemaResolver: TSchemaResolver
+type UseHookFormProps<TDefaultValues extends FieldValues> = {
+	values?: UseFormProps<TDefaultValues>['values']
+	defaultValues?: DefaultValues<TDefaultValues>
+	schemaResolver?: Resolver<TDefaultValues>
 }
 
-export const useHookForm = <
-	TSchema,
-	TSchemaResolver extends Function,
-	TDefaultValues extends FieldValues
->({
-	schema,
-	schemaResolver,
-	...props
-}: UseHookFormProps<TSchema, TSchemaResolver, TDefaultValues>) => {
+export const useHookForm = <TDefaultValues extends FieldValues>({
+	values,
+	defaultValues,
+	schemaResolver
+}: UseHookFormProps<TDefaultValues>) => {
 	const form = useForm<TDefaultValues>({
-		...props,
-		resolver: schemaResolver(schema)
+		mode: 'all',
+		defaultValues,
+		values,
+		resolver: schemaResolver
 	})
 
-	const formValues = form.getValues()
+	const {
+		formState: { isSubmitting, isValidating },
+		handleSubmit
+	} = form
 
-	const resetForm = () => form.reset()
+	const buttonDisabled = isSubmitting || isValidating
 
-	// const isEmpty = () =>
-	// 	Object.keys(formValues).some((key: string) => {
-	// 		const value = form[key as keyof T]
-	// 	})
+	const onSubmit = (successCallback: (data: TDefaultValues) => void) =>
+		handleSubmit(successCallback, () => {
+			// Todo @Minozzzi 22/02/24: refactor with toast component
+			console.error(`Campos do formulário inválidos`)
+		})
 
 	return {
-		resetForm
+		...form,
+		handleSubmit: onSubmit,
+		buttonDisabled
 	}
 }
-
-const zodSchema = z.object({
-	name: z.string()
-})
-
-const yupSchema = yup.object({
-	name: yup.string()
-})
-
-type UserZod = z.infer<typeof zodSchema>
-
-type UserYup = yup.InferType<typeof yupSchema>
-
-const zodForm = useHookForm<z.Schema, Resolver, UserZod>({
-	schema: zodSchema,
-	schemaResolver: zodResolver
-})
-
-const yupForm = useHookForm<
-	yup.ObjectSchema<UserYup>,
-	typeof yupResolver,
-	UserYup
->({
-	schema: yupSchema,
-	schemaResolver: yupResolver
-})
