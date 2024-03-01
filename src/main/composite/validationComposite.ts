@@ -1,4 +1,4 @@
-import { IValidation } from '@/presentation/protocols'
+import { ErrorDef, IValidation, Validate } from '@/presentation/protocols'
 import { IFieldValidation } from '@/validation/protocols'
 
 export class ValidationComposite implements IValidation {
@@ -8,21 +8,28 @@ export class ValidationComposite implements IValidation {
 		return new ValidationComposite(validators)
 	}
 
-	validate(params: { fieldName: string; input: object }): string | null {
-		const { fieldName, input } = params
+	validate: Validate = ({ data }) => {
+		const fields = Object.keys(data)
 
-		const validators = this.validators.filter(
-			(validator) => validator.field === fieldName
-		)
+		let errors: ErrorDef = {}
 
-		for (const validator of validators) {
-			const error = validator.validate(input)
+		for (const fieldName of fields) {
+			const validators = this.validators.filter(
+				(validator) => validator.field === fieldName
+			)
 
-			if (error) {
-				return error.message
+			for (const validator of validators) {
+				const error = validator.validate(data)
+
+				if (error) {
+					errors = { ...errors, [fieldName]: { message: error.message } }
+				}
 			}
 		}
 
-		return null
+		return {
+			errors,
+			values: data
+		}
 	}
 }
