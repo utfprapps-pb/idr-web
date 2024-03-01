@@ -1,15 +1,13 @@
-import { ComponentPropsWithRef } from 'react'
+import React from 'react'
 
 import { cn } from '@/main/utils'
 
 import { useFormField } from './hooks/useFormField'
 
-export const Message: React.FC<ComponentPropsWithRef<'p'>> = ({
-	className,
-	children,
-	ref,
-	...props
-}) => {
+export const Message = React.forwardRef<
+	HTMLParagraphElement,
+	React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, children, ...props }, ref) => {
 	const { error, formMessageId } = useFormField()
 	const body = error ? String(error?.message) : children
 
@@ -27,6 +25,6 @@ export const Message: React.FC<ComponentPropsWithRef<'p'>> = ({
 			{body}
 		</p>
 	)
-}
+})
 
 Message.displayName = 'FormMessage'

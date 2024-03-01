@@ -1,14 +1,13 @@
-import React, { ComponentPropsWithRef } from 'react'
+import React from 'react'
 
 import { cn } from '@/main/utils'
 
 import { useFormField } from './hooks/useFormField'
 
-export const Description: React.FC<ComponentPropsWithRef<'p'>> = ({
-	className,
-	ref,
-	...props
-}) => {
+export const Description = React.forwardRef<
+	HTMLParagraphElement,
+	React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, ...props }, ref) => {
 	const { formDescriptionId } = useFormField()
 
 	return (
@@ -19,6 +18,6 @@ export const Description: React.FC<ComponentPropsWithRef<'p'>> = ({
 			{...props}
 		/>
 	)
-}
+})
 
 Description.displayName = 'FormDescription'

@@ -1,14 +1,13 @@
-import { ComponentPropsWithRef, useId, useMemo } from 'react'
+import React, { useId, useMemo } from 'react'
 
 import { cn } from '@/main/utils'
 
 import { FormItemContext } from './contexts'
 
-export const Item: React.FC<ComponentPropsWithRef<'div'>> = ({
-	className,
-	ref,
-	...props
-}) => {
+export const Item = React.forwardRef<
+	HTMLDivElement,
+	React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => {
 	const id = useId()
 
 	const providerProps = useMemo(
@@ -23,6 +22,6 @@ export const Item: React.FC<ComponentPropsWithRef<'div'>> = ({
 			<div ref={ref} className={cn('space-y-2', className)} {...props} />
 		</FormItemContext.Provider>
 	)
-}
+})
 
 Item.displayName = 'FormItem'

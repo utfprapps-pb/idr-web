@@ -1,13 +1,13 @@
-import React, { ComponentPropsWithRef } from 'react'
+import React from 'react'
 
 import { Slot } from '@radix-ui/react-slot'
 
 import { useFormField } from './hooks/useFormField'
 
-export const Control: React.FC<ComponentPropsWithRef<typeof Slot>> = ({
-	ref,
-	...props
-}) => {
+export const Control = React.forwardRef<
+	React.ElementRef<typeof Slot>,
+	React.ComponentPropsWithoutRef<typeof Slot>
+>(({ ...props }, ref) => {
 	const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
 
 	return (
@@ -23,6 +23,6 @@ export const Control: React.FC<ComponentPropsWithRef<typeof Slot>> = ({
 			{...props}
 		/>
 	)
-}
+})
 
 Control.displayName = 'FormControl'

@@ -1,3 +1,1 @@
-import { ComponentPropsWithRef } from 'react'
-
-export type InputProps = ComponentPropsWithRef<'input'>
+export type InputProps = React.InputHTMLAttributes<HTMLInputElement>
