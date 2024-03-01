@@ -2,7 +2,6 @@ import { Meta, StoryFn } from '@storybook/react/'
 
 import { ValidationBuilder } from '@/main/builders'
 import { ValidationComposite } from '@/main/composite'
-import { schemaResolver } from '@/validation/schemaResolver'
 
 import { Button } from '../button'
 import { Input } from '../input'
@@ -50,7 +49,7 @@ const Template: StoryFn = () => {
 			password: '',
 			passwordConfirmation: ''
 		},
-		schemaResolver: (data) => schemaResolver({ data, schema })
+		schemaResolver: (data) => schema.validate({ data })
 	})
 
 	const onSubmit = (data: FormData) => {
