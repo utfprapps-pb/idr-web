@@ -1,5 +1,5 @@
-import { PropsWithChildren } from 'react'
+import { ComponentPropsWithoutRef, PropsWithChildren } from 'react'
 
-type SectionProps = React.HTMLAttributes<HTMLDivElement>
+type SectionProps = ComponentPropsWithoutRef<'section'>
 
 export type GrouperProps = PropsWithChildren<SectionProps>

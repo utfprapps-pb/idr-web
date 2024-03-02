@@ -1,5 +1,4 @@
 export * from './useDebounce'
 export * from './useHandleChange'
-export * from './useHandleValidate'
 export * from './useIdrHistory'
 export * from './useTimeout'
