@@ -5,6 +5,7 @@ import {
 	UseFormProps,
 	useForm
 } from 'react-hook-form'
+import toast from 'react-hot-toast'
 
 type UseHookFormProps<TDefaultValues extends FieldValues> = {
 	values?: UseFormProps<TDefaultValues>['values']
@@ -33,8 +34,7 @@ export const useHookForm = <TDefaultValues extends FieldValues>({
 
 	const onSubmit = (successCallback: (data: TDefaultValues) => void) =>
 		handleSubmit(successCallback, () => {
-			// Todo @Minozzzi 22/02/24: refactor with toast component
-			console.error(`Campos do formulário inválidos`)
+			toast.error('Preencha os campos obrigatórios')
 		})
 
 	return {
