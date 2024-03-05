@@ -6,7 +6,8 @@ import { toast } from 'react-hot-toast'
 import { CreateUserModel } from '@/domain/models'
 import { PAGE_PATHS } from '@/main/routes/paths'
 import { onlyNumbersMask } from '@/masker'
-import { useHandleValidate, useIdrHistory } from '@/presentation/hooks'
+import { useHookForm } from '@/presentation/components/ui/form/hooks/useHookForm'
+import { useIdrHistory } from '@/presentation/hooks'
 
 import { SignUpPageProps } from './types'
 
@@ -28,19 +29,17 @@ const INITIAL_FORM_DATA: CreateUserModel = {
 export const useSignUp = (props: SignUpPageProps) => {
 	const { createUser, getCep, validation } = props
 
-	const [loading, setLoading] = useState(false)
 	const [cepLoading, setCepLoading] = useState(false)
-	const [touched, setTouched] = useState(false)
-	const [formData, setFormData] = useState<CreateUserModel>(INITIAL_FORM_DATA)
 
 	const { navigate } = useIdrHistory()
 
-	const { formIsValid, handleValidate } = useHandleValidate<
-		keyof CreateUserModel,
-		CreateUserModel
-	>({
-		formData,
-		validation
+	const {
+		buttonDisabled,
+		setValue,
+		handleSubmit: handleSubmitForm
+	} = useHookForm<CreateUserModel>({
+		defaultValues: INITIAL_FORM_DATA,
+		schemaResolver: (data) => validation.validate({ data })
 	})
 
 	const goToLoginPage = useCallback(
@@ -48,26 +47,21 @@ export const useSignUp = (props: SignUpPageProps) => {
 		[navigate]
 	)
 
-	const handleSubmit = useCallback(async () => {
-		try {
-			setLoading(true)
-			setTouched(true)
-
-			if (!formIsValid) {
-				toast.error('Preencha os campos obrigatórios')
-				return
+	const onSubmit = useCallback(
+		async (data: CreateUserModel) => {
+			try {
+				await createUser.execute(data)
+				goToLoginPage()
+				toast.success('Conta criada com sucesso')
+			} catch (error) {
+				const axiosError = error as AxiosError
+				toast.error(axiosError.message)
 			}
+		},
+		[createUser, goToLoginPage]
+	)
 
-			await createUser.execute(formData)
-			goToLoginPage()
-			toast.success('Conta criada com sucesso')
-		} catch (error) {
-			const axiosError = error as AxiosError
-			toast.error(axiosError.message)
-		} finally {
-			setLoading(false)
-		}
-	}, [createUser, formData, formIsValid, goToLoginPage])
+	const handleSubmit = handleSubmitForm(onSubmit)
 
 	const handleFetchCep = useCallback(
 		async (cep: string) => {
@@ -79,12 +73,20 @@ export const useSignUp = (props: SignUpPageProps) => {
 
 				const { city, street } = await getCep.execute(onlyNumbersCep)
 
-				setFormData((state) => ({
-					...state,
+				const fieldsToUpdate = {
 					cep,
 					city,
 					street
-				}))
+				}
+
+				Object.entries(fieldsToUpdate).forEach(([field, value]) => {
+					const typedField = field as keyof CreateUserModel
+					setValue(typedField, value, {
+						shouldDirty: true,
+						shouldValidate: true,
+						shouldTouch: true
+					})
+				})
 			} catch (error) {
 				const axiosError = error as AxiosError
 				toast.error(axiosError.message)
@@ -92,18 +94,14 @@ export const useSignUp = (props: SignUpPageProps) => {
 				setCepLoading(false)
 			}
 		},
-		[getCep]
+		[getCep, setValue]
 	)
 
 	return {
 		cepLoading,
-		formData,
-		loading,
-		touched,
+		buttonDisabled,
 		goToLoginPage,
 		handleFetchCep,
-		handleSubmit,
-		handleValidate,
-		setFormData
+		handleSubmit
 	}
 }
