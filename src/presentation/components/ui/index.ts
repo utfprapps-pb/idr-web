@@ -1,3 +1,6 @@
 export * from './button'
 export * from './input'
 export * from './label'
+export * from './wave'
+export * from './card'
+export * from './form'
