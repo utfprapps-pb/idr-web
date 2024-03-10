@@ -28,29 +28,51 @@ const INITIAL_FORM_DATA: CreateUserModel = {
 
 export const useSignUp = (props: SignUpPageProps) => {
 	const { createUser, getCep, validation } = props
+	const { firstStepValidation, validation: validationForm } = validation
 
 	const [cepLoading, setCepLoading] = useState(false)
+	const [firstStepData, setFirstStepData] = useState<Partial<CreateUserModel>>(
+		{}
+	)
+	const [isFirstStep, setIsFirstStep] = useState(true)
 
 	const { navigate } = useIdrHistory()
 
-	const {
-		buttonDisabled,
-		setValue,
-		handleSubmit: handleSubmitForm
-	} = useHookForm<CreateUserModel>({
+	const form = useHookForm<CreateUserModel>({
 		defaultValues: INITIAL_FORM_DATA,
-		schemaResolver: (data) => validation.validate({ data })
+		schemaResolver: (data) => {
+			if (isFirstStep) return firstStepValidation.validate({ data })
+
+			return validationForm.validate({ data })
+		}
 	})
+
+	const { setValue, handleSubmit: handleSubmitForm } = form
 
 	const goToLoginPage = useCallback(
 		() => navigate(PAGE_PATHS.login),
 		[navigate]
 	)
 
+	const onSubmitFirstStep = (
+		data: Partial<CreateUserModel>,
+		event?: React.BaseSyntheticEvent
+	) => {
+		event?.preventDefault()
+		setFirstStepData(data)
+		setIsFirstStep(false)
+	}
+
 	const onSubmit = useCallback(
-		async (data: CreateUserModel) => {
+		async (data: CreateUserModel, event?: React.BaseSyntheticEvent) => {
+			event?.preventDefault()
 			try {
-				await createUser.execute(data)
+				const allStepData = {
+					...firstStepData,
+					...data
+				}
+
+				await createUser.execute(allStepData)
 				goToLoginPage()
 				toast.success('Conta criada com sucesso')
 			} catch (error) {
@@ -58,10 +80,12 @@ export const useSignUp = (props: SignUpPageProps) => {
 				toast.error(axiosError.message)
 			}
 		},
-		[createUser, goToLoginPage]
+		[createUser, firstStepData, goToLoginPage]
 	)
 
-	const handleSubmit = handleSubmitForm(onSubmit)
+	const handleSubmit = handleSubmitForm(
+		isFirstStep ? onSubmitFirstStep : onSubmit
+	)
 
 	const handleFetchCep = useCallback(
 		async (cep: string) => {
@@ -99,7 +123,8 @@ export const useSignUp = (props: SignUpPageProps) => {
 
 	return {
 		cepLoading,
-		buttonDisabled,
+		form,
+		isFirstStep,
 		goToLoginPage,
 		handleFetchCep,
 		handleSubmit
