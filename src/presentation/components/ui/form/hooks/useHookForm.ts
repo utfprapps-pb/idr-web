@@ -2,6 +2,8 @@ import {
 	DefaultValues,
 	FieldValues,
 	Resolver,
+	SubmitErrorHandler,
+	SubmitHandler,
 	UseFormProps,
 	useForm
 } from 'react-hook-form'
@@ -32,10 +34,13 @@ export const useHookForm = <TDefaultValues extends FieldValues>({
 
 	const buttonDisabled = isSubmitting || isValidating
 
-	const onSubmit = (successCallback: (data: TDefaultValues) => void) =>
-		handleSubmit(successCallback, () => {
+	const onSubmit = (successCallback: SubmitHandler<TDefaultValues>) => {
+		const errorCallback: SubmitErrorHandler<TDefaultValues> = () => {
 			toast.error('Preencha os campos obrigatórios')
-		})
+		}
+
+		return handleSubmit(successCallback, errorCallback)
+	}
 
 	return {
 		...form,
