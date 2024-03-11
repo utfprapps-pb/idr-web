@@ -1,37 +1,10 @@
 import { LogoIdr, LogoParana } from '@/assets/imgs'
-import { CreateUserModel } from '@/domain/models'
-import { Button, Card, Input, Wave, Form } from '@/presentation/components/ui'
-import { useHookForm } from '@/presentation/components/ui/form/hooks/useHookForm'
-import { Grouper } from '@/presentation/components/utils'
+import { FormFieldFactory } from '@/main/factories/components'
+import { Button, Card, Wave, Form } from '@/presentation/components/ui'
 
 import { inputDataFirstStep, inputDataSecondStep } from './inputData'
-import { InputDataGrouped, SignUpPageProps } from './types'
+import { SignUpPageProps } from './types'
 import { useSignUp } from './useSignUp'
-
-const signUpFormFields = (
-	form: ReturnType<typeof useHookForm<CreateUserModel>>,
-	inputData: InputDataGrouped[]
-) =>
-	inputData.map(({ key, group }) => (
-		<Grouper key={key}>
-			{group.map(({ name, label, placeholder }) => (
-				<Form.Field
-					key={name}
-					control={form.control}
-					name={name}
-					render={({ field }) => (
-						<Form.Item>
-							<Form.Label>{label}</Form.Label>
-							<Form.Control>
-								<Input placeholder={placeholder} {...field} />
-							</Form.Control>
-							<Form.Message />
-						</Form.Item>
-					)}
-				/>
-			))}
-		</Grouper>
-	))
 
 export const SignUpPage: React.FC<SignUpPageProps> = ({
 	createUser,
@@ -70,10 +43,12 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
 					<Form.Provider {...form}>
 						<form className="flex flex-col gap-8" onSubmit={handleSubmit}>
 							<Card.Content className="flex flex-col gap-4 sm:gap-6">
-								{signUpFormFields(
-									form,
-									isFirstStep ? inputDataFirstStep : inputDataSecondStep
-								)}
+								<FormFieldFactory
+									form={form}
+									inputData={
+										isFirstStep ? inputDataFirstStep : inputDataSecondStep
+									}
+								/>
 							</Card.Content>
 							<Card.Footer>
 								<Button

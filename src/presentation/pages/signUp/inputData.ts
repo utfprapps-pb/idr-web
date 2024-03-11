@@ -1,4 +1,5 @@
-import { InputDataGrouped } from './types'
+import { InputDataGrouped } from '@/main/factories/components'
+import { cepMask, cpfMask, onlyNumbersMask, phoneMask } from '@/masker'
 
 export const inputDataFirstStep: InputDataGrouped[] = [
 	{
@@ -22,12 +23,14 @@ export const inputDataFirstStep: InputDataGrouped[] = [
 			{
 				name: 'password',
 				label: 'Senha',
-				placeholder: 'Digite uma senha forte'
+				placeholder: 'Digite uma senha forte',
+				type: 'password'
 			},
 			{
 				name: 'confirmPassword',
 				label: 'Confirmar Senha',
-				placeholder: 'Repita a senha'
+				placeholder: 'Repita a senha',
+				type: 'password'
 			}
 		]
 	},
@@ -37,12 +40,14 @@ export const inputDataFirstStep: InputDataGrouped[] = [
 			{
 				name: 'cpf',
 				label: 'CPF',
-				placeholder: 'Digite seu CPF'
+				placeholder: 'Digite seu CPF',
+				mask: cpfMask
 			},
 			{
 				name: 'phone',
 				label: 'Celular',
-				placeholder: 'Digite o número do seu celular'
+				placeholder: 'Digite o número do seu celular',
+				mask: phoneMask
 			}
 		]
 	},
@@ -52,12 +57,14 @@ export const inputDataFirstStep: InputDataGrouped[] = [
 			{
 				name: 'professionalRegister',
 				label: 'Registro Profissional',
-				placeholder: 'Digite seu registro profissional'
+				placeholder: 'Digite seu registro profissional',
+				mask: onlyNumbersMask
 			},
 			{
 				name: 'graduationYear',
 				label: 'Ano de Graduação',
-				placeholder: 'Digite o ano de graduação'
+				placeholder: 'Digite o ano de graduação',
+				mask: onlyNumbersMask
 			}
 		]
 	}
@@ -70,7 +77,8 @@ export const inputDataSecondStep: InputDataGrouped[] = [
 			{
 				name: 'cep',
 				label: 'CEP',
-				placeholder: 'Digite seu CEP'
+				placeholder: 'Digite seu CEP',
+				mask: cepMask
 			},
 			{
 				name: 'street',
@@ -90,7 +98,8 @@ export const inputDataSecondStep: InputDataGrouped[] = [
 			{
 				name: 'houseNumber',
 				label: 'Número da casa',
-				placeholder: 'Digite o número da casa'
+				placeholder: 'Digite o número da casa',
+				mask: onlyNumbersMask
 			}
 		]
 	}
