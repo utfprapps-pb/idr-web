@@ -1,1 +1,3 @@
-export type InputProps = React.InputHTMLAttributes<HTMLInputElement>
+export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
+	mask?: (value: string) => string
+}
