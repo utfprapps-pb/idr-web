@@ -18,15 +18,18 @@ export const useInput = ({
 	mask,
 	onChange
 }: InputProps) => {
-	const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (mask) {
-			const maskedValue = mask(e.target.value)
-			e.target.value = maskedValue
-			return onChange?.(e)
-		}
+	const handleOnChange = useCallback(
+		(e: React.ChangeEvent<HTMLInputElement>) => {
+			if (mask) {
+				const maskedValue = mask(e.target.value)
+				e.target.value = maskedValue
+				return onChange?.(e)
+			}
 
-		return onChange?.(e)
-	}
+			return onChange?.(e)
+		},
+		[mask, onChange]
+	)
 
 	const { clear } = useDebounce({
 		deps: [value],
@@ -35,8 +38,14 @@ export const useInput = ({
 	})
 
 	const handleOnClear = useCallback(() => {
+		const event = {
+			target: {
+				value: ''
+			}
+		} as React.ChangeEvent<HTMLInputElement>
+		handleOnChange(event)
 		clear()
-	}, [clear])
+	}, [clear, handleOnChange])
 
 	const iconContainerSize = (iconContainerLength: number) =>
 		iconContainerLength * ICON_SPACING
