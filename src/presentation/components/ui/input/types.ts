@@ -1,5 +1,6 @@
 import { VariantProps } from 'class-variance-authority'
 import { LucideIcon } from 'lucide-react'
+
 import { inputVariants } from './styles'
 
 export type InputIcon = {
