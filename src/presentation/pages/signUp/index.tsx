@@ -2,8 +2,8 @@ import { LogoIdr, LogoParana } from '@/assets/imgs'
 import { FormFieldFactory } from '@/main/factories/components'
 import { Button, Card, Wave, Form } from '@/presentation/components/ui'
 
-import { inputDataFirstStep, inputDataSecondStep } from './inputData'
 import { SignUpPageProps } from './types'
+import { useInputData } from './useInputData'
 import { useSignUp } from './useSignUp'
 
 export const SignUpPage: React.FC<SignUpPageProps> = ({
@@ -11,10 +11,13 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
 	getCep,
 	validation
 }) => {
-	const { form, isFirstStep, handleSubmit } = useSignUp({
+	const { form, isFirstStep, handleSubmit, handleFetchCep } = useSignUp({
 		createUser,
 		getCep,
 		validation
+	})
+	const { inputDataFirstStep, inputDataSecondStep } = useInputData({
+		cepDebounceCallback: () => handleFetchCep(form.getValues('cep'))
 	})
 
 	return (

@@ -10,3 +10,7 @@ export type SignUpPageProps = {
 		validation: ValidationComposite
 	}
 }
+
+export type UseInputDataProps = {
+	cepDebounceCallback: () => Promise<void>
+}
