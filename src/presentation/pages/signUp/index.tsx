@@ -1,4 +1,5 @@
 import { LogoIdr, LogoParana } from '@/assets/imgs'
+import { CreateUserModel } from '@/domain/models'
 import { FormFieldFactory } from '@/main/factories/components'
 import { Button, Card, Wave, Form } from '@/presentation/components/ui'
 
@@ -46,7 +47,7 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
 					<Form.Provider {...form}>
 						<form className="flex flex-col gap-8" onSubmit={handleSubmit}>
 							<Card.Content className="flex flex-col gap-4 sm:gap-6">
-								<FormFieldFactory
+								<FormFieldFactory<CreateUserModel>
 									form={form}
 									inputData={
 										isFirstStep ? inputDataFirstStep : inputDataSecondStep

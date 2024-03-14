@@ -1,10 +1,11 @@
-import { CreateUserModel } from '@/domain/models'
+import { FieldPath, FieldValues } from 'react-hook-form'
+
 import { Form, Input, type InputIcon } from '@/presentation/components/ui'
 import { useHookForm } from '@/presentation/components/ui/form/hooks/useHookForm'
 import { Grouper } from '@/presentation/components/utils'
 
-export type InputData = {
-	name: keyof CreateUserModel
+export type InputData<T extends FieldValues> = {
+	name: FieldPath<T>
 	type?: React.InputHTMLAttributes<HTMLInputElement>['type']
 	label?: string
 	placeholder?: string
@@ -15,20 +16,20 @@ export type InputData = {
 	mask?: (value: string) => string
 }
 
-export type InputDataGrouped = {
+export type InputDataGrouped<T extends FieldValues> = {
 	key: string
-	group: InputData[]
+	group: InputData<T>[]
 }
 
-type FormFieldFactoryProps = {
-	form: ReturnType<typeof useHookForm<CreateUserModel>>
-	inputData: InputDataGrouped[]
+type FormFieldFactoryProps<T extends FieldValues> = {
+	form: ReturnType<typeof useHookForm<T>>
+	inputData: InputDataGrouped<T>[]
 }
 
-export const FormFieldFactory: React.FC<FormFieldFactoryProps> = ({
+export const FormFieldFactory = <T extends FieldValues>({
 	form,
 	inputData
-}) =>
+}: FormFieldFactoryProps<T>) =>
 	inputData.map(({ key, group }) => (
 		<Grouper key={key}>
 			{group.map(

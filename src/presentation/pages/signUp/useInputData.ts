@@ -1,7 +1,8 @@
 import { useState } from 'react'
 
-import { Eye, Mail } from 'lucide-react'
+import { Eye, EyeOff, Mail } from 'lucide-react'
 
+import { CreateUserModel } from '@/domain/models'
 import { InputDataGrouped } from '@/main/factories/components'
 import { cepMask, cpfMask, onlyNumbersMask, phoneMask } from '@/masker'
 
@@ -11,7 +12,7 @@ export const useInputData = ({ cepDebounceCallback }: UseInputDataProps) => {
 	const [viewPassword, setViewPassword] = useState(false)
 	const [viewConfirmPassword, setViewConfirmPassword] = useState(false)
 
-	const inputDataFirstStep: InputDataGrouped[] = [
+	const inputDataFirstStep: InputDataGrouped<CreateUserModel>[] = [
 		{
 			key: 'name-email-group',
 			group: [
@@ -104,7 +105,7 @@ export const useInputData = ({ cepDebounceCallback }: UseInputDataProps) => {
 		}
 	]
 
-	const inputDataSecondStep: InputDataGrouped[] = [
+	const inputDataSecondStep: InputDataGrouped<CreateUserModel>[] = [
 		{
 			key: 'cep-street-group',
 			group: [
