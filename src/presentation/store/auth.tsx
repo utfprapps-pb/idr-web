@@ -20,7 +20,6 @@ import { useIdrHistory } from '@/presentation/hooks/'
 
 type AuthContextProps = {
 	auth: UserModel | null
-	loading: boolean
 
 	handleSignIn: (params: LoginUserParams) => Promise<void>
 	handleSignOut: () => void
@@ -42,13 +41,9 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		}
 	)
 
-	const [loading, setLoading] = useState(false)
-
 	const handleSignIn = useCallback(
 		async (params: LoginUserParams) => {
 			try {
-				setLoading(true)
-
 				const remoteLoginAccount = makeRemoteLoginUser()
 
 				const currentAccount = await remoteLoginAccount.execute(params)
@@ -62,8 +57,6 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 				}
 
 				toast.error('Erro inesperado, tente novamente mais tarde')
-			} finally {
-				setLoading(false)
 			}
 		},
 		[navigateToSignedBasePath]
@@ -92,11 +85,10 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const providerProps = useMemo(
 		() => ({
 			auth: authData,
-			loading,
 			handleSignIn,
 			handleSignOut
 		}),
-		[authData, handleSignIn, handleSignOut, loading]
+		[authData, handleSignIn, handleSignOut]
 	)
 
 	return (
