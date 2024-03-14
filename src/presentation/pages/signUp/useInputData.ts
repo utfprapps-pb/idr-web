@@ -43,8 +43,10 @@ export const useInputData = ({ cepDebounceCallback }: UseInputDataProps) => {
 					type: viewPassword ? 'text' : 'password',
 					iconsEnd: [
 						{
-							key: Eye.displayName ?? 'Eye',
-							icon: Eye,
+							key: viewPassword
+								? EyeOff.displayName ?? 'EyeOff'
+								: Eye.displayName ?? 'Eye',
+							icon: viewPassword ? EyeOff : Eye,
 							onClick: () => setViewPassword((oldValue) => !oldValue)
 						}
 					]
@@ -56,8 +58,10 @@ export const useInputData = ({ cepDebounceCallback }: UseInputDataProps) => {
 					type: viewConfirmPassword ? 'text' : 'password',
 					iconsEnd: [
 						{
-							key: Eye.displayName ?? 'Eye',
-							icon: Eye,
+							key: viewConfirmPassword
+								? EyeOff.displayName ?? 'EyeOff'
+								: Eye.displayName ?? 'Eye',
+							icon: viewConfirmPassword ? EyeOff : Eye,
 							onClick: () => setViewConfirmPassword((oldValue) => !oldValue)
 						}
 					]
