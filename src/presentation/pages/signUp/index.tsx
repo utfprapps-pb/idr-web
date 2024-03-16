@@ -59,6 +59,7 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
 									className="w-full"
 									variant={isFirstStep ? 'secondary' : 'default'}
 									type="submit"
+									disabled={buttonDisabled}
 								>
 									{isFirstStep ? 'Continuar' : 'Cadastrar'}
 								</Button>

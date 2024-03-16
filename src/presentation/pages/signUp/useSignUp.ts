@@ -47,7 +47,12 @@ export const useSignUp = (props: SignUpPageProps) => {
 		}
 	})
 
-	const { setValue, handleSubmit: handleSubmitForm } = form
+	const {
+		buttonDisabled,
+		getValues,
+		setValue,
+		handleSubmit: handleSubmitForm
+	} = form
 
 	const goToLoginPage = useCallback(
 		() => navigate(PAGE_PATHS.login),
@@ -123,6 +128,7 @@ export const useSignUp = (props: SignUpPageProps) => {
 
 	return {
 		cepLoading,
+		buttonDisabled,
 		form,
 		isFirstStep,
 		goToLoginPage,
