@@ -16,7 +16,8 @@ export const useInput = ({
 	// eslint-disable-next-line no-empty-function
 	debounceCallback = () => {},
 	mask,
-	onChange
+	onChange,
+	handleOnClearDebounce
 }: InputProps) => {
 	const handleOnChange = useCallback(
 		(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,14 +39,17 @@ export const useInput = ({
 	})
 
 	const handleOnClear = useCallback(() => {
+		clear()
+
 		const event = {
 			target: {
 				value: ''
 			}
 		} as React.ChangeEvent<HTMLInputElement>
 		handleOnChange(event)
-		clear()
-	}, [clear, handleOnChange])
+
+		handleOnClearDebounce?.()
+	}, [clear, handleOnChange, handleOnClearDebounce])
 
 	const iconContainerSize = (iconContainerLength: number) =>
 		iconContainerLength * ICON_SPACING

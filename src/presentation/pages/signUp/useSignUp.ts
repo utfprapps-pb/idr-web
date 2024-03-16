@@ -92,39 +92,54 @@ export const useSignUp = (props: SignUpPageProps) => {
 		isFirstStep ? onSubmitFirstStep : onSubmit
 	)
 
-	const handleFetchCep = useCallback(
-		async (cep: string) => {
-			try {
-				setCepLoading(true)
-				const onlyNumbersCep = onlyNumbersMask(cep)
+	const handleFetchCep = useCallback(async () => {
+		try {
+			const cep = getValues('cep')
+			const onlyNumbersCep = onlyNumbersMask(cep)
+			if (onlyNumbersCep.length !== 8) return
 
-				if (onlyNumbersCep.length !== 8) return
+			setCepLoading(true)
 
-				const { city, street } = await getCep.execute(onlyNumbersCep)
+			const { city, street } = await getCep.execute(onlyNumbersCep)
 
-				const fieldsToUpdate = {
-					cep,
-					city,
-					street
-				}
-
-				Object.entries(fieldsToUpdate).forEach(([field, value]) => {
-					const typedField = field as keyof CreateUserModel
-					setValue(typedField, value, {
-						shouldDirty: true,
-						shouldValidate: true,
-						shouldTouch: true
-					})
-				})
-			} catch (error) {
-				const axiosError = error as AxiosError
-				toast.error(axiosError.message)
-			} finally {
-				setCepLoading(false)
+			const fieldsToUpdate = {
+				cep,
+				city,
+				street
 			}
-		},
-		[getCep, setValue]
-	)
+
+			Object.entries(fieldsToUpdate).forEach(([field, value]) => {
+				const typedField = field as keyof CreateUserModel
+				setValue(typedField, value, {
+					shouldDirty: true,
+					shouldValidate: true,
+					shouldTouch: true
+				})
+			})
+		} catch (error) {
+			const axiosError = error as AxiosError
+			toast.error(axiosError.message)
+		} finally {
+			setCepLoading(false)
+		}
+	}, [getCep, getValues, setValue])
+
+	const handleOnClearCepDebounce = useCallback(() => {
+		const fieldsToUpdate = {
+			cep: '',
+			city: '',
+			street: ''
+		}
+
+		Object.entries(fieldsToUpdate).forEach(([field, value]) => {
+			const typedField = field as keyof CreateUserModel
+			setValue(typedField, value, {
+				shouldDirty: true,
+				shouldValidate: true,
+				shouldTouch: true
+			})
+		})
+	}, [setValue])
 
 	return {
 		cepLoading,
@@ -133,6 +148,7 @@ export const useSignUp = (props: SignUpPageProps) => {
 		isFirstStep,
 		goToLoginPage,
 		handleFetchCep,
-		handleSubmit
+		handleSubmit,
+		handleOnClearCepDebounce
 	}
 }

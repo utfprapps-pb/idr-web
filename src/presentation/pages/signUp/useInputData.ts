@@ -8,7 +8,11 @@ import { cepMask, cpfMask, onlyNumbersMask, phoneMask } from '@/masker'
 
 import { UseInputDataProps } from './types'
 
-export const useInputData = ({ cepDebounceCallback }: UseInputDataProps) => {
+export const useInputData = ({
+	cepLoading,
+	cepDebounceCallback,
+	handleOnClearCepDebounce
+}: UseInputDataProps) => {
 	const [viewPassword, setViewPassword] = useState(false)
 	const [viewConfirmPassword, setViewConfirmPassword] = useState(false)
 
@@ -114,13 +118,16 @@ export const useInputData = ({ cepDebounceCallback }: UseInputDataProps) => {
 					label: 'CEP *',
 					placeholder: 'Digite seu CEP',
 					mask: cepMask,
-					debounce: 1000,
-					debounceCallback: cepDebounceCallback
+					debounce: 500,
+					debounceCallback: cepDebounceCallback,
+					handleOnClearDebounce: handleOnClearCepDebounce
 				},
 				{
 					name: 'street',
 					label: 'Rua *',
-					placeholder: 'Digite seu endereço'
+					placeholder: 'Digite seu endereço',
+					disabled: cepLoading,
+					loading: cepLoading
 				}
 			]
 		},
@@ -130,13 +137,14 @@ export const useInputData = ({ cepDebounceCallback }: UseInputDataProps) => {
 				{
 					name: 'city',
 					label: 'Cidade *',
-					placeholder: 'Digite sua cidade'
+					placeholder: 'Digite sua cidade',
+					disabled: cepLoading,
+					loading: cepLoading
 				},
 				{
 					name: 'houseNumber',
-					label: 'Número da casa *',
-					placeholder: 'Digite o número da casa',
-					mask: onlyNumbersMask
+					label: 'Número da casa',
+					placeholder: 'Digite o número da casa'
 				}
 			]
 		}

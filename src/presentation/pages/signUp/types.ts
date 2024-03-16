@@ -12,5 +12,7 @@ export type SignUpPageProps = {
 }
 
 export type UseInputDataProps = {
+	cepLoading: boolean
 	cepDebounceCallback: () => Promise<void>
+	handleOnClearCepDebounce: () => void
 }

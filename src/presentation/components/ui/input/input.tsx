@@ -4,6 +4,8 @@ import { AlertCircle, XCircle } from 'lucide-react'
 
 import { cn } from '@/main/utils'
 
+import { Loading } from '../loading'
+
 import { inputVariants, styles } from './styles'
 import { useInput } from './useInput'
 
@@ -17,10 +19,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 			iconsStart = [],
 			iconsEnd = [],
 			isError,
+			loading = false,
 			debounce = 0,
 			// eslint-disable-next-line no-empty-function
 			debounceCallback = () => {},
 			mask,
+			handleOnClearDebounce,
 			...props
 		},
 		ref
@@ -33,6 +37,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 				debounce,
 				debounceCallback,
 				mask,
+				handleOnClearDebounce,
 				...props
 			})
 
@@ -59,7 +64,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 					{...props}
 					onChange={handleOnChange}
 				/>
-				<div className="flex gap-1 absolute pr-2 right-0">
+				<div className="flex items-center gap-1 absolute pr-2 right-0">
 					{iconsEnd.map(({ key, icon: Icon, onClick }) => (
 						<Icon
 							className={onClick ? 'cursor-pointer' : 'cursor-default'}
@@ -68,6 +73,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 							onClick={onClick}
 						/>
 					))}
+					{loading ? <Loading /> : null}
 					{debounce ? (
 						<XCircle
 							className="cursor-pointer"
