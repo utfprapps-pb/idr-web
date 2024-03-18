@@ -12,13 +12,24 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
 	getCep,
 	validation
 }) => {
-	const { form, isFirstStep, handleSubmit, handleFetchCep } = useSignUp({
+	const {
+		form,
+		isFirstStep,
+		buttonDisabled,
+		cepLoading,
+		handleSubmit,
+		handleFetchCep,
+		handleOnClearCepDebounce
+	} = useSignUp({
 		createUser,
 		getCep,
 		validation
 	})
+
 	const { inputDataFirstStep, inputDataSecondStep } = useInputData({
-		cepDebounceCallback: () => handleFetchCep(form.getValues('cep'))
+		cepLoading,
+		cepDebounceCallback: handleFetchCep,
+		handleOnClearCepDebounce
 	})
 
 	return (
@@ -59,6 +70,7 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
 									className="w-full"
 									variant={isFirstStep ? 'secondary' : 'default'}
 									type="submit"
+									disabled={buttonDisabled}
 								>
 									{isFirstStep ? 'Continuar' : 'Cadastrar'}
 								</Button>

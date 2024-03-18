@@ -14,6 +14,8 @@ export type InputProps = React.InputHTMLAttributes<HTMLInputElement> &
 		iconsStart?: InputIcon[]
 		iconsEnd?: InputIcon[]
 		debounce?: number
+		loading?: boolean
 		debounceCallback?: () => void
+		handleOnClearDebounce?: () => void
 		mask?: (value: string) => string
 	}
