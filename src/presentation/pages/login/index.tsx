@@ -53,15 +53,15 @@ export const LoginPage: React.FC = () => {
 								</Button>
 
 								<div className="flex flex-col gap-2">
+									<Button className="flex flex-row items-center" variant="link">
+										Esqueci minha senha <ChevronRight />
+									</Button>
+
 									<Button
 										className="flex flex-row items-center"
 										variant="link"
 										onClick={() => navigate(PAGE_PATHS.signUp)}
 									>
-										Esqueci minha senha <ChevronRight />
-									</Button>
-
-									<Button className="flex flex-row items-center" variant="link">
 										Criar minha conta <ChevronRight />
 									</Button>
 								</div>
