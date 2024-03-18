@@ -5,5 +5,14 @@ import { ValidationComposite } from '@/main/composite'
 export type SignUpPageProps = {
 	createUser: ICreateUser
 	getCep: IGetCep
-	validation: ValidationComposite
+	validation: {
+		firstStepValidation: ValidationComposite
+		validation: ValidationComposite
+	}
+}
+
+export type UseInputDataProps = {
+	cepLoading: boolean
+	cepDebounceCallback: () => Promise<void>
+	handleOnClearCepDebounce: () => void
 }
