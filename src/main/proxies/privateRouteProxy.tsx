@@ -12,12 +12,7 @@ export const PrivateRouteProxy: React.FC<PropsWithChildren> = ({
 }) => {
 	const { auth } = useAuth()
 
-	if (auth?.token)
-		return (
-			<main>
-				<LoggedContainer>{children}</LoggedContainer>
-			</main>
-		)
+	if (auth?.token) return <LoggedContainer>{children}</LoggedContainer>
 
 	return <Navigate to={PAGE_PATHS.login} />
 }
