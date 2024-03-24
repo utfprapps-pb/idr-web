@@ -1,8 +1,7 @@
 import { MakeLoginPage, MakeSignUpPage } from '@/main/factories/pages'
 import { PrivateRouteProxy } from '@/main/proxies'
 
-import { Pages } from './pages.type'
-import { PAGE_PATHS } from './paths'
+import { PAGE_PATHS, Pages } from './paths'
 
 type RouteProps = {
 	path: () => string
@@ -22,19 +21,35 @@ export const ROUTES = Object.freeze<RoutesProps>({
 		path: () => PAGE_PATHS.signUp,
 		component: <MakeSignUpPage />
 	},
-	dashboard: {
-		path: () => PAGE_PATHS.dashboard,
+	home: {
+		path: () => PAGE_PATHS.home,
 		component: (
 			<PrivateRouteProxy>
 				<h1>Under construction!</h1>
 			</PrivateRouteProxy>
 		)
 	},
-	animals: {
-		path: () => PAGE_PATHS.animals,
+	properties: {
+		path: () => PAGE_PATHS.properties,
 		component: (
 			<PrivateRouteProxy>
-				<h1>Animals</h1>
+				<h1>Under construction!</h1>
+			</PrivateRouteProxy>
+		)
+	},
+	generalRegistrations: {
+		path: () => PAGE_PATHS.generalRegistrations,
+		component: (
+			<PrivateRouteProxy>
+				<h1>Under construction!</h1>
+			</PrivateRouteProxy>
+		)
+	},
+	reports: {
+		path: () => PAGE_PATHS.reports,
+		component: (
+			<PrivateRouteProxy>
+				<h1>Under construction!</h1>
 			</PrivateRouteProxy>
 		)
 	}

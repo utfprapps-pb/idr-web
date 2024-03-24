@@ -1,4 +1,10 @@
-import { Pages } from './pages.type'
+export type Pages =
+	| 'login'
+	| 'signUp'
+	| 'home'
+	| 'properties'
+	| 'generalRegistrations'
+	| 'reports'
 
 type PagePaths = {
 	readonly [K in Pages]: string
@@ -7,6 +13,8 @@ type PagePaths = {
 export const PAGE_PATHS = Object.freeze<PagePaths>({
 	login: '/login',
 	signUp: '/sign-up',
-	dashboard: '/dashboard',
-	animals: '/animals'
+	home: '/',
+	properties: '/properties',
+	generalRegistrations: '/general-registrations',
+	reports: '/reports'
 })
