@@ -16,3 +16,7 @@ export type CreateUserModel = {
 	city: string
 	houseNumber: string
 }
+
+export type UserInfoModel = {
+	name: string
+}
