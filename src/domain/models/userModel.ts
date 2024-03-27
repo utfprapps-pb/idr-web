@@ -1,5 +1,6 @@
 export type UserModel = {
 	token: string
+	name: string
 }
 
 export type CreateUserModel = {
@@ -15,8 +16,4 @@ export type CreateUserModel = {
 	street: string
 	city: string
 	houseNumber: string
-}
-
-export type UserInfoModel = {
-	name: string
 }
