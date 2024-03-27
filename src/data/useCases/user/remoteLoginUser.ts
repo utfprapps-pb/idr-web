@@ -6,7 +6,7 @@ import { ILoginUser, LoginUserParams } from '@/domain/useCases'
 export class RemoteLoginUser implements ILoginUser {
 	constructor(
 		private readonly url: string,
-		private readonly httpClient: IHttpClient<UserModel>
+		private readonly httpClient: IHttpClient
 	) {}
 
 	async execute(params: LoginUserParams): Promise<UserModel> {
@@ -24,7 +24,11 @@ export class RemoteLoginUser implements ILoginUser {
 		if (statusCode === HttpStatusCode.unauthorized)
 			throw new InvalidCredentialsError()
 
-		if (statusCode === HttpStatusCode.ok && !!body) return body
+		if (statusCode === HttpStatusCode.ok && !!body)
+			return {
+				name: body.user.displayName,
+				token: body.token
+			}
 
 		throw new UnexpectedError()
 	}
