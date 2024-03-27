@@ -1,8 +1,9 @@
+import { LogOut } from 'lucide-react'
 import { useLocation } from 'react-router-dom'
 
 import { sidebarItems } from '@/main/routes/menu'
 import { cn } from '@/main/utils'
-import { Header } from '@/presentation/components/ui'
+import { Button, Header } from '@/presentation/components/ui'
 import { Sidebar } from '@/presentation/components/ui/sidebar'
 import { useIdrHistory } from '@/presentation/hooks'
 import { useAuth } from '@/presentation/store'
@@ -18,7 +19,7 @@ export const LoggedContainer: React.FC<LoggedContainerProps> = ({
 }) => {
 	const { pathname: currentPathname } = useLocation()
 	const { navigate } = useIdrHistory()
-	const { auth } = useAuth()
+	const { auth, handleSignOut } = useAuth()
 
 	return (
 		<main
@@ -48,6 +49,13 @@ export const LoggedContainer: React.FC<LoggedContainerProps> = ({
 						</Sidebar.Item>
 					))}
 				</Sidebar.List>
+
+				<Button
+					className="flex flex-row items-center justify-start gap-3 text-base font-semibold mt-auto"
+					onClick={handleSignOut}
+				>
+					<LogOut size={24} /> Sair
+				</Button>
 			</Sidebar.Root>
 
 			<div className={styles.content.className} style={styles.content.inline}>
