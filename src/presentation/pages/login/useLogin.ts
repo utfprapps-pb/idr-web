@@ -10,8 +10,7 @@ const INITIAL_FORM_DATA: LoginUserParams = {
 }
 
 export const useLogin = () => {
-	const authHookData = useAuth()
-	const { handleSignIn } = authHookData
+	const { handleSignIn } = useAuth()
 
 	const form = useHookForm<LoginUserParams>({
 		defaultValues: INITIAL_FORM_DATA

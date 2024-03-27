@@ -46,9 +46,12 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 			try {
 				const remoteLoginAccount = makeRemoteLoginUser()
 
-				const currentAccount = await remoteLoginAccount.execute(params)
+				const { name, token } = await remoteLoginAccount.execute(params)
 
-				setAuthData(currentAccount)
+				setAuthData({
+					name,
+					token
+				})
 				navigateToSignedBasePath()
 			} catch (error) {
 				if (error instanceof InvalidCredentialsError) {
