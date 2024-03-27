@@ -5,6 +5,7 @@ import { cn } from '@/main/utils'
 import { Header } from '@/presentation/components/ui'
 import { Sidebar } from '@/presentation/components/ui/sidebar'
 import { useIdrHistory } from '@/presentation/hooks'
+import { useAuth } from '@/presentation/store'
 
 import { styles } from './styles'
 
@@ -17,6 +18,7 @@ export const LoggedContainer: React.FC<LoggedContainerProps> = ({
 }) => {
 	const { pathname: currentPathname } = useLocation()
 	const { navigate } = useIdrHistory()
+	const { auth } = useAuth()
 
 	return (
 		<main
@@ -25,7 +27,7 @@ export const LoggedContainer: React.FC<LoggedContainerProps> = ({
 			{...props}
 		>
 			<Header
-				displayName="Guilherme Minozzi"
+				displayName={auth?.name ?? ''}
 				imageUrl=""
 				className={styles.header.className}
 				style={styles.header.inline}
