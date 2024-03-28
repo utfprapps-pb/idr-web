@@ -24,11 +24,11 @@ export type HttpRequest<F = Record<string, string>> = {
 	}
 }
 
-export type HttpResponse<T = unknown> = {
+export type HttpResponse<T = any> = {
 	statusCode: HttpStatusCode
 	body?: T
 }
 
-export interface IHttpClient<T = unknown, F = Record<string, string>> {
+export interface IHttpClient<T = any, F = Record<string, string>> {
 	request: (data: HttpRequest<F>) => Promise<HttpResponse<T>>
 }

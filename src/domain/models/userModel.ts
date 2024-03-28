@@ -1,5 +1,6 @@
 export type UserModel = {
 	token: string
+	name: string
 }
 
 export type CreateUserModel = {
