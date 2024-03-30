@@ -1,8 +1,8 @@
-import * as React from 'react'
+import { ComponentProps } from 'react'
 
 import { cn } from '@/main/utils'
 
-export const Root = ({ className, ...props }: React.ComponentProps<'nav'>) => (
+export const Root = ({ className, ...props }: ComponentProps<'nav'>) => (
 	<nav
 		role="navigation"
 		aria-label="pagination"
@@ -11,4 +11,4 @@ export const Root = ({ className, ...props }: React.ComponentProps<'nav'>) => (
 	/>
 )
 
-Root.displayName = 'PaginationRoot'
+Root.displayName = 'Pagination'
