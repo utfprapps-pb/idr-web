@@ -1,14 +1,14 @@
-import React from 'react'
+import { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react'
 
-import { Content as ContentRadix } from '@radix-ui/react-tooltip'
+import { Content as ContentPrimitive } from '@radix-ui/react-tooltip'
 
 import { cn } from '@/main/utils'
 
-export const Content = React.forwardRef<
-	React.ElementRef<typeof ContentRadix>,
-	React.ComponentPropsWithoutRef<typeof ContentRadix>
+export const Content = forwardRef<
+	ElementRef<typeof ContentPrimitive>,
+	ComponentPropsWithoutRef<typeof ContentPrimitive>
 >(({ className, sideOffset = 4, ...props }, ref) => (
-	<ContentRadix
+	<ContentPrimitive
 		ref={ref}
 		sideOffset={sideOffset}
 		className={cn(
@@ -19,4 +19,4 @@ export const Content = React.forwardRef<
 	/>
 ))
 
-Content.displayName = ContentRadix.displayName
+Content.displayName = ContentPrimitive.displayName
