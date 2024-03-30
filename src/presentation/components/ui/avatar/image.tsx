@@ -1,19 +1,18 @@
-import React from 'react'
+import { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react'
 
-import { Image as ImageRadix } from '@radix-ui/react-avatar'
+import { Image as ImagePrimitive } from '@radix-ui/react-avatar'
 
 import { cn } from '@/main/utils'
 
-const Image = React.forwardRef<
-	React.ElementRef<typeof ImageRadix>,
-	React.ComponentPropsWithoutRef<typeof ImageRadix>
+export const Image = forwardRef<
+	ElementRef<typeof ImagePrimitive>,
+	ComponentPropsWithoutRef<typeof ImagePrimitive>
 >(({ className, ...props }, ref) => (
-	<ImageRadix
+	<ImagePrimitive
 		ref={ref}
 		className={cn('aspect-square h-full w-full', className)}
 		{...props}
 	/>
 ))
 
-Image.displayName = ImageRadix.displayName
-export { Image }
+Image.displayName = ImagePrimitive.displayName
