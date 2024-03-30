@@ -1,7 +1,6 @@
 import { Meta, StoryFn } from '@storybook/react/'
 
-import { Header } from './header'
-import { HeaderProps } from './types'
+import { Header, type HeaderProps } from '.'
 
 export default {
 	title: 'Components/UI/Header'

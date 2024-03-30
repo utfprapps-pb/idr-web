@@ -1,14 +1,13 @@
-import React from 'react'
+import { forwardRef } from 'react'
 
 import { LogoIdrJustBrand } from '@/assets/imgs'
 import { cn } from '@/main/utils'
 import { getInitials } from '@/main/utils/string/getInitials'
-
-import { Avatar } from '../avatar'
+import { Avatar } from '@/presentation/components/ui/avatar'
 
 import { HeaderProps } from './types'
 
-const Header = React.forwardRef<HTMLDivElement, HeaderProps>(
+export const Header = forwardRef<HTMLDivElement, HeaderProps>(
 	({ className, displayName, imageUrl, ...props }, ref) => (
 		<header
 			ref={ref}
@@ -43,4 +42,3 @@ const Header = React.forwardRef<HTMLDivElement, HeaderProps>(
 )
 
 Header.displayName = 'Header'
-export { Header }
