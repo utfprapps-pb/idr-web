@@ -1,10 +1,10 @@
-import React from 'react'
+import { forwardRef, ThHTMLAttributes } from 'react'
 
 import { cn } from '@/main/utils'
 
-export const Head = React.forwardRef<
+export const Head = forwardRef<
 	HTMLTableCellElement,
-	React.ThHTMLAttributes<HTMLTableCellElement>
+	ThHTMLAttributes<HTMLTableCellElement>
 >(({ className, ...props }, ref) => (
 	<th
 		ref={ref}

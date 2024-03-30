@@ -1,10 +1,10 @@
-import * as React from 'react'
+import { forwardRef, HTMLAttributes } from 'react'
 
 import { cn } from '@/main/utils'
 
-export const Table = React.forwardRef<
+export const Root = forwardRef<
 	HTMLTableElement,
-	React.HTMLAttributes<HTMLTableElement>
+	HTMLAttributes<HTMLTableElement>
 >(({ className, ...props }, ref) => (
 	<div className="relative w-full overflow-auto">
 		<table
@@ -15,4 +15,4 @@ export const Table = React.forwardRef<
 	</div>
 ))
 
-Table.displayName = 'Table'
+Root.displayName = 'Table'

@@ -1,10 +1,10 @@
-import React from 'react'
+import { forwardRef, HTMLAttributes } from 'react'
 
 import { cn } from '@/main/utils'
 
-export const Body = React.forwardRef<
+export const Body = forwardRef<
 	HTMLTableSectionElement,
-	React.HTMLAttributes<HTMLTableSectionElement>
+	HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
 	<tbody
 		ref={ref}
