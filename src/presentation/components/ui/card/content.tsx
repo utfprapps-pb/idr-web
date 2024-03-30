@@ -1,10 +1,10 @@
-import React from 'react'
+import { HTMLAttributes, forwardRef } from 'react'
 
 import { cn } from '@/main/utils'
 
-export const Content = React.forwardRef<
+export const Content = forwardRef<
 	HTMLDivElement,
-	React.HTMLAttributes<HTMLDivElement>
+	HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
 	<div ref={ref} className={cn(className)} {...props} />
 ))
