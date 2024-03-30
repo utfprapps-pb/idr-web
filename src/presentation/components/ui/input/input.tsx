@@ -1,17 +1,16 @@
-import React from 'react'
+import { forwardRef } from 'react'
 
 import { AlertCircle, XCircle } from 'lucide-react'
 
 import { cn } from '@/main/utils'
-
-import { Loading } from '../loading'
+import { Loading } from '@/presentation/components/ui/loading'
 
 import { inputVariants, styles } from './styles'
 import { useInput } from './useInput'
 
 import type { InputProps } from './types'
 
-const Input = React.forwardRef<HTMLInputElement, InputProps>(
+export const Input = forwardRef<HTMLInputElement, InputProps>(
 	(
 		{
 			className,
@@ -91,4 +90,3 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 )
 
 Input.displayName = 'Input'
-export { Input }
