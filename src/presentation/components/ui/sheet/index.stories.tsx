@@ -40,7 +40,15 @@ const Template: StoryFn<ContentProps> = ({ side, ...args }) => (
 			</div>
 			<Sheet.Footer>
 				<Sheet.Close asChild>
-					<Button type="submit">Save changes</Button>
+					<Button className="w-full" type="submit" variant="outline">
+						Close
+					</Button>
+				</Sheet.Close>
+
+				<Sheet.Close asChild>
+					<Button className="w-full" type="submit">
+						Save changes
+					</Button>
 				</Sheet.Close>
 			</Sheet.Footer>
 		</Sheet.Content>
