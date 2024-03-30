@@ -2,13 +2,10 @@ import { Meta, StoryFn } from '@storybook/react/'
 
 import { ValidationBuilder } from '@/main/builders'
 import { ValidationComposite } from '@/main/composite'
+import { Button } from '@/presentation/components/ui/button'
+import { Input } from '@/presentation/components/ui/input'
 
-import { Button } from '../button'
-import { Input } from '../input'
-
-import { useHookForm } from './hooks/useHookForm'
-
-import { Form } from '.'
+import { useHookForm, Form } from '.'
 
 export default {
 	title: 'Components/UI/Form'
