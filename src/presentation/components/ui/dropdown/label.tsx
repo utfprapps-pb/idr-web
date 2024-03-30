@@ -1,16 +1,16 @@
-import React from 'react'
+import { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react'
 
-import { Label as LabelRadix } from '@radix-ui/react-dropdown-menu'
+import { Label as LabelPrimitive } from '@radix-ui/react-dropdown-menu'
 
 import { cn } from '@/main/utils'
 
-export const Label = React.forwardRef<
-	React.ElementRef<typeof LabelRadix>,
-	React.ComponentPropsWithoutRef<typeof LabelRadix> & {
+export const Label = forwardRef<
+	ElementRef<typeof LabelPrimitive>,
+	ComponentPropsWithoutRef<typeof LabelPrimitive> & {
 		inset?: boolean
 	}
 >(({ className, inset, ...props }, ref) => (
-	<LabelRadix
+	<LabelPrimitive
 		ref={ref}
 		className={cn(
 			'px-2 py-1.5 text-sm font-semibold',
@@ -21,4 +21,4 @@ export const Label = React.forwardRef<
 	/>
 ))
 
-Label.displayName = LabelRadix.displayName
+Label.displayName = LabelPrimitive.displayName

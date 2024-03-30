@@ -1,18 +1,18 @@
-import React from 'react'
+import { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react'
 
 import {
 	ItemIndicator,
-	RadioItem as RadioItemRadix
+	RadioItem as RadioItemPrimitive
 } from '@radix-ui/react-dropdown-menu'
 import { Circle } from 'lucide-react'
 
 import { cn } from '@/main/utils'
 
-export const RadioItem = React.forwardRef<
-	React.ElementRef<typeof RadioItemRadix>,
-	React.ComponentPropsWithoutRef<typeof RadioItemRadix>
+export const RadioItem = forwardRef<
+	ElementRef<typeof RadioItemPrimitive>,
+	ComponentPropsWithoutRef<typeof RadioItemPrimitive>
 >(({ className, children, ...props }, ref) => (
-	<RadioItemRadix
+	<RadioItemPrimitive
 		ref={ref}
 		className={cn(
 			'relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
@@ -26,7 +26,7 @@ export const RadioItem = React.forwardRef<
 			</ItemIndicator>
 		</span>
 		{children}
-	</RadioItemRadix>
+	</RadioItemPrimitive>
 ))
 
-RadioItem.displayName = RadioItemRadix.displayName
+RadioItem.displayName = RadioItemPrimitive.displayName

@@ -1,18 +1,18 @@
-import React from 'react'
+import { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react'
 
-import { Separator as SeparatorRadix } from '@radix-ui/react-dropdown-menu'
+import { Separator as SeparatorPrimitive } from '@radix-ui/react-dropdown-menu'
 
 import { cn } from '@/main/utils'
 
-export const Separator = React.forwardRef<
-	React.ElementRef<typeof SeparatorRadix>,
-	React.ComponentPropsWithoutRef<typeof SeparatorRadix>
+export const Separator = forwardRef<
+	ElementRef<typeof SeparatorPrimitive>,
+	ComponentPropsWithoutRef<typeof SeparatorPrimitive>
 >(({ className, ...props }, ref) => (
-	<SeparatorRadix
+	<SeparatorPrimitive
 		ref={ref}
 		className={cn('-mx-1 my-1 h-px bg-muted', className)}
 		{...props}
 	/>
 ))
 
-Separator.displayName = SeparatorRadix.displayName
+Separator.displayName = SeparatorPrimitive.displayName
