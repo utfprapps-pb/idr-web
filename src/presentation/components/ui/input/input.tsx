@@ -41,7 +41,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 			})
 
 		return (
-			<div className="flex w-full relative items-center">
+			<div className="flex relative items-center">
 				<div className="flex gap-1 absolute pl-2">
 					{iconsStart.map(({ key, icon: Icon, onClick }) => (
 						<Icon
