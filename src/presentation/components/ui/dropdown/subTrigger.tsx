@@ -1,17 +1,17 @@
-import React from 'react'
+import { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react'
 
-import { SubTrigger as SubTriggerRadix } from '@radix-ui/react-dropdown-menu'
+import { SubTrigger as SubTriggerPrimitive } from '@radix-ui/react-dropdown-menu'
 import { ChevronRight } from 'lucide-react'
 
 import { cn } from '@/main/utils'
 
-export const SubTrigger = React.forwardRef<
-	React.ElementRef<typeof SubTriggerRadix>,
-	React.ComponentPropsWithoutRef<typeof SubTriggerRadix> & {
+export const SubTrigger = forwardRef<
+	ElementRef<typeof SubTriggerPrimitive>,
+	ComponentPropsWithoutRef<typeof SubTriggerPrimitive> & {
 		inset?: boolean
 	}
 >(({ className, inset, children, ...props }, ref) => (
-	<SubTriggerRadix
+	<SubTriggerPrimitive
 		ref={ref}
 		className={cn(
 			'flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent data-[state=open]:bg-accent',
@@ -22,7 +22,7 @@ export const SubTrigger = React.forwardRef<
 	>
 		{children}
 		<ChevronRight className="ml-auto h-4 w-4" />
-	</SubTriggerRadix>
+	</SubTriggerPrimitive>
 ))
 
-SubTrigger.displayName = SubTriggerRadix.displayName
+SubTrigger.displayName = SubTriggerPrimitive.displayName

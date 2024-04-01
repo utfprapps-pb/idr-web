@@ -1,8 +1,8 @@
-import React from 'react'
+import { forwardRef, ComponentProps } from 'react'
 
 import { cn } from '@/main/utils'
 
-export const Item = React.forwardRef<HTMLLIElement, React.ComponentProps<'li'>>(
+export const Item = forwardRef<HTMLLIElement, ComponentProps<'li'>>(
 	({ className, ...props }, ref) => (
 		<li ref={ref} className={cn('', className)} {...props} />
 	)

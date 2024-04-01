@@ -3,7 +3,7 @@ import { cn } from '@/main/utils'
 import { loadingVariants } from './styles'
 import { LoadingProps } from './types'
 
-const Loading: React.FC<LoadingProps> = ({ size = 'default' }) => (
+export const Loading: React.FC<LoadingProps> = ({ size = 'default' }) => (
 	<div role="status">
 		<svg
 			aria-hidden="true"
@@ -26,4 +26,3 @@ const Loading: React.FC<LoadingProps> = ({ size = 'default' }) => (
 )
 
 Loading.displayName = 'Loading'
-export { Loading }

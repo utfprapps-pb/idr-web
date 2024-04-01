@@ -1,15 +1,18 @@
-import React from 'react'
+import { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react'
 
-import { Content as ContentRadix, Portal } from '@radix-ui/react-dropdown-menu'
+import {
+	Content as ContentPrimitive,
+	Portal
+} from '@radix-ui/react-dropdown-menu'
 
 import { cn } from '@/main/utils'
 
-export const Content = React.forwardRef<
-	React.ElementRef<typeof ContentRadix>,
-	React.ComponentPropsWithoutRef<typeof ContentRadix>
+export const Content = forwardRef<
+	ElementRef<typeof ContentPrimitive>,
+	ComponentPropsWithoutRef<typeof ContentPrimitive>
 >(({ className, sideOffset = 4, ...props }, ref) => (
 	<Portal>
-		<ContentRadix
+		<ContentPrimitive
 			ref={ref}
 			sideOffset={sideOffset}
 			className={cn(
@@ -21,4 +24,4 @@ export const Content = React.forwardRef<
 	</Portal>
 ))
 
-Content.displayName = ContentRadix.displayName
+Content.displayName = ContentPrimitive.displayName

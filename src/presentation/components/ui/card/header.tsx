@@ -1,10 +1,10 @@
-import React from 'react'
+import { forwardRef, HTMLAttributes } from 'react'
 
 import { cn } from '@/main/utils'
 
-export const Header = React.forwardRef<
+export const Header = forwardRef<
 	HTMLDivElement,
-	React.HTMLAttributes<HTMLDivElement>
+	HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
 	<div
 		ref={ref}

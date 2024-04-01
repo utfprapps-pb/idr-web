@@ -1,6 +1,8 @@
 import { cn } from '@/main/utils'
-
-import { ButtonProps, buttonVariants } from '../button'
+import {
+	ButtonProps,
+	buttonVariants
+} from '@/presentation/components/ui/button'
 
 type LinkProps = {
 	isActive?: boolean

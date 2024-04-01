@@ -1,10 +1,10 @@
-import React from 'react'
+import { forwardRef, HTMLAttributes } from 'react'
 
 import { cn } from '@/main/utils'
 
-export const Row = React.forwardRef<
+export const Row = forwardRef<
 	HTMLTableRowElement,
-	React.HTMLAttributes<HTMLTableRowElement>
+	HTMLAttributes<HTMLTableRowElement>
 >(({ className, ...props }, ref) => (
 	<tr
 		ref={ref}

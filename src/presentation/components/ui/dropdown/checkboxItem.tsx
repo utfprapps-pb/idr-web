@@ -1,18 +1,18 @@
-import React from 'react'
+import { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react'
 
 import {
-	CheckboxItem as CheckboxItemRadix,
+	CheckboxItem as CheckboxItemPrimitive,
 	ItemIndicator
 } from '@radix-ui/react-dropdown-menu'
 import { Check } from 'lucide-react'
 
 import { cn } from '@/main/utils'
 
-export const CheckboxItem = React.forwardRef<
-	React.ElementRef<typeof CheckboxItemRadix>,
-	React.ComponentPropsWithoutRef<typeof CheckboxItemRadix>
+export const CheckboxItem = forwardRef<
+	ElementRef<typeof CheckboxItemPrimitive>,
+	ComponentPropsWithoutRef<typeof CheckboxItemPrimitive>
 >(({ className, children, checked, ...props }, ref) => (
-	<CheckboxItemRadix
+	<CheckboxItemPrimitive
 		ref={ref}
 		className={cn(
 			'relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
@@ -27,7 +27,7 @@ export const CheckboxItem = React.forwardRef<
 			</ItemIndicator>
 		</span>
 		{children}
-	</CheckboxItemRadix>
+	</CheckboxItemPrimitive>
 ))
 
-CheckboxItem.displayName = CheckboxItemRadix.displayName
+CheckboxItem.displayName = CheckboxItemPrimitive.displayName

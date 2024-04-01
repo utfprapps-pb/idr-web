@@ -6,8 +6,8 @@ import {
 } from '@tanstack/react-table'
 import { ArrowDownNarrowWide, ArrowUpNarrowWide } from 'lucide-react'
 
-import { Table } from '../table'
-import { Tooltip } from '../tooltip'
+import { Table } from '@/presentation/components/ui/table'
+import { Tooltip } from '@/presentation/components/ui/tooltip'
 
 import { DataTableProps } from './types'
 
