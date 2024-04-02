@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import { Meta, StoryFn } from '@storybook/react/'
-import { ColumnDef, SortingState } from '@tanstack/react-table'
+import { ColumnDef, PaginationState, SortingState } from '@tanstack/react-table'
 
 import { DataTable, type DataTableProps } from '.'
 
@@ -59,11 +59,26 @@ export default {
 
 const Template: StoryFn<DataTableProps<Payment>> = (args) => {
 	const [sorting, setSorting] = useState<SortingState>([])
+	const [pagination, setPagination] = useState<PaginationState>({
+		pageIndex: 0,
+		pageSize: 0
+	})
 
 	return (
 		<div className="flex flex-col gap-12">
-			<DataTable {...args} sorting={sorting} onSorting={setSorting} />
-			Sorting State: {JSON.stringify(sorting, null, 2)}
+			<DataTable
+				{...args}
+				sorting={{
+					currentSorting: sorting,
+					onSorting: setSorting
+				}}
+				pagination={{
+					currentPage: pagination,
+					onPageChange: setPagination
+				}}
+			/>
+			<p>Sorting State: {JSON.stringify(sorting, null, 2)}</p>
+			<p>Pagination State: {JSON.stringify(pagination, null, 2)}</p>
 		</div>
 	)
 }
