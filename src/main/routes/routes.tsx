@@ -1,5 +1,6 @@
 import { MakeLoginPage, MakeSignUpPage } from '@/main/factories/pages'
 import { PrivateRouteProxy } from '@/main/proxies'
+import { PageContainer } from '@/presentation/containers'
 
 import { PAGE_PATHS, Pages } from './paths'
 
@@ -33,7 +34,7 @@ export const ROUTES = Object.freeze<RoutesProps>({
 		path: () => PAGE_PATHS.properties,
 		component: (
 			<PrivateRouteProxy>
-				<h1>Under construction!</h1>
+				<PageContainer />
 			</PrivateRouteProxy>
 		)
 	},
