@@ -1,11 +1,9 @@
-import React from 'react'
-
 import { cn } from '@/main/utils'
 import { useWindowResize } from '@/presentation/hooks/useWindowResize'
 
 type WaveProps = React.HTMLAttributes<HTMLDivElement>
 
-const Wave: React.FC<WaveProps> = ({ className, ...props }) => {
+export const Wave: React.FC<WaveProps> = ({ className, ...props }) => {
 	const { width } = useWindowResize()
 
 	return (
@@ -49,6 +47,5 @@ const Wave: React.FC<WaveProps> = ({ className, ...props }) => {
 		</div>
 	)
 }
-Wave.displayName = 'Wave'
 
-export { Wave }
+Wave.displayName = 'Wave'

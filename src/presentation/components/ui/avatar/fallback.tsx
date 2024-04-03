@@ -1,14 +1,14 @@
-import React from 'react'
+import { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react'
 
-import { Fallback as FallbackRadix } from '@radix-ui/react-avatar'
+import { Fallback as FallbackPrimitive } from '@radix-ui/react-avatar'
 
 import { cn } from '@/main/utils'
 
-const Fallback = React.forwardRef<
-	React.ElementRef<typeof FallbackRadix>,
-	React.ComponentPropsWithoutRef<typeof FallbackRadix>
+export const Fallback = forwardRef<
+	ElementRef<typeof FallbackPrimitive>,
+	ComponentPropsWithoutRef<typeof FallbackPrimitive>
 >(({ className, ...props }, ref) => (
-	<FallbackRadix
+	<FallbackPrimitive
 		ref={ref}
 		className={cn(
 			'flex h-full w-full items-center justify-center rounded-full bg-muted',
@@ -18,5 +18,4 @@ const Fallback = React.forwardRef<
 	/>
 ))
 
-Fallback.displayName = FallbackRadix.displayName
-export { Fallback }
+Fallback.displayName = FallbackPrimitive.displayName

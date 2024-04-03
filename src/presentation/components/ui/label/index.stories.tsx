@@ -1,6 +1,6 @@
 import { Meta, StoryFn } from '@storybook/react/'
 
-import { Label, LabelProps } from '.'
+import { Label, type LabelProps } from '.'
 
 export default {
 	title: 'Components/UI/Label',

@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu'
 import { Meta, StoryFn } from '@storybook/react/'
 
-import { Button } from '../button'
+import { Button } from '@/presentation/components/ui/button'
 
 import { DropdownMenu } from '.'
 

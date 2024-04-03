@@ -3,8 +3,7 @@ import { useState } from 'react'
 import { Meta, StoryFn } from '@storybook/react/'
 import { ColumnDef, SortingState } from '@tanstack/react-table'
 
-import { DataTable } from './dataTable'
-import { DataTableProps } from './types'
+import { DataTable, type DataTableProps } from '.'
 
 type Payment = {
 	id: string

@@ -2,7 +2,7 @@ import { useFormContext } from 'react-hook-form'
 
 import { useFormFieldContext, useFormItemContext } from '../contexts'
 
-const useFormField = () => {
+export const useFormField = () => {
 	const fieldHook = useFormFieldContext()
 
 	if (!fieldHook) {
@@ -24,5 +24,3 @@ const useFormField = () => {
 		...fieldState
 	}
 }
-
-export { useFormField }

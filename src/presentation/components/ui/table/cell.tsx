@@ -1,10 +1,10 @@
-import React from 'react'
+import { forwardRef, TdHTMLAttributes } from 'react'
 
 import { cn } from '@/main/utils'
 
-export const Cell = React.forwardRef<
+export const Cell = forwardRef<
 	HTMLTableCellElement,
-	React.TdHTMLAttributes<HTMLTableCellElement>
+	TdHTMLAttributes<HTMLTableCellElement>
 >(({ className, ...props }, ref) => (
 	<td
 		ref={ref}

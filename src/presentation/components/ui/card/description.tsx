@@ -1,10 +1,10 @@
-import React from 'react'
+import { HTMLAttributes, forwardRef } from 'react'
 
 import { cn } from '@/main/utils'
 
-export const Description = React.forwardRef<
+export const Description = forwardRef<
 	HTMLParagraphElement,
-	React.HTMLAttributes<HTMLParagraphElement>
+	HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
 	<p
 		ref={ref}

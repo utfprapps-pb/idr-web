@@ -1,11 +1,11 @@
-import React from 'react'
+import { forwardRef } from 'react'
 
 import { cn } from '@/main/utils'
 
 import { itemVariants } from './styles'
 import { ItemProps } from './types'
 
-export const Item = React.forwardRef<HTMLDivElement, ItemProps>(
+export const Item = forwardRef<HTMLDivElement, ItemProps>(
 	({ className, active, ...props }, ref) => (
 		<div
 			ref={ref}
