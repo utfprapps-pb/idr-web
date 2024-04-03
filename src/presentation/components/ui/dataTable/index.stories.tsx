@@ -1,5 +1,7 @@
+import { useState } from 'react'
+
 import { Meta, StoryFn } from '@storybook/react/'
-import { ColumnDef } from '@tanstack/react-table'
+import { ColumnDef, SortingState } from '@tanstack/react-table'
 
 import { DataTable } from './dataTable'
 import { DataTableProps } from './types'
@@ -56,9 +58,16 @@ export default {
 	title: 'Components/UI/DataTable'
 } as Meta
 
-const Template: StoryFn<DataTableProps<Payment>> = (args) => (
-	<DataTable {...args} />
-)
+const Template: StoryFn<DataTableProps<Payment>> = (args) => {
+	const [sorting, setSorting] = useState<SortingState>([])
+
+	return (
+		<div className="flex flex-col gap-12">
+			<DataTable {...args} sorting={sorting} onSorting={setSorting} />
+			Sorting State: {JSON.stringify(sorting, null, 2)}
+		</div>
+	)
+}
 
 export const Default = Template.bind({})
 Default.args = {
