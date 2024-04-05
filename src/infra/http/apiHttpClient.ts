@@ -3,8 +3,10 @@ import axios, { AxiosResponse } from 'axios'
 import { IHttpClient, HttpRequest, HttpResponse } from '@/data/protocols/http'
 import { env } from '@/main/env'
 
+export const ITEMS_PER_PAGE = 10
+
 export const baseApi = axios.create({
-	baseURL: env.VITE_API_BASE_URL,
+	baseURL: env.VITE_API_MOCKED ? '' : env.VITE_API_BASE_URL,
 	headers: {
 		'Content-Type': 'application/json'
 	},
@@ -16,13 +18,14 @@ export class ApiHttpClient<T = unknown> implements IHttpClient<T> {
 	async request(data: HttpRequest): Promise<HttpResponse<T>> {
 		let axiosResponse: AxiosResponse
 
-		const { url: rawUrl, pagination, filters } = data
+		const { url: rawUrl, pagination, filters, sort } = data
 
 		try {
 			const url = this.makeUrlWithFiltersAndPagination({
 				url: rawUrl,
 				filters,
-				pagination
+				pagination,
+				sort
 			})
 
 			axiosResponse = await baseApi.request({
@@ -36,33 +39,39 @@ export class ApiHttpClient<T = unknown> implements IHttpClient<T> {
 
 		return {
 			statusCode: axiosResponse.status,
-			body: axiosResponse.data
+			body: axiosResponse.data,
+			itemsPerPage: pagination?.perPage ?? ITEMS_PER_PAGE
 		}
 	}
 
-	private makeUrlWithFiltersAndPagination(params: {
-		url: string
-		filters: HttpRequest['filters']
-		pagination: HttpRequest['pagination']
-	}) {
-		const { url, filters = {}, pagination = {} } = params
+	private makeUrlWithFiltersAndPagination({
+		url,
+		filters,
+		pagination,
+		sort
+	}: Pick<HttpRequest, 'url' | 'filters' | 'pagination' | 'sort'>) {
+		if (!pagination && !filters && !sort) return url
 
-		const paginationKeys = Object.keys(pagination)
-		const filtersKeys = Object.keys(filters)
+		const query = {
+			filters: filters ?? {},
+			pagination: pagination
+				? {
+						...pagination,
+						perPage: pagination?.perPage ? pagination.perPage : ITEMS_PER_PAGE
+					}
+				: {},
+			sort: sort ?? {}
+		}
 
-		if (!filtersKeys.length && !paginationKeys.length) return url
+		const parsedQuery = Object.entries(query)
+			.map(([key, value]) => {
+				if (typeof value === 'object' && Object.keys(value).length === 0) {
+					return `${encodeURIComponent(key)}=`
+				}
+				return `${encodeURIComponent(key)}=${encodeURIComponent(JSON.stringify(value))}`
+			})
+			.join('&')
 
-		const esc = encodeURIComponent
-		const filtersAndPagination = [
-			...Object.entries(pagination).map(
-				([key, value]) => `${esc(key)}=${esc(String(value))}`
-			),
-			...Object.entries(filters).map(
-				([key, value]) => `${esc(key)}=${esc(value)}`
-			)
-		]
-
-		const query = filtersAndPagination.join('&')
-		return `${url}?${query}`
+		return `${url}?${parsedQuery}`
 	}
 }

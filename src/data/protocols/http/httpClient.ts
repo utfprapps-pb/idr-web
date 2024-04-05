@@ -13,6 +13,8 @@ export enum HttpStatusCode {
 	serverError = 500
 }
 
+export type SortDirection = 'asc' | 'desc'
+
 export type HttpRequest<F = Record<string, string>> = {
 	url: string
 	method: HttpMethod
@@ -22,11 +24,16 @@ export type HttpRequest<F = Record<string, string>> = {
 		page: number
 		perPage?: number
 	}
+	sort?: {
+		direction: SortDirection
+		field: string
+	}
 }
 
 export type HttpResponse<T = any> = {
 	statusCode: HttpStatusCode
 	body?: T
+	itemsPerPage: number
 }
 
 export interface IHttpClient<T = any, F = Record<string, string>> {
