@@ -16,7 +16,8 @@
 		"type:check": "tsc --noEmit",
 		"lint:staged": "lint-staged",
 		"storybook:dev": "storybook dev -p 6006",
-		"storybook:build": "storybook build -o docs-build"
+		"storybook:build": "storybook build -o docs-build",
+		"seed:mock": "node ./scripts/seed/index.mjs"
 	},
 	"dependencies": {
 		"@radix-ui/react-avatar": "^1.0.4",
