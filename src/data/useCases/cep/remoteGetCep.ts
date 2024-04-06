@@ -1,7 +1,7 @@
 import { IHttpClient, HttpStatusCode } from '@/data/protocols/http'
 import { UnexpectedError, NotFoundError } from '@/domain/errors'
 import { CepModel } from '@/domain/models'
-import { IGetCep } from '@/domain/useCases/cep'
+import { IGetCep } from '@/domain/useCases'
 
 export class RemoteGetCep implements IGetCep {
 	constructor(
