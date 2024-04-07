@@ -1,6 +1,6 @@
-import { RemoteGetCep } from '@/data/useCases/cep'
+import { RemoteGetCep } from '@/data/useCases'
 import { CepModel } from '@/domain/models'
-import { IGetCep } from '@/domain/useCases/cep'
+import { IGetCep } from '@/domain/useCases'
 import { makeBrasilApiHttpClient } from '@/main/factories/http'
 
 export const makeRemoteGetCep = (): IGetCep =>

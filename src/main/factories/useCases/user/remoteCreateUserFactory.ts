@@ -1,4 +1,4 @@
-import { RemoteCreateUser } from '@/data/useCases/user'
+import { RemoteCreateUser } from '@/data/useCases'
 import { ICreateUser } from '@/domain/useCases'
 import { makeApiHttpClient } from '@/main/factories/http'
 
