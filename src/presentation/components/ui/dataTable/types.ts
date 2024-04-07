@@ -9,6 +9,7 @@ import {
 export type DataTableProps<TData extends RowData> = {
 	data: TData[]
 	columns: ColumnDef<TData>[]
+	totalPages: number
 	pagination: {
 		currentPage: PaginationState
 		onPageChange: OnChangeFn<PaginationState>
@@ -17,4 +18,5 @@ export type DataTableProps<TData extends RowData> = {
 		currentSorting: SortingState
 		onSorting: OnChangeFn<SortingState>
 	}
+	loading?: boolean
 }

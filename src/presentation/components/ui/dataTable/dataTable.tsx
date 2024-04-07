@@ -1,9 +1,10 @@
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import {
 	RowData,
 	flexRender,
 	getCoreRowModel,
+	getPaginationRowModel,
 	useReactTable
 } from '@tanstack/react-table'
 import { ArrowDownNarrowWide, ArrowUpNarrowWide } from 'lucide-react'
@@ -11,22 +12,32 @@ import { ArrowDownNarrowWide, ArrowUpNarrowWide } from 'lucide-react'
 import { Table } from '@/presentation/components/ui/table'
 import { Tooltip } from '@/presentation/components/ui/tooltip'
 
+import { Loading } from '../loading'
 import { Pagination } from '../pagination'
 
 import { DataTableProps } from './types'
-
-const REGISTERS_PER_PAGE = 10
 
 export const DataTable = <TData extends RowData>({
 	columns,
 	data,
 	sorting,
-	pagination
+	pagination,
+	totalPages,
+	loading = false
 }: DataTableProps<TData>) => {
 	const { currentSorting, onSorting } = sorting
 	const { currentPage, onPageChange } = pagination
 
-	const table = useReactTable<TData>({
+	const {
+		getState,
+		getRowModel,
+		getHeaderGroups,
+		previousPage,
+		nextPage,
+		setPageIndex,
+		getCanPreviousPage,
+		getCanNextPage
+	} = useReactTable<TData>({
 		columns,
 		data,
 		state: {
@@ -35,10 +46,14 @@ export const DataTable = <TData extends RowData>({
 		},
 		manualSorting: true,
 		manualPagination: true,
+		pageCount: totalPages,
 		onSortingChange: onSorting,
 		onPaginationChange: onPageChange,
-		getCoreRowModel: getCoreRowModel()
+		getCoreRowModel: getCoreRowModel(),
+		getPaginationRowModel: getPaginationRowModel()
 	})
+
+	const page = getState().pagination.pageIndex + 1
 
 	const tooltipText = (value: 'asc' | 'desc' | false) => {
 		if (value === 'asc') return 'Ordenar de forma de crescente'
@@ -47,25 +62,52 @@ export const DataTable = <TData extends RowData>({
 		return 'Limpar ordenação'
 	}
 
-	const lastPage = Math.ceil(data.length / REGISTERS_PER_PAGE)
-
-	const page = useMemo(() => table.getState().pagination.pageIndex + 1, [table])
-
 	const showInitialEllipsis = useMemo(() => page > 2, [page])
 
 	const showFinalEllipsis = useMemo(() => page + 2 > 3, [page])
 
 	const isBeforeLastPage = useMemo(
-		() => page + 1 < data.length,
-		[page, data.length]
+		() => page + 1 < totalPages,
+		[page, totalPages]
 	)
+
+	const tableBody = useCallback(() => {
+		if (loading) {
+			return (
+				<Table.Row>
+					<Table.Cell colSpan={columns.length}>
+						<Loading className="flex justify-center" size="lg" />
+					</Table.Cell>
+				</Table.Row>
+			)
+		}
+
+		if (!getRowModel().rows.length)
+			return (
+				<Table.Row>
+					<Table.Cell colSpan={columns.length} className="h-24 text-center">
+						No results.
+					</Table.Cell>
+				</Table.Row>
+			)
+
+		return getRowModel().rows.map((row) => (
+			<Table.Row key={row.id} data-state={row.getIsSelected() && 'selected'}>
+				{row.getVisibleCells().map((cell) => (
+					<Table.Cell key={cell.id}>
+						{flexRender(cell.column.columnDef.cell, cell.getContext())}
+					</Table.Cell>
+				))}
+			</Table.Row>
+		))
+	}, [columns.length, getRowModel, loading])
 
 	return (
 		<div className="flex flex-col gap-4">
 			<div className="rounded-md border">
 				<Table.Root>
 					<Table.Header>
-						{table.getHeaderGroups().map((headerGroup) => (
+						{getHeaderGroups().map((headerGroup) => (
 							<Table.Row key={headerGroup.id}>
 								{headerGroup.headers.map((header) => (
 									<Table.Head
@@ -106,48 +148,21 @@ export const DataTable = <TData extends RowData>({
 							</Table.Row>
 						))}
 					</Table.Header>
-					<Table.Body>
-						{table.getRowModel().rows?.length ? (
-							table.getRowModel().rows.map((row) => (
-								<Table.Row
-									key={row.id}
-									data-state={row.getIsSelected() && 'selected'}
-								>
-									{row.getVisibleCells().map((cell) => (
-										<Table.Cell key={cell.id}>
-											{flexRender(
-												cell.column.columnDef.cell,
-												cell.getContext()
-											)}
-										</Table.Cell>
-									))}
-								</Table.Row>
-							))
-						) : (
-							<Table.Row>
-								<Table.Cell
-									colSpan={columns.length}
-									className="h-24 text-center"
-								>
-									No results.
-								</Table.Cell>
-							</Table.Row>
-						)}
-					</Table.Body>
+					<Table.Body>{tableBody()}</Table.Body>
 				</Table.Root>
 			</div>
 			<Pagination.Root>
 				<Pagination.Content>
 					<Pagination.Item
-						isDisabled={!table.getCanPreviousPage()}
-						onClick={table.previousPage}
+						isDisabled={!getCanPreviousPage()}
+						onClick={previousPage}
 					>
 						<Pagination.Previous />
 					</Pagination.Item>
 
 					{showInitialEllipsis ? (
 						<>
-							<Pagination.Item onClick={() => table.setPageIndex(0)}>
+							<Pagination.Item onClick={() => setPageIndex(0)}>
 								<Pagination.Link>1</Pagination.Link>
 							</Pagination.Item>
 
@@ -170,18 +185,15 @@ export const DataTable = <TData extends RowData>({
 							) : null}
 
 							<Pagination.Item
-								onClick={() => table.setPageIndex(lastPage - 1)}
-								isDisabled={!table.getCanNextPage()}
+								onClick={() => setPageIndex(totalPages - 1)}
+								isDisabled={!getCanNextPage()}
 							>
-								<Pagination.Link>{lastPage}</Pagination.Link>
+								<Pagination.Link>{totalPages}</Pagination.Link>
 							</Pagination.Item>
 						</>
 					) : null}
 
-					<Pagination.Item
-						isDisabled={!table.getCanNextPage()}
-						onClick={table.nextPage}
-					>
+					<Pagination.Item isDisabled={!getCanNextPage()} onClick={nextPage}>
 						<Pagination.Next />
 					</Pagination.Item>
 				</Pagination.Content>
