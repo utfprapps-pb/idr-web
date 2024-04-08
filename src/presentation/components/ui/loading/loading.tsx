@@ -3,11 +3,14 @@ import { cn } from '@/main/utils'
 import { loadingVariants } from './styles'
 import { LoadingProps } from './types'
 
-export const Loading: React.FC<LoadingProps> = ({ size = 'default' }) => (
-	<div role="status">
+export const Loading: React.FC<LoadingProps> = ({
+	size = 'default',
+	className
+}) => (
+	<div role="status" className="flex justify-center">
 		<svg
 			aria-hidden="true"
-			className={cn(loadingVariants({ size }))}
+			className={cn(loadingVariants({ size, className }))}
 			viewBox="0 0 100 101"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
