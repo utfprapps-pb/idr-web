@@ -1,8 +1,7 @@
 import { forwardRef } from 'react'
 
 import { LogoIdrJustBrand } from '@/assets/imgs'
-import { cn } from '@/main/utils'
-import { getInitials } from '@/main/utils/string/getInitials'
+import { cn, getInitials } from '@/main/utils'
 import { Avatar } from '@/presentation/components/ui/avatar'
 
 import { HeaderProps } from './types'
