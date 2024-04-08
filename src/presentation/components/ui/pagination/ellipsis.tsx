@@ -8,7 +8,10 @@ export const Ellipsis: React.FC<React.ComponentProps<'span'>> = ({
 }) => (
 	<span
 		aria-hidden
-		className={cn('flex h-9 w-9 items-center justify-center', className)}
+		className={cn(
+			'flex h-9 w-9 items-center justify-center cursor-default',
+			className
+		)}
 		{...props}
 	>
 		<MoreHorizontal size={16} />
