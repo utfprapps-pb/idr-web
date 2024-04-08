@@ -2,7 +2,7 @@ import { cva } from 'class-variance-authority'
 import clsx from 'clsx'
 
 export const styles = clsx`
-	flex h-10
+	flex h-10 w-full
 	rounded-md border border-slate-300
 	py-2
 	text-base text-slate-900 bg-white
