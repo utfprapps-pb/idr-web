@@ -6,7 +6,7 @@ import { env } from '@/main/env'
 export const ITEMS_PER_PAGE = 10
 
 export const baseApi = axios.create({
-	baseURL: env.VITE_API_MOCKED ? '' : env.VITE_API_BASE_URL,
+	baseURL: env.VITE_API_MOCKED ? 'api/' : env.VITE_API_BASE_URL,
 	headers: {
 		'Content-Type': 'application/json'
 	},
