@@ -9,12 +9,16 @@ export const TableContainer = <TData extends RowData>({
 	inputSearch
 }: TableContainerProps<TData>) => (
 	<>
-		<Input {...inputSearch} />
+		<div className="self-start">
+			<Input {...inputSearch} />
+		</div>
 		<DataTable<TData>
 			columns={table.columns}
 			data={table.data}
+			totalPages={table.totalPages}
 			sorting={table.sorting}
 			pagination={table.pagination}
+			loading={table.loading}
 		/>
 	</>
 )
