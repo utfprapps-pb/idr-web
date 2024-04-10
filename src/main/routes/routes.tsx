@@ -1,6 +1,5 @@
-import { MakeLoginPage, MakeSignUpPage } from '@/main/factories/pages'
+import * as PageFactory from '@/main/factories/pages'
 import { PrivateRouteProxy } from '@/main/proxies'
-import { PageContainer } from '@/presentation/containers'
 
 import { PAGE_PATHS, Pages } from './paths'
 
@@ -16,11 +15,11 @@ type RoutesProps = {
 export const ROUTES = Object.freeze<RoutesProps>({
 	login: {
 		path: () => PAGE_PATHS.login,
-		component: <MakeLoginPage />
+		component: <PageFactory.MakeLoginPage />
 	},
 	signUp: {
 		path: () => PAGE_PATHS.signUp,
-		component: <MakeSignUpPage />
+		component: <PageFactory.MakeSignUpPage />
 	},
 	home: {
 		path: () => PAGE_PATHS.home,
@@ -34,7 +33,7 @@ export const ROUTES = Object.freeze<RoutesProps>({
 		path: () => PAGE_PATHS.properties,
 		component: (
 			<PrivateRouteProxy>
-				<PageContainer />
+				<PageFactory.MakePropertyPage />
 			</PrivateRouteProxy>
 		)
 	},
