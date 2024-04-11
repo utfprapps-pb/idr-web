@@ -62,7 +62,7 @@ export const getPropertiesService = httpWithMiddleware<never, Params, Response>(
 			return HttpResponse.json(
 				{
 					properties: filteredData,
-					totalRegisters: propertiesData.length
+					totalRegisters: filteredData.length
 				},
 				{ status: HttpStatusCode.ok }
 			)
