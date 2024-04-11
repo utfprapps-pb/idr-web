@@ -1,5 +1,4 @@
 import { CreateUserModel } from '@/domain/models'
+import { IRequestInterface } from '@/domain/shared'
 
-export interface ICreateUser {
-	execute: (params: CreateUserModel) => Promise<void>
-}
+export interface ICreateUser extends IRequestInterface<CreateUserModel, void> {}
