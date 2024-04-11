@@ -5,8 +5,9 @@ export const filterData = <TData extends Record<string, string>>(
 	const filterEntries = Object.entries(filters)
 
 	return data.filter((item) =>
-		filterEntries.filter(([key, value]) =>
-			item[key as keyof TData].includes(value)
-		)
+		filterEntries.every(([key, value]) => {
+			const itemValue = item[key as keyof TData]
+			return itemValue.toLowerCase().includes(value.toLowerCase())
+		})
 	)
 }
