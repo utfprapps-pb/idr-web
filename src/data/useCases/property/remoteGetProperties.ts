@@ -1,11 +1,7 @@
 import { IHttpClient, HttpStatusCode } from '@/data/protocols/http'
 import { UnexpectedError, NotFoundError } from '@/domain/errors'
 import { PropertyModel } from '@/domain/models'
-import {
-	GetPropertiesParams,
-	GetPropertiesResponse,
-	IGetProperties
-} from '@/domain/useCases'
+import { IGetProperties } from '@/domain/useCases'
 
 export class RemoteGetProperties implements IGetProperties {
 	constructor(
@@ -13,11 +9,11 @@ export class RemoteGetProperties implements IGetProperties {
 		private readonly httpClient: IHttpClient
 	) {}
 
-	async execute({
+	execute: IGetProperties['execute'] = async ({
 		filters,
 		pagination,
 		sort
-	}: GetPropertiesParams): Promise<GetPropertiesResponse> {
+	}) => {
 		const { statusCode, body, itemsPerPage } = await this.httpClient.request({
 			url: `${this.url}`,
 			method: 'get',

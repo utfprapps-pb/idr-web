@@ -1,7 +1,6 @@
 import { IHttpClient, HttpStatusCode } from '@/data/protocols/http'
 import { InvalidCredentialsError, UnexpectedError } from '@/domain/errors'
-import { UserModel } from '@/domain/models'
-import { ILoginUser, LoginUserParams } from '@/domain/useCases'
+import { ILoginUser } from '@/domain/useCases'
 
 export class RemoteLoginUser implements ILoginUser {
 	constructor(
@@ -9,7 +8,7 @@ export class RemoteLoginUser implements ILoginUser {
 		private readonly httpClient: IHttpClient
 	) {}
 
-	async execute(params: LoginUserParams): Promise<UserModel> {
+	execute: ILoginUser['execute'] = async (params) => {
 		const payload = {
 			username: params.email,
 			password: params.password

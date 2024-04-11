@@ -1,6 +1,5 @@
 import { IHttpClient, HttpStatusCode } from '@/data/protocols/http'
 import { UnexpectedError } from '@/domain/errors'
-import { CreateUserModel } from '@/domain/models'
 import { ICreateUser } from '@/domain/useCases'
 
 export class RemoteCreateUser implements ICreateUser {
@@ -9,7 +8,7 @@ export class RemoteCreateUser implements ICreateUser {
 		private readonly httpClient: IHttpClient<void>
 	) {}
 
-	async execute(params: CreateUserModel): Promise<void> {
+	execute: ICreateUser['execute'] = async (params) => {
 		const body = {
 			...params,
 			username: params.email,
