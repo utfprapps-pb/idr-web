@@ -18,7 +18,7 @@ export type UseListTableParams<
 	getData: IRequestInterface<IListParams<TKeyOfModel>, IListResponse<TModel>>
 }
 
-export const listTable =
+export const listTableHook =
 	<
 		TModel extends Record<string, unknown>,
 		TKeyOfModel extends string = string

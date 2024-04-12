@@ -1,4 +1,4 @@
-import { ListTableParams, UseListTableParams, listTable } from './listTable'
+import { ListTableParams, UseListTableParams, listTableHook } from './listTable'
 
 type PageContainerParams<TModel extends Record<string, unknown>> = {
 	listTableParams: ListTableParams<TModel>
@@ -10,21 +10,21 @@ type UsePageContainerParams<
 	useListTableParams: UseListTableParams<TModel, TKeyOfModel>
 }
 
-export const pageContainer = <
+export const pageContainerHook = <
 	TModel extends Record<string, unknown>,
 	TKeyOfModel extends string = string
 >({
 	listTableParams
 }: PageContainerParams<TModel>) => {
-	const useListTableHook = listTable<TModel, TKeyOfModel>(listTableParams)
+	const useListTableHook = listTableHook<TModel, TKeyOfModel>(listTableParams)
 
 	return ({
 		useListTableParams
 	}: UsePageContainerParams<TModel, TKeyOfModel>) => {
-		const listTableHook = useListTableHook(useListTableParams)
+		const listTableHookData = useListTableHook(useListTableParams)
 
 		return {
-			...listTableHook
+			...listTableHookData
 		}
 	}
 }
