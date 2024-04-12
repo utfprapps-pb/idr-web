@@ -24,7 +24,7 @@ export class RemoteGetProperties implements IGetProperties {
 
 		if (statusCode === HttpStatusCode.ok && !!body) {
 			return {
-				properties: body.properties.map(
+				data: body.properties.map(
 					(item: any) =>
 						({
 							id: item.id,
