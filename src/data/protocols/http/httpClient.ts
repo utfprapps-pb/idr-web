@@ -30,9 +30,9 @@ export type HttpRequest<F = Record<string, string>> = {
 	}
 }
 
-export type HttpResponse<T = any> = {
+export type HttpResponse<TBody = any> = {
 	statusCode: HttpStatusCode
-	body?: T
+	body?: TBody
 	itemsPerPage: number
 }
 

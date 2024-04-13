@@ -14,8 +14,8 @@ export const baseApi = axios.create({
 	validateStatus: (status: number) => status >= 200 && status < 300
 })
 
-export class ApiHttpClient<T = unknown> implements IHttpClient<T> {
-	async request(data: HttpRequest): Promise<HttpResponse<T>> {
+export class ApiHttpClient<TBody = unknown> implements IHttpClient<TBody> {
+	async request(data: HttpRequest): Promise<HttpResponse<TBody>> {
 		let axiosResponse: AxiosResponse
 
 		const { url: rawUrl, pagination, filters, sort } = data
