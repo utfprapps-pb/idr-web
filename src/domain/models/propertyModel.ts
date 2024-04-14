@@ -8,7 +8,7 @@ export type PropertyModel = {
 	}
 }
 
-export type CreatePropertyModel = {
+export type PropertyDetailsModel = {
 	generalData: {
 		name: string
 		city: string

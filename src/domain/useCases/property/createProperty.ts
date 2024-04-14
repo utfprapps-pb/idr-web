@@ -1,5 +1,5 @@
-import { CreatePropertyModel } from '@/domain/models'
+import { PropertyDetailsModel } from '@/domain/models'
 import { IRequestInterface } from '@/domain/shared'
 
 export interface ICreateProperty
-	extends IRequestInterface<CreatePropertyModel, void> {}
+	extends IRequestInterface<PropertyDetailsModel, void> {}

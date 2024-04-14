@@ -1,13 +1,13 @@
 import { HttpResponse } from 'msw'
 
 import { HttpStatusCode } from '@/data/protocols/http'
-import { CreatePropertyModel } from '@/domain/models'
+import { PropertyDetailsModel } from '@/domain/models'
 import { httpWithMiddleware } from '@/mocks/lib'
 import { withAuth, withDelay } from '@/mocks/middleware'
 
 export const createPropertyService = httpWithMiddleware<
 	never,
-	CreatePropertyModel,
+	PropertyDetailsModel,
 	never
 >({
 	routePath: '/api/properties',
