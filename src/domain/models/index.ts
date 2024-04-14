@@ -1,3 +1,3 @@
 export * from './cepModel'
-export * from './userModel'
 export * from './propertyModel'
+export * from './userModel'
