@@ -1,5 +1,5 @@
 import { IHttpClient, HttpStatusCode } from '@/data/protocols/http'
-import { UnexpectedError, NotFoundError } from '@/domain/errors'
+import { UnexpectedError, NotFoundError, ForbiddenError } from '@/domain/errors'
 import { PropertyModel } from '@/domain/models'
 import { IGetProperties } from '@/domain/useCases'
 
@@ -42,6 +42,11 @@ export class RemoteGetProperties implements IGetProperties {
 
 		if (statusCode === HttpStatusCode.notFound)
 			throw new NotFoundError('Propriedades')
+
+		if (statusCode === HttpStatusCode.forbidden)
+			throw new ForbiddenError(
+				'Você não tem permissão para buscar propriedades'
+			)
 
 		throw new UnexpectedError()
 	}

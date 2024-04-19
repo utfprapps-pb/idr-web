@@ -1,5 +1,5 @@
 import { IHttpClient, HttpStatusCode } from '@/data/protocols/http'
-import { UnexpectedError, NotFoundError } from '@/domain/errors'
+import { UnexpectedError, NotFoundError, ForbiddenError } from '@/domain/errors'
 import { IDeleteProperty } from '@/domain/useCases'
 
 export class RemoteDeleteProperty implements IDeleteProperty {
@@ -18,6 +18,11 @@ export class RemoteDeleteProperty implements IDeleteProperty {
 
 		if (statusCode === HttpStatusCode.notFound)
 			throw new NotFoundError('Propriedades')
+
+		if (statusCode === HttpStatusCode.forbidden)
+			throw new ForbiddenError(
+				'Você não tem permissão para excluir uma propriedade'
+			)
 
 		throw new UnexpectedError()
 	}
