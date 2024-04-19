@@ -1,7 +1,5 @@
 import { PropertyModel } from '@/domain/models'
-import { IRequestInterface } from '@/domain/shared'
-import { IListParams } from '@/domain/shared/listParamsInterface'
-import { IListResponse } from '@/domain/shared/listResponseInterface'
+import { IRequestInterface, IListParams, IListResponse } from '@/domain/shared'
 
 export interface IGetProperties
 	extends IRequestInterface<

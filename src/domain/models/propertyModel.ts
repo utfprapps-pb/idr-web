@@ -1,3 +1,5 @@
+import { Option } from '@/domain/shared'
+
 export type PropertyModel = {
 	id: string
 	producer: string
@@ -9,6 +11,7 @@ export type PropertyModel = {
 }
 
 export type PropertyDetailsModel = {
+	id: string
 	generalData: {
 		name: string
 		city: string
@@ -16,13 +19,12 @@ export type PropertyDetailsModel = {
 		producer: string
 		nakedAveragePricePerHectare: string
 		leaseAveragePricePerHectare: string
-		// ToDo: Transform to Option (id, value)
-		responsibleTechnicians: string[]
+		responsibleTechnicians: Option[]
 	}
 	collaborators: {
 		name: string
 		hoursPerDay: string
-	}
+	}[]
 	totalArea: {
 		dairyCattleFarming: string
 		perennialPasture: string
