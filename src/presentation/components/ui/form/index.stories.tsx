@@ -4,8 +4,9 @@ import { ValidationBuilder } from '@/main/builders'
 import { ValidationComposite } from '@/main/composite'
 import { Button } from '@/presentation/components/ui/button'
 import { Input } from '@/presentation/components/ui/input'
+import { useHookForm } from '@/presentation/hooks'
 
-import { useHookForm, Form } from '.'
+import { Form } from '.'
 
 export default {
 	title: 'Components/UI/Form'

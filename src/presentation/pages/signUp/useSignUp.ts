@@ -6,8 +6,8 @@ import { toast } from 'react-hot-toast'
 import { CreateUserModel } from '@/domain/models'
 import { PAGE_PATHS } from '@/main/routes/paths'
 import { onlyNumbersMask } from '@/masker'
-import { useHookForm } from '@/presentation/components/ui/form/hooks/useHookForm'
 import { useIdrHistory } from '@/presentation/hooks'
+import { useHookForm } from '@/presentation/hooks/useHookForm'
 
 import { SignUpPageProps } from './types'
 

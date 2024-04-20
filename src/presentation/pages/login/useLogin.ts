@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 
 import { LoginUserParams } from '@/domain/useCases'
-import { useHookForm } from '@/presentation/components/ui/form/hooks/useHookForm'
+import { useHookForm } from '@/presentation/hooks/useHookForm'
 import { useAuth } from '@/presentation/store'
 
 const INITIAL_FORM_DATA: LoginUserParams = {

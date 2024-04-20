@@ -9,7 +9,7 @@ import {
 } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
-type UseHookFormProps<TDefaultValues extends FieldValues> = {
+export type UseHookFormProps<TDefaultValues extends FieldValues> = {
 	values?: UseFormProps<TDefaultValues>['values']
 	defaultValues?: DefaultValues<TDefaultValues>
 	schemaResolver?: Resolver<TDefaultValues>
