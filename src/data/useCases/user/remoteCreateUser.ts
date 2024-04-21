@@ -1,5 +1,5 @@
 import { IHttpClient, HttpStatusCode } from '@/data/protocols/http'
-import { UnexpectedError } from '@/domain/errors'
+import { BadRequestError, UnexpectedError } from '@/domain/errors'
 import { ICreateUser } from '@/domain/useCases'
 
 export class RemoteCreateUser implements ICreateUser {
@@ -26,6 +26,8 @@ export class RemoteCreateUser implements ICreateUser {
 		})
 
 		if (statusCode === HttpStatusCode.created) return
+
+		if (statusCode === HttpStatusCode.badRequest) throw new BadRequestError()
 
 		throw new UnexpectedError()
 	}
