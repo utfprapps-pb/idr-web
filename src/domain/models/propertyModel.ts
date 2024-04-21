@@ -1,4 +1,4 @@
-import { Option } from '@/domain/shared'
+import type { FileType, Option } from '@/domain/shared'
 
 export type PropertyModel = {
 	id: string
@@ -11,7 +11,6 @@ export type PropertyModel = {
 }
 
 export type PropertyDetailsModel = {
-	id: string
 	generalData: {
 		name: string
 		city: string
@@ -34,6 +33,6 @@ export type PropertyDetailsModel = {
 	localization: {
 		latitude: string
 		longitude: string
-		images: File[]
+		images: FileType[]
 	}
 }
