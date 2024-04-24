@@ -1,30 +1,66 @@
-import { ListTableParams, UseListTableParams, listTableHook } from './listTable'
+import { FieldValues } from 'react-hook-form'
 
-type PageContainerParams<TModel extends Record<string, unknown>> = {
-	listTableParams: ListTableParams<TModel>
+import {
+	type CreateUpdateHookProps,
+	createUpdateHook
+} from './createUpdateHook'
+import { type ListDeleteHookProps, listDeleteHook } from './listDeleteHook'
+
+import type {
+	CreateResourceService,
+	DeleteResourceService,
+	GetOneResourceService,
+	GetResourcesService,
+	RecordWithId,
+	UpdateResourceService
+} from './types'
+
+type Services<TModel extends RecordWithId, TValues extends FieldValues> = {
+	getResources: GetResourcesService<TModel>
+	deleteResource: DeleteResourceService
+	createResource: CreateResourceService<TValues>
+	getOneResource: GetOneResourceService<TValues>
+	updateResource: UpdateResourceService<TValues>
 }
-type UsePageContainerParams<
-	TModel extends Record<string, unknown>,
-	TKeyOfModel extends string = string
+
+export type PageContainerHookProps<
+	TModel extends RecordWithId,
+	TValues extends FieldValues
 > = {
-	useListTableParams: UseListTableParams<TModel, TKeyOfModel>
+	listDeleteHookProps: ListDeleteHookProps<TModel>
+	createUpdateHookProps: CreateUpdateHookProps<TValues>
 }
 
 export const pageContainerHook = <
-	TModel extends Record<string, unknown>,
-	TKeyOfModel extends string = string
+	TModel extends RecordWithId,
+	TValues extends FieldValues
 >({
-	listTableParams
-}: PageContainerParams<TModel>) => {
-	const useListTableHook = listTableHook<TModel, TKeyOfModel>(listTableParams)
+	listDeleteHookProps,
+	createUpdateHookProps
+}: PageContainerHookProps<TModel, TValues>) => {
+	const useListDeleteHook = listDeleteHook(listDeleteHookProps)
+	const useCreateUpdateHook = createUpdateHook(createUpdateHookProps)
 
 	return ({
-		useListTableParams
-	}: UsePageContainerParams<TModel, TKeyOfModel>) => {
-		const listTableHookData = useListTableHook(useListTableParams)
+		createResource,
+		deleteResource,
+		getOneResource,
+		getResources,
+		updateResource
+	}: Services<TModel, TValues>) => {
+		const listDeleteHookData = useListDeleteHook({
+			deleteResource,
+			getResources
+		})
+		const createUpdateHookData = useCreateUpdateHook({
+			createResource,
+			getOneResource,
+			updateResource
+		})
 
 		return {
-			...listTableHookData
+			...listDeleteHookData,
+			...createUpdateHookData
 		}
 	}
 }
