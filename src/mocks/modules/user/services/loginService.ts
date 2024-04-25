@@ -17,7 +17,7 @@ type Response = {
 }
 
 export const loginService = httpWithMiddleware<never, Params, Response | {}>({
-	routePath: 'login',
+	routePath: '/api/login',
 	method: 'post',
 	middlewares: [withDelay()],
 	resolver: async ({ request }) => {
