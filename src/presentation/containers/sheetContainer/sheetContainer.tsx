@@ -40,19 +40,21 @@ export const SheetContainer = <TValues extends FieldValues>({
 						renderData()
 					)}
 
-					<Sheet.Footer>
-						{footerButtons.map(({ key, component, isCloser }) => {
-							if (isCloser) {
-								return (
-									<Sheet.Close key={key} asChild>
-										{component}
-									</Sheet.Close>
-								)
-							}
+					{!loading && (
+						<Sheet.Footer className="pb-8">
+							{footerButtons.map(({ key, component, isCloser }) => {
+								if (isCloser) {
+									return (
+										<Sheet.Close key={key} asChild>
+											{component}
+										</Sheet.Close>
+									)
+								}
 
-							return <Fragment key={key}>{component}</Fragment>
-						})}
-					</Sheet.Footer>
+								return <Fragment key={key}>{component}</Fragment>
+							})}
+						</Sheet.Footer>
+					)}
 				</form>
 			</Form.Provider>
 		</Sheet.Content>
