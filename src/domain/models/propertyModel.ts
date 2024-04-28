@@ -21,6 +21,7 @@ export type PropertyDetailsModel = {
 		responsibleTechnicians: Option[]
 	}
 	collaborators: {
+		id: string
 		name: string
 		hoursPerDay: string
 	}[]
