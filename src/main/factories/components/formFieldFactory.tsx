@@ -21,6 +21,7 @@ type RenderComponentProps<
 
 export type ComponentProps<TFieldValues extends FieldValues> = {
 	name: FieldPath<TFieldValues>
+	key?: string
 	label?: string
 	renderComponent: (
 		props: RenderComponentProps<TFieldValues, FieldPath<TFieldValues>>
@@ -43,9 +44,9 @@ export const FormFieldFactory = <TFieldValues extends FieldValues>({
 }: FormFieldFactoryProps<TFieldValues>) =>
 	inputData.map(({ key, group }) => (
 		<Grouper key={key}>
-			{group.map(({ name, label, renderComponent }) => (
+			{group.map(({ key: groupKey, name, label, renderComponent }) => (
 				<Form.Field
-					key={name}
+					key={groupKey ?? name}
 					control={form.control}
 					name={name}
 					render={({ field, fieldState, formState }) => (
