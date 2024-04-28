@@ -11,7 +11,7 @@ export type PropertyModel = {
 }
 
 export type PropertyDetailsModel = {
-	generalData: {
+	general: {
 		name: string
 		city: string
 		state: string
