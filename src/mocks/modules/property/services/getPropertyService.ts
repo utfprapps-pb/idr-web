@@ -33,16 +33,20 @@ export const getPropertyService = httpWithMiddleware<
 
 		const images = await Promise.all(
 			Array.from({ length: 3 }, async () => {
-				const response = await fetch(faker.image.url())
+				const url = faker.image.url()
+				const response = await fetch(url)
 				const blob = await response.blob()
-				return new File([blob], 'image.png', { type: blob.type })
+				return {
+					name: 'image-1',
+					preview: url,
+					file: new File([blob], '', { type: blob.type })
+				}
 			})
 		)
 
 		return HttpResponse.json(
 			{
-				id: propertyFound.id,
-				generalData: {
+				general: {
 					name: propertyFound.name,
 					producer: propertyFound.producer,
 					city: propertyFound.city,
