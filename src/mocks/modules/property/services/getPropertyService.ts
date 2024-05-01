@@ -57,10 +57,14 @@ export const getPropertyService = httpWithMiddleware<
 						{
 							length: 3
 						},
-						() => ({ id: faker.string.uuid(), value: faker.person.fullName() })
+						() => ({
+							value: faker.string.uuid(),
+							label: faker.person.fullName()
+						})
 					)
 				},
 				collaborators: Array.from({ length: 5 }, () => ({
+					id: faker.string.uuid(),
 					name: faker.person.fullName(),
 					hoursPerDay: String(faker.number.int({ min: 1, max: 8 }))
 				})),
