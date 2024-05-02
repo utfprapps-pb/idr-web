@@ -30,7 +30,7 @@ export type ComponentProps<TFieldValues extends FieldValues> = {
 
 export type InputDataGrouped<TFieldValues extends FieldValues> = {
 	key: string
-	group: ComponentProps<TFieldValues>[]
+	group: ComponentProps<TFieldValues>[] | (() => React.ReactNode)
 }
 
 type FormFieldFactoryProps<TFieldValues extends FieldValues> = {
@@ -44,25 +44,27 @@ export const FormFieldFactory = <TFieldValues extends FieldValues>({
 }: FormFieldFactoryProps<TFieldValues>) =>
 	inputData.map(({ key, group }) => (
 		<Grouper key={key}>
-			{group.map(({ key: groupKey, name, label, renderComponent }) => (
-				<Form.Field
-					key={groupKey ?? name}
-					control={form.control}
-					name={name}
-					render={({ field, fieldState, formState }) => (
-						<Form.Item>
-							{label ? <Form.Label>{label}</Form.Label> : null}
-							<Form.Control>
-								{renderComponent({
-									field,
-									fieldState,
-									formState
-								})}
-							</Form.Control>
-							<Form.Message />
-						</Form.Item>
-					)}
-				/>
-			))}
+			{typeof group === 'function'
+				? group()
+				: group.map(({ key: groupKey, name, label, renderComponent }) => (
+						<Form.Field
+							key={groupKey ?? name}
+							control={form.control}
+							name={name}
+							render={({ field, fieldState, formState }) => (
+								<Form.Item>
+									{label ? <Form.Label>{label}</Form.Label> : null}
+									<Form.Control>
+										{renderComponent({
+											field,
+											fieldState,
+											formState
+										})}
+									</Form.Control>
+									<Form.Message />
+								</Form.Item>
+							)}
+						/>
+					))}
 		</Grouper>
 	))
