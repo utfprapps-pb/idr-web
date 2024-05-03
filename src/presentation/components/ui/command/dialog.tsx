@@ -1,8 +1,8 @@
 import React from 'react'
 
-import { Command } from 'cmdk'
-
 import { Dialog as AppDialog } from '../dialog'
+
+import { Root as Command } from './root'
 
 import type { DialogProps } from '@radix-ui/react-dialog'
 
