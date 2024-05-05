@@ -50,7 +50,11 @@ export const createUpdateHook =
 
 		const [loadingValues, setLoadingValues] = useState(false)
 
-		const sheetContainerControl = useModal()
+		const sheetContainerControl = useModal({
+			onCloseCallback: () => {
+				setIdResourceToUpdate('')
+			}
+		})
 
 		const form = useHookForm<TValues>({ defaultValues, schemaResolver })
 		const { reset } = form
