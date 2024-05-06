@@ -10,7 +10,7 @@ export type RecordWithId = {
 	[key: string]: unknown
 }
 
-export type TextBuilder<T> = (model?: T) => string
+export type TextBuilder<T = Record<string, unknown>> = (model?: T) => string
 
 export type GetResourcesService<
 	TModel extends RecordWithId,
@@ -27,3 +27,5 @@ export type UpdateResourceService<TValues extends FieldValues> =
 
 export type GetOneResourceService<TValues extends FieldValues> =
 	IRequestInterface<string, TValues>
+
+export type GetDependencesService<TModel> = IRequestInterface<string, TModel[]>
