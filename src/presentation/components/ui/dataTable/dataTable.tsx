@@ -1,7 +1,11 @@
 import { useCallback, useMemo } from 'react'
 
 import {
+	OnChangeFn,
+	PaginationState,
 	RowData,
+	SortingState,
+	Updater,
 	flexRender,
 	getCoreRowModel,
 	getPaginationRowModel,
@@ -9,11 +13,12 @@ import {
 } from '@tanstack/react-table'
 import { ArrowDownNarrowWide, ArrowUpNarrowWide } from 'lucide-react'
 
-import { Table } from '@/presentation/components/ui/table'
-import { Tooltip } from '@/presentation/components/ui/tooltip'
+import { ITEMS_PER_PAGE } from '@/infra/http'
 
 import { Loading } from '../loading'
 import { Pagination } from '../pagination'
+import { Table } from '../table'
+import { Tooltip } from '../tooltip'
 
 import { DataTableProps } from './types'
 
@@ -28,6 +33,41 @@ export const DataTable = <TData extends RowData>({
 	const { currentSorting, onSorting } = sorting
 	const { currentPage, onPageChange } = pagination
 
+	const onSortingChange: OnChangeFn<SortingState> = useCallback(
+		(updaterOrValue: Updater<SortingState>) => {
+			const [sort] =
+				typeof updaterOrValue === 'function'
+					? updaterOrValue([
+							{
+								desc: currentSorting.direction === 'desc',
+								id: String(currentSorting.field)
+							}
+						])
+					: updaterOrValue
+
+			onSorting({
+				direction: sort.desc ? 'desc' : 'asc',
+				field: sort.id as keyof TData
+			})
+		},
+		[currentSorting.direction, currentSorting.field, onSorting]
+	)
+
+	const onPaginationChange: OnChangeFn<PaginationState> = useCallback(
+		(updaterOrValue: Updater<PaginationState>) => {
+			const page =
+				typeof updaterOrValue === 'function'
+					? updaterOrValue({
+							pageIndex: currentPage - 1,
+							pageSize: ITEMS_PER_PAGE
+						}).pageIndex
+					: updaterOrValue.pageIndex
+
+			onPageChange(page + 1)
+		},
+		[currentPage, onPageChange]
+	)
+
 	const {
 		getState,
 		getRowModel,
@@ -41,14 +81,22 @@ export const DataTable = <TData extends RowData>({
 		columns,
 		data,
 		state: {
-			sorting: currentSorting,
-			pagination: currentPage
+			sorting: [
+				{
+					id: String(currentSorting.field),
+					desc: currentSorting.direction === 'desc'
+				}
+			],
+			pagination: {
+				pageIndex: currentPage - 1,
+				pageSize: ITEMS_PER_PAGE
+			}
 		},
 		manualSorting: true,
 		manualPagination: true,
 		pageCount: totalPages,
-		onSortingChange: onSorting,
-		onPaginationChange: onPageChange,
+		onSortingChange,
+		onPaginationChange,
 		getCoreRowModel: getCoreRowModel(),
 		getPaginationRowModel: getPaginationRowModel()
 	})
