@@ -1,6 +1,7 @@
+import type { PropertyDetailsModel, PropertyModel } from '@/domain/models'
 import { PageContainer } from '@/presentation/containers'
 
-import { PropertyPageProps } from './types'
+import type { PropertyPageProps } from './types'
 import { usePropertyPage } from './useProperty'
 
 export const PropertyPage: React.FC<PropertyPageProps> = ({
@@ -8,30 +9,28 @@ export const PropertyPage: React.FC<PropertyPageProps> = ({
 }) => {
 	const {
 		columns,
-		pagination,
-		sorting,
-		loading,
-		totalPages,
+		isPropertiesLoading,
+		properties,
+		handleGetProperties,
+		page,
+		setPage,
 		filters,
 		setFilters,
-		data: properties,
-		handleGetData: handleGetProperties
+		sort,
+		setSort
 	} = usePropertyPage({
-		useListTableParams: {
-			getData: getProperties
-		}
+		getProperties
 	})
 
 	return (
-		<PageContainer
+		<PageContainer<PropertyModel, PropertyDetailsModel>
 			header={{
 				title: 'Propriedades',
-				description: 'Gerenciamento das propriedades dos produtores',
-				buttonAddText: 'Adicionar Propriedade'
+				description: 'Gerenciamento das propriedades dos produtores'
 			}}
 			tableContainer={{
 				inputSearch: {
-					value: filters?.name ?? '',
+					value: filters.name,
 					onChange: ({ target: { value } }) => {
 						setFilters((prevState) => ({
 							...prevState,
@@ -40,15 +39,21 @@ export const PropertyPage: React.FC<PropertyPageProps> = ({
 					},
 					placeholder: 'Procurar propriedades',
 					debounce: 1000,
-					debounceCallback: () => handleGetProperties({ filters })
+					debounceCallback: handleGetProperties
 				},
 				table: {
 					columns,
-					totalPages,
-					data: properties,
-					pagination,
-					sorting,
-					loading
+					totalPages: properties.totalPages,
+					data: properties.resources,
+					pagination: {
+						currentPage: page,
+						onPageChange: setPage
+					},
+					sorting: {
+						currentSorting: sort,
+						onSorting: setSort
+					},
+					loading: isPropertiesLoading
 				}
 			}}
 		/>
