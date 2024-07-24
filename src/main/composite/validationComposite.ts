@@ -1,5 +1,7 @@
-import { ErrorDef, IValidation, Validate } from '@/presentation/protocols'
-import { IFieldValidation } from '@/validation/protocols'
+import { flattenObject } from '../utils'
+
+import type { ErrorDef, IValidation, Validate } from '@/presentation/protocols'
+import type { IFieldValidation } from '@/validation/protocols'
 
 export class ValidationComposite implements IValidation {
 	private constructor(private readonly validators: IFieldValidation[]) {}
@@ -9,17 +11,19 @@ export class ValidationComposite implements IValidation {
 	}
 
 	validate: Validate = ({ data }) => {
-		const fields = Object.keys(data)
+		const flattenedData = flattenObject(data)
 
 		let errors: ErrorDef = {}
 
-		for (const fieldName of fields) {
+		for (const fieldName of Object.keys(flattenedData)) {
 			const validators = this.validators.filter(
 				(validator) => validator.field === fieldName
 			)
 
 			for (const validator of validators) {
-				const error = validator.validate(data)
+				const error = validator.validate({
+					[fieldName]: flattenedData[fieldName]
+				})
 
 				if (error) {
 					errors = { ...errors, [fieldName]: { message: error.message } }
