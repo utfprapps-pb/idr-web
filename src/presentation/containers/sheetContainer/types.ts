@@ -6,8 +6,8 @@ import type { FieldValues } from 'react-hook-form'
 
 type FooterButton = {
 	key: string
-	isCloser: boolean
 	component: React.ReactNode
+	isCloser?: boolean
 }
 
 export type SheetContainerProps<TValues extends FieldValues> = {
@@ -20,5 +20,5 @@ export type SheetContainerProps<TValues extends FieldValues> = {
 	open: boolean
 	onOpenChange: (open: boolean) => void
 	renderData: () => ReactNode
-	handleSubmit: () => Promise<void>
+	handleSubmit: () => void
 }

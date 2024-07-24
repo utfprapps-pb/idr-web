@@ -42,7 +42,7 @@ export const SheetContainer = <TValues extends FieldValues>({
 
 					{!loading && (
 						<Sheet.Footer className="pb-8">
-							{footerButtons.map(({ key, component, isCloser }) => {
+							{footerButtons.map(({ key, component, isCloser = false }) => {
 								if (isCloser) {
 									return (
 										<Sheet.Close key={key} asChild>

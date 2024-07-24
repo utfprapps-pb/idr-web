@@ -1,3 +1,4 @@
+import type { DeleteContainerProps } from '../deleteContainer'
 import type { SheetContainerProps } from '@/presentation/containers/sheetContainer'
 import type { TableContainerProps } from '@/presentation/containers/tableContainer/'
 import type { RowData } from '@tanstack/react-table'
@@ -13,5 +14,5 @@ export type PageContainerProps<
 	}
 	sheetContainer: SheetContainerProps<TValues>
 	tableContainer: TableContainerProps<TData>
-	openUpdateSheetContainer: (id: string) => void
+	deleteContainer: DeleteContainerProps
 }
