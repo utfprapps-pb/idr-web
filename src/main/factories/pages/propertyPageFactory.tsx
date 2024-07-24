@@ -1,7 +1,21 @@
-import { PropertyPage } from '@/presentation/pages/property'
+import { PropertyPage } from '@/presentation/pages/propertyPage'
 
-import { makeRemoteGetProperties } from '../useCases/property'
+import {
+	makeRemoteCreateProperty,
+	makeRemoteDeleteProperty,
+	makeRemoteGetProperties,
+	makeRemoteGetProperty,
+	makeRemoteUpdateProperty
+} from '../useCases/property'
+import { makePropertyValidation } from '../validations/propertyValidationFactory'
 
 export const MakePropertyPage: React.FC = () => (
-	<PropertyPage getProperties={makeRemoteGetProperties()} />
+	<PropertyPage
+		createProperty={makeRemoteCreateProperty()}
+		updateProperty={makeRemoteUpdateProperty()}
+		deleteProperty={makeRemoteDeleteProperty()}
+		getProperties={makeRemoteGetProperties()}
+		getProperty={makeRemoteGetProperty()}
+		validation={makePropertyValidation()}
+	/>
 )
