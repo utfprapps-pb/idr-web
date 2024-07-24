@@ -4,20 +4,15 @@ import { httpWithMiddleware } from '@/mocks/lib'
 import { withAuth, withDelay } from '@/mocks/middleware'
 
 export const deletePropertyService = httpWithMiddleware<
-	PathParams<string>,
+	PathParams<'id'>,
 	never,
 	never
 >({
-	routePath: '/api/properties',
+	routePath: '/api/properties/:id',
 	method: 'delete',
 	middlewares: [withDelay(), withAuth],
-	resolver: async ({ params: id }) =>
-		HttpResponse.json(
-			{
-				id
-			},
-			{
-				status: 204
-			}
-		)
+	resolver: async () =>
+		HttpResponse.json(undefined, {
+			status: 204
+		})
 })
