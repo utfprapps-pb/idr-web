@@ -19,7 +19,8 @@ export const Combobox: React.FC<ComboboxProps> = ({
 	placeholder,
 	searchPlaceholder,
 	emptyMessage,
-	loading = false
+	loading = false,
+	isError = false
 }) => {
 	const [open, setOpen] = useState(false)
 
@@ -32,6 +33,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
 					aria-expanded={open}
 					className={cn(
 						'w-full justify-between',
+						isError && 'border border-red-500',
 						!selected && 'text-muted-foreground'
 					)}
 				>

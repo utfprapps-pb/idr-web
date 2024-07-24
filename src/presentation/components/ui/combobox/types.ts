@@ -1,4 +1,4 @@
-import { Option } from '@/domain/shared'
+import { Option } from '@/domain/shared/types'
 
 export type ComboboxProps = {
 	search: string
@@ -10,4 +10,5 @@ export type ComboboxProps = {
 	searchPlaceholder?: string
 	emptyMessage?: string
 	loading?: boolean
+	isError?: boolean
 }
