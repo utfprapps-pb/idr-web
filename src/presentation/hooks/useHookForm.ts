@@ -1,10 +1,12 @@
+import { useCallback } from 'react'
+
 import {
-	DefaultValues,
-	FieldValues,
-	Resolver,
-	SubmitErrorHandler,
-	SubmitHandler,
-	UseFormProps,
+	type DefaultValues,
+	type FieldValues,
+	type Resolver,
+	type SubmitErrorHandler,
+	type SubmitHandler,
+	type UseFormProps,
 	useForm
 } from 'react-hook-form'
 import toast from 'react-hot-toast'
@@ -12,6 +14,7 @@ import toast from 'react-hot-toast'
 export type UseHookFormProps<TDefaultValues extends FieldValues> = {
 	values?: UseFormProps<TDefaultValues>['values']
 	defaultValues?: DefaultValues<TDefaultValues>
+
 	schemaResolver?: Resolver<TDefaultValues>
 }
 
@@ -34,13 +37,16 @@ export const useHookForm = <TDefaultValues extends FieldValues>({
 
 	const buttonDisabled = isSubmitting || isValidating
 
-	const onSubmit = (successCallback: SubmitHandler<TDefaultValues>) => {
-		const errorCallback: SubmitErrorHandler<TDefaultValues> = () => {
-			toast.error('Preencha os campos obrigatórios')
-		}
+	const onSubmit = useCallback(
+		(successCallback: SubmitHandler<TDefaultValues>) => {
+			const errorCallback: SubmitErrorHandler<TDefaultValues> = () => {
+				toast.error('Preencha os campos obrigatórios')
+			}
 
-		return handleSubmit(successCallback, errorCallback)
-	}
+			return handleSubmit(successCallback, errorCallback)
+		},
+		[handleSubmit]
+	)
 
 	return {
 		...form,
