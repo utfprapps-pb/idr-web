@@ -1,4 +1,4 @@
-import { CreateUserModel } from '@/domain/models'
-import { IRequestInterface } from '@/domain/shared'
+import type { CreateUserModel } from '@/domain/models/'
+import type { IRequestInterface } from '@/domain/shared/types'
 
 export interface ICreateUser extends IRequestInterface<CreateUserModel, void> {}

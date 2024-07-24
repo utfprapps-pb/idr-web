@@ -1,5 +1,5 @@
-import { PropertyDetailsModel } from '@/domain/models'
-import { IRequestInterface } from '@/domain/shared'
+import type { PropertyDetailsModel } from '@/domain/models'
+import type { IRequestInterface } from '@/domain/shared/types'
 
 export interface IUpdateProperty
-	extends IRequestInterface<PropertyDetailsModel, void> {}
+	extends IRequestInterface<{ id: string } & PropertyDetailsModel, void> {}

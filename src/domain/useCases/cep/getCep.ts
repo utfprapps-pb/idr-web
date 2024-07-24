@@ -1,4 +1,4 @@
-import { CepModel } from '@/domain/models'
-import { IRequestInterface } from '@/domain/shared'
+import type { CepModel } from '@/domain/models'
+import type { IRequestInterface } from '@/domain/shared/types'
 
 export interface IGetCep extends IRequestInterface<string, CepModel> {}

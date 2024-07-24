@@ -1,4 +1,4 @@
-import type { FileType, Option } from '@/domain/shared'
+import type { FileType, Option } from '@/domain/shared/types'
 
 export type PropertyModel = {
 	id: string

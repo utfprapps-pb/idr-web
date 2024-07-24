@@ -1,5 +1,5 @@
-import { PropertyModel } from '@/domain/models'
-import {
+import type { PropertyModel } from '@/domain/models'
+import type {
 	IRequestInterface,
 	IListParams,
 	IListResponse

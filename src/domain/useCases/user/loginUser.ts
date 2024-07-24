@@ -1,5 +1,5 @@
-import { UserModel } from '@/domain/models'
-import { IRequestInterface } from '@/domain/shared'
+import type { UserModel } from '@/domain/models'
+import type { IRequestInterface } from '@/domain/shared/types'
 
 export type LoginUserParams = {
 	email: string
