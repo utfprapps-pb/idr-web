@@ -1,7 +1,5 @@
 import { useCallback } from 'react'
 
-import { useDebounce } from '@/presentation/hooks'
-
 import { InputProps } from './types'
 
 const ICON_SPACING = 28
@@ -11,13 +9,8 @@ export const useInput = ({
 	isError,
 	iconsStart,
 	iconsEnd,
-	value,
-	debounce = 0,
-	// eslint-disable-next-line no-empty-function
-	debounceCallback = () => {},
 	mask,
-	onChange,
-	handleOnClearDebounce
+	onChange
 }: InputProps) => {
 	const handleOnChange = useCallback(
 		(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,25 +25,6 @@ export const useInput = ({
 		[mask, onChange]
 	)
 
-	const { clear } = useDebounce({
-		deps: [value],
-		ms: debounce,
-		fn: debounceCallback
-	})
-
-	const handleOnClear = useCallback(() => {
-		clear()
-
-		const event = {
-			target: {
-				value: ''
-			}
-		} as React.ChangeEvent<HTMLInputElement>
-		handleOnChange(event)
-
-		handleOnClearDebounce?.()
-	}, [clear, handleOnChange, handleOnClearDebounce])
-
 	const iconContainerSize = (iconContainerLength: number) =>
 		iconContainerLength * ICON_SPACING
 
@@ -64,7 +38,6 @@ export const useInput = ({
 				ICON_SPACING +
 				iconContainerSize(iconsEndLength)
 			: ICON_CONTAINER_PADDING + iconContainerSize(iconsEndLength),
-		handleOnChange,
-		handleOnClear
+		handleOnChange
 	}
 }
