@@ -1,11 +1,10 @@
 import { LogoIdr, LogoParana } from '@/assets/imgs'
-import { CreateUserModel } from '@/domain/models'
-import { FormFieldFactory } from '@/main/factories/components'
 import { Button, Card, Wave, Form } from '@/presentation/components/ui'
 
-import { SignUpPageProps } from './types'
-import { useInputData } from './useInputData'
-import { useSignUp } from './useSignUp'
+import { useSignUpPage } from './useSignUpPage'
+import { useSignUpPageInputData } from './useSignUpPageInputData'
+
+import type { SignUpPageProps } from './types'
 
 export const SignUpPage: React.FC<SignUpPageProps> = ({
 	createUser,
@@ -20,13 +19,14 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
 		handleSubmit,
 		handleFetchCep,
 		handleOnClearCepDebounce
-	} = useSignUp({
+	} = useSignUpPage({
 		createUser,
 		getCep,
 		validation
 	})
 
-	const { inputDataFirstStep, inputDataSecondStep } = useInputData({
+	const { inputDataFirstStep, inputDataSecondStep } = useSignUpPageInputData({
+		control: form.control,
 		cepLoading,
 		cepDebounceCallback: handleFetchCep,
 		handleOnClearCepDebounce
@@ -58,12 +58,9 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
 					<Form.Provider {...form}>
 						<form className="flex flex-col gap-8" onSubmit={handleSubmit}>
 							<Card.Content className="flex flex-col gap-4 sm:gap-6">
-								<FormFieldFactory<CreateUserModel>
-									form={form}
-									inputData={
-										isFirstStep ? inputDataFirstStep : inputDataSecondStep
-									}
-								/>
+								{isFirstStep
+									? inputDataFirstStep.map((component) => component)
+									: inputDataSecondStep.map((component) => component)}
 							</Card.Content>
 							<Card.Footer>
 								<Button

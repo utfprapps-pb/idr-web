@@ -26,7 +26,7 @@ const INITIAL_FORM_DATA: CreateUserModel = {
 	houseNumber: ''
 }
 
-export const useSignUp = (props: SignUpPageProps) => {
+export const useSignUpPage = (props: SignUpPageProps) => {
 	const { createUser, getCep, validation } = props
 	const { firstStepValidation, validation: validationForm } = validation
 

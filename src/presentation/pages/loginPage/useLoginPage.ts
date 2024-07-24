@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 
 import { LoginUserParams } from '@/domain/useCases'
 import { useHookForm } from '@/presentation/hooks/useHookForm'
@@ -9,14 +9,16 @@ const INITIAL_FORM_DATA: LoginUserParams = {
 	password: ''
 }
 
-export const useLogin = () => {
+export const useLoginPage = () => {
 	const { handleSignIn } = useAuth()
+
+	const [viewPassword, setViewPassword] = useState(false)
 
 	const form = useHookForm<LoginUserParams>({
 		defaultValues: INITIAL_FORM_DATA
 	})
 
-	const { buttonDisabled, handleSubmit: handleSubmitForm } = form
+	const { handleSubmit: handleSubmitForm } = form
 
 	const onSubmit = useCallback(
 		async (data: LoginUserParams, event?: React.BaseSyntheticEvent) => {
@@ -30,7 +32,8 @@ export const useLogin = () => {
 
 	return {
 		form,
-		buttonDisabled,
+		viewPassword,
+		setViewPassword,
 		handleSubmit
 	}
 }

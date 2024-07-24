@@ -1,18 +1,14 @@
-import { ChevronRight } from 'lucide-react'
+import { ChevronRight, Eye, EyeOff, LockKeyhole, Mail } from 'lucide-react'
 
 import { LogoIdr, LogoParana } from '@/assets/imgs'
-import { LoginUserParams } from '@/domain/useCases'
-import { FormFieldFactory } from '@/main/factories/components'
 import { PAGE_PATHS } from '@/main/routes/paths'
-import { Button, Card, Form, Wave } from '@/presentation/components/ui'
+import { Button, Card, Form, Input, Wave } from '@/presentation/components/ui'
 import { useIdrHistory } from '@/presentation/hooks'
 
-import { useInputData } from './useInputData'
-import { useLogin } from './useLogin'
+import { useLoginPage } from './useLoginPage'
 
 export const LoginPage: React.FC = () => {
-	const { form, buttonDisabled, handleSubmit } = useLogin()
-	const { inputData } = useInputData()
+	const { form, viewPassword, setViewPassword, handleSubmit } = useLoginPage()
 	const { navigate } = useIdrHistory()
 
 	return (
@@ -37,9 +33,60 @@ export const LoginPage: React.FC = () => {
 					<Form.Provider {...form}>
 						<form className="flex flex-col gap-8" onSubmit={handleSubmit}>
 							<Card.Content className="flex flex-col gap-4 sm:gap-6">
-								<FormFieldFactory<LoginUserParams>
-									form={form}
-									inputData={inputData}
+								<Form.Field
+									name="email"
+									control={form.control}
+									render={({ field }) => (
+										<Form.Item>
+											<Form.Label>Email</Form.Label>
+											<Form.Control>
+												<Input
+													{...field}
+													placeholder="Email"
+													iconsStart={[
+														{
+															key: Mail.displayName ?? 'Mail',
+															icon: Mail
+														}
+													]}
+												/>
+											</Form.Control>
+											<Form.Message />
+										</Form.Item>
+									)}
+								/>
+								<Form.Field
+									name="password"
+									control={form.control}
+									render={({ field }) => (
+										<Form.Item>
+											<Form.Label>Senha</Form.Label>
+											<Form.Control>
+												<Input
+													{...field}
+													placeholder="Senha"
+													type={viewPassword ? 'text' : 'password'}
+													iconsStart={[
+														{
+															key: LockKeyhole.displayName ?? 'LockKeyhole',
+															icon: LockKeyhole
+														}
+													]}
+													iconsEnd={[
+														{
+															key: viewPassword
+																? EyeOff.displayName ?? 'EyeOff'
+																: Eye.displayName ?? 'Eye',
+															icon: viewPassword ? EyeOff : Eye,
+															onClick: () =>
+																setViewPassword((oldValue) => !oldValue)
+														}
+													]}
+												/>
+											</Form.Control>
+											<Form.Message />
+										</Form.Item>
+									)}
 								/>
 							</Card.Content>
 							<Card.Footer className="flex-col gap-6">
@@ -47,7 +94,7 @@ export const LoginPage: React.FC = () => {
 									className="w-full"
 									variant="default"
 									type="submit"
-									disabled={buttonDisabled}
+									disabled={form.buttonDisabled}
 								>
 									Entrar
 								</Button>
