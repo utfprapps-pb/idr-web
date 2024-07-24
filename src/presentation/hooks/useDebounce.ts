@@ -1,23 +1,18 @@
-import { DependencyList, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useTimeoutFn } from './useTimeout'
 
-export type UseDebounceReturn = {
-	isReady: () => boolean | null
-	clear: () => void
+type Props<T> = {
+	value: T
+	delayInMs?: number
 }
 
-export type UseDebounce = (params: {
-	fn: () => void
-	ms: number
-	deps: DependencyList
-}) => UseDebounceReturn
+export const useDebounce = <T>({ value, delayInMs = 500 }: Props<T>) => {
+	const [debouncedValue, setDebouncedValue] = useState(value)
 
-export const useDebounce: UseDebounce = ({ fn, ms = 0, deps = [] }) => {
-	const { isReady, clear, set } = useTimeoutFn(fn, ms)
+	const { set } = useTimeoutFn(() => setDebouncedValue(value), delayInMs)
 
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	useEffect(set, deps)
+	useEffect(set, [value, delayInMs, set])
 
-	return { isReady, clear }
+	return debouncedValue
 }
