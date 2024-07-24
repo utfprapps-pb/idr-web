@@ -39,18 +39,22 @@ export const DataTable = <TData extends RowData>({
 				typeof updaterOrValue === 'function'
 					? updaterOrValue([
 							{
-								desc: currentSorting.direction === 'desc',
-								id: String(currentSorting.field)
+								desc: currentSorting?.direction === 'desc',
+								id: String(currentSorting?.field)
 							}
 						])
 					: updaterOrValue
 
+			if (!sort) {
+				onSorting()
+			}
+
 			onSorting({
-				direction: sort.desc ? 'desc' : 'asc',
-				field: sort.id as keyof TData
+				direction: sort?.desc ? 'desc' : 'asc',
+				field: sort?.id as keyof TData
 			})
 		},
-		[currentSorting.direction, currentSorting.field, onSorting]
+		[currentSorting?.direction, currentSorting?.field, onSorting]
 	)
 
 	const onPaginationChange: OnChangeFn<PaginationState> = useCallback(
@@ -83,8 +87,8 @@ export const DataTable = <TData extends RowData>({
 		state: {
 			sorting: [
 				{
-					id: String(currentSorting.field),
-					desc: currentSorting.direction === 'desc'
+					id: String(currentSorting?.field),
+					desc: currentSorting?.direction === 'desc'
 				}
 			],
 			pagination: {
@@ -110,9 +114,9 @@ export const DataTable = <TData extends RowData>({
 		return 'Limpar ordenação'
 	}
 
-	const showInitialEllipsis = useMemo(() => page > 2, [page])
-
 	const showFinalEllipsis = useMemo(() => page + 2 > 3, [page])
+
+	const isAfterFirstPage = useMemo(() => page > 1, [page])
 
 	const isBeforeLastPage = useMemo(
 		() => page + 1 < totalPages,
@@ -208,7 +212,7 @@ export const DataTable = <TData extends RowData>({
 						<Pagination.Previous />
 					</Pagination.Item>
 
-					{showInitialEllipsis ? (
+					{isAfterFirstPage && (
 						<>
 							<Pagination.Item onClick={() => setPageIndex(0)}>
 								<Pagination.Link>1</Pagination.Link>
@@ -218,19 +222,25 @@ export const DataTable = <TData extends RowData>({
 								<Pagination.Ellipsis />
 							</Pagination.Item>
 						</>
-					) : null}
+					)}
 
 					<Pagination.Item>
 						<Pagination.Link isActive>{page}</Pagination.Link>
 					</Pagination.Item>
 
-					{isBeforeLastPage ? (
+					{page === 1 && (
+						<Pagination.Item>
+							<Pagination.Ellipsis />
+						</Pagination.Item>
+					)}
+
+					{isBeforeLastPage && (
 						<>
-							{showFinalEllipsis ? (
+							{showFinalEllipsis && (
 								<Pagination.Item>
 									<Pagination.Ellipsis />
 								</Pagination.Item>
-							) : null}
+							)}
 
 							<Pagination.Item
 								onClick={() => setPageIndex(totalPages - 1)}
@@ -239,7 +249,7 @@ export const DataTable = <TData extends RowData>({
 								<Pagination.Link>{totalPages}</Pagination.Link>
 							</Pagination.Item>
 						</>
-					) : null}
+					)}
 
 					<Pagination.Item isDisabled={!getCanNextPage()} onClick={nextPage}>
 						<Pagination.Next />
