@@ -12,9 +12,9 @@ export class RemoteUpdateProperty implements IUpdateProperty {
 		private readonly httpClient: IHttpClient
 	) {}
 
-	execute: IUpdateProperty['execute'] = async (property) => {
+	execute: IUpdateProperty['execute'] = async ({ id, ...property }) => {
 		const { statusCode } = await this.httpClient.request({
-			url: `${this.url}`,
+			url: `${this.url}/${id}`,
 			method: 'patch',
 			body: property
 		})
