@@ -4,6 +4,7 @@ import {
 	CpfValidation,
 	EmailValidation,
 	MinLengthValidation,
+	MinNumberValidation,
 	PasswordValidation,
 	PhoneValidation,
 	RequiredFieldValidation,
@@ -32,6 +33,11 @@ export class ValidationBuilder {
 
 	min(length: number): ValidationBuilder {
 		this.validations.push(new MinLengthValidation(this.fieldName, length))
+		return this
+	}
+
+	minNumber(min: number): ValidationBuilder {
+		this.validations.push(new MinNumberValidation(this.fieldName, min))
 		return this
 	}
 
