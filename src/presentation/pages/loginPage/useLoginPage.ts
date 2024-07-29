@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react'
 
 import { LoginUserParams } from '@/domain/useCases'
+import { useAuth } from '@/presentation/contexts'
 import { useHookForm } from '@/presentation/hooks/useHookForm'
-import { useAuth } from '@/presentation/store'
 
 const INITIAL_FORM_DATA: LoginUserParams = {
 	email: '',

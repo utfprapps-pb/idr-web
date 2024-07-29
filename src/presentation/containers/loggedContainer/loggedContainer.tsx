@@ -5,8 +5,8 @@ import { sidebarItems } from '@/main/routes/menu'
 import { cn } from '@/main/utils'
 import { Button, Header } from '@/presentation/components/ui'
 import { Sidebar } from '@/presentation/components/ui/sidebar'
+import { useAuth } from '@/presentation/contexts'
 import { useIdrHistory } from '@/presentation/hooks'
-import { useAuth } from '@/presentation/store'
 
 import { styles } from './styles'
 

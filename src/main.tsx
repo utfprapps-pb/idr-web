@@ -8,7 +8,7 @@ import { Compose } from '@/presentation/components/utils'
 
 import { App } from './App'
 import { env } from './main/env'
-import { AuthProvider } from './presentation/store'
+import { AuthProvider } from './presentation/contexts'
 
 async function bootstrap() {
 	const queryClient = new QueryClient()
