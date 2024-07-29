@@ -7,6 +7,8 @@ import toast from 'react-hot-toast'
 import { DropdownMenu } from '@/presentation/components/ui'
 import { useDebounce, useHookForm } from '@/presentation/hooks'
 
+import { GeneralTab } from './tabs/generalTab'
+
 import type { PropertyPageProps } from './types'
 import type { PropertyDetailsModel, PropertyModel } from '@/domain/models'
 import type { Filters, Sort } from '@/domain/shared/types'
@@ -42,13 +44,12 @@ export const usePropertyPage = ({
 	deleteProperty,
 	getProperties,
 	getProperty,
+	getAllUsers,
 	validation
 }: PropertyPageProps) => {
 	const [isOpenSheet, setIsOpenSheet] = useState(false)
 	const [isOpenDelete, setIsOpenDelete] = useState(false)
-	const [activeTab, setActiveTab] = useState<
-		'general' | 'collaborators' | 'totalArea' | 'localization'
-	>('general')
+	const [activeTab, setActiveTab] = useState('general')
 	const [filters, setFilters] = useState<Partial<Filters<keyof PropertyModel>>>(
 		{
 			name: ''
@@ -162,6 +163,32 @@ export const usePropertyPage = ({
 		[properties, propertyIdToDelete]
 	)
 
+	const tabs = useMemo(
+		() => [
+			{
+				value: 'general',
+				title: 'Dados Gerais',
+				component: <GeneralTab form={form} getAllUsers={getAllUsers} />
+			},
+			{
+				value: 'collaborators',
+				title: 'Colaboradores',
+				component: <GeneralTab form={form} getAllUsers={getAllUsers} />
+			},
+			{
+				value: 'totalArea',
+				title: 'Área Total',
+				component: <GeneralTab form={form} getAllUsers={getAllUsers} />
+			},
+			{
+				value: 'localization',
+				title: 'Localização',
+				component: <GeneralTab form={form} getAllUsers={getAllUsers} />
+			}
+		],
+		[form, getAllUsers]
+	)
+
 	const columns = useMemo<ColumnDef<PropertyModel>[]>(
 		() => [
 			{
@@ -256,6 +283,7 @@ export const usePropertyPage = ({
 	}, [isPropertyDetailsError])
 
 	return {
+		tabs,
 		isOpenSheet,
 		setIsOpenSheet,
 		isOpenDelete,

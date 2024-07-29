@@ -2,7 +2,6 @@ import { Button, Tabs } from '@/presentation/components/ui'
 import { PageContainer } from '@/presentation/containers'
 
 import { usePropertyPage } from './usePropertyPage'
-import { usePropertyPageInputData } from './usePropertyPageInputData'
 
 import type { PropertyPageProps } from './types'
 import type { PropertyDetailsModel, PropertyModel } from '@/domain/models'
@@ -13,9 +12,11 @@ export const PropertyPage: React.FC<PropertyPageProps> = ({
 	deleteProperty,
 	getProperties,
 	getProperty,
+	getAllUsers,
 	validation
 }) => {
 	const {
+		tabs,
 		isOpenSheet,
 		setIsOpenSheet,
 		isOpenDelete,
@@ -45,11 +46,8 @@ export const PropertyPage: React.FC<PropertyPageProps> = ({
 		deleteProperty,
 		getProperties,
 		getProperty,
+		getAllUsers,
 		validation
-	})
-
-	const { generalInputData } = usePropertyPageInputData({
-		form
 	})
 
 	return (
@@ -84,33 +82,18 @@ export const PropertyPage: React.FC<PropertyPageProps> = ({
 				renderData: () => (
 					<Tabs.Root defaultValue="general">
 						<Tabs.List>
-							<Tabs.Trigger
-								value="general"
-								onClick={() => setActiveTab('general')}
-							>
-								Dados Gerais
-							</Tabs.Trigger>
-							<Tabs.Trigger
-								value="collaborators"
-								onClick={() => setActiveTab('collaborators')}
-							>
-								Colaboradores
-							</Tabs.Trigger>
-							<Tabs.Trigger
-								value="totalArea"
-								onClick={() => setActiveTab('totalArea')}
-							>
-								Área Total
-							</Tabs.Trigger>
-							<Tabs.Trigger
-								value="localization"
-								onClick={() => setActiveTab('localization')}
-							>
-								Localização
-							</Tabs.Trigger>
+							{tabs.map((tab) => (
+								<Tabs.Trigger
+									key={tab.value}
+									value={tab.value}
+									onClick={() => setActiveTab(tab.value)}
+								>
+									{tab.title}
+								</Tabs.Trigger>
+							))}
 						</Tabs.List>
 						<Tabs.Content value={activeTab} className="flex flex-col gap-6">
-							{generalInputData.map((component) => component)}
+							{tabs.find((tab) => tab.value === activeTab)?.component}
 						</Tabs.Content>
 					</Tabs.Root>
 				),
