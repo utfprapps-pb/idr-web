@@ -4,7 +4,7 @@ type Props<TData> = {
 	providerFn: () => TData
 }
 
-export const createCustomContextFactory = <TContextValue extends Object = {}>({
+export const createCustomContext = <TContextValue extends Object = {}>({
 	providerFn
 }: Props<TContextValue>) => {
 	const Context = createContext<TContextValue>({} as TContextValue)
