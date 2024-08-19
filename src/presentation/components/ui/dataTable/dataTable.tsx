@@ -1,11 +1,12 @@
 import { useCallback, useMemo } from 'react'
 
 import {
-	OnChangeFn,
-	PaginationState,
-	RowData,
-	SortingState,
-	Updater,
+	type OnChangeFn,
+	type PaginationState,
+	type RowData,
+	type RowModel,
+	type SortingState,
+	type Updater,
 	flexRender,
 	getCoreRowModel,
 	getPaginationRowModel,
@@ -21,6 +22,43 @@ import { Table } from '../table'
 import { Tooltip } from '../tooltip'
 
 import { DataTableProps } from './types'
+
+const TableBody = <TData extends RowData>({
+	columns,
+	loading,
+	rowModel
+}: Pick<DataTableProps<TData>, 'loading' | 'columns'> & {
+	rowModel: RowModel<TData>
+}) => {
+	if (loading) {
+		return (
+			<Table.Row>
+				<Table.Cell colSpan={columns.length}>
+					<Loading className="flex justify-center" size="lg" />
+				</Table.Cell>
+			</Table.Row>
+		)
+	}
+
+	if (!rowModel.rows.length)
+		return (
+			<Table.Row>
+				<Table.Cell colSpan={columns.length} className="h-24 text-center">
+					No results.
+				</Table.Cell>
+			</Table.Row>
+		)
+
+	return rowModel.rows.map((row) => (
+		<Table.Row key={row.id} data-state={row.getIsSelected() && 'selected'}>
+			{row.getVisibleCells().map((cell) => (
+				<Table.Cell key={cell.id}>
+					{flexRender(cell.column.columnDef.cell, cell.getContext())}
+				</Table.Cell>
+			))}
+		</Table.Row>
+	))
+}
 
 export const DataTable = <TData extends RowData>({
 	columns,
@@ -105,8 +143,6 @@ export const DataTable = <TData extends RowData>({
 		getPaginationRowModel: getPaginationRowModel()
 	})
 
-	const page = getState().pagination.pageIndex + 1
-
 	const tooltipText = (value: 'asc' | 'desc' | false) => {
 		if (value === 'asc') return 'Ordenar de forma de crescente'
 		if (value === 'desc') return 'Ordenar de forma decrescente'
@@ -114,45 +150,13 @@ export const DataTable = <TData extends RowData>({
 		return 'Limpar ordenação'
 	}
 
+	const page = useMemo(() => getState().pagination.pageIndex + 1, [getState])
 	const showFinalEllipsis = useMemo(() => page + 2 > 3, [page])
-
 	const isAfterFirstPage = useMemo(() => page > 1, [page])
-
 	const isBeforeLastPage = useMemo(
 		() => page + 1 < totalPages,
 		[page, totalPages]
 	)
-
-	const tableBody = useCallback(() => {
-		if (loading) {
-			return (
-				<Table.Row>
-					<Table.Cell colSpan={columns.length}>
-						<Loading className="flex justify-center" size="lg" />
-					</Table.Cell>
-				</Table.Row>
-			)
-		}
-
-		if (!getRowModel().rows.length)
-			return (
-				<Table.Row>
-					<Table.Cell colSpan={columns.length} className="h-24 text-center">
-						No results.
-					</Table.Cell>
-				</Table.Row>
-			)
-
-		return getRowModel().rows.map((row) => (
-			<Table.Row key={row.id} data-state={row.getIsSelected() && 'selected'}>
-				{row.getVisibleCells().map((cell) => (
-					<Table.Cell key={cell.id}>
-						{flexRender(cell.column.columnDef.cell, cell.getContext())}
-					</Table.Cell>
-				))}
-			</Table.Row>
-		))
-	}, [columns.length, getRowModel, loading])
 
 	return (
 		<div className="flex flex-col gap-4">
@@ -200,7 +204,13 @@ export const DataTable = <TData extends RowData>({
 							</Table.Row>
 						))}
 					</Table.Header>
-					<Table.Body>{tableBody()}</Table.Body>
+					<Table.Body>
+						<TableBody
+							columns={columns}
+							rowModel={getRowModel()}
+							loading={loading}
+						/>
+					</Table.Body>
 				</Table.Root>
 			</div>
 			<Pagination.Root>
