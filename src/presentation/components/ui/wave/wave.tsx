@@ -1,5 +1,5 @@
-import { cn } from '@/main/utils'
 import { useWindowResize } from '@/presentation/hooks/useWindowResize'
+import { cn } from '@/shared/utils'
 
 type WaveProps = React.HTMLAttributes<HTMLDivElement>
 

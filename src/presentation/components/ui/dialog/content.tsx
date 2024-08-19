@@ -7,7 +7,7 @@ import {
 } from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 import { Overlay } from './overlay'
 

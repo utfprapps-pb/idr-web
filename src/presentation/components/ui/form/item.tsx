@@ -1,6 +1,6 @@
 import { HTMLAttributes, forwardRef, useId, useMemo } from 'react'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 import { FormItemContext } from './contexts'
 

@@ -6,7 +6,7 @@ import {
 
 import { Description as DescriptionPrimitive } from '@radix-ui/react-alert-dialog'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 export const Description = forwardRef<
 	ElementRef<typeof DescriptionPrimitive>,

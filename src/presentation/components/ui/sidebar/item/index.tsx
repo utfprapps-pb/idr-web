@@ -1,6 +1,6 @@
 import { forwardRef } from 'react'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 import { itemVariants } from './styles'
 import { ItemProps } from './types'

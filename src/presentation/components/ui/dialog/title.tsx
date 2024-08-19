@@ -2,7 +2,7 @@ import { forwardRef } from 'react'
 
 import { Title as TitlePrimitive } from '@radix-ui/react-dialog'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 export const Title = forwardRef<
 	React.ElementRef<typeof TitlePrimitive>,

@@ -3,7 +3,7 @@ import { forwardRef, ComponentProps } from 'react'
 import { VariantProps, cva } from 'class-variance-authority'
 import clsx from 'clsx'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 const itemVariants = cva('cursor-pointer', {
 	variants: {

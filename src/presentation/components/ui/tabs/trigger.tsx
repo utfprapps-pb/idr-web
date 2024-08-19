@@ -2,7 +2,7 @@ import { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react'
 
 import { Trigger as TriggerPrimitive } from '@radix-ui/react-tabs'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 export const Trigger = forwardRef<
 	ElementRef<typeof TriggerPrimitive>,

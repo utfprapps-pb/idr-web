@@ -2,7 +2,7 @@ import { forwardRef } from 'react'
 
 import { Content as ContentPrimitive, Portal } from '@radix-ui/react-popover'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 export const Content = forwardRef<
 	React.ElementRef<typeof ContentPrimitive>,

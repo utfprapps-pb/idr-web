@@ -1,6 +1,6 @@
 import { forwardRef, ComponentProps } from 'react'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 export const Content = forwardRef<HTMLUListElement, ComponentProps<'ul'>>(
 	({ className, ...props }, ref) => (

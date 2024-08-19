@@ -2,7 +2,7 @@ import { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react'
 
 import { Content as ContentPrimitive } from '@radix-ui/react-tabs'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 export const Content = forwardRef<
 	ElementRef<typeof ContentPrimitive>,

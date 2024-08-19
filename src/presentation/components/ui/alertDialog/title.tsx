@@ -6,7 +6,7 @@ import {
 
 import { Title as TitlePrimitive } from '@radix-ui/react-alert-dialog'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 export const Title = forwardRef<
 	ElementRef<typeof TitlePrimitive>,

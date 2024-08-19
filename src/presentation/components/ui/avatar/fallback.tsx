@@ -2,7 +2,7 @@ import { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react'
 
 import { Fallback as FallbackPrimitive } from '@radix-ui/react-avatar'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 export const Fallback = forwardRef<
 	ElementRef<typeof FallbackPrimitive>,

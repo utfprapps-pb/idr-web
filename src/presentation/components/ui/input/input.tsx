@@ -2,8 +2,8 @@ import { forwardRef } from 'react'
 
 import { AlertCircle } from 'lucide-react'
 
-import { cn } from '@/main/utils'
 import { Loading } from '@/presentation/components/ui/loading'
+import { cn } from '@/shared/utils'
 
 import { inputVariants, styles } from './styles'
 import { useInput } from './useInput'

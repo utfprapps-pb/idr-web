@@ -9,7 +9,7 @@ import {
 	Portal as PortalPrimitive
 } from '@radix-ui/react-alert-dialog'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 import { Overlay } from './overlay'
 

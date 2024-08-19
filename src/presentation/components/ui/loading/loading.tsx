@@ -1,4 +1,4 @@
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 import { loadingVariants } from './styles'
 import { LoadingProps } from './types'

@@ -2,7 +2,7 @@ import { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react'
 
 import { List as ListPrimitive } from '@radix-ui/react-tabs'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 export const List = forwardRef<
 	ElementRef<typeof ListPrimitive>,

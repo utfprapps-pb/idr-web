@@ -2,11 +2,11 @@ import { LogOut } from 'lucide-react'
 import { useLocation } from 'react-router-dom'
 
 import { sidebarItems } from '@/main/routes/menu'
-import { cn } from '@/main/utils'
 import { Button, Header } from '@/presentation/components/ui'
 import { Sidebar } from '@/presentation/components/ui/sidebar'
 import { useAuth } from '@/presentation/contexts'
 import { useIdrHistory } from '@/presentation/hooks'
+import { cn } from '@/shared/utils'
 
 import { styles } from './styles'
 

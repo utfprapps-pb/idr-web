@@ -1,7 +1,7 @@
 import { Children } from 'react'
 
-import { cn } from '@/main/utils'
 import { useWindowResize } from '@/presentation/hooks/useWindowResize'
+import { cn } from '@/shared/utils'
 
 import { styles } from './styles'
 

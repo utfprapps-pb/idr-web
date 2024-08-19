@@ -2,7 +2,7 @@ import { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react'
 
 import { SubContent as SubContentPrimitive } from '@radix-ui/react-dropdown-menu'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 export const SubContent = forwardRef<
 	ElementRef<typeof SubContentPrimitive>,

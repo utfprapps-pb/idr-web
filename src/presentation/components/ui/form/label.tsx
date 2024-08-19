@@ -2,8 +2,8 @@ import { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react'
 
 import { Root } from '@radix-ui/react-label'
 
-import { cn } from '@/main/utils'
 import { Label as AppLabel } from '@/presentation/components/ui/label'
+import { cn } from '@/shared/utils'
 
 import { useFormField } from './hooks/useFormField'
 

@@ -2,7 +2,7 @@ import { ComponentProps } from 'react'
 
 import { ChevronLeft } from 'lucide-react'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 import { Link } from './link'
 

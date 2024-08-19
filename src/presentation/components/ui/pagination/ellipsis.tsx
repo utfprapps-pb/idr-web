@@ -1,6 +1,6 @@
 import { MoreHorizontal } from 'lucide-react'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 export const Ellipsis: React.FC<React.ComponentProps<'span'>> = ({
 	className,

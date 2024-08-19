@@ -2,7 +2,7 @@ import { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react'
 
 import { Description as DescriptionPrimitive } from '@radix-ui/react-dialog'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 export const Description = forwardRef<
 	ElementRef<typeof DescriptionPrimitive>,

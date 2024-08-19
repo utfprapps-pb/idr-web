@@ -2,7 +2,7 @@ import { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react'
 
 import { Separator as SeparatorPrimitive } from '@radix-ui/react-dropdown-menu'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 export const Separator = forwardRef<
 	ElementRef<typeof SeparatorPrimitive>,

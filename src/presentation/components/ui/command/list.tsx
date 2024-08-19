@@ -2,7 +2,7 @@ import { forwardRef } from 'react'
 
 import { Command as CommandPrimitive } from 'cmdk'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 export const List = forwardRef<
 	React.ElementRef<typeof CommandPrimitive.List>,

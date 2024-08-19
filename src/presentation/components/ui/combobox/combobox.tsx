@@ -2,11 +2,11 @@ import { useState } from 'react'
 
 import { Check, ChevronsUpDown } from 'lucide-react'
 
-import { cn } from '@/main//utils/tailwind'
 import { Button } from '@/presentation/components/ui/button'
 import { Command } from '@/presentation/components/ui/command'
 import { Loading } from '@/presentation/components/ui/loading'
 import { Popover } from '@/presentation/components/ui/popover'
+import { cn } from '@/shared/utils/tailwind'
 
 import type { ComboboxProps } from './types'
 
