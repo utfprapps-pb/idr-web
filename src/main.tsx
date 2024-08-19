@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 
@@ -11,7 +12,14 @@ import { env } from './main/env'
 import { AuthProvider } from './presentation/contexts'
 
 async function bootstrap() {
-	const queryClient = new QueryClient()
+	const queryClient = new QueryClient({
+		defaultOptions: {
+			queries: {
+				retry: false,
+				refetchOnWindowFocus: false
+			}
+		}
+	})
 
 	if (env.VITE_API_MOCKED) {
 		const { worker } = await import('./mocks/browser')
@@ -33,6 +41,7 @@ async function bootstrap() {
 					]}
 				>
 					<App />
+					<ReactQueryDevtools />
 				</Compose>
 			</BrowserRouter>
 		</StrictMode>
