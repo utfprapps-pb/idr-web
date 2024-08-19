@@ -15,19 +15,19 @@ export type UseHookFormProps<TDefaultValues extends FieldValues> = {
 	values?: UseFormProps<TDefaultValues>['values']
 	defaultValues?: DefaultValues<TDefaultValues>
 
-	schemaResolver?: Resolver<TDefaultValues>
+	resolver?: Resolver<TDefaultValues>
 }
 
 export const useHookForm = <TDefaultValues extends FieldValues>({
 	values,
 	defaultValues,
-	schemaResolver
+	resolver
 }: UseHookFormProps<TDefaultValues>) => {
 	const form = useForm<TDefaultValues>({
 		mode: 'all',
 		defaultValues,
 		values,
-		resolver: schemaResolver
+		resolver
 	})
 
 	const {

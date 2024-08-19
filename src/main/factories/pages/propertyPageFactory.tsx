@@ -8,7 +8,6 @@ import {
 	makeRemoteUpdateProperty
 } from '../useCases/property'
 import { makeRemoteGetAllUsers } from '../useCases/user'
-import { makePropertyValidation } from '../validations/propertyValidationFactory'
 
 export const MakePropertyPage: React.FC = () => (
 	<PropertyPage
@@ -18,6 +17,5 @@ export const MakePropertyPage: React.FC = () => (
 		getProperties={makeRemoteGetProperties()}
 		getProperty={makeRemoteGetProperty()}
 		getAllUsers={makeRemoteGetAllUsers()}
-		validation={makePropertyValidation()}
 	/>
 )
