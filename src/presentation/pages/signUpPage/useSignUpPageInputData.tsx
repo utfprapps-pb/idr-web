@@ -10,16 +10,15 @@ import type { UseInputDataProps } from './types'
 
 export const useSignUpPageInputData = ({
 	control,
-	cepLoading,
-	cepDebounceCallback,
-	handleOnClearCepDebounce
+	cepLoading
 }: UseInputDataProps) => {
 	const [viewPassword, setViewPassword] = useState(false)
 	const [viewConfirmPassword, setViewConfirmPassword] = useState(false)
 
 	const inputDataFirstStep = [
-		<Grouper>
+		<Grouper key="grouper-name-email">
 			<Form.Field
+				key="name"
 				name="name"
 				control={control}
 				render={({ field, formState }) => {
@@ -41,6 +40,7 @@ export const useSignUpPageInputData = ({
 				}}
 			/>
 			<Form.Field
+				key="email"
 				name="email"
 				control={control}
 				render={({ field, formState }) => {
@@ -68,8 +68,9 @@ export const useSignUpPageInputData = ({
 				}}
 			/>
 		</Grouper>,
-		<Grouper>
+		<Grouper key="grouper-passwords">
 			<Form.Field
+				key="password"
 				name="password"
 				control={control}
 				render={({ field, formState }) => {
@@ -101,6 +102,7 @@ export const useSignUpPageInputData = ({
 				}}
 			/>
 			<Form.Field
+				key="confirmPassword"
 				name="confirmPassword"
 				control={control}
 				render={({ field, formState }) => {
@@ -133,8 +135,9 @@ export const useSignUpPageInputData = ({
 				}}
 			/>
 		</Grouper>,
-		<Grouper>
+		<Grouper key="grouper-cpf-phone">
 			<Form.Field
+				key="cpf"
 				name="cpf"
 				control={control}
 				render={({ field, formState }) => {
@@ -157,6 +160,7 @@ export const useSignUpPageInputData = ({
 				}}
 			/>
 			<Form.Field
+				key="phone"
 				name="phone"
 				control={control}
 				render={({ field, formState }) => {
@@ -179,8 +183,9 @@ export const useSignUpPageInputData = ({
 				}}
 			/>
 		</Grouper>,
-		<Grouper>
+		<Grouper key="grouper-register-year">
 			<Form.Field
+				key="professionalRegister"
 				name="professionalRegister"
 				control={control}
 				render={({ field, formState }) => {
@@ -203,6 +208,7 @@ export const useSignUpPageInputData = ({
 				}}
 			/>
 			<Form.Field
+				key="graduationYear"
 				name="graduationYear"
 				control={control}
 				render={({ field, formState }) => {
@@ -228,8 +234,9 @@ export const useSignUpPageInputData = ({
 	]
 
 	const inputDataSecondStep = [
-		<Grouper>
+		<Grouper key="grouper-cep-street">
 			<Form.Field
+				key="cep"
 				name="cep"
 				control={control}
 				render={({ field, formState }) => {
@@ -244,9 +251,6 @@ export const useSignUpPageInputData = ({
 									isError={!!cep?.message}
 									placeholder="Digite seu CEP"
 									mask={cepMask}
-									debounce={500}
-									debounceCallback={cepDebounceCallback}
-									handleOnClearDebounce={handleOnClearCepDebounce}
 								/>
 							</Form.Control>
 							<Form.Message />
@@ -255,6 +259,7 @@ export const useSignUpPageInputData = ({
 				}}
 			/>
 			<Form.Field
+				key="street"
 				name="street"
 				control={control}
 				render={({ field, formState }) => {
@@ -278,8 +283,9 @@ export const useSignUpPageInputData = ({
 				}}
 			/>
 		</Grouper>,
-		<Grouper>
+		<Grouper key="grouper-city-state">
 			<Form.Field
+				key="city"
 				name="city"
 				control={control}
 				render={({ field, formState }) => {
@@ -303,6 +309,7 @@ export const useSignUpPageInputData = ({
 				}}
 			/>
 			<Form.Field
+				key="houseNumber"
 				name="houseNumber"
 				control={control}
 				render={({ field }) => (

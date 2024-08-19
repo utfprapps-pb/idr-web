@@ -8,28 +8,17 @@ import type { SignUpPageProps } from './types'
 
 export const SignUpPage: React.FC<SignUpPageProps> = ({
 	createUser,
-	getCep,
-	validation
+	getCep
 }) => {
-	const {
-		form,
-		isFirstStep,
-		buttonDisabled,
-		cepLoading,
-		handleSubmit,
-		handleFetchCep,
-		handleOnClearCepDebounce
-	} = useSignUpPage({
-		createUser,
-		getCep,
-		validation
-	})
+	const { form, isFirstStep, buttonDisabled, cepLoading, handleSubmit } =
+		useSignUpPage({
+			createUser,
+			getCep
+		})
 
 	const { inputDataFirstStep, inputDataSecondStep } = useSignUpPageInputData({
 		control: form.control,
-		cepLoading,
-		cepDebounceCallback: handleFetchCep,
-		handleOnClearCepDebounce
+		cepLoading
 	})
 
 	return (

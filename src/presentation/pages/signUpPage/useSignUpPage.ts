@@ -1,15 +1,17 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
+import { zodResolver } from '@hookform/resolvers/zod'
 import { AxiosError } from 'axios'
 import { toast } from 'react-hot-toast'
 
 import { CreateUserModel } from '@/domain/models'
 import { PAGE_PATHS } from '@/main/routes/paths'
 import { onlyNumbersMask } from '@/masker'
-import { useIdrHistory } from '@/presentation/hooks'
+import { useDebounce, useIdrHistory } from '@/presentation/hooks'
 import { useHookForm } from '@/presentation/hooks/useHookForm'
 
 import { SignUpPageProps } from './types'
+import { signUpSchema } from './validation'
 
 const INITIAL_FORM_DATA: CreateUserModel = {
 	name: '',
@@ -27,8 +29,7 @@ const INITIAL_FORM_DATA: CreateUserModel = {
 }
 
 export const useSignUpPage = (props: SignUpPageProps) => {
-	const { createUser, getCep, validation } = props
-	const { firstStepValidation, validation: validationForm } = validation
+	const { createUser, getCep } = props
 
 	const [cepLoading, setCepLoading] = useState(false)
 	const [firstStepData, setFirstStepData] = useState<Partial<CreateUserModel>>(
@@ -38,13 +39,16 @@ export const useSignUpPage = (props: SignUpPageProps) => {
 
 	const { navigate } = useIdrHistory()
 
-	const form = useHookForm<CreateUserModel>({
+	const form = useHookForm({
 		defaultValues: INITIAL_FORM_DATA,
-		schemaResolver: (data) => {
-			if (isFirstStep) return firstStepValidation.validate({ data })
+		resolver: zodResolver(
+			isFirstStep ? signUpSchema.firstStep : signUpSchema.secondStep
+		)
+	})
 
-			return validationForm.validate({ data })
-		}
+	const debouncedCep = useDebounce({
+		value: form.getValues('cep'),
+		delayInMs: 1000
 	})
 
 	const {
@@ -124,22 +128,11 @@ export const useSignUpPage = (props: SignUpPageProps) => {
 		}
 	}, [getCep, getValues, setValue])
 
-	const handleOnClearCepDebounce = useCallback(() => {
-		const fieldsToUpdate = {
-			cep: '',
-			city: '',
-			street: ''
+	useEffect(() => {
+		if (debouncedCep) {
+			handleFetchCep()
 		}
-
-		Object.entries(fieldsToUpdate).forEach(([field, value]) => {
-			const typedField = field as keyof CreateUserModel
-			setValue(typedField, value, {
-				shouldDirty: true,
-				shouldValidate: true,
-				shouldTouch: true
-			})
-		})
-	}, [setValue])
+	}, [debouncedCep, handleFetchCep])
 
 	return {
 		cepLoading,
@@ -148,7 +141,6 @@ export const useSignUpPage = (props: SignUpPageProps) => {
 		isFirstStep,
 		goToLoginPage,
 		handleFetchCep,
-		handleSubmit,
-		handleOnClearCepDebounce
+		handleSubmit
 	}
 }
