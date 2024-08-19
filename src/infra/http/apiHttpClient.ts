@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios'
 
 import { IHttpClient, HttpRequest, HttpResponse } from '@/data/protocols/http'
-import { env } from '@/main/env'
+import { env } from '@/shared/env'
 
 export const ITEMS_PER_PAGE = 10
 

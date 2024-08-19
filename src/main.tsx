@@ -8,8 +8,8 @@ import { BrowserRouter } from 'react-router-dom'
 import { Compose } from '@/presentation/components/utils'
 
 import { App } from './App'
-import { env } from './main/env'
 import { AuthProvider } from './presentation/contexts'
+import { env } from './shared/env'
 
 async function bootstrap() {
 	const queryClient = new QueryClient({
