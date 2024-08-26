@@ -5,33 +5,36 @@ import toast from 'react-hot-toast'
 
 import { AlertDialog } from '@/presentation/components/ui'
 
-import { PropertyDeleteContainerProps } from './types'
+import { usePropertyContext } from '../../propertyContext'
 
-export const PropertyDeleteDialogContainer: React.FC<
-	PropertyDeleteContainerProps
-> = ({ open, onOpen, property, deleteProperty }) => {
+export const PropertyDeleteDialog: React.FC = () => {
+	const {
+		propertySelected,
+		isOpenDeletePropertyContainer,
+		deleteProperty,
+		closeDeletePropertyContainer
+	} = usePropertyContext()
+
 	const { mutate: handleDeleteProperty } = useMutation({
-		mutationFn: () => {
-			if (!property?.id) {
-				return Promise.reject(new Error('Not found Property'))
-			}
-			return deleteProperty.execute(property.id)
-		},
+		mutationFn: () => deleteProperty.execute(propertySelected!.id),
 		onSuccess: () => {
 			toast.success('Propriedade removida com sucesso')
-			onOpen(false)
+			closeDeletePropertyContainer()
 		},
 		onError: () => {
 			toast.error('Não foi possível remover essa propriedade')
-			onOpen(false)
+			closeDeletePropertyContainer()
 		}
 	})
 
 	return (
-		<AlertDialog.Root open={open} onOpenChange={onOpen}>
+		<AlertDialog.Root
+			open={isOpenDeletePropertyContainer}
+			onOpenChange={closeDeletePropertyContainer}
+		>
 			<AlertDialog.Content>
 				<AlertDialog.Header>
-					<AlertDialog.Title>{`Deseja remover a propriedade ${property?.name}`}</AlertDialog.Title>
+					<AlertDialog.Title>{`Deseja remover a propriedade ${propertySelected!.name}`}</AlertDialog.Title>
 					<AlertDialog.Description>
 						Não será possível desfazer essa ação!
 					</AlertDialog.Description>

@@ -86,3 +86,5 @@ export const propertySchema = z.object({
 	totalArea,
 	localization
 })
+
+export type PropertySchema = z.infer<typeof propertySchema>

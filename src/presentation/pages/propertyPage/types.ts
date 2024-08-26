@@ -1,3 +1,5 @@
+import type { PropertyModel } from '@/domain/models'
+import type { Filters, Sort } from '@/domain/shared/types'
 import type {
 	ICreateProperty,
 	IDeleteProperty,
@@ -19,3 +21,6 @@ export type PropertyPageProps = {
 export type UsePropertyPageProps = {
 	getProperties: IGetProperties
 }
+
+export type PropertyFilters = Partial<Filters<keyof PropertyModel>>
+export type PropertySort = Sort<keyof PropertyModel>
