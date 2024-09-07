@@ -39,7 +39,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		return !!storedAccessToken
 	})
 
-	const { isError, isSuccess, data } = useQuery({
+	const { isError, isSuccess, data, isLoading } = useQuery({
 		queryKey: ['users', 'me'],
 		queryFn: async () => meService.execute(),
 		enabled: signedIn,
@@ -83,7 +83,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
 	return (
 		<AuthContext.Provider value={providerProps}>
-			{children}
+			{!isLoading && children}
 		</AuthContext.Provider>
 	)
 }

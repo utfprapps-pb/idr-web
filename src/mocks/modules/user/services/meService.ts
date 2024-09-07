@@ -5,7 +5,7 @@ import { httpWithMiddleware } from '@/mocks/lib'
 import { withAuth, withDelay } from '@/mocks/middleware'
 
 type Response = {
-	displayName: string
+	name: string
 }
 
 export const meService = httpWithMiddleware<never, never, Response | {}>({
@@ -15,7 +15,7 @@ export const meService = httpWithMiddleware<never, never, Response | {}>({
 	resolver: async () =>
 		HttpResponse.json(
 			{
-				displayName: faker.person.fullName()
+				name: faker.person.fullName()
 			},
 			{ status: 200 }
 		)
