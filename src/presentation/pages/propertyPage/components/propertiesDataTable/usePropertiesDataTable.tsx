@@ -9,7 +9,7 @@ import { useDebounce } from '@/presentation/hooks'
 import { useProperties } from '../../hooks/useProperties'
 import { usePropertyContext } from '../../propertyContext'
 
-import type { PropertyModel } from '@/domain/models'
+import type { PropertyModel } from '@/domain/models/propertyModel'
 import type {
 	PropertyFilters,
 	PropertySort

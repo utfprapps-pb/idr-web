@@ -83,13 +83,9 @@ export const DataTable = <TData extends RowData>({
 						])
 					: updaterOrValue
 
-			if (!sort) {
-				onSorting()
-			}
-
 			onSorting({
-				direction: sort?.desc ? 'desc' : 'asc',
-				field: sort?.id as keyof TData
+				direction: sort.desc ? 'desc' : 'asc',
+				field: sort.id as keyof TData
 			})
 		},
 		[currentSorting?.direction, currentSorting?.field, onSorting]

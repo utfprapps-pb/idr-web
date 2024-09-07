@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
 import type { PropertyFilters, PropertySort } from '../types'
-import type { IGetProperties } from '@/domain/useCases'
+import type { IGetProperties } from '@/domain/useCases/property'
 
 type Props = {
 	filters: PropertyFilters

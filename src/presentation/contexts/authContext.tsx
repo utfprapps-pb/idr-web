@@ -52,8 +52,8 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 				LocalStorageAdapter.LOCAL_STORAGE_KEYS.AUTH,
 				accessToken
 			)
-			setSignedIn(true)
 			navigateToSignedBasePath()
+			setSignedIn(true)
 		},
 		[navigateToSignedBasePath]
 	)

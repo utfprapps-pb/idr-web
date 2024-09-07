@@ -2,7 +2,7 @@ import { Input, DataTable } from '@/presentation/components/ui'
 
 import { usePropertiesDataTable } from './usePropertiesDataTable'
 
-import type { PropertyModel } from '@/domain/models'
+import type { PropertyModel } from '@/domain/models/propertyModel'
 
 export const PropertiesDataTable: React.FC = () => {
 	const {

@@ -49,8 +49,7 @@ export class ApiHttpClient<TBody = unknown> implements IHttpClient<TBody> {
 
 		return {
 			statusCode: axiosResponse.status,
-			body: axiosResponse.data,
-			itemsPerPage: pagination?.perPage ?? ITEMS_PER_PAGE
+			body: axiosResponse.data
 		}
 	}
 

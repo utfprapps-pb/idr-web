@@ -7,15 +7,16 @@ import React, {
 	useState
 } from 'react'
 
-import type { PropertyModel } from '@/domain/models'
+import { IGetAllUsers } from '@/domain/useCases/user'
+
+import type { PropertyModel } from '@/domain/models/propertyModel'
 import type {
 	ICreateProperty,
 	IDeleteProperty,
-	IGetAllUsers,
 	IGetProperties,
 	IGetProperty,
 	IUpdateProperty
-} from '@/domain/useCases'
+} from '@/domain/useCases/property'
 
 type Services = {
 	getProperties: IGetProperties

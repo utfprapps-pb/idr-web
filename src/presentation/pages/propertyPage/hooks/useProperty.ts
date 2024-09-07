@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
-import type { IGetProperty } from '@/domain/useCases'
+import type { IGetProperty } from '@/domain/useCases/property'
 
 type Props = {
 	id: string

@@ -16,7 +16,8 @@ import {
 import { useDebounce } from '@/presentation/hooks'
 
 import type { TabProps } from './types'
-import type { IGetAllUsers } from '@/domain/useCases'
+import type { Option } from '@/domain/shared/types'
+import type { IGetAllUsers } from '@/domain/useCases/user'
 
 type GeneralTabProps = TabProps & {
 	getAllUsers: IGetAllUsers
@@ -57,7 +58,7 @@ export const GeneralTab: React.FC<GeneralTabProps> = ({
 			allUsersData.filter(
 				(user) =>
 					!getValues('general.responsibleTechnicians').some(
-						(technician) => technician.value === user.value
+						(technician: Option) => technician.value === user.value
 					)
 			),
 		[allUsersData, getValues]

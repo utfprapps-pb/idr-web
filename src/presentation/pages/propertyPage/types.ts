@@ -1,13 +1,14 @@
-import type { PropertyModel } from '@/domain/models'
+import { IGetAllUsers } from '@/domain/useCases/user'
+
+import type { PropertyModel } from '@/domain/models/propertyModel'
 import type { Filters, Sort } from '@/domain/shared/types'
 import type {
 	ICreateProperty,
 	IDeleteProperty,
-	IGetAllUsers,
 	IGetProperties,
 	IGetProperty,
 	IUpdateProperty
-} from '@/domain/useCases'
+} from '@/domain/useCases//property'
 
 export type PropertyPageProps = {
 	createProperty: ICreateProperty

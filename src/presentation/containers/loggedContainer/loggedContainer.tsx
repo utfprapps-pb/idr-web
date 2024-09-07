@@ -19,7 +19,7 @@ export const LoggedContainer: React.FC<LoggedContainerProps> = ({
 }) => {
 	const { pathname: currentPathname } = useLocation()
 	const { navigate } = useIdrHistory()
-	const { auth, handleSignOut } = useAuth()
+	const { signOut, user } = useAuth()
 
 	return (
 		<main
@@ -28,7 +28,7 @@ export const LoggedContainer: React.FC<LoggedContainerProps> = ({
 			{...props}
 		>
 			<Header
-				displayName={auth?.name ?? ''}
+				displayName={user?.name ?? ''}
 				imageUrl=""
 				className={styles.header.className}
 				style={styles.header.inline}
@@ -52,7 +52,7 @@ export const LoggedContainer: React.FC<LoggedContainerProps> = ({
 
 				<Button
 					className="flex flex-row items-center justify-start gap-3 text-base font-semibold mt-auto"
-					onClick={handleSignOut}
+					onClick={signOut}
 				>
 					<LogOut size={24} /> Sair
 				</Button>

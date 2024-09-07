@@ -33,7 +33,6 @@ export type HttpRequest<F = Record<string, string>> = {
 export type HttpResponse<TBody = any> = {
 	statusCode: HttpStatusCode
 	body?: TBody
-	itemsPerPage: number
 }
 
 export interface IHttpClient<T = any, F = Record<string, string>> {

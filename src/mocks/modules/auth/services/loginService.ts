@@ -23,10 +23,7 @@ export const loginService = httpWithMiddleware<never, Params, Response | {}>({
 	resolver: async ({ request }) => {
 		const { username, password } = await request.json()
 
-		if (
-			username === 'mockedUser@gmail.com' &&
-			password === 'mockedUserPassword'
-		) {
+		if (username && password) {
 			return HttpResponse.json({
 				token: faker.string.uuid()
 			})

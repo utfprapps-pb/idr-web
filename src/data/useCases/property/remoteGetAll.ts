@@ -1,5 +1,6 @@
 import { type IHttpClient, HttpStatusCode } from '@/data/protocols/http'
 import { UnexpectedError, NotFoundError, ForbiddenError } from '@/domain/errors'
+import { ITEMS_PER_PAGE } from '@/infra/http'
 
 import type { PropertyModel } from '@/domain/models/propertyModel'
 import type { IGetProperties } from '@/domain/useCases/property'
@@ -15,7 +16,7 @@ export class RemoteGetAll implements IGetProperties {
 		pagination,
 		sort
 	}) => {
-		const { statusCode, body, itemsPerPage } = await this.httpClient.request({
+		const { statusCode, body } = await this.httpClient.request({
 			url: `${this.url}`,
 			method: 'get',
 			filters,
@@ -37,7 +38,7 @@ export class RemoteGetAll implements IGetProperties {
 							}
 						}) as PropertyModel
 				),
-				totalPages: Math.ceil(body.totalRegisters / itemsPerPage)
+				totalPages: Math.ceil(body.totalRegisters / ITEMS_PER_PAGE)
 			}
 		}
 

@@ -1,9 +1,10 @@
 import { useState } from 'react'
 
-import { Meta, StoryFn } from '@storybook/react/'
-import { ColumnDef, PaginationState, SortingState } from '@tanstack/react-table'
-
 import { DataTable, type DataTableProps } from '.'
+
+import type { Sort } from '@/domain/shared/types'
+import type { Meta, StoryFn } from '@storybook/react/'
+import type { ColumnDef } from '@tanstack/react-table'
 
 type Payment = {
 	id: string
@@ -58,11 +59,11 @@ export default {
 } as Meta
 
 const Template: StoryFn<DataTableProps<Payment>> = (args) => {
-	const [sorting, setSorting] = useState<SortingState>([])
-	const [pagination, setPagination] = useState<PaginationState>({
-		pageIndex: 0,
-		pageSize: 0
+	const [sorting, setSorting] = useState<Sort<keyof Payment>>({
+		direction: 'asc',
+		field: 'id'
 	})
+	const [pagination, setPagination] = useState<number>(1)
 
 	return (
 		<div className="flex flex-col gap-12">

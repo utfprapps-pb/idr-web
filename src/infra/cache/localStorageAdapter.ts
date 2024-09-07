@@ -5,7 +5,11 @@ export class LocalStorageAdapter {
 
 	static get(key: string): string | null {
 		const item = localStorage.getItem(key)
-		return item ? JSON.parse(item) : null
+		if (item) {
+			return typeof item === 'object' ? JSON.parse(item) : item
+		}
+
+		return null
 	}
 
 	static set<T>(key: string, value?: T): void {
