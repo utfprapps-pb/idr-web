@@ -1,3 +1,3 @@
-export * from './createUser'
-export * from './getAllUsers'
-export * from './loginUser'
+export type { ICreateUser } from './create'
+export type { IGetAllUsers } from './getAll'
+export type { IMeUser } from './me'

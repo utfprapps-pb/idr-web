@@ -8,9 +8,12 @@ export class LocalStorageAdapter {
 		return item ? JSON.parse(item) : null
 	}
 
-	static set(key: string, value?: object): void {
+	static set<T>(key: string, value?: T): void {
 		if (value) {
-			localStorage.setItem(key, JSON.stringify(value))
+			localStorage.setItem(
+				key,
+				typeof value === 'object' ? JSON.stringify(value) : String(value)
+			)
 			return
 		}
 

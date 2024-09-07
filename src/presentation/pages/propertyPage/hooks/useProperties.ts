@@ -20,7 +20,7 @@ export const useProperties = ({
 	getProperties
 }: Props) => {
 	const { data, isError, isLoading, refetch } = useQuery({
-		queryKey: ['properties'],
+		queryKey: ['properties', { page, sort, filters }],
 		queryFn: () =>
 			getProperties.execute({
 				pagination: { page },

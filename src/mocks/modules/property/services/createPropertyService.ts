@@ -1,9 +1,10 @@
 import { HttpResponse } from 'msw'
 
 import { HttpStatusCode } from '@/data/protocols/http'
-import { PropertyDetailsModel } from '@/domain/models'
 import { httpWithMiddleware } from '@/mocks/lib'
 import { withAuth, withDelay } from '@/mocks/middleware'
+
+import type { PropertyDetailsModel } from '@/domain/models/propertyModel'
 
 export const createPropertyService = httpWithMiddleware<
 	never,

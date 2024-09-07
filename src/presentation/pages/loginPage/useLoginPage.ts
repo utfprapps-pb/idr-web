@@ -1,37 +1,70 @@
 import { useCallback, useState } from 'react'
 
-import { LoginUserParams } from '@/domain/useCases'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
+import toast from 'react-hot-toast'
+import { z } from 'zod'
+
+import { InvalidCredentialsError } from '@/domain/errors'
 import { useAuth } from '@/presentation/contexts'
 import { useHookForm } from '@/presentation/hooks/useHookForm'
 
-const INITIAL_FORM_DATA: LoginUserParams = {
-	email: '',
-	password: ''
-}
+import type { LoginPageProps } from './types'
+import type { LoginParams } from '@/domain/useCases/auth'
 
-export const useLoginPage = () => {
-	const { handleSignIn } = useAuth()
+const schema = z.object({
+	email: z
+		.string()
+		.min(1, 'Email é obrigatório')
+		.email('Informe um email válido'),
+	password: z.string().min(1, 'Senha é obrigatório')
+})
 
+type FormData = z.infer<typeof schema>
+
+export const useLoginPage = ({ remoteLogin }: LoginPageProps) => {
+	const { signIn } = useAuth()
 	const [viewPassword, setViewPassword] = useState(false)
 
-	const form = useHookForm<LoginUserParams>({
-		defaultValues: INITIAL_FORM_DATA
+	const form = useHookForm<FormData>({
+		defaultValues: {
+			email: '',
+			password: ''
+		},
+		resolver: zodResolver(schema)
 	})
 
 	const { handleSubmit: handleSubmitForm } = form
 
+	const { mutateAsync, isPending } = useMutation({
+		mutationFn: async (data: LoginParams) => remoteLogin.execute(data)
+	})
+
 	const onSubmit = useCallback(
-		async (data: LoginUserParams, event?: React.BaseSyntheticEvent) => {
-			event?.preventDefault()
-			await handleSignIn(data)
+		async (data: FormData, event?: React.BaseSyntheticEvent) => {
+			try {
+				event?.preventDefault()
+				const { token } = await mutateAsync(data)
+				signIn(token)
+			} catch (error) {
+				if (error instanceof InvalidCredentialsError) {
+					toast.error('Credenciais inválidas')
+					return
+				}
+
+				toast.error('Erro inesperado, tente novamente mais tarde')
+			}
 		},
-		[handleSignIn]
+		[mutateAsync, signIn]
 	)
 
 	const handleSubmit = handleSubmitForm(onSubmit)
 
 	return {
-		form,
+		form: {
+			...form,
+			buttonDisabled: form.buttonDisabled || isPending
+		},
 		viewPassword,
 		setViewPassword,
 		handleSubmit

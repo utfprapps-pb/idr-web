@@ -5,10 +5,13 @@ import { PAGE_PATHS } from '@/main/routes/paths'
 import { Button, Card, Form, Input, Wave } from '@/presentation/components/ui'
 import { useIdrHistory } from '@/presentation/hooks'
 
+import { LoginPageProps } from './types'
 import { useLoginPage } from './useLoginPage'
 
-export const LoginPage: React.FC = () => {
-	const { form, viewPassword, setViewPassword, handleSubmit } = useLoginPage()
+export const LoginPage: React.FC<LoginPageProps> = ({ remoteLogin }) => {
+	const { form, viewPassword, setViewPassword, handleSubmit } = useLoginPage({
+		remoteLogin
+	})
 	const { navigate } = useIdrHistory()
 
 	return (

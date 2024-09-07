@@ -1,12 +1,13 @@
 import { faker } from '@faker-js/faker/locale/pt_PT'
-import { HttpResponse, PathParams } from 'msw'
+import { HttpResponse, type PathParams } from 'msw'
 
 import { HttpStatusCode } from '@/data/protocols/http'
-import { PropertyDetailsModel } from '@/domain/models'
 import { httpWithMiddleware } from '@/mocks/lib'
 import { withAuth, withDelay } from '@/mocks/middleware'
 
 import propertiesData from '../../../../../database/propertiesData.json'
+
+import type { PropertyDetailsModel } from '@/domain/models/propertyModel'
 
 export const getPropertyService = httpWithMiddleware<
 	PathParams<'id'>,

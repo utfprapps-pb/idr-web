@@ -1,21 +1,15 @@
 import { PropertyPage } from '@/presentation/pages/propertyPage'
 
-import {
-	makeRemoteCreateProperty,
-	makeRemoteDeleteProperty,
-	makeRemoteGetProperties,
-	makeRemoteGetProperty,
-	makeRemoteUpdateProperty
-} from '../useCases/property'
-import { makeRemoteGetAllUsers } from '../useCases/user'
+import { PropertyDataFactory } from '../useCases/property'
+import { UserDataFactory } from '../useCases/user'
 
 export const MakePropertyPage: React.FC = () => (
 	<PropertyPage
-		createProperty={makeRemoteCreateProperty()}
-		updateProperty={makeRemoteUpdateProperty()}
-		deleteProperty={makeRemoteDeleteProperty()}
-		getProperties={makeRemoteGetProperties()}
-		getProperty={makeRemoteGetProperty()}
-		getAllUsers={makeRemoteGetAllUsers()}
+		createProperty={PropertyDataFactory.makeRemoteCreate()}
+		updateProperty={PropertyDataFactory.makeRemoteUpdate()}
+		deleteProperty={PropertyDataFactory.makeRemoteDelete()}
+		getProperties={PropertyDataFactory.makeRemoteGetAll()}
+		getProperty={PropertyDataFactory.makeRemoteGetOne()}
+		getAllUsers={UserDataFactory.makeRemoteGetAll()}
 	/>
 )

@@ -23,7 +23,7 @@ async function bootstrap() {
 
 	if (env.VITE_API_MOCKED) {
 		const { worker } = await import('./mocks/browser')
-		worker.start()
+		await worker.start()
 	}
 
 	createRoot(document.getElementById('root') as HTMLElement).render(

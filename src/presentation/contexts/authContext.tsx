@@ -8,90 +8,77 @@ import {
 	useState
 } from 'react'
 
+import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
-import { InvalidCredentialsError } from '@/domain/errors'
-import { UserModel } from '@/domain/models'
-import { LoginUserParams } from '@/domain/useCases'
 import { LocalStorageAdapter } from '@/infra/cache'
-import { baseApi } from '@/infra/http'
-import { makeRemoteLoginUser } from '@/main/factories/useCases/user'
+import { UserDataFactory } from '@/main/factories/useCases/user'
 import { useIdrHistory } from '@/presentation/hooks/'
 
-type AuthContextProps = {
-	auth: UserModel | null
+import type { UserModel } from '@/domain/models/userModel'
 
-	handleSignIn: (params: LoginUserParams) => Promise<void>
-	handleSignOut: () => void
+type AuthContextProps = {
+	signedIn: boolean
+	user?: UserModel
+
+	signIn(accessToken: string): void
+	signOut(): void
 }
 
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps)
 
 export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
-	const { navigateToSignedBasePath } = useIdrHistory()
+	const meService = UserDataFactory.makeRemoteMe()
+	const { navigateToBasePath, navigateToSignedBasePath } = useIdrHistory()
 
-	const [authData, setAuthData] = useState<AuthContextProps['auth'] | null>(
-		() => {
-			const auth = LocalStorageAdapter.get(
-				LocalStorageAdapter.LOCAL_STORAGE_KEYS.AUTH
-			) as AuthContextProps['auth']
+	const [signedIn, setSignedIn] = useState<boolean>(() => {
+		const storedAccessToken = LocalStorageAdapter.get(
+			LocalStorageAdapter.LOCAL_STORAGE_KEYS.AUTH
+		)
 
-			if (auth) return auth
-			return null
-		}
-	)
+		return !!storedAccessToken
+	})
 
-	const handleSignIn = useCallback(
-		async (params: LoginUserParams) => {
-			try {
-				const remoteLoginAccount = makeRemoteLoginUser()
+	const { isError, isSuccess, data } = useQuery({
+		queryKey: ['users', 'me'],
+		queryFn: async () => meService.execute(),
+		enabled: signedIn,
+		staleTime: Infinity
+	})
 
-				const { name, token } = await remoteLoginAccount.execute(params)
-
-				setAuthData({
-					name,
-					token
-				})
-				navigateToSignedBasePath()
-			} catch (error) {
-				if (error instanceof InvalidCredentialsError) {
-					toast.error('Credenciais inválidas')
-					return
-				}
-
-				toast.error('Erro inesperado, tente novamente mais tarde')
-			}
+	const signIn = useCallback(
+		(accessToken: string) => {
+			LocalStorageAdapter.set(
+				LocalStorageAdapter.LOCAL_STORAGE_KEYS.AUTH,
+				accessToken
+			)
+			setSignedIn(true)
+			navigateToSignedBasePath()
 		},
 		[navigateToSignedBasePath]
 	)
 
-	const handleSignOut = useCallback(() => {
-		setAuthData(null)
-	}, [])
+	const signOut = useCallback(() => {
+		LocalStorageAdapter.set(LocalStorageAdapter.LOCAL_STORAGE_KEYS.AUTH)
+		setSignedIn(false)
+		navigateToBasePath()
+	}, [navigateToBasePath])
 
 	useEffect(() => {
-		if (authData) {
-			LocalStorageAdapter.set(
-				LocalStorageAdapter.LOCAL_STORAGE_KEYS.AUTH,
-				authData
-			)
-
-			baseApi.defaults.headers.Authorization = `Bearer ${authData.token}`
-
-			return
+		if (!signedIn) {
+			toast.error('Sua sessão expirou!')
+			signOut()
 		}
-
-		delete baseApi.defaults.headers.Authorization
-		LocalStorageAdapter.set(LocalStorageAdapter.LOCAL_STORAGE_KEYS.AUTH)
-	}, [authData])
+	}, [isError, signOut, signedIn])
 
 	const providerProps = useMemo(
 		() => ({
-			auth: authData,
-			handleSignIn,
-			handleSignOut
+			signedIn: signedIn && isSuccess,
+			user: data,
+			signIn,
+			signOut
 		}),
-		[authData, handleSignIn, handleSignOut]
+		[data, isSuccess, signIn, signOut, signedIn]
 	)
 
 	return (

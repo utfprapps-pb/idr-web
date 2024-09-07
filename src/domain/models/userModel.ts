@@ -1,5 +1,4 @@
 export type UserModel = {
-	token: string
 	name: string
 }
 
