@@ -1,7 +1,6 @@
-import { HttpStatusCode } from '@/data/protocols/http'
 import { LocalStorageAdapter } from '@/infra/cache'
 
-import type { AxiosError, InternalAxiosRequestConfig } from 'axios'
+import type { InternalAxiosRequestConfig } from 'axios'
 
 export async function authInterceptorRequest(
 	config: InternalAxiosRequestConfig
@@ -17,14 +16,4 @@ export async function authInterceptorRequest(
 	}
 
 	return config
-}
-
-export async function authInterceptorResponseError(error: AxiosError) {
-	const { response } = error
-
-	if (response?.status === HttpStatusCode.unauthorized) {
-		LocalStorageAdapter.set(LocalStorageAdapter.LOCAL_STORAGE_KEYS.AUTH)
-	}
-
-	return Promise.reject(error)
 }

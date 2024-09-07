@@ -3,10 +3,7 @@ import axios, { AxiosResponse } from 'axios'
 import { IHttpClient, HttpRequest, HttpResponse } from '@/data/protocols/http'
 import { env } from '@/shared/env'
 
-import {
-	authInterceptorRequest,
-	authInterceptorResponseError
-} from './interceptors/authInterceptor'
+import { authInterceptorRequest } from './interceptors/authInterceptor'
 
 export const ITEMS_PER_PAGE = 10
 
@@ -19,10 +16,6 @@ export const baseApi = axios.create({
 	validateStatus: (status: number) => status >= 200 && status < 300
 })
 baseApi.interceptors.request.use(authInterceptorRequest)
-baseApi.interceptors.response.use(
-	(response) => response,
-	authInterceptorResponseError
-)
 
 export class ApiHttpClient<TBody = unknown> implements IHttpClient<TBody> {
 	async request(data: HttpRequest): Promise<HttpResponse<TBody>> {

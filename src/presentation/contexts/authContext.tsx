@@ -8,7 +8,7 @@ import {
 	useState
 } from 'react'
 
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
 import { LocalStorageAdapter } from '@/infra/cache'
@@ -39,6 +39,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		return !!storedAccessToken
 	})
 
+	const queryClient = useQueryClient()
 	const { isError, isSuccess, data, isLoading } = useQuery({
 		queryKey: ['users', 'me'],
 		queryFn: async () => meService.execute(),
@@ -61,15 +62,16 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const signOut = useCallback(() => {
 		LocalStorageAdapter.set(LocalStorageAdapter.LOCAL_STORAGE_KEYS.AUTH)
 		setSignedIn(false)
+		queryClient.removeQueries({ queryKey: ['users', 'me'] })
 		navigateToBasePath()
-	}, [navigateToBasePath])
+	}, [navigateToBasePath, queryClient])
 
 	useEffect(() => {
-		if (!signedIn) {
+		if (isError) {
 			toast.error('Sua sessão expirou!')
 			signOut()
 		}
-	}, [isError, signOut, signedIn])
+	}, [isError, signOut])
 
 	const providerProps = useMemo(
 		() => ({
