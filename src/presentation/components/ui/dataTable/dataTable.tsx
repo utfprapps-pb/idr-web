@@ -146,7 +146,7 @@ export const DataTable = <TData extends RowData>({
 		return 'Limpar ordenação'
 	}
 
-	const page = useMemo(() => getState().pagination.pageIndex + 1, [getState])
+	const page = getState().pagination.pageIndex + 1
 	const showFinalEllipsis = useMemo(() => page + 2 > 3, [page])
 	const isAfterFirstPage = useMemo(() => page > 1, [page])
 	const isBeforeLastPage = useMemo(
