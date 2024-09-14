@@ -90,7 +90,7 @@ export const PropertyProvider: React.FC<
 
 	const closeDeletePropertyContainer = useCallback(() => {
 		setPropertySelected(null)
-		setPropertySelected(null)
+		setIsOpenDeletePropertyContainer(false)
 	}, [])
 
 	const providerValues = useMemo(

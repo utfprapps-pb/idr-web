@@ -24,7 +24,13 @@ export const PropertyPage: React.FC<PropertyPageProps> = ({
 		getAllUsers={getAllUsers}
 	>
 		<PropertyContext.Consumer>
-			{({ propertySelected, openNewPropertyForm }) => (
+			{({
+				propertySelected,
+				isOpenDeletePropertyContainer,
+				isOpenEditPropertyForm,
+				isOpenNewPropertyForm,
+				openNewPropertyForm
+			}) => (
 				<section className="flex flex-col gap-11">
 					<header>
 						<div className="flex justify-between items-center">
@@ -48,8 +54,12 @@ export const PropertyPage: React.FC<PropertyPageProps> = ({
 					</header>
 
 					<PropertiesDataTable />
-					{propertySelected && <PropertyDeleteDialog />}
-					<PropertyForm id={propertySelected?.id} />
+					{propertySelected && isOpenDeletePropertyContainer && (
+						<PropertyDeleteDialog />
+					)}
+					{(isOpenEditPropertyForm || isOpenNewPropertyForm) && (
+						<PropertyForm id={propertySelected?.id} />
+					)}
 				</section>
 			)}
 		</PropertyContext.Consumer>
