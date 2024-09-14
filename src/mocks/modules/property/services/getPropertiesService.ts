@@ -52,17 +52,19 @@ export const getPropertiesService = httpWithMiddleware<never, Params, Response>(
 			const url = new URL(request.url)
 			const { pagination, filters, sort } = normalizeQueryFilters(url)
 
-			let filteredData = propertiesData
+			let properties = propertiesData
 
-			if (filters) filteredData = filterData<Property>(filters, filteredData)
-			if (sort) filteredData = sortData<Property>(sort, filteredData)
+			if (filters) properties = filterData<Property>(filters, properties)
+			if (sort) properties = sortData<Property>(sort, properties)
+			const totalRegisters = properties.length
+
 			if (pagination)
-				filteredData = paginateData<Property>(pagination, filteredData)
+				properties = paginateData<Property>(pagination, properties)
 
 			return HttpResponse.json(
 				{
-					properties: filteredData,
-					totalRegisters: propertiesData.length
+					properties,
+					totalRegisters
 				},
 				{ status: HttpStatusCode.ok }
 			)

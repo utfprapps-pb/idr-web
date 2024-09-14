@@ -2,7 +2,11 @@ export const filterData = <TData extends Record<string, string>>(
 	filters: Record<string, string>,
 	data: TData[]
 ) => {
-	const filterEntries = Object.entries(filters)
+	const filterEntries = Object.entries(filters).filter(([, value]) =>
+		Boolean(value)
+	)
+
+	if (!filterEntries) return data
 
 	return data.filter((item) =>
 		filterEntries.every(([key, value]) => {

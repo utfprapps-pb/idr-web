@@ -234,7 +234,7 @@ export const DataTable = <TData extends RowData>({
 						<Pagination.Link isActive>{page}</Pagination.Link>
 					</Pagination.Item>
 
-					{page === 1 && (
+					{page === 1 && isBeforeLastPage && (
 						<Pagination.Item>
 							<Pagination.Ellipsis />
 						</Pagination.Item>
