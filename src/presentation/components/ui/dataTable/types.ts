@@ -11,8 +11,8 @@ export type DataTableProps<TData extends RowData> = {
 		onPageChange: (page: number) => void
 	}
 	sorting: {
-		currentSorting: Sort<keyof TData>
-		onSorting: (sort: Sort<keyof TData>) => void
+		currentSorting: Sort<keyof TData> | null
+		onSorting: (sort: Sort<keyof TData> | null) => void
 	}
 	loading?: boolean
 }
