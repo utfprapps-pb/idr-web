@@ -35,6 +35,7 @@
 		"no-shadow": "off",
 		"no-restricted-syntax": "off",
 		"no-useless-constructor": "off",
+		"no-continue": "off",
 		"no-empty-function": [
 			"error",
 			{
