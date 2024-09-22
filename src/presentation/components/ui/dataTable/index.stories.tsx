@@ -59,10 +59,7 @@ export default {
 } as Meta
 
 const Template: StoryFn<DataTableProps<Payment>> = (args) => {
-	const [sorting, setSorting] = useState<Sort<keyof Payment>>({
-		direction: 'asc',
-		field: 'id'
-	})
+	const [sorting, setSorting] = useState<Sort<keyof Payment> | null>(null)
 	const [pagination, setPagination] = useState<number>(1)
 
 	return (

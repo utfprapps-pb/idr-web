@@ -7,7 +7,13 @@ export default {
 } as Meta
 
 const Template: StoryFn = () => (
-	<Dropzone onChange={() => null} mimeType={['image/png']} />
+	<Dropzone
+		files={[]}
+		onChange={(files) => {
+			console.info('files', files)
+		}}
+		mimeType={['image/png']}
+	/>
 )
 
 export const Default = Template.bind({})

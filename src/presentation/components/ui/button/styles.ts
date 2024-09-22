@@ -19,7 +19,8 @@ const variants = {
 		default: clsx`h-10 px-4 py-2`,
 		sm: clsx`h-9 rounded-md px-3`,
 		lg: clsx`h-11 rounded-md px-8`,
-		icon: clsx`h-10 w-10`
+		icon: clsx`h-10 w-10`,
+		link: clsx`h-auto p-0 `
 	}
 }
 
