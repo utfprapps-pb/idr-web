@@ -17,7 +17,12 @@ import { useProperty } from '../../hooks/useProperty'
 import { usePropertyContext } from '../../propertyContext'
 
 import { PROPERTY_DEFAULT_VALUES } from './constants'
-import { GeneralTab, CollaboratorsTab, TotalAreaTab } from './tabs'
+import {
+	GeneralTab,
+	CollaboratorsTab,
+	TotalAreaTab,
+	LocalizationTab
+} from './tabs'
 import { type PropertySchema, propertySchema } from './validation'
 
 export const EditPropertyForm: React.FC = () => {
@@ -66,7 +71,7 @@ export const EditPropertyForm: React.FC = () => {
 			{
 				value: 'localization',
 				title: 'Localização',
-				component: <GeneralTab form={form} getAllUsers={getAllUsers} />
+				component: <LocalizationTab form={form} />
 			}
 		],
 		[form, getAllUsers]

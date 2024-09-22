@@ -72,12 +72,11 @@ const totalArea = z.object({
 const localization = z.object({
 	latitude: z.string(),
 	longitude: z.string(),
-	images: z.array(
-		z.object({
-			name: z.string(),
-			preview: z.string().url()
+	images: z
+		.array(z.instanceof(File, { message: 'Precisa ser um arquivo válido' }))
+		.min(1, {
+			message: 'Adicione pelo menos um arquivo'
 		})
-	)
 })
 
 export const propertySchema = z.object({

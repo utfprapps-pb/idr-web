@@ -2,40 +2,34 @@ import React, { useCallback, useRef } from 'react'
 
 import toast from 'react-hot-toast'
 
+import { cn } from '@/shared/utils'
+import { mimeTypeToExtensions } from '@/shared/utils/string/mimeTypeToExtensions'
+
 import { Card } from '../card'
 
-import { DropzoneProps } from './types'
+import type { DropzoneProps } from './types'
 
 export const Dropzone: React.FC<DropzoneProps> = ({
+	files,
+	onChange,
 	className,
 	mimeType,
 	error,
-	onChange
+	description = 'Arraste ou clique aqui para inserir arquivos'
 }) => {
 	const fileInputRef = useRef<HTMLInputElement | null>(null)
 
 	const handleFiles = useCallback(
-		(files: FileList) => {
-			const uploadFiles = (fileList: FileList) => {
-				for (const uploadedFile of fileList) {
-					onChange((prevFiles) => [
-						...prevFiles.filter((file) => file.name !== uploadedFile.name),
-						uploadedFile
-					])
-				}
-			}
+		(fileList: FileList) => {
+			const validFiles: File[] = []
+			const invalidFiles: File[] = []
 
-			if (!mimeType) {
-				uploadFiles(files)
-				return
-			}
+			for (const uploadedFile of fileList) {
+				if (files.some((file) => file.name === uploadedFile.name)) continue
 
-			const fileList = new DataTransfer()
-			const fileListError = new DataTransfer()
-			for (const uploadedFile of files) {
 				const uploadedMimeType = uploadedFile.type
 
-				const isValidMimeType = mimeType.some((type) => {
+				const isValidMimeType = mimeType?.some((type) => {
 					if (type.endsWith('/*')) {
 						const [baseType] = type.split('/')
 						return uploadedMimeType.startsWith(baseType)
@@ -45,23 +39,20 @@ export const Dropzone: React.FC<DropzoneProps> = ({
 				})
 
 				if (isValidMimeType) {
-					fileList.items.add(uploadedFile)
-					continue
+					validFiles.push(uploadedFile)
+				} else {
+					invalidFiles.push(uploadedFile)
 				}
-
-				fileListError.items.add(uploadedFile)
 			}
 
-			uploadFiles(fileList.files)
+			onChange(validFiles)
 
-			let title = ''
-			for (const errorFile of fileListError.files) {
-				title += `\nArquivo ${errorFile.name} com extensão inválida`
+			if (invalidFiles.length) {
+				const errorMessage = `Arquivos inválidos\n${invalidFiles.map((file) => file.name).join('\n')}`
+				toast.error(errorMessage)
 			}
-
-			if (title) toast.error(title)
 		},
-		[mimeType, onChange]
+		[files, mimeType, onChange]
 	)
 
 	const handleDragOver = useCallback(
@@ -99,28 +90,44 @@ export const Dropzone: React.FC<DropzoneProps> = ({
 	}, [])
 
 	return (
-		<Card.Container
-			className={`border-2 border-dashed bg-muted hover:cursor-pointer hover:border-muted-foreground/50 ${className}`}
-			onClick={handleButtonClick}
-		>
-			<Card.Content
-				className="flex flex-col items-center justify-center space-y-2 px-2 py-4 text-x"
-				onDragOver={handleDragOver}
-				onDrop={handleDrop}
+		<div className="flex flex-col gap-2">
+			<Card.Container
+				className={cn(
+					'border-2 border-dashed bg-muted hover:cursor-pointer hover:border-muted-foreground/50',
+					error && 'border-destructive/50 hover:border-destructive',
+					className
+				)}
+				onClick={handleButtonClick}
 			>
-				<div className="flex items-center justify-center text-muted-foreground">
-					<span className="font-medium">Drag Files to Upload or</span>
-					<input
-						ref={fileInputRef}
-						type="file"
-						accept={mimeType && mimeType.join(', ')}
-						onChange={handleFileInputChange}
-						className="hidden"
-						multiple
-					/>
-				</div>
-				{error && <span className="text-destructive">{error}</span>}
-			</Card.Content>
-		</Card.Container>
+				<Card.Content
+					className="flex flex-col items-center justify-center space-y-2 px-2 py-4 text-x"
+					onDragOver={handleDragOver}
+					onDrop={handleDrop}
+				>
+					<div className="flex items-center justify-center text-muted-foreground">
+						<div className="flex flex-col gap-1 text-center">
+							<span className="font-medium">{description}</span>
+							{mimeType && (
+								<span className="text-xs">
+									Extensões permitidas{' '}
+									{mimeTypeToExtensions(mimeType).join(', ')}
+								</span>
+							)}
+						</div>
+						<input
+							ref={fileInputRef}
+							type="file"
+							accept={mimeType && mimeType.join(', ')}
+							onChange={handleFileInputChange}
+							className="hidden"
+							multiple
+						/>
+					</div>
+				</Card.Content>
+			</Card.Container>
+			{error && (
+				<span className="text-sm font-medium text-destructive">{error}</span>
+			)}
+		</div>
 	)
 }
