@@ -1,6 +1,7 @@
 import { z } from 'zod'
 
-import { moneyValidation } from '@/validation/validators/moneyValidation'
+import { fileTypeSchema } from '@/validation/schemas/'
+import { moneyValidation } from '@/validation/validators'
 
 const general = z.object({
 	name: z.string().min(1, {
@@ -72,11 +73,7 @@ const totalArea = z.object({
 const localization = z.object({
 	latitude: z.string(),
 	longitude: z.string(),
-	images: z
-		.array(z.instanceof(File, { message: 'Precisa ser um arquivo válido' }))
-		.min(1, {
-			message: 'Adicione pelo menos um arquivo'
-		})
+	images: z.array(fileTypeSchema)
 })
 
 export const propertySchema = z.object({
