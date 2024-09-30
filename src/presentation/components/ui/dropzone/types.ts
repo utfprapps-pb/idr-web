@@ -1,6 +1,8 @@
+import { FileType } from '@/domain/shared/types'
+
 export type DropzoneProps = {
-	files: File[]
-	onChange: (files: File[]) => void
+	files: FileType[]
+	onChange: (files: FileType[]) => void
 	className?: string
 	mimeType?: string[]
 	error?: string

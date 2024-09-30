@@ -8,6 +8,7 @@ import { mimeTypeToExtensions } from '@/shared/utils/string/mimeTypeToExtensions
 import { Card } from '../card'
 
 import type { DropzoneProps } from './types'
+import type { FileType } from '@/domain/shared/types'
 
 export const Dropzone: React.FC<DropzoneProps> = ({
 	files,
@@ -21,11 +22,11 @@ export const Dropzone: React.FC<DropzoneProps> = ({
 
 	const handleFiles = useCallback(
 		(fileList: FileList) => {
-			const validFiles: File[] = []
-			const invalidFiles: File[] = []
+			const validFiles: FileType[] = []
+			const invalidFiles: FileType[] = []
 
 			for (const uploadedFile of fileList) {
-				if (files.some((file) => file.name === uploadedFile.name)) continue
+				if (files.some(({ file }) => file?.name === uploadedFile.name)) continue
 
 				const uploadedMimeType = uploadedFile.type
 
@@ -39,16 +40,16 @@ export const Dropzone: React.FC<DropzoneProps> = ({
 				})
 
 				if (isValidMimeType) {
-					validFiles.push(uploadedFile)
+					validFiles.push({ file: uploadedFile })
 				} else {
-					invalidFiles.push(uploadedFile)
+					invalidFiles.push({ file: uploadedFile })
 				}
 			}
 
 			onChange(validFiles)
 
 			if (invalidFiles.length) {
-				const errorMessage = `Arquivos inválidos\n${invalidFiles.map((file) => file.name).join('\n')}`
+				const errorMessage = `Arquivos inválidos\n${invalidFiles.map(({ file }) => file?.name).join('\n')}`
 				toast.error(errorMessage)
 			}
 		},

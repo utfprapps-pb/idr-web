@@ -7,43 +7,34 @@ import { withAuth, withDelay } from '@/mocks/middleware'
 
 import propertiesData from '../../../../../database/propertiesData.json'
 
-import type { PropertyDetailsModel } from '@/domain/models/propertyModel'
-
 export const getPropertyService = httpWithMiddleware<
 	PathParams<'id'>,
 	never,
-	PropertyDetailsModel
+	never
 >({
 	routePath: '/api/properties/:id',
 	method: 'get',
 	middlewares: [withDelay(), withAuth],
 	resolver: async ({ params }) => {
 		if (!propertiesData.length)
-			return HttpResponse.json({} as PropertyDetailsModel, {
-				status: 404
-			})
+			return HttpResponse.json(
+				{},
+				{
+					status: 404
+				}
+			)
 
 		const propertyFound = propertiesData.find(
 			(property) => property.id === String(params.id)
 		)
 
 		if (!propertyFound)
-			return HttpResponse.json({} as PropertyDetailsModel, {
-				status: 404
-			})
-
-		const images = await Promise.all(
-			Array.from({ length: 3 }, async () => {
-				const url = faker.image.url()
-				const response = await fetch(url)
-				const blob = await response.blob()
-				return {
-					name: 'image-1',
-					preview: url,
-					file: new File([blob], '', { type: blob.type })
+			return HttpResponse.json(
+				{},
+				{
+					status: 404
 				}
-			})
-		)
+			)
 
 		return HttpResponse.json(
 			{
@@ -70,7 +61,7 @@ export const getPropertyService = httpWithMiddleware<
 					hoursPerDay: String(faker.number.int({ min: 1, max: 8 }))
 				})),
 				localization: {
-					images,
+					images: Array.from({ length: 3 }, () => faker.image.url()),
 					latitude: String(faker.location.latitude()),
 					longitude: String(faker.location.longitude())
 				},

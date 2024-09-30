@@ -1,5 +1,9 @@
-export type FileType = {
-	name: string
-	preview: string
-	file?: File
-}
+export type FileType =
+	| {
+			preview?: string
+			file: File
+	  }
+	| {
+			preview: string
+			file?: File
+	  }

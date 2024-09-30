@@ -17,7 +17,13 @@ export class RemoteGetOne implements IGetProperty {
 
 		if (statusCode === HttpStatusCode.ok && !!body) {
 			return {
-				...body
+				...body,
+				localization: {
+					...body.localization,
+					images: body.localization.images.map((image: string) => ({
+						preview: image
+					}))
+				}
 			}
 		}
 
