@@ -1,1 +1,5 @@
-export * from './remoteGetCep'
+import { RemoteGetOne } from './remoteGetOne'
+
+export const CepData = {
+	RemoteGetOne
+}

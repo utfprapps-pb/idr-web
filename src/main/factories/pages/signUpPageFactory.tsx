@@ -1,12 +1,11 @@
-import { makeRemoteGetCep } from '@/main/factories/useCases/cep'
-import { makeRemoteCreateUser } from '@/main/factories/useCases/user'
-import { makeSignUpValidation } from '@/main/factories/validations'
 import { SignUpPage } from '@/presentation/pages'
+
+import { CepDataFactory } from '../useCases/cep'
+import { UserDataFactory } from '../useCases/user'
 
 export const MakeSignUpPage: React.FC = () => (
 	<SignUpPage
-		createUser={makeRemoteCreateUser()}
-		getCep={makeRemoteGetCep()}
-		validation={makeSignUpValidation()}
+		createUser={UserDataFactory.makeRemoteCreate()}
+		getCep={CepDataFactory.makeRemoteGetOne()}
 	/>
 )

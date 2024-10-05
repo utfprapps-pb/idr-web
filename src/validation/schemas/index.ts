@@ -1,0 +1,1 @@
+export { fileTypeSchema } from './fileTypeSchema'

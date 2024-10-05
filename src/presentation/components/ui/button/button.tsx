@@ -2,7 +2,7 @@ import { forwardRef } from 'react'
 
 import { Slot } from '@radix-ui/react-slot'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 import { buttonVariants } from './styles'
 

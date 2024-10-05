@@ -2,7 +2,7 @@ import { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react'
 
 import { Label as LabelPrimitive } from '@radix-ui/react-dropdown-menu'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 export const Label = forwardRef<
 	ElementRef<typeof LabelPrimitive>,

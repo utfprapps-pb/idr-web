@@ -1,5 +1,7 @@
 export * from './accessDeniedError'
+export * from './badRequestError'
 export * from './emailInUseError'
+export * from './forbiddenError'
 export * from './invalidCredentialsError'
 export * from './notFoundError'
 export * from './unexpectedError'

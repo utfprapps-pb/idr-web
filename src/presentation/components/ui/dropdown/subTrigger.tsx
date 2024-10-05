@@ -3,7 +3,7 @@ import { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react'
 import { SubTrigger as SubTriggerPrimitive } from '@radix-ui/react-dropdown-menu'
 import { ChevronRight } from 'lucide-react'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 export const SubTrigger = forwardRef<
 	ElementRef<typeof SubTriggerPrimitive>,

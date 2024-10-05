@@ -1,23 +1,20 @@
 import { MoreHorizontal } from 'lucide-react'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
-type EllipsisProps = React.ComponentProps<'span'> & {
-	text?: string
-}
-
-export const Ellipsis: React.FC<EllipsisProps> = ({
+export const Ellipsis: React.FC<React.ComponentProps<'span'>> = ({
 	className,
-	text = 'Mais páginas',
 	...props
 }) => (
 	<span
 		aria-hidden
-		className={cn('flex h-9 w-9 items-center justify-center', className)}
+		className={cn(
+			'flex h-9 w-9 items-center justify-center cursor-default',
+			className
+		)}
 		{...props}
 	>
-		<MoreHorizontal className="h-4 w-4" />
-		<span className="sr-only">{text}</span>
+		<MoreHorizontal size={16} />
 	</span>
 )
 

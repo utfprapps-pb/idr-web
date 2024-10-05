@@ -1,6 +1,6 @@
 import { forwardRef, HTMLAttributes } from 'react'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 export const Title = forwardRef<
 	HTMLParagraphElement,

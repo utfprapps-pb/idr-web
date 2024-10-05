@@ -2,7 +2,7 @@ import { forwardRef } from 'react'
 
 import { Root } from '@radix-ui/react-label'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 import { labelVariants } from './styles'
 

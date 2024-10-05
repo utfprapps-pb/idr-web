@@ -1,1 +1,1 @@
-export * from './get'
+export type { IGetCep } from './getOne'

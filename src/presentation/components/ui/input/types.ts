@@ -13,9 +13,6 @@ export type InputProps = React.InputHTMLAttributes<HTMLInputElement> &
 	VariantProps<typeof inputVariants> & {
 		iconsStart?: InputIcon[]
 		iconsEnd?: InputIcon[]
-		debounce?: number
 		loading?: boolean
-		debounceCallback?: () => void
-		handleOnClearDebounce?: () => void
 		mask?: (value: string) => string
 	}

@@ -7,7 +7,6 @@ import { Item } from './item'
 import { Label } from './label'
 import { Message } from './message'
 
-export { useFormField, useHookForm } from './hooks'
 export const Form = {
 	Provider: FormProvider,
 	Control,

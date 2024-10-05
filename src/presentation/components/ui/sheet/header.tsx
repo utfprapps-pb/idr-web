@@ -1,4 +1,4 @@
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 export const Header = ({
 	className,

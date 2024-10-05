@@ -1,9 +1,16 @@
 import { PropsWithChildren, ReactNode } from 'react'
 
-type Component = (props: PropsWithChildren) => ReactNode
+type Component<TProps> = (props: PropsWithChildren<TProps>) => ReactNode
 
-type Props = {
-	components: Component[]
+type ComponentWithProps<TProps> = {
+	component: Component<TProps>
+	props?: TProps
 }
 
-export type ComposeProps = PropsWithChildren<Props>
+type Props<TProps> = {
+	components: ComponentWithProps<TProps>[]
+}
+
+export type ComposeProps<TProps extends object> = PropsWithChildren<
+	Props<TProps>
+>

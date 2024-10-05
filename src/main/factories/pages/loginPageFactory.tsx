@@ -1,3 +1,7 @@
 import { LoginPage } from '@/presentation/pages'
 
-export const MakeLoginPage: React.FC = () => <LoginPage />
+import { AuthDataFactory } from '../useCases/auth'
+
+export const MakeLoginPage: React.FC = () => (
+	<LoginPage remoteLogin={AuthDataFactory.makeRemoteLogin()} />
+)

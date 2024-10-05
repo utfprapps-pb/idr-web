@@ -2,7 +2,7 @@ import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
 
 import { Root as RootPrimitive } from '@radix-ui/react-avatar'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 export const Root = forwardRef<
 	ElementRef<typeof RootPrimitive>,

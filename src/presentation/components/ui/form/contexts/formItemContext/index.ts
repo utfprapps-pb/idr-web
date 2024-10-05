@@ -1,9 +1,9 @@
-import { createCustomContextFactory } from '@/presentation/factories'
+import { createCustomContext } from '@/presentation/contexts'
 
-import { FormItemProviderProps } from './types'
+import type { FormItemProviderProps } from './types'
 
 export const { Context: FormItemContext, useContext: useFormItemContext } =
-	createCustomContextFactory<FormItemProviderProps>({
+	createCustomContext<FormItemProviderProps>({
 		providerFn: () => ({
 			id: ''
 		})

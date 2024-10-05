@@ -1,19 +1,5 @@
-import { InvalidFieldError } from '../errors'
-import { IFieldValidation } from '../protocols'
+export const yearValidation = (year: string) => {
+	const yearAsNumber = Number(year)
 
-export class YearValidation implements IFieldValidation {
-	constructor(readonly field: string) {}
-
-	validate(input: object): Error | null {
-		const [, year] =
-			Object.entries(input).find(([fieldName]) => fieldName === this.field) ||
-			[]
-
-		const yearAsNumber = Number(year)
-
-		if (yearAsNumber >= 1900 && yearAsNumber <= new Date().getFullYear())
-			return null
-
-		return new InvalidFieldError('O ano inserido é inválido')
-	}
+	return yearAsNumber >= 1900 && yearAsNumber <= new Date().getFullYear()
 }

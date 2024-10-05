@@ -32,3 +32,6 @@ docs-build
 
 # Cache
 .eslintcache
+
+# Mocked Database
+database

@@ -2,7 +2,7 @@ import { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react'
 
 import { Item as ItemPrimitive } from '@radix-ui/react-dropdown-menu'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 export const Item = forwardRef<
 	ElementRef<typeof ItemPrimitive>,

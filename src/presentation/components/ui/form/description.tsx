@@ -1,6 +1,6 @@
 import { forwardRef, HTMLAttributes } from 'react'
 
-import { cn } from '@/main/utils'
+import { cn } from '@/shared/utils'
 
 import { useFormField } from './hooks/useFormField'
 
