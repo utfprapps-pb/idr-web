@@ -5,7 +5,7 @@ type Props<TData> = {
 }
 
 export const createCustomContext = <TContextValue extends Object = {}>({
-	providerFn
+	providerFn,
 }: Props<TContextValue>) => {
 	const Context = createContext<TContextValue>({} as TContextValue)
 
@@ -35,6 +35,6 @@ export const createCustomContext = <TContextValue extends Object = {}>({
 	return {
 		Context,
 		Provider,
-		useContext: useCustomContext
+		useContext: useCustomContext,
 	}
 }

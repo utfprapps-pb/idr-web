@@ -1,6 +1,6 @@
 import {
 	ButtonProps,
-	buttonVariants
+	buttonVariants,
 } from '@/presentation/components/ui/button'
 import { cn } from '@/shared/utils'
 
@@ -21,7 +21,7 @@ export const Link: React.FC<LinkProps> = ({
 		className={cn(
 			buttonVariants({
 				variant: isActive ? 'outline' : 'ghost',
-				size
+				size,
 			}),
 			className
 		)}

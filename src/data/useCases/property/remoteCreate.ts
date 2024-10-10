@@ -2,7 +2,7 @@ import { type IHttpClient, HttpStatusCode } from '@/data/protocols/http'
 import {
 	BadRequestError,
 	ForbiddenError,
-	UnexpectedError
+	UnexpectedError,
 } from '@/domain/errors'
 
 import type { ICreateProperty } from '@/domain/useCases/property'
@@ -17,7 +17,7 @@ export class RemoteCreate implements ICreateProperty {
 		const { statusCode } = await this.httpClient.request({
 			url: `${this.url}`,
 			method: 'post',
-			body: property
+			body: property,
 		})
 
 		if (statusCode === HttpStatusCode.created) return

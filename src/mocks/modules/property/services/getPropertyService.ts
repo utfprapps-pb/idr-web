@@ -20,7 +20,7 @@ export const getPropertyService = httpWithMiddleware<
 			return HttpResponse.json(
 				{},
 				{
-					status: 404
+					status: 404,
 				}
 			)
 
@@ -32,7 +32,7 @@ export const getPropertyService = httpWithMiddleware<
 			return HttpResponse.json(
 				{},
 				{
-					status: 404
+					status: 404,
 				}
 			)
 
@@ -47,32 +47,32 @@ export const getPropertyService = httpWithMiddleware<
 					nakedAveragePricePerHectare: faker.finance.amount(),
 					responsibleTechnicians: Array.from(
 						{
-							length: 3
+							length: 3,
 						},
 						() => ({
 							value: faker.string.uuid(),
-							label: faker.person.fullName()
+							label: faker.person.fullName(),
 						})
-					)
+					),
 				},
 				collaborators: Array.from({ length: 5 }, () => ({
 					id: faker.string.uuid(),
 					name: faker.person.fullName(),
-					hoursPerDay: String(faker.number.int({ min: 1, max: 8 }))
+					hoursPerDay: String(faker.number.int({ min: 1, max: 8 })),
 				})),
 				localization: {
 					images: Array.from({ length: 3 }, () => faker.image.url()),
 					latitude: String(faker.location.latitude()),
-					longitude: String(faker.location.longitude())
+					longitude: String(faker.location.longitude()),
 				},
 				totalArea: {
 					dairyCattleFarming: String(faker.number.float({ min: 1, max: 20 })),
 					perennialPasture: String(faker.number.float({ min: 1, max: 20 })),
 					summerPlowing: String(faker.number.float({ min: 1, max: 20 })),
-					winterPlowing: String(faker.number.float({ min: 1, max: 20 }))
-				}
+					winterPlowing: String(faker.number.float({ min: 1, max: 20 })),
+				},
 			},
 			{ status: HttpStatusCode.ok }
 		)
-	}
+	},
 })

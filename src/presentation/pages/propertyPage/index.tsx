@@ -13,7 +13,7 @@ export const PropertyPage: React.FC<PropertyPageProps> = ({
 	deleteProperty,
 	getProperties,
 	getProperty,
-	getAllUsers
+	getAllUsers,
 }) => (
 	<PropertyProvider
 		getProperties={getProperties}
@@ -29,7 +29,7 @@ export const PropertyPage: React.FC<PropertyPageProps> = ({
 				isOpenDeletePropertyContainer,
 				isOpenEditPropertyForm,
 				isOpenNewPropertyForm,
-				openNewPropertyForm
+				openNewPropertyForm,
 			}) => (
 				<section className="flex flex-col gap-11">
 					<header>

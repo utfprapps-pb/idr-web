@@ -17,5 +17,5 @@ export const Sheet = {
 	Header,
 	Footer,
 	Title,
-	Description
+	Description,
 }

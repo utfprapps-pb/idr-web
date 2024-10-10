@@ -2,7 +2,7 @@ import { type IHttpClient, HttpStatusCode } from '@/data/protocols/http'
 import {
 	BadRequestError,
 	ForbiddenError,
-	UnexpectedError
+	UnexpectedError,
 } from '@/domain/errors'
 
 import type { IUpdateProperty } from '@/domain/useCases/property'
@@ -17,7 +17,7 @@ export class RemoteUpdate implements IUpdateProperty {
 		const { statusCode } = await this.httpClient.request({
 			url: `${this.url}/${id}`,
 			method: 'patch',
-			body: property
+			body: property,
 		})
 
 		if (statusCode === HttpStatusCode.noContent) return

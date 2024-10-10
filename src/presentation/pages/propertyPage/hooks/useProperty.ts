@@ -13,7 +13,7 @@ type Props = {
 export const useProperty = ({ id, getProperty }: Props) => {
 	const { data, isError, isLoading, refetch } = useQuery({
 		queryKey: ['property', id],
-		queryFn: () => getProperty.execute(id)
+		queryFn: () => getProperty.execute(id),
 	})
 
 	useEffect(() => {
@@ -23,6 +23,6 @@ export const useProperty = ({ id, getProperty }: Props) => {
 	return {
 		property: data,
 		isLoading,
-		refetchProperty: refetch
+		refetchProperty: refetch,
 	}
 }

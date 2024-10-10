@@ -3,7 +3,7 @@ import { Meta, StoryFn } from '@storybook/react/'
 import { Card } from '.'
 
 export default {
-	title: 'Components/UI/Card'
+	title: 'Components/UI/Card',
 } as Meta
 
 const Template: StoryFn = () => (

@@ -6,13 +6,13 @@ export const styles = clsx`flex min-h-[80px] w-full rounded-md border border-sla
 const variants = {
 	isError: {
 		true: clsx`border-destructive focus-visible:ring-0`,
-		false: ''
-	}
+		false: '',
+	},
 }
 
 export const textAreaVariants = cva(styles, {
 	variants,
 	defaultVariants: {
-		isError: false
-	}
+		isError: false,
+	},
 })

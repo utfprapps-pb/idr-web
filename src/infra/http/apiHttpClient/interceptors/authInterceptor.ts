@@ -11,7 +11,7 @@ export async function authInterceptorRequest(
 
 	if (accessToken) {
 		Object.assign(config.headers, {
-			Authorization: `Bearer ${accessToken}`
+			Authorization: `Bearer ${accessToken}`,
 		})
 	}
 

@@ -7,13 +7,13 @@ import {
 	CreditCard,
 	Settings,
 	Smile,
-	User
+	User,
 } from 'lucide-react'
 
 import { Command } from '.'
 
 export default {
-	title: 'Components/UI/Command'
+	title: 'Components/UI/Command',
 } as Meta
 
 const Template: StoryFn = () => {

@@ -10,6 +10,6 @@ export const useIdrHistory = () => {
 	return {
 		navigate,
 		navigateToBasePath,
-		navigateToSignedBasePath
+		navigateToSignedBasePath,
 	}
 }

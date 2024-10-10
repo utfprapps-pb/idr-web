@@ -12,13 +12,13 @@ export class RemoteLogin implements ILogin {
 	execute: ILogin['execute'] = async (params) => {
 		const payload = {
 			username: params.email,
-			password: params.password
+			password: params.password,
 		}
 
 		const { statusCode, body } = await this.httpClient.request({
 			url: this.url,
 			method: 'post',
-			body: payload
+			body: payload,
 		})
 
 		if (statusCode === HttpStatusCode.unauthorized)
@@ -26,7 +26,7 @@ export class RemoteLogin implements ILogin {
 
 		if (statusCode === HttpStatusCode.ok && !!body)
 			return {
-				token: body.token
+				token: body.token,
 			}
 
 		throw new UnexpectedError()

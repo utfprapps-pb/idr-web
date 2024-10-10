@@ -4,7 +4,7 @@ import {
 	RadioGroup,
 	Root,
 	Sub,
-	Trigger
+	Trigger,
 } from '@radix-ui/react-dropdown-menu'
 
 import { CheckboxItem } from './checkboxItem'
@@ -32,5 +32,5 @@ export const DropdownMenu = {
 	Sub,
 	SubContent,
 	SubTrigger,
-	RadioGroup
+	RadioGroup,
 }

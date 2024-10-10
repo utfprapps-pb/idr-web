@@ -4,14 +4,14 @@ import {
 	FieldValues,
 	FieldPath,
 	ControllerProps,
-	Controller
+	Controller,
 } from 'react-hook-form'
 
 import { FormFieldContext } from './contexts'
 
 export const Field = <
 	TFieldValues extends FieldValues = FieldValues,
-	TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+	TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
 	...props
 }: ControllerProps<TFieldValues, TName>) => {

@@ -9,7 +9,7 @@ import { ContentProps } from './content/types'
 import { Sheet } from '.'
 
 export default {
-	title: 'Components/UI/Sheet'
+	title: 'Components/UI/Sheet',
 } as Meta
 
 const Template: StoryFn<ContentProps> = ({ side, ...args }) => (
@@ -57,20 +57,20 @@ const Template: StoryFn<ContentProps> = ({ side, ...args }) => (
 
 export const Top = Template.bind({})
 Top.args = {
-	side: 'top'
+	side: 'top',
 }
 
 export const Right = Template.bind({})
 Right.args = {
-	side: 'right'
+	side: 'right',
 }
 
 export const Bottom = Template.bind({})
 Bottom.args = {
-	side: 'bottom'
+	side: 'bottom',
 }
 
 export const Left = Template.bind({})
 Left.args = {
-	side: 'left'
+	side: 'left',
 }

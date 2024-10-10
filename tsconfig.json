@@ -17,10 +17,10 @@
 		"incremental": true,
 		"baseUrl": ".",
 		"paths": {
-			"@/*": ["./src/*"]
-		}
+			"@/*": ["./src/*"],
+		},
 	},
 	"include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.json"],
 	"exclude": ["node_modules"],
-	"references": [{ "path": "./tsconfig.node.json" }]
+	"references": [{ "path": "./tsconfig.node.json" }],
 }

@@ -17,5 +17,5 @@ export const Dialog = {
 	Header,
 	Footer,
 	Title,
-	Description
+	Description,
 }

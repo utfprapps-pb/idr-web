@@ -17,13 +17,13 @@ export class RemoteCreate implements ICreateUser {
 			cpf: params.cpf.replace(/\D/g, ''),
 			phone: params.phone.replace(/\D/g, ''),
 			cep: params.cep.replace(/\D/g, ''),
-			county: params.city
+			county: params.city,
 		}
 
 		const { statusCode } = await this.httpClient.request({
 			url: this.url,
 			method: 'post',
-			body
+			body,
 		})
 
 		if (statusCode === HttpStatusCode.created) return

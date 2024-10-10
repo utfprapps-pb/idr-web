@@ -7,7 +7,7 @@ import type {
 	IDeleteProperty,
 	IGetProperties,
 	IGetProperty,
-	IUpdateProperty
+	IUpdateProperty,
 } from '@/domain/useCases//property'
 
 export type PropertyPageProps = {

@@ -2,7 +2,7 @@ import {
 	type DefaultBodyType,
 	type HttpResponseResolver,
 	type PathParams,
-	http
+	http,
 } from 'msw'
 
 type Method = keyof typeof http
@@ -10,7 +10,7 @@ type Method = keyof typeof http
 type HttpProps<
 	Params extends PathParams,
 	RequestBodyType extends DefaultBodyType,
-	ResponseBodyType extends DefaultBodyType
+	ResponseBodyType extends DefaultBodyType,
 > = {
 	routePath: string
 	method: Method
@@ -21,12 +21,12 @@ type HttpProps<
 export const httpWithMiddleware = <
 	Params extends PathParams,
 	RequestBodyType extends DefaultBodyType,
-	ResponseBodyType extends DefaultBodyType
+	ResponseBodyType extends DefaultBodyType,
 >({
 	routePath,
 	method,
 	middlewares,
-	resolver
+	resolver,
 }: HttpProps<Params, RequestBodyType, ResponseBodyType>) => {
 	const resolverHandler = middlewares.reduceRight<HttpResponseResolver>(
 		(prevResolver, currentResolver) => currentResolver(prevResolver),

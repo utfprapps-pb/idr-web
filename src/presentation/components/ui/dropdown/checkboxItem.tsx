@@ -2,7 +2,7 @@ import { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react'
 
 import {
 	CheckboxItem as CheckboxItemPrimitive,
-	ItemIndicator
+	ItemIndicator,
 } from '@radix-ui/react-dropdown-menu'
 import { Check } from 'lucide-react'
 

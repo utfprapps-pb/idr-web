@@ -7,7 +7,7 @@ type TemplateProps = {
 }
 
 export default {
-	title: 'Components/UI/Avatar'
+	title: 'Components/UI/Avatar',
 } as Meta
 
 const Template: StoryFn<TemplateProps> = ({ isFallback }) => (
@@ -24,10 +24,10 @@ const Template: StoryFn<TemplateProps> = ({ isFallback }) => (
 
 export const AvatarWithImage = Template.bind({})
 AvatarWithImage.args = {
-	isFallback: false
+	isFallback: false,
 }
 
 export const AvatarWithFallback = Template.bind({})
 AvatarWithFallback.args = {
-	isFallback: true
+	isFallback: true,
 }

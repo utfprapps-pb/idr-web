@@ -25,10 +25,10 @@ export const loginService = httpWithMiddleware<never, Params, Response | {}>({
 
 		if (username && password) {
 			return HttpResponse.json({
-				token: faker.string.uuid()
+				token: faker.string.uuid(),
 			})
 		}
 
 		return HttpResponse.json({}, { status: 401 })
-	}
+	},
 })

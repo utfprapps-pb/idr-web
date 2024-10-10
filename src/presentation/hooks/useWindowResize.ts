@@ -7,7 +7,7 @@ type ResizeProps = {
 
 const getCurrentWidthAndHeight = (): ResizeProps => ({
 	width: window.innerWidth,
-	height: window.innerHeight
+	height: window.innerHeight,
 })
 
 export const useWindowResize = () => {

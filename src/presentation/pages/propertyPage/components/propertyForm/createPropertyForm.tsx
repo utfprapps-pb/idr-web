@@ -14,7 +14,7 @@ import {
 	GeneralTab,
 	CollaboratorsTab,
 	TotalAreaTab,
-	LocalizationTab
+	LocalizationTab,
 } from './tabs'
 import { type PropertySchema, propertySchema } from './validation'
 
@@ -23,14 +23,14 @@ export const CreatePropertyForm: React.FC = () => {
 		isOpenNewPropertyForm,
 		closeNewPropertyForm,
 		getAllUsers,
-		createProperty
+		createProperty,
 	} = usePropertyContext()
 
 	const queryClient = useQueryClient()
 
 	const form = useHookForm<PropertySchema>({
 		defaultValues: PROPERTY_DEFAULT_VALUES,
-		resolver: zodResolver(propertySchema)
+		resolver: zodResolver(propertySchema),
 	})
 
 	const { reset, handleSubmit: hookFormSubmit } = form
@@ -42,29 +42,29 @@ export const CreatePropertyForm: React.FC = () => {
 			{
 				value: 'general',
 				title: 'Dados Gerais',
-				component: <GeneralTab form={form} getAllUsers={getAllUsers} />
+				component: <GeneralTab form={form} getAllUsers={getAllUsers} />,
 			},
 			{
 				value: 'collaborators',
 				title: 'Colaboradores',
-				component: <CollaboratorsTab form={form} />
+				component: <CollaboratorsTab form={form} />,
 			},
 			{
 				value: 'totalArea',
 				title: 'Área Total',
-				component: <TotalAreaTab form={form} />
+				component: <TotalAreaTab form={form} />,
 			},
 			{
 				value: 'localization',
 				title: 'Localização',
-				component: <LocalizationTab form={form} />
-			}
+				component: <LocalizationTab form={form} />,
+			},
 		],
 		[form, getAllUsers]
 	)
 
 	const { mutateAsync } = useMutation({
-		mutationFn: createProperty.execute
+		mutationFn: createProperty.execute,
 	})
 
 	const handleSubmit = useCallback(
@@ -72,7 +72,7 @@ export const CreatePropertyForm: React.FC = () => {
 			try {
 				await mutateAsync({ ...data })
 				queryClient.invalidateQueries({
-					queryKey: ['properties']
+					queryKey: ['properties'],
 				})
 				toast.success('Propriedade foi cadastrada com sucesso')
 				reset(PROPERTY_DEFAULT_VALUES)

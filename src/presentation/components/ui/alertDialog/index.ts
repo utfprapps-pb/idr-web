@@ -20,5 +20,5 @@ export const AlertDialog = {
 	Footer,
 	Header,
 	Overlay,
-	Title
+	Title,
 }

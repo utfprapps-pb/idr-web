@@ -1,7 +1,7 @@
 import {
 	forwardRef,
 	type ElementRef,
-	type ComponentPropsWithoutRef
+	type ComponentPropsWithoutRef,
 } from 'react'
 
 import { Description as DescriptionPrimitive } from '@radix-ui/react-alert-dialog'

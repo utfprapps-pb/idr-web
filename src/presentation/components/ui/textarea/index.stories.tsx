@@ -12,8 +12,8 @@ export default {
 			defaultValue: 'Type here...',
 			table: {
 				type: { summary: 'string' },
-				defaultValue: { summary: 'Type here...' }
-			}
+				defaultValue: { summary: 'Type here...' },
+			},
 		},
 		disabled: {
 			control: 'boolean',
@@ -21,8 +21,8 @@ export default {
 			defaultValue: false,
 			table: {
 				type: { summary: 'boolean' },
-				defaultValue: { summary: false }
-			}
+				defaultValue: { summary: false },
+			},
 		},
 		isError: {
 			control: 'boolean',
@@ -30,8 +30,8 @@ export default {
 			defaultValue: false,
 			table: {
 				type: { summary: 'boolean' },
-				defaultValue: { summary: false }
-			}
+				defaultValue: { summary: false },
+			},
 		},
 		value: {
 			control: 'text',
@@ -39,51 +39,51 @@ export default {
 			defaultValue: '',
 			table: {
 				type: { summary: 'string' },
-				defaultValue: { summary: '' }
-			}
+				defaultValue: { summary: '' },
+			},
 		},
 		className: {
 			control: 'text',
 			description: 'Custom class names for additional styling.',
 			table: {
-				type: { summary: 'string' }
-			}
+				type: { summary: 'string' },
+			},
 		},
 		onChange: {
 			action: 'changed',
 			description: 'Callback function called when the textarea value changes.',
 			table: {
 				type: {
-					summary: '(event: React.ChangeEvent<HTMLTextAreaElement>) => void'
-				}
-			}
-		}
-	}
+					summary: '(event: React.ChangeEvent<HTMLTextAreaElement>) => void',
+				},
+			},
+		},
+	},
 } as Meta
 
 const Template: StoryFn<TextareaProps> = (args) => <Textarea {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
-	placeholder: 'Type here...'
+	placeholder: 'Type here...',
 }
 
 export const Disabled = Template.bind({})
 Disabled.args = {
 	placeholder: 'Not allowed',
-	disabled: true
+	disabled: true,
 }
 
 export const WithValue = Template.bind({})
 WithValue.args = {
 	placeholder: 'Type here...',
 	value: 'Pre-filled content',
-	disabled: false
+	disabled: false,
 }
 
 export const ErrorState = Template.bind({})
 ErrorState.args = {
 	placeholder: 'Type here...',
 	isError: true,
-	value: 'This input has an error'
+	value: 'This input has an error',
 }

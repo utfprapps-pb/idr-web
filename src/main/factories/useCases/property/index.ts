@@ -9,5 +9,5 @@ export const PropertyDataFactory = {
 	makeRemoteDelete,
 	makeRemoteGetAll,
 	makeRemoteGetOne,
-	makeRemoteUpdate
+	makeRemoteUpdate,
 }

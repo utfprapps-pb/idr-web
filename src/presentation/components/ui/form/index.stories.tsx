@@ -9,22 +9,22 @@ import { useHookForm } from '@/presentation/hooks'
 import { Form } from '.'
 
 export default {
-	title: 'Components/UI/Form'
+	title: 'Components/UI/Form',
 } as Meta
 
 const schema = z.object({
 	name: z.string().min(3, {
-		message: 'Nome precisa ter ao menos três caracteres'
-	})
+		message: 'Nome precisa ter ao menos três caracteres',
+	}),
 })
 type FormData = z.infer<typeof schema>
 
 const Template: StoryFn = () => {
 	const form = useHookForm<FormData>({
 		defaultValues: {
-			name: ''
+			name: '',
 		},
-		resolver: zodResolver(schema)
+		resolver: zodResolver(schema),
 	})
 
 	const onSubmit = (data: FormData) => {

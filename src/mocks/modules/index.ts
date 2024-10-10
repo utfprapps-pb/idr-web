@@ -7,5 +7,5 @@ import { userHandlers } from './user'
 export const handlers: HttpHandler[] = [
 	...authHandlers,
 	...userHandlers,
-	...propertyHandlers
+	...propertyHandlers,
 ]

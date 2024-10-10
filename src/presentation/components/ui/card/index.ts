@@ -11,5 +11,5 @@ export const Card = {
 	Description,
 	Footer,
 	Header,
-	Title
+	Title,
 }

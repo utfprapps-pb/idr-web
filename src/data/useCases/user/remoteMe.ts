@@ -3,7 +3,7 @@ import {
 	BadRequestError,
 	ForbiddenError,
 	NotFoundError,
-	UnexpectedError
+	UnexpectedError,
 } from '@/domain/errors'
 
 import type { IMeUser } from '@/domain/useCases/user'
@@ -17,12 +17,12 @@ export class RemoteMe implements IMeUser {
 	execute: IMeUser['execute'] = async () => {
 		const { statusCode, body } = await this.httpClient.request({
 			url: this.url,
-			method: 'get'
+			method: 'get',
 		})
 
 		if (statusCode === HttpStatusCode.ok)
 			return {
-				name: body.name
+				name: body.name,
 			}
 
 		if (statusCode === HttpStatusCode.forbidden) throw new ForbiddenError()

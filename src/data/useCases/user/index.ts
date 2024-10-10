@@ -5,5 +5,5 @@ import { RemoteMe } from './remoteMe'
 export const UsersData = {
 	RemoteCreate,
 	RemoteGetAll,
-	RemoteMe
+	RemoteMe,
 }

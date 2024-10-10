@@ -4,7 +4,7 @@ import React, {
 	useCallback,
 	useContext,
 	useMemo,
-	useState
+	useState,
 } from 'react'
 
 import { IGetAllUsers } from '@/domain/useCases/user'
@@ -15,7 +15,7 @@ import type {
 	IDeleteProperty,
 	IGetProperties,
 	IGetProperty,
-	IUpdateProperty
+	IUpdateProperty,
 } from '@/domain/useCases/property'
 
 type Services = {
@@ -53,7 +53,7 @@ export const PropertyProvider: React.FC<
 	createProperty,
 	updateProperty,
 	getProperty,
-	getAllUsers
+	getAllUsers,
 }) => {
 	const [isOpenNewPropertyForm, setIsOpenNewPropertyForm] = useState(false)
 
@@ -110,7 +110,7 @@ export const PropertyProvider: React.FC<
 			openEditPropertyForm,
 			closeEditPropertyForm,
 			openDeletePropertyContainer,
-			closeDeletePropertyContainer
+			closeDeletePropertyContainer,
 		}),
 		[
 			getProperties,
@@ -128,7 +128,7 @@ export const PropertyProvider: React.FC<
 			openEditPropertyForm,
 			closeEditPropertyForm,
 			openDeletePropertyContainer,
-			closeDeletePropertyContainer
+			closeDeletePropertyContainer,
 		]
 	)
 

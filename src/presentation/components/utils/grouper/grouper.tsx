@@ -15,7 +15,7 @@ const Grouper: React.FC<GrouperProps> = ({ children, className, ...props }) => {
 	return (
 		<section
 			style={{
-				gridTemplateColumns: `repeat(${gridCols}, minmax(0, 1fr))`
+				gridTemplateColumns: `repeat(${gridCols}, minmax(0, 1fr))`,
 			}}
 			className={cn(...styles, className)}
 			{...props}

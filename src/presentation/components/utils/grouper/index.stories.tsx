@@ -4,7 +4,7 @@ import { Grouper, type GrouperProps } from '.'
 
 export default {
 	title: 'Components/Utils/Grouper',
-	component: Grouper
+	component: Grouper,
 } as Meta
 
 const Template: StoryFn<GrouperProps> = (args) => (

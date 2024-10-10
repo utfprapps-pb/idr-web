@@ -5,6 +5,6 @@ import type { FormFieldProviderProps } from './types'
 export const { Context: FormFieldContext, useContext: useFormFieldContext } =
 	createCustomContext<FormFieldProviderProps>({
 		providerFn: () => ({
-			name: ''
-		})
+			name: '',
+		}),
 	})

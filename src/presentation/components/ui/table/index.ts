@@ -15,5 +15,5 @@ export const Table = {
 	Head,
 	Row,
 	Cell,
-	Caption
+	Caption,
 }

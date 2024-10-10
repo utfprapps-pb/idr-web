@@ -5,10 +5,10 @@ import { IHttpClient, HttpRequest, HttpResponse } from '@/data/protocols/http'
 export const brasilApi = axios.create({
 	baseURL: 'https://brasilapi.com.br/api/',
 	headers: {
-		'Content-Type': 'application/json'
+		'Content-Type': 'application/json',
 	},
 	timeout: 30 * 1000,
-	validateStatus: (status: number) => status >= 200 && status < 300
+	validateStatus: (status: number) => status >= 200 && status < 300,
 })
 
 export class BrasilApiHttpClient<T = unknown> implements IHttpClient<T> {
@@ -17,7 +17,7 @@ export class BrasilApiHttpClient<T = unknown> implements IHttpClient<T> {
 
 		try {
 			axiosResponse = await brasilApi.request({
-				...data
+				...data,
 			})
 		} catch (error: any) {
 			axiosResponse = error.response
@@ -25,7 +25,7 @@ export class BrasilApiHttpClient<T = unknown> implements IHttpClient<T> {
 
 		return {
 			statusCode: axiosResponse.status,
-			body: axiosResponse.data
+			body: axiosResponse.data,
 		}
 	}
 }

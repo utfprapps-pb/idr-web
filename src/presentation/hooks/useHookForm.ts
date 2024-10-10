@@ -7,7 +7,7 @@ import {
 	type SubmitErrorHandler,
 	type SubmitHandler,
 	type UseFormProps,
-	useForm
+	useForm,
 } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
@@ -21,18 +21,18 @@ export type UseHookFormProps<TDefaultValues extends FieldValues> = {
 export const useHookForm = <TDefaultValues extends FieldValues>({
 	values,
 	defaultValues,
-	resolver
+	resolver,
 }: UseHookFormProps<TDefaultValues>) => {
 	const form = useForm<TDefaultValues>({
 		mode: 'all',
 		defaultValues,
 		values,
-		resolver
+		resolver,
 	})
 
 	const {
 		formState: { isSubmitting, isValidating },
-		handleSubmit
+		handleSubmit,
 	} = form
 
 	const buttonDisabled = isSubmitting || isValidating
@@ -51,6 +51,6 @@ export const useHookForm = <TDefaultValues extends FieldValues>({
 	return {
 		...form,
 		handleSubmit: onSubmit,
-		buttonDisabled
+		buttonDisabled,
 	}
 }

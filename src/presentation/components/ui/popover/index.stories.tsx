@@ -7,7 +7,7 @@ import { Label } from '../label'
 import { Popover } from '.'
 
 export default {
-	title: 'Components/UI/Popover'
+	title: 'Components/UI/Popover',
 } as Meta
 
 const Template: StoryFn = () => (

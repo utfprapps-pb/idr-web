@@ -10,7 +10,7 @@ export const Item = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
 
 		const providerProps = useMemo(
 			() => ({
-				id
+				id,
 			}),
 			[id]
 		)

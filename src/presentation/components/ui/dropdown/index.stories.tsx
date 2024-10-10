@@ -8,7 +8,7 @@ import { Button } from '@/presentation/components/ui/button'
 import { DropdownMenu } from '.'
 
 export default {
-	title: 'Components/UI/DropdownMenu'
+	title: 'Components/UI/DropdownMenu',
 } as Meta
 
 type Checked = DropdownMenuCheckboxItemProps['checked']

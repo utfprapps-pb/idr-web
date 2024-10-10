@@ -13,6 +13,6 @@ export const deletePropertyService = httpWithMiddleware<
 	middlewares: [withDelay(), withAuth],
 	resolver: async () =>
 		HttpResponse.json(undefined, {
-			status: 204
-		})
+			status: 204,
+		}),
 })

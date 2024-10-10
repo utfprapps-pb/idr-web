@@ -7,7 +7,7 @@ import {
 	normalizeQueryFilters,
 	paginateData,
 	sortData,
-	filterData
+	filterData,
 } from '@/mocks/shared/'
 
 import propertiesData from '../../../../../database/propertiesData.json'
@@ -41,10 +41,10 @@ export const getPropertiesService = httpWithMiddleware<never, Params, Response>(
 				return HttpResponse.json(
 					{
 						properties: [],
-						totalRegisters: 0
+						totalRegisters: 0,
 					},
 					{
-						status: 404
+						status: 404,
 					}
 				)
 			}
@@ -64,10 +64,10 @@ export const getPropertiesService = httpWithMiddleware<never, Params, Response>(
 			return HttpResponse.json(
 				{
 					properties,
-					totalRegisters
+					totalRegisters,
 				},
 				{ status: HttpStatusCode.ok }
 			)
-		}
+		},
 	}
 )

@@ -12,7 +12,7 @@ export class RemoteGetOne implements IGetProperty {
 	execute: IGetProperty['execute'] = async (id) => {
 		const { statusCode, body } = await this.httpClient.request({
 			url: `${this.url}/${id}`,
-			method: 'get'
+			method: 'get',
 		})
 
 		if (statusCode === HttpStatusCode.ok && !!body) {
@@ -21,9 +21,9 @@ export class RemoteGetOne implements IGetProperty {
 				localization: {
 					...body.localization,
 					images: body.localization.images.map((image: string) => ({
-						preview: image
-					}))
-				}
+						preview: image,
+					})),
+				},
 			}
 		}
 

@@ -4,11 +4,11 @@ export const allUsersData = Array.from(
 	{
 		length: faker.number.int({
 			min: 50,
-			max: 150
-		})
+			max: 150,
+		}),
 	},
 	() => ({
 		id: faker.string.uuid(),
-		name: faker.person.fullName()
+		name: faker.person.fullName(),
 	})
 )

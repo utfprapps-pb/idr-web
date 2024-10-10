@@ -10,10 +10,10 @@ export const ITEMS_PER_PAGE = 10
 export const baseApi = axios.create({
 	baseURL: env.VITE_API_MOCKED ? 'api/' : env.VITE_API_BASE_URL,
 	headers: {
-		'Content-Type': 'application/json'
+		'Content-Type': 'application/json',
 	},
 	timeout: 30 * 1000,
-	validateStatus: (status: number) => status >= 200 && status < 300
+	validateStatus: (status: number) => status >= 200 && status < 300,
 })
 baseApi.interceptors.request.use(authInterceptorRequest)
 
@@ -28,13 +28,13 @@ export class ApiHttpClient<TBody = unknown> implements IHttpClient<TBody> {
 				url: rawUrl,
 				filters,
 				pagination,
-				sort
+				sort,
 			})
 
 			axiosResponse = await baseApi.request({
 				...data,
 				url,
-				data: data.body
+				data: data.body,
 			})
 		} catch (error: any) {
 			axiosResponse = error.response
@@ -42,7 +42,7 @@ export class ApiHttpClient<TBody = unknown> implements IHttpClient<TBody> {
 
 		return {
 			statusCode: axiosResponse.status,
-			body: axiosResponse.data
+			body: axiosResponse.data,
 		}
 	}
 
@@ -50,7 +50,7 @@ export class ApiHttpClient<TBody = unknown> implements IHttpClient<TBody> {
 		url,
 		filters,
 		pagination,
-		sort
+		sort,
 	}: Pick<HttpRequest, 'url' | 'filters' | 'pagination' | 'sort'>) {
 		if (!pagination && !filters && !sort) return url
 
@@ -59,10 +59,10 @@ export class ApiHttpClient<TBody = unknown> implements IHttpClient<TBody> {
 			pagination: pagination
 				? {
 						...pagination,
-						perPage: pagination?.perPage ? pagination.perPage : ITEMS_PER_PAGE
+						perPage: pagination?.perPage ? pagination.perPage : ITEMS_PER_PAGE,
 					}
 				: {},
-			sort: sort ?? {}
+			sort: sort ?? {},
 		}
 
 		const parsedQuery = Object.entries(query)

@@ -5,15 +5,15 @@ import { withRouter } from './decorators'
 
 export const parameters = {
 	backgrounds: {
-		default: 'transparent'
+		default: 'transparent',
 	},
 	actions: { argTypesRegex: '^on[A-Z].*' },
 	controls: {
 		matchers: {
 			color: /(background|color)$/i,
-			date: /Date$/
-		}
-	}
+			date: /Date$/,
+		},
+	},
 }
 
 export const decorators = [
@@ -21,8 +21,8 @@ export const decorators = [
 	withThemeByClassName({
 		themes: {
 			light: 'light',
-			dark: 'dark'
+			dark: 'dark',
 		},
-		defaultTheme: 'light'
-	})
+		defaultTheme: 'light',
+	}),
 ]

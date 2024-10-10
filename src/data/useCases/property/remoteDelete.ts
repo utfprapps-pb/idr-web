@@ -12,7 +12,7 @@ export class RemoteDelete implements IDeleteProperty {
 	execute: IDeleteProperty['execute'] = async (id) => {
 		const { statusCode } = await this.httpClient.request({
 			url: `${this.url}/${id}`,
-			method: 'delete'
+			method: 'delete',
 		})
 
 		if (statusCode === HttpStatusCode.noContent) return

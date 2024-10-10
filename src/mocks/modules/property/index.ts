@@ -11,5 +11,5 @@ export const propertyHandlers: HttpHandler[] = [
 	updatePropertyService,
 	deletePropertyService,
 	getPropertiesService,
-	getPropertyService
+	getPropertyService,
 ]

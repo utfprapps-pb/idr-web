@@ -8,7 +8,7 @@ import { Sidebar } from '.'
 type Keys = 'inicio' | 'propriedades' | 'cadastros-gerais' | 'relatorios'
 
 export default {
-	title: 'Components/UI/Sidebar'
+	title: 'Components/UI/Sidebar',
 } as Meta
 
 const Template: StoryFn = () => {
@@ -16,23 +16,23 @@ const Template: StoryFn = () => {
 		{
 			key: 'inicio',
 			icon: <Home />,
-			text: 'Início'
+			text: 'Início',
 		},
 		{
 			key: 'propriedades',
 			icon: <Trees />,
-			text: 'Propriedades'
+			text: 'Propriedades',
 		},
 		{
 			key: 'cadastros-gerais',
 			icon: <Info />,
-			text: 'Cadastros Gerais'
+			text: 'Cadastros Gerais',
 		},
 		{
 			key: 'relatorios',
 			icon: <FileTextIcon />,
-			text: 'Relatórios'
-		}
+			text: 'Relatórios',
+		},
 	]
 
 	const [active, setActive] = useState<Keys>('inicio')

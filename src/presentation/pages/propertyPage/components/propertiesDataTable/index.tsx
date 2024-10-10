@@ -14,7 +14,7 @@ export const PropertiesDataTable: React.FC = () => {
 		sort,
 		setFilters,
 		setSort,
-		setPage
+		setPage,
 	} = usePropertiesDataTable()
 
 	return (
@@ -24,7 +24,7 @@ export const PropertiesDataTable: React.FC = () => {
 				onChange={({ target }) => {
 					setFilters((prevState) => ({
 						...prevState,
-						name: target.value
+						name: target.value,
 					}))
 				}}
 				placeholder="Procurar propriedade"
@@ -36,11 +36,11 @@ export const PropertiesDataTable: React.FC = () => {
 				totalPages={properties.totalPages}
 				pagination={{
 					currentPage: page,
-					onPageChange: setPage
+					onPageChange: setPage,
 				}}
 				sorting={{
 					currentSorting: sort,
-					onSorting: setSort
+					onSorting: setSort,
 				}}
 				loading={isLoading}
 			/>

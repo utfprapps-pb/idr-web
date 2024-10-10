@@ -2,14 +2,14 @@ import {
 	DefaultBodyType,
 	HttpResponse,
 	PathParams,
-	type HttpResponseResolver
+	type HttpResponseResolver,
 } from 'msw'
 import { type AsyncResponseResolverReturnType } from 'msw/lib/core/handlers/RequestHandler'
 
 export function withAuth<
 	Params extends PathParams,
 	RequestBodyType extends DefaultBodyType,
-	ResponseBodyType extends DefaultBodyType
+	ResponseBodyType extends DefaultBodyType,
 >(
 	resolver: HttpResponseResolver<Params, RequestBodyType, ResponseBodyType>
 ): HttpResponseResolver<Params, RequestBodyType, ResponseBodyType> {
@@ -18,7 +18,7 @@ export function withAuth<
 
 		if (!request.headers.get('Authorization')) {
 			return new HttpResponse(null, {
-				status: 401
+				status: 401,
 			}) as AsyncResponseResolverReturnType<ResponseBodyType>
 		}
 

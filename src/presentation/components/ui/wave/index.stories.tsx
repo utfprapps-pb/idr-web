@@ -4,7 +4,7 @@ import { Wave } from './wave'
 
 export default {
 	title: 'Components/UI/Wave',
-	component: Wave
+	component: Wave,
 } as Meta
 
 const Template: StoryFn = (args) => <Wave {...args} />
