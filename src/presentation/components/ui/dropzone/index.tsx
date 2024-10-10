@@ -16,7 +16,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({
 	className,
 	mimeType,
 	error,
-	description = 'Arraste ou clique aqui para inserir arquivos'
+	description = 'Arraste ou clique aqui para inserir arquivos',
 }) => {
 	const fileInputRef = useRef<HTMLInputElement | null>(null)
 

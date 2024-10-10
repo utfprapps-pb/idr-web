@@ -5,7 +5,7 @@ import { LoadingProps } from './types'
 
 export const Loading: React.FC<LoadingProps> = ({
 	size = 'default',
-	className
+	className,
 }) => (
 	<div role="status" className="flex justify-center">
 		<svg

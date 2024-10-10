@@ -8,23 +8,23 @@ export const PROPERTY_DEFAULT_VALUES: PropertySchema = {
 		city: '',
 		nakedAveragePricePerHectare: '',
 		leaseAveragePricePerHectare: '',
-		responsibleTechnicians: [{ value: '', label: '' }]
+		responsibleTechnicians: [{ value: '', label: '' }],
 	},
 	collaborators: [
 		{
 			name: '',
-			hoursPerDay: ''
-		}
+			hoursPerDay: '',
+		},
 	],
 	totalArea: {
 		dairyCattleFarming: '',
 		perennialPasture: '',
 		summerPlowing: '',
-		winterPlowing: ''
+		winterPlowing: '',
 	},
 	localization: {
 		latitude: '',
 		longitude: '',
-		images: []
-	}
+		images: [],
+	},
 }

@@ -14,5 +14,5 @@ export const Form = {
 	Field,
 	Item,
 	Label,
-	Message
+	Message,
 }

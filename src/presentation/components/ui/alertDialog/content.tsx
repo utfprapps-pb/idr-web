@@ -1,12 +1,12 @@
 import {
 	forwardRef,
 	type ComponentPropsWithoutRef,
-	type ElementRef
+	type ElementRef,
 } from 'react'
 
 import {
 	Content as ContentPrimitive,
-	Portal as PortalPrimitive
+	Portal as PortalPrimitive,
 } from '@radix-ui/react-alert-dialog'
 
 import { cn } from '@/shared/utils'

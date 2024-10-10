@@ -5,5 +5,5 @@ import { Root } from './root'
 export const Avatar = {
 	Root,
 	Image,
-	Fallback
+	Fallback,
 }

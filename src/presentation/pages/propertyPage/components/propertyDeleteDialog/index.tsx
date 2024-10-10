@@ -12,7 +12,7 @@ export const PropertyDeleteDialog: React.FC = () => {
 		propertySelected,
 		isOpenDeletePropertyContainer,
 		deleteProperty,
-		closeDeletePropertyContainer
+		closeDeletePropertyContainer,
 	} = usePropertyContext()
 
 	const { mutate: handleDeleteProperty } = useMutation({
@@ -24,7 +24,7 @@ export const PropertyDeleteDialog: React.FC = () => {
 		onError: () => {
 			toast.error('Não foi possível remover essa propriedade')
 			closeDeletePropertyContainer()
-		}
+		},
 	})
 
 	return (

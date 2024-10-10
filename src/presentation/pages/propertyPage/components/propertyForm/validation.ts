@@ -5,51 +5,51 @@ import { moneyValidation } from '@/validation/validators'
 
 const general = z.object({
 	name: z.string().min(1, {
-		message: 'Nome da propriedade é obrigatório'
+		message: 'Nome da propriedade é obrigatório',
 	}),
 	producer: z.string().min(1, {
-		message: 'Nome do produtor é obrigatório'
+		message: 'Nome do produtor é obrigatório',
 	}),
 	state: z.string().min(1, {
-		message: 'Estado é obrigatório'
+		message: 'Estado é obrigatório',
 	}),
 	city: z.string().min(1, {
-		message: 'Cidade é obrigatório'
+		message: 'Cidade é obrigatório',
 	}),
 	nakedAveragePricePerHectare: z
 		.string()
 		.refine((value) => moneyValidation(value, 0.01), {
-			message: 'O valor mínimo é R$0,01'
+			message: 'O valor mínimo é R$0,01',
 		}),
 	leaseAveragePricePerHectare: z
 		.string()
 		.refine((value) => moneyValidation(value, 0.01), {
-			message: 'O valor mínimo é R$0,01'
+			message: 'O valor mínimo é R$0,01',
 		}),
 	responsibleTechnicians: z
 		.array(
 			z
 				.object({
 					value: z.string(),
-					label: z.string()
+					label: z.string(),
 				})
 				.refine(({ label, value }) => !!label || !!value, {
-					message: 'Selecione pelo menos um técnico responsável'
+					message: 'Selecione pelo menos um técnico responsável',
 				})
 		)
 		.nonempty({
-			message: 'Adicione pelo menos um técnico'
-		})
+			message: 'Adicione pelo menos um técnico',
+		}),
 })
 
 const collaborators = z.array(
 	z.object({
 		name: z.string().min(1, {
-			message: 'Nome do colaborador é obrigatório'
+			message: 'Nome do colaborador é obrigatório',
 		}),
 		hoursPerDay: z.string().min(1, {
-			message: 'Hora de trabalho por dia do colaborador é obrigatório'
-		})
+			message: 'Hora de trabalho por dia do colaborador é obrigatório',
+		}),
 	})
 )
 
@@ -57,30 +57,30 @@ const totalArea = z.object({
 	dairyCattleFarming: z
 		.string()
 		.refine((value) => moneyValidation(value, 0.01), {
-			message: 'A Área destinada a bovinocultura é obrigatória'
+			message: 'A Área destinada a bovinocultura é obrigatória',
 		}),
 	perennialPasture: z.string().refine((value) => moneyValidation(value, 0.01), {
-		message: 'A Área de pasto perene é obrigatória'
+		message: 'A Área de pasto perene é obrigatória',
 	}),
 	summerPlowing: z.string().refine((value) => moneyValidation(value, 0.01), {
-		message: 'A Área de lavora de verão é obrigatória'
+		message: 'A Área de lavora de verão é obrigatória',
 	}),
 	winterPlowing: z.string().refine((value) => moneyValidation(value, 0.01), {
-		message: 'A Área de lavoura de inverno é obrigatória'
-	})
+		message: 'A Área de lavoura de inverno é obrigatória',
+	}),
 })
 
 const localization = z.object({
 	latitude: z.string(),
 	longitude: z.string(),
-	images: z.array(fileTypeSchema)
+	images: z.array(fileTypeSchema),
 })
 
 export const propertySchema = z.object({
 	general,
 	collaborators,
 	totalArea,
-	localization
+	localization,
 })
 
 export type PropertySchema = z.infer<typeof propertySchema>

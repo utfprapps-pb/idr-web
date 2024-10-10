@@ -3,7 +3,7 @@ import { Meta, StoryFn } from '@storybook/react/'
 import { Tooltip } from '.'
 
 export default {
-	title: 'Components/UI/Tooltip'
+	title: 'Components/UI/Tooltip',
 } as Meta
 
 const Template: StoryFn = () => (

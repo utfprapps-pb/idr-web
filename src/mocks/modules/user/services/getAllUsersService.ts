@@ -19,7 +19,7 @@ export const getAllUsersService = httpWithMiddleware<never, never, Response[]>({
 	resolver: async ({ request }) => {
 		if (!allUsersData.length) {
 			return HttpResponse.json([], {
-				status: 404
+				status: 404,
 			})
 		}
 
@@ -32,5 +32,5 @@ export const getAllUsersService = httpWithMiddleware<never, never, Response[]>({
 		}
 
 		return HttpResponse.json(allUsersData, { status: HttpStatusCode.ok })
-	}
+	},
 })

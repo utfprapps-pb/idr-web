@@ -13,5 +13,5 @@ export const Pagination = {
 	Item,
 	Link,
 	Next,
-	Previous
+	Previous,
 }

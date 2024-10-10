@@ -16,13 +16,13 @@ export const styles = clsx`
 const variants = {
 	isError: {
 		true: clsx`border-destructive focus-visible:ring-0`,
-		false: ''
-	}
+		false: '',
+	},
 }
 
 export const inputVariants = cva(styles, {
 	variants,
 	defaultVariants: {
-		isError: false
-	}
+		isError: false,
+	},
 })

@@ -12,7 +12,7 @@ import { usePropertyContext } from '../../propertyContext'
 import type { PropertyModel } from '@/domain/models/propertyModel'
 import type {
 	PropertyFilters,
-	PropertySort
+	PropertySort,
 } from '@/presentation/pages/propertyPage/types'
 
 export const usePropertiesDataTable = () => {
@@ -22,7 +22,7 @@ export const usePropertiesDataTable = () => {
 	const [page, setPage] = useState(1)
 	const [sort, setSort] = useState<PropertySort | null>(null)
 	const [filters, setFilters] = useState<PropertyFilters>({
-		name: ''
+		name: '',
 	})
 	const debouncedFilters = useDebounce({ value: filters, delayInMs: 1000 })
 
@@ -30,23 +30,23 @@ export const usePropertiesDataTable = () => {
 		filters: debouncedFilters,
 		getProperties,
 		page,
-		sort
+		sort,
 	})
 
 	const columns = useMemo<ColumnDef<PropertyModel>[]>(
 		() => [
 			{
 				accessorKey: 'producer',
-				header: 'Produtor'
+				header: 'Produtor',
 			},
 			{
 				accessorKey: 'name',
-				header: 'Propriedade'
+				header: 'Propriedade',
 			},
 			{
 				accessorKey: 'county',
 				header: 'Município',
-				accessorFn: ({ county }) => `${county.city} - ${county.state}`
+				accessorFn: ({ county }) => `${county.city} - ${county.state}`,
 			},
 			{
 				id: 'row-actions',
@@ -80,8 +80,8 @@ export const usePropertiesDataTable = () => {
 							</DropdownMenu.Content>
 						</DropdownMenu.Root>
 					)
-				}
-			}
+				},
+			},
 		],
 		[openDeletePropertyContainer, openEditPropertyForm]
 	)
@@ -95,6 +95,6 @@ export const usePropertiesDataTable = () => {
 		sort,
 		setFilters,
 		setSort,
-		setPage
+		setPage,
 	}
 }

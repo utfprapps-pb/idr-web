@@ -16,5 +16,5 @@ export const PAGE_PATHS = Object.freeze<PagePaths>({
 	home: '/',
 	properties: '/properties',
 	generalRegistrations: '/general-registrations',
-	reports: '/reports'
+	reports: '/reports',
 })

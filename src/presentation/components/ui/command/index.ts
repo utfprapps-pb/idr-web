@@ -19,5 +19,5 @@ export const Command = {
 	Item,
 	Shortcut,
 	Separator,
-	Loading
+	Loading,
 }

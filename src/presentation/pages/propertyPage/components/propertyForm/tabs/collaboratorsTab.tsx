@@ -11,14 +11,14 @@ export const CollaboratorsTab: React.FC<TabProps> = ({ form }) => {
 	const { control } = form
 	const { fields, append, remove } = useFieldArray({
 		name: 'collaborators',
-		control
+		control,
 	})
 
 	const handleAddCollaborator = useCallback(
 		() =>
 			append({
 				name: '',
-				hoursPerDay: ''
+				hoursPerDay: '',
 			}),
 		[append]
 	)

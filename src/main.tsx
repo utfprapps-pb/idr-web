@@ -16,9 +16,9 @@ async function bootstrap() {
 		defaultOptions: {
 			queries: {
 				retry: false,
-				refetchOnWindowFocus: false
-			}
-		}
+				refetchOnWindowFocus: false,
+			},
+		},
 	})
 
 	if (env.VITE_API_MOCKED) {
@@ -33,11 +33,11 @@ async function bootstrap() {
 					components={[
 						{
 							component: QueryClientProvider,
-							props: { client: queryClient }
+							props: { client: queryClient },
 						},
 						{
-							component: AuthProvider
-						}
+							component: AuthProvider,
+						},
 					]}
 				>
 					<App />

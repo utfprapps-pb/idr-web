@@ -2,7 +2,7 @@ import type { PropertyModel } from '@/domain/models/propertyModel'
 import type {
 	IRequestInterface,
 	IListParams,
-	IListResponse
+	IListResponse,
 } from '@/domain/shared/types'
 
 export interface IGetProperties

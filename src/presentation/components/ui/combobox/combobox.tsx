@@ -20,7 +20,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
 	searchPlaceholder,
 	emptyMessage,
 	loading = false,
-	isError = false
+	isError = false,
 }) => {
 	const [open, setOpen] = useState(false)
 

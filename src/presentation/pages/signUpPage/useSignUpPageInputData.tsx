@@ -10,7 +10,7 @@ import type { UseInputDataProps } from './types'
 
 export const useSignUpPageInputData = ({
 	control,
-	cepLoading
+	cepLoading,
 }: UseInputDataProps) => {
 	const [viewPassword, setViewPassword] = useState(false)
 	const [viewConfirmPassword, setViewConfirmPassword] = useState(false)
@@ -57,8 +57,8 @@ export const useSignUpPageInputData = ({
 									iconsStart={[
 										{
 											key: Mail.displayName ?? 'Mail',
-											icon: Mail
-										}
+											icon: Mail,
+										},
 									]}
 								/>
 							</Form.Control>
@@ -91,8 +91,8 @@ export const useSignUpPageInputData = ({
 												? EyeOff.displayName ?? 'EyeOff'
 												: Eye.displayName ?? 'Eye',
 											icon: viewPassword ? EyeOff : Eye,
-											onClick: () => setViewPassword((oldValue) => !oldValue)
-										}
+											onClick: () => setViewPassword((oldValue) => !oldValue),
+										},
 									]}
 								/>
 							</Form.Control>
@@ -124,8 +124,8 @@ export const useSignUpPageInputData = ({
 												: Eye.displayName ?? 'Eye',
 											icon: viewConfirmPassword ? EyeOff : Eye,
 											onClick: () =>
-												setViewConfirmPassword((oldValue) => !oldValue)
-										}
+												setViewConfirmPassword((oldValue) => !oldValue),
+										},
 									]}
 								/>
 							</Form.Control>
@@ -230,7 +230,7 @@ export const useSignUpPageInputData = ({
 					)
 				}}
 			/>
-		</Grouper>
+		</Grouper>,
 	]
 
 	const inputDataSecondStep = [
@@ -322,11 +322,11 @@ export const useSignUpPageInputData = ({
 					</Form.Item>
 				)}
 			/>
-		</Grouper>
+		</Grouper>,
 	]
 
 	return {
 		inputDataFirstStep,
-		inputDataSecondStep
+		inputDataSecondStep,
 	}
 }

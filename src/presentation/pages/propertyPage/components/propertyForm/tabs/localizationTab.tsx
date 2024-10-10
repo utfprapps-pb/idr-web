@@ -7,7 +7,7 @@ import {
 	Dropzone,
 	Form,
 	Input,
-	Label
+	Label,
 } from '@/presentation/components/ui'
 
 import { TabProps } from './types'

@@ -1,5 +1,5 @@
 export const MIMETYPE_MAPPER: Record<string, string[]> = {
-	'image/*': ['jpeg', 'jpg', 'png', 'gif', 'svg']
+	'image/*': ['jpeg', 'jpg', 'png', 'gif', 'svg'],
 }
 
 export const mimeTypeToExtensions = (

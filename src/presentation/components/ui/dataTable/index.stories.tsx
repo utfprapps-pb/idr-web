@@ -17,7 +17,7 @@ const StatusMapping: { [key in Payment['status']]: string } = {
 	failed: 'Falhou',
 	pending: 'Pendente',
 	processing: 'Processando',
-	success: 'Sucesso'
+	success: 'Sucesso',
 }
 
 const columns: ColumnDef<Payment>[] = [
@@ -27,16 +27,16 @@ const columns: ColumnDef<Payment>[] = [
 		cell: ({ getValue }) => {
 			const value = getValue() as Payment['status']
 			return StatusMapping[value]
-		}
+		},
 	},
 	{
 		accessorKey: 'email',
-		header: 'Email'
+		header: 'Email',
 	},
 	{
 		accessorKey: 'amount',
-		header: 'Quantidade'
-	}
+		header: 'Quantidade',
+	},
 ]
 
 const payments: Payment[] = [
@@ -44,18 +44,18 @@ const payments: Payment[] = [
 		id: '728ed52f',
 		amount: 100,
 		status: 'pending',
-		email: 'm@example.com'
+		email: 'm@example.com',
 	},
 	{
 		id: '489e1d42',
 		amount: 125,
 		status: 'processing',
-		email: 'example@gmail.com'
-	}
+		email: 'example@gmail.com',
+	},
 ]
 
 export default {
-	title: 'Components/UI/DataTable'
+	title: 'Components/UI/DataTable',
 } as Meta
 
 const Template: StoryFn<DataTableProps<Payment>> = (args) => {
@@ -68,11 +68,11 @@ const Template: StoryFn<DataTableProps<Payment>> = (args) => {
 				{...args}
 				sorting={{
 					currentSorting: sorting,
-					onSorting: setSorting
+					onSorting: setSorting,
 				}}
 				pagination={{
 					currentPage: pagination,
-					onPageChange: setPagination
+					onPageChange: setPagination,
 				}}
 			/>
 			<p>Sorting State: {JSON.stringify(sorting, null, 2)}</p>
@@ -84,5 +84,5 @@ const Template: StoryFn<DataTableProps<Payment>> = (args) => {
 export const Default = Template.bind({})
 Default.args = {
 	columns,
-	data: payments
+	data: payments,
 }

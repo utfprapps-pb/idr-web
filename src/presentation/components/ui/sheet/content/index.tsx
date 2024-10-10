@@ -3,7 +3,7 @@ import { ElementRef, forwardRef } from 'react'
 import {
 	Content as ContentPrimitive,
 	Close as ClosePrimitive,
-	Portal as PortalPrimitive
+	Portal as PortalPrimitive,
 } from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'
 

@@ -16,6 +16,6 @@ export const normalizeQueryFilters = (url: URL) => {
 	return {
 		pagination,
 		filters,
-		sort
+		sort,
 	}
 }

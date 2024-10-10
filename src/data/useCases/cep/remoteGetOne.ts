@@ -13,7 +13,7 @@ export class RemoteGetOne implements IGetCep {
 	execute: IGetCep['execute'] = async (cep) => {
 		const { statusCode, body } = await this.httpClient.request({
 			url: `${this.url}/${cep}`,
-			method: 'get'
+			method: 'get',
 		})
 
 		if (statusCode === HttpStatusCode.ok && !!body) return body

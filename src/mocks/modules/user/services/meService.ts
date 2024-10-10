@@ -15,8 +15,8 @@ export const meService = httpWithMiddleware<never, never, Response | {}>({
 	resolver: async () =>
 		HttpResponse.json(
 			{
-				name: faker.person.fullName()
+				name: faker.person.fullName(),
 			},
 			{ status: 200 }
-		)
+		),
 })

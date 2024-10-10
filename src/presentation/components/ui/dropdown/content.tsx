@@ -2,7 +2,7 @@ import { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react'
 
 import {
 	Content as ContentPrimitive,
-	Portal
+	Portal,
 } from '@radix-ui/react-dropdown-menu'
 
 import { cn } from '@/shared/utils'

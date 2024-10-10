@@ -5,5 +5,5 @@ import { makeRemoteGetAll } from './remoteGetAllFactory'
 export const UserDataFactory = {
 	makeRemoteMe,
 	makeRemoteCreate,
-	makeRemoteGetAll
+	makeRemoteGetAll,
 }

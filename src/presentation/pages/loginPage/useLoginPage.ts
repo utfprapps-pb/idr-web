@@ -17,7 +17,7 @@ const schema = z.object({
 		.string()
 		.min(1, 'Email é obrigatório')
 		.email('Informe um email válido'),
-	password: z.string().min(1, 'Senha é obrigatório')
+	password: z.string().min(1, 'Senha é obrigatório'),
 })
 
 type FormData = z.infer<typeof schema>
@@ -29,15 +29,15 @@ export const useLoginPage = ({ remoteLogin }: LoginPageProps) => {
 	const form = useHookForm<FormData>({
 		defaultValues: {
 			email: '',
-			password: ''
+			password: '',
 		},
-		resolver: zodResolver(schema)
+		resolver: zodResolver(schema),
 	})
 
 	const { handleSubmit: handleSubmitForm } = form
 
 	const { mutateAsync, isPending } = useMutation({
-		mutationFn: async (data: LoginParams) => remoteLogin.execute(data)
+		mutationFn: async (data: LoginParams) => remoteLogin.execute(data),
 	})
 
 	const onSubmit = useCallback(
@@ -63,10 +63,10 @@ export const useLoginPage = ({ remoteLogin }: LoginPageProps) => {
 	return {
 		form: {
 			...form,
-			buttonDisabled: form.buttonDisabled || isPending
+			buttonDisabled: form.buttonDisabled || isPending,
 		},
 		viewPassword,
 		setViewPassword,
-		handleSubmit
+		handleSubmit,
 	}
 }

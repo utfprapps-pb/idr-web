@@ -11,7 +11,7 @@ import {
 	Form,
 	Combobox,
 	Button,
-	Label
+	Label,
 } from '@/presentation/components/ui'
 import { useDebounce } from '@/presentation/hooks'
 
@@ -25,21 +25,21 @@ type GeneralTabProps = TabProps & {
 
 export const GeneralTab: React.FC<GeneralTabProps> = ({
 	form,
-	getAllUsers
+	getAllUsers,
 }) => {
 	const {
 		control,
 		getValues,
-		formState: { errors }
+		formState: { errors },
 	} = form
 	const {
 		fields,
 		append: handleAddTechnician,
 		remove: handleRemoveTechnician,
-		update: handleUpdateTechnician
+		update: handleUpdateTechnician,
 	} = useFieldArray({
 		name: 'general.responsibleTechnicians',
-		control
+		control,
 	})
 	const [search, setSearch] = useState('')
 	const debouncedSearch = useDebounce({ value: search, delayInMs: 1000 })
@@ -47,10 +47,10 @@ export const GeneralTab: React.FC<GeneralTabProps> = ({
 	const {
 		data: allUsersData = [],
 		isError,
-		isLoading
+		isLoading,
 	} = useQuery({
 		queryKey: ['technicians', debouncedSearch],
-		queryFn: () => getAllUsers.execute(debouncedSearch)
+		queryFn: () => getAllUsers.execute(debouncedSearch),
 	})
 
 	const usersToAdd = useMemo(
@@ -227,7 +227,7 @@ export const GeneralTab: React.FC<GeneralTabProps> = ({
 					onClick={() =>
 						handleAddTechnician({
 							label: '',
-							value: ''
+							value: '',
 						})
 					}
 				>

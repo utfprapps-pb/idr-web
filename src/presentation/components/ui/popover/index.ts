@@ -5,5 +5,5 @@ import { Content } from './content'
 export const Popover = {
 	Root,
 	Trigger,
-	Content
+	Content,
 }
