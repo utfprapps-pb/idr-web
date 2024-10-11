@@ -88,8 +88,8 @@ export const useSignUpPageInputData = ({
 									iconsEnd={[
 										{
 											key: viewPassword
-												? EyeOff.displayName ?? 'EyeOff'
-												: Eye.displayName ?? 'Eye',
+												? (EyeOff.displayName ?? 'EyeOff')
+												: (Eye.displayName ?? 'Eye'),
 											icon: viewPassword ? EyeOff : Eye,
 											onClick: () => setViewPassword((oldValue) => !oldValue),
 										},
@@ -120,8 +120,8 @@ export const useSignUpPageInputData = ({
 									iconsEnd={[
 										{
 											key: viewConfirmPassword
-												? EyeOff.displayName ?? 'EyeOff'
-												: Eye.displayName ?? 'Eye',
+												? (EyeOff.displayName ?? 'EyeOff')
+												: (Eye.displayName ?? 'Eye'),
 											icon: viewConfirmPassword ? EyeOff : Eye,
 											onClick: () =>
 												setViewConfirmPassword((oldValue) => !oldValue),

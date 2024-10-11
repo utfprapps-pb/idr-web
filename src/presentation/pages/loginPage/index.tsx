@@ -78,8 +78,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({ remoteLogin }) => {
 													iconsEnd={[
 														{
 															key: viewPassword
-																? EyeOff.displayName ?? 'EyeOff'
-																: Eye.displayName ?? 'Eye',
+																? (EyeOff.displayName ?? 'EyeOff')
+																: (Eye.displayName ?? 'Eye'),
 															icon: viewPassword ? EyeOff : Eye,
 															onClick: () =>
 																setViewPassword((oldValue) => !oldValue),
