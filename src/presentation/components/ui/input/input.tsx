@@ -29,7 +29,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 			iconsEnd,
 			isError,
 			mask,
-			...props
+			...props,
 		})
 
 		return (
@@ -48,7 +48,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 					type={type}
 					style={{
 						paddingLeft: `${paddingLeft}px`,
-						paddingRight: `${paddingRight}px`
+						paddingRight: `${paddingRight}px`,
 					}}
 					className={cn(styles, className, inputVariants({ isError }))}
 					ref={ref}

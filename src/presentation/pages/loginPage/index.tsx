@@ -10,7 +10,7 @@ import { useLoginPage } from './useLoginPage'
 
 export const LoginPage: React.FC<LoginPageProps> = ({ remoteLogin }) => {
 	const { form, viewPassword, setViewPassword, handleSubmit } = useLoginPage({
-		remoteLogin
+		remoteLogin,
 	})
 	const { navigate } = useIdrHistory()
 
@@ -49,8 +49,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({ remoteLogin }) => {
 													iconsStart={[
 														{
 															key: Mail.displayName ?? 'Mail',
-															icon: Mail
-														}
+															icon: Mail,
+														},
 													]}
 												/>
 											</Form.Control>
@@ -72,18 +72,18 @@ export const LoginPage: React.FC<LoginPageProps> = ({ remoteLogin }) => {
 													iconsStart={[
 														{
 															key: LockKeyhole.displayName ?? 'LockKeyhole',
-															icon: LockKeyhole
-														}
+															icon: LockKeyhole,
+														},
 													]}
 													iconsEnd={[
 														{
 															key: viewPassword
-																? EyeOff.displayName ?? 'EyeOff'
-																: Eye.displayName ?? 'Eye',
+																? (EyeOff.displayName ?? 'EyeOff')
+																: (Eye.displayName ?? 'Eye'),
 															icon: viewPassword ? EyeOff : Eye,
 															onClick: () =>
-																setViewPassword((oldValue) => !oldValue)
-														}
+																setViewPassword((oldValue) => !oldValue),
+														},
 													]}
 												/>
 											</Form.Control>

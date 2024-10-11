@@ -1,7 +1,7 @@
 export interface IRequestInterface<
 	TParams,
 	TResponse,
-	TCustomParams = unknown
+	TCustomParams = unknown,
 > {
 	execute: (params: TParams, customParams?: TCustomParams) => Promise<TResponse>
 }

@@ -13,21 +13,21 @@ const variants = {
 		outline: clsx`border border-input bg-white hover:bg-accent hover:text-accent-foreground`,
 		secondary: clsx`bg-secondary-500 text-white hover:bg-secondary-600`,
 		ghost: clsx`hover:bg-accent hover:text-accent-foreground`,
-		link: clsx`text-primary underline-offset-4 hover:underline`
+		link: clsx`text-primary underline-offset-4 hover:underline`,
 	},
 	size: {
 		default: clsx`h-10 px-4 py-2`,
 		sm: clsx`h-9 rounded-md px-3`,
 		lg: clsx`h-11 rounded-md px-8`,
 		icon: clsx`h-10 w-10`,
-		link: clsx`h-auto p-0 `
-	}
+		link: clsx`h-auto p-0 `,
+	},
 }
 
 export const buttonVariants = cva(baseStyles, {
 	variants,
 	defaultVariants: {
 		variant: 'default',
-		size: 'default'
-	}
+		size: 'default',
+	},
 })

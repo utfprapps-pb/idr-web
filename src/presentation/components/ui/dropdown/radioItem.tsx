@@ -2,7 +2,7 @@ import { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react'
 
 import {
 	ItemIndicator,
-	RadioItem as RadioItemPrimitive
+	RadioItem as RadioItemPrimitive,
 } from '@radix-ui/react-dropdown-menu'
 import { Circle } from 'lucide-react'
 

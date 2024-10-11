@@ -10,7 +10,7 @@ export const useInput = ({
 	iconsStart,
 	iconsEnd,
 	mask,
-	onChange
+	onChange,
 }: InputProps) => {
 	const handleOnChange = useCallback(
 		(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,6 +38,6 @@ export const useInput = ({
 				ICON_SPACING +
 				iconContainerSize(iconsEndLength)
 			: ICON_CONTAINER_PADDING + iconContainerSize(iconsEndLength),
-		handleOnChange
+		handleOnChange,
 	}
 }

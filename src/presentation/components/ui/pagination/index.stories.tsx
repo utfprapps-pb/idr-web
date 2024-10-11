@@ -3,7 +3,7 @@ import { Meta, StoryFn } from '@storybook/react/'
 import { Pagination } from '.'
 
 export default {
-	title: 'Components/UI/Pagination'
+	title: 'Components/UI/Pagination',
 } as Meta
 
 const Template: StoryFn = () => (

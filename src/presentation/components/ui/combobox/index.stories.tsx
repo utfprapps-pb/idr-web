@@ -3,7 +3,7 @@ import { Meta, StoryFn } from '@storybook/react/'
 import { Combobox, type ComboboxProps } from '.'
 
 export default {
-	title: 'Components/UI/Combobox'
+	title: 'Components/UI/Combobox',
 } as Meta
 
 const Template: StoryFn<ComboboxProps> = (args) => <Combobox {...args} />
@@ -18,15 +18,15 @@ Default.args = {
 	items: [
 		{
 			value: '1',
-			label: 'Um'
+			label: 'Um',
 		},
 		{
 			value: '2',
-			label: 'Dois'
+			label: 'Dois',
 		},
 		{
 			value: '3',
-			label: 'Três'
-		}
-	]
+			label: 'Três',
+		},
+	],
 }

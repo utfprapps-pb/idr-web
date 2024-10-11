@@ -20,7 +20,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
 	searchPlaceholder,
 	emptyMessage,
 	loading = false,
-	isError = false
+	isError = false,
 }) => {
 	const [open, setOpen] = useState(false)
 
@@ -39,7 +39,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
 				>
 					{selected?.label
 						? selected.label
-						: placeholder ?? 'Selecione um item'}
+						: (placeholder ?? 'Selecione um item')}
 					<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 				</Button>
 			</Popover.Trigger>

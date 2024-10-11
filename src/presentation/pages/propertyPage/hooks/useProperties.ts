@@ -17,7 +17,7 @@ export const useProperties = ({
 	filters,
 	page,
 	sort,
-	getProperties
+	getProperties,
 }: Props) => {
 	const { data, isError, isLoading, refetch } = useQuery({
 		queryKey: ['properties', { page, sort: sort ?? 'withoutSort', filters }],
@@ -25,8 +25,8 @@ export const useProperties = ({
 			getProperties.execute({
 				pagination: { page },
 				sort: sort ?? undefined,
-				filters
-			})
+				filters,
+			}),
 	})
 
 	useEffect(() => {
@@ -36,9 +36,9 @@ export const useProperties = ({
 	return {
 		properties: data ?? {
 			resources: [],
-			totalPages: 1
+			totalPages: 1,
 		},
 		isLoading,
-		refetchProperties: refetch
+		refetchProperties: refetch,
 	}
 }

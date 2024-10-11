@@ -1,6 +1,6 @@
 export class LocalStorageAdapter {
 	static readonly LOCAL_STORAGE_KEYS = {
-		AUTH: 'auth'
+		AUTH: 'auth',
 	}
 
 	static get(key: string): string | null {

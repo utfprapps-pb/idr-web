@@ -9,5 +9,5 @@ export const PropertiesData = {
 	RemoteDelete,
 	RemoteGetAll,
 	RemoteGetOne,
-	RemoteUpdate
+	RemoteUpdate,
 }

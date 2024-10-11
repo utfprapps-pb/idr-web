@@ -9,12 +9,12 @@ const itemVariants = cva('cursor-pointer', {
 	variants: {
 		isDisabled: {
 			true: clsx`cursor-not-allowed opacity-50`,
-			false: ''
-		}
+			false: '',
+		},
 	},
 	defaultVariants: {
-		isDisabled: false
-	}
+		isDisabled: false,
+	},
 })
 
 type ItemProps = ComponentProps<'li'> & VariantProps<typeof itemVariants>

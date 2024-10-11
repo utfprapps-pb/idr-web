@@ -9,7 +9,7 @@ import {
 	Form,
 	Tabs,
 	Loading,
-	Sheet
+	Sheet,
 } from '@/presentation/components/ui'
 import { useHookForm } from '@/presentation/hooks'
 
@@ -21,7 +21,7 @@ import {
 	GeneralTab,
 	CollaboratorsTab,
 	TotalAreaTab,
-	LocalizationTab
+	LocalizationTab,
 } from './tabs'
 import { type PropertySchema, propertySchema } from './validation'
 
@@ -32,19 +32,19 @@ export const EditPropertyForm: React.FC = () => {
 		propertySelected,
 		getAllUsers,
 		getProperty,
-		updateProperty
+		updateProperty,
 	} = usePropertyContext()
 
 	const { isLoading, property } = useProperty({
 		id: propertySelected!.id,
-		getProperty
+		getProperty,
 	})
 
 	const queryClient = useQueryClient()
 
 	const form = useHookForm<PropertySchema>({
 		defaultValues: PROPERTY_DEFAULT_VALUES,
-		resolver: zodResolver(propertySchema)
+		resolver: zodResolver(propertySchema),
 	})
 
 	const { reset, handleSubmit: hookFormSubmit } = form
@@ -56,29 +56,29 @@ export const EditPropertyForm: React.FC = () => {
 			{
 				value: 'general',
 				title: 'Dados Gerais',
-				component: <GeneralTab form={form} getAllUsers={getAllUsers} />
+				component: <GeneralTab form={form} getAllUsers={getAllUsers} />,
 			},
 			{
 				value: 'collaborators',
 				title: 'Colaboradores',
-				component: <CollaboratorsTab form={form} />
+				component: <CollaboratorsTab form={form} />,
 			},
 			{
 				value: 'totalArea',
 				title: 'Área Total',
-				component: <TotalAreaTab form={form} />
+				component: <TotalAreaTab form={form} />,
 			},
 			{
 				value: 'localization',
 				title: 'Localização',
-				component: <LocalizationTab form={form} />
-			}
+				component: <LocalizationTab form={form} />,
+			},
 		],
 		[form, getAllUsers]
 	)
 
 	const { mutateAsync } = useMutation({
-		mutationFn: updateProperty.execute
+		mutationFn: updateProperty.execute,
 	})
 
 	const handleSubmit = useCallback(
@@ -86,7 +86,7 @@ export const EditPropertyForm: React.FC = () => {
 			try {
 				await mutateAsync({ ...data, id: propertySelected!.id })
 				queryClient.invalidateQueries({
-					queryKey: ['properties']
+					queryKey: ['properties'],
 				})
 				toast.success('Propriedade foi editada com sucesso')
 				reset(PROPERTY_DEFAULT_VALUES)

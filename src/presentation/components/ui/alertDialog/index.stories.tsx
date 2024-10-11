@@ -5,7 +5,7 @@ import { Button } from '../button'
 import { AlertDialog } from '.'
 
 export default {
-	title: 'Components/UI/Alert Dialog'
+	title: 'Components/UI/Alert Dialog',
 } as Meta
 
 const Template: StoryFn = () => (

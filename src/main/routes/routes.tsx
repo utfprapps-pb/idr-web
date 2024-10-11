@@ -15,11 +15,11 @@ type RoutesProps = {
 export const ROUTES = Object.freeze<RoutesProps>({
 	login: {
 		path: () => PAGE_PATHS.login,
-		component: <PageFactory.MakeLoginPage />
+		component: <PageFactory.MakeLoginPage />,
 	},
 	signUp: {
 		path: () => PAGE_PATHS.signUp,
-		component: <PageFactory.MakeSignUpPage />
+		component: <PageFactory.MakeSignUpPage />,
 	},
 	home: {
 		path: () => PAGE_PATHS.home,
@@ -27,7 +27,7 @@ export const ROUTES = Object.freeze<RoutesProps>({
 			<PrivateRouteProxy>
 				<h1>Under construction!</h1>
 			</PrivateRouteProxy>
-		)
+		),
 	},
 	properties: {
 		path: () => PAGE_PATHS.properties,
@@ -35,7 +35,7 @@ export const ROUTES = Object.freeze<RoutesProps>({
 			<PrivateRouteProxy>
 				<PageFactory.MakePropertyPage />
 			</PrivateRouteProxy>
-		)
+		),
 	},
 	generalRegistrations: {
 		path: () => PAGE_PATHS.generalRegistrations,
@@ -43,7 +43,7 @@ export const ROUTES = Object.freeze<RoutesProps>({
 			<PrivateRouteProxy>
 				<h1>Under construction!</h1>
 			</PrivateRouteProxy>
-		)
+		),
 	},
 	reports: {
 		path: () => PAGE_PATHS.reports,
@@ -51,6 +51,6 @@ export const ROUTES = Object.freeze<RoutesProps>({
 			<PrivateRouteProxy>
 				<h1>Under construction!</h1>
 			</PrivateRouteProxy>
-		)
-	}
+		),
+	},
 })

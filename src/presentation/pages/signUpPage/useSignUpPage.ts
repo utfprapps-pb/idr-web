@@ -26,7 +26,7 @@ const INITIAL_FORM_DATA: CreateUserModel = {
 	cep: '',
 	street: '',
 	city: '',
-	houseNumber: ''
+	houseNumber: '',
 }
 
 export const useSignUpPage = (props: SignUpPageProps) => {
@@ -44,19 +44,19 @@ export const useSignUpPage = (props: SignUpPageProps) => {
 		defaultValues: INITIAL_FORM_DATA,
 		resolver: zodResolver(
 			isFirstStep ? signUpSchema.firstStep : signUpSchema.secondStep
-		)
+		),
 	})
 
 	const debouncedCep = useDebounce({
 		value: form.getValues('cep'),
-		delayInMs: 1000
+		delayInMs: 1000,
 	})
 
 	const {
 		buttonDisabled,
 		getValues,
 		setValue,
-		handleSubmit: handleSubmitForm
+		handleSubmit: handleSubmitForm,
 	} = form
 
 	const goToLoginPage = useCallback(
@@ -79,7 +79,7 @@ export const useSignUpPage = (props: SignUpPageProps) => {
 			try {
 				const allStepData = {
 					...firstStepData,
-					...data
+					...data,
 				}
 
 				await createUser.execute(allStepData)
@@ -110,7 +110,7 @@ export const useSignUpPage = (props: SignUpPageProps) => {
 			const fieldsToUpdate = {
 				cep,
 				city,
-				street
+				street,
 			}
 
 			Object.entries(fieldsToUpdate).forEach(([field, value]) => {
@@ -118,7 +118,7 @@ export const useSignUpPage = (props: SignUpPageProps) => {
 				setValue(typedField, value, {
 					shouldDirty: true,
 					shouldValidate: true,
-					shouldTouch: true
+					shouldTouch: true,
 				})
 			})
 		} catch (error) {
@@ -142,6 +142,6 @@ export const useSignUpPage = (props: SignUpPageProps) => {
 		isFirstStep,
 		goToLoginPage,
 		handleFetchCep,
-		handleSubmit
+		handleSubmit,
 	}
 }

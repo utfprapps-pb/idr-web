@@ -10,7 +10,7 @@ import {
 	flexRender,
 	getCoreRowModel,
 	getPaginationRowModel,
-	useReactTable
+	useReactTable,
 } from '@tanstack/react-table'
 import { ArrowDownNarrowWide, ArrowUpNarrowWide } from 'lucide-react'
 
@@ -26,7 +26,7 @@ import { DataTableProps } from './types'
 const TableBody = <TData extends RowData>({
 	columns,
 	loading,
-	rowModel
+	rowModel,
 }: Pick<DataTableProps<TData>, 'loading' | 'columns'> & {
 	rowModel: RowModel<TData>
 }) => {
@@ -66,7 +66,7 @@ export const DataTable = <TData extends RowData>({
 	sorting,
 	pagination,
 	totalPages,
-	loading = false
+	loading = false,
 }: DataTableProps<TData>) => {
 	const { currentSorting, onSorting } = sorting
 	const { currentPage, onPageChange } = pagination
@@ -78,8 +78,8 @@ export const DataTable = <TData extends RowData>({
 					? updaterOrValue([
 							{
 								desc: currentSorting?.direction === 'desc',
-								id: String(currentSorting?.field)
-							}
+								id: String(currentSorting?.field),
+							},
 						])
 					: updaterOrValue
 
@@ -90,7 +90,7 @@ export const DataTable = <TData extends RowData>({
 
 			onSorting({
 				direction: sort.desc ? 'desc' : 'asc',
-				field: sort.id as keyof TData
+				field: sort.id as keyof TData,
 			})
 		},
 		[currentSorting?.direction, currentSorting?.field, onSorting]
@@ -102,7 +102,7 @@ export const DataTable = <TData extends RowData>({
 				typeof updaterOrValue === 'function'
 					? updaterOrValue({
 							pageIndex: currentPage - 1,
-							pageSize: ITEMS_PER_PAGE
+							pageSize: ITEMS_PER_PAGE,
 						}).pageIndex
 					: updaterOrValue.pageIndex
 
@@ -119,7 +119,7 @@ export const DataTable = <TData extends RowData>({
 		nextPage,
 		setPageIndex,
 		getCanPreviousPage,
-		getCanNextPage
+		getCanNextPage,
 	} = useReactTable<TData>({
 		columns,
 		data,
@@ -127,13 +127,13 @@ export const DataTable = <TData extends RowData>({
 			sorting: [
 				{
 					id: String(currentSorting?.field),
-					desc: currentSorting?.direction === 'desc'
-				}
+					desc: currentSorting?.direction === 'desc',
+				},
 			],
 			pagination: {
 				pageIndex: currentPage - 1,
-				pageSize: ITEMS_PER_PAGE
-			}
+				pageSize: ITEMS_PER_PAGE,
+			},
 		},
 		manualSorting: true,
 		manualPagination: true,
@@ -141,7 +141,7 @@ export const DataTable = <TData extends RowData>({
 		onSortingChange,
 		onPaginationChange,
 		getCoreRowModel: getCoreRowModel(),
-		getPaginationRowModel: getPaginationRowModel()
+		getPaginationRowModel: getPaginationRowModel(),
 	})
 
 	const tooltipText = (value: 'asc' | 'desc' | false) => {
@@ -188,7 +188,7 @@ export const DataTable = <TData extends RowData>({
 															)}
 															{{
 																asc: <ArrowDownNarrowWide size={20} />,
-																desc: <ArrowUpNarrowWide size={20} />
+																desc: <ArrowUpNarrowWide size={20} />,
 															}[header.column.getIsSorted() as string] ?? null}
 														</div>
 													</Tooltip.Trigger>

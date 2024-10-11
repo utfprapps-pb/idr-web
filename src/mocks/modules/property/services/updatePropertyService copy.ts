@@ -13,5 +13,5 @@ export const updatePropertyService = httpWithMiddleware<
 	method: 'patch',
 	middlewares: [withDelay(), withAuth],
 	resolver: async () =>
-		HttpResponse.json(undefined, { status: HttpStatusCode.noContent })
+		HttpResponse.json(undefined, { status: HttpStatusCode.noContent }),
 })

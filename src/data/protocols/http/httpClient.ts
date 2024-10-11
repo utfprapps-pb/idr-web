@@ -10,7 +10,7 @@ export enum HttpStatusCode {
 	forbidden = 403,
 	notFound = 404,
 
-	serverError = 500
+	serverError = 500,
 }
 
 export type SortDirection = 'asc' | 'desc'

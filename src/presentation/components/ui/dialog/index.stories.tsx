@@ -7,7 +7,7 @@ import { Label } from '../label'
 import { Dialog } from '.'
 
 export default {
-	title: 'Components/UI/Dialog'
+	title: 'Components/UI/Dialog',
 } as Meta
 
 const Template: StoryFn = () => (

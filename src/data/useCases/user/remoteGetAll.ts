@@ -3,7 +3,7 @@ import {
 	BadRequestError,
 	ForbiddenError,
 	NotFoundError,
-	UnexpectedError
+	UnexpectedError,
 } from '@/domain/errors'
 
 import type { IGetAllUsers } from '@/domain/useCases/user'
@@ -19,14 +19,14 @@ export class RemoteGetAll implements IGetAllUsers {
 			url: this.url,
 			method: 'get',
 			filters: {
-				name: search
-			}
+				name: search,
+			},
 		})
 
 		if (statusCode === HttpStatusCode.ok)
 			return body.map((item: any) => ({
 				value: item.id,
-				label: item.name
+				label: item.name,
 			}))
 
 		if (statusCode === HttpStatusCode.forbidden) throw new ForbiddenError()

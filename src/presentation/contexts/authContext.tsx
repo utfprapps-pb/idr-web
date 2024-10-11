@@ -5,7 +5,7 @@ import {
 	useContext,
 	useEffect,
 	useMemo,
-	useState
+	useState,
 } from 'react'
 
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -44,7 +44,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		queryKey: ['users', 'me'],
 		queryFn: async () => meService.execute(),
 		enabled: signedIn,
-		staleTime: Infinity
+		staleTime: Infinity,
 	})
 
 	const signIn = useCallback(
@@ -78,7 +78,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 			signedIn: signedIn && isSuccess,
 			user: data,
 			signIn,
-			signOut
+			signOut,
 		}),
 		[data, isSuccess, signIn, signOut, signedIn]
 	)

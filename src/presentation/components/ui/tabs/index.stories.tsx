@@ -3,7 +3,7 @@ import { Meta, StoryFn } from '@storybook/react/'
 import { Tabs } from '.'
 
 export default {
-	title: 'Components/UI/Tabs'
+	title: 'Components/UI/Tabs',
 } as Meta
 
 const Template: StoryFn = () => (

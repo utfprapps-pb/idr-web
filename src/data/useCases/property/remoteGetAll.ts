@@ -14,14 +14,14 @@ export class RemoteGetAll implements IGetProperties {
 	execute: IGetProperties['execute'] = async ({
 		filters,
 		pagination,
-		sort
+		sort,
 	}) => {
 		const { statusCode, body } = await this.httpClient.request({
 			url: `${this.url}`,
 			method: 'get',
 			filters,
 			pagination,
-			sort
+			sort,
 		})
 
 		if (statusCode === HttpStatusCode.ok && !!body) {
@@ -34,11 +34,11 @@ export class RemoteGetAll implements IGetProperties {
 							producer: item.producer,
 							county: {
 								city: item.city,
-								state: item.state
-							}
+								state: item.state,
+							},
 						}) as PropertyModel
 				),
-				totalPages: Math.ceil(body.totalRegisters / ITEMS_PER_PAGE)
+				totalPages: Math.ceil(body.totalRegisters / ITEMS_PER_PAGE),
 			}
 		}
 

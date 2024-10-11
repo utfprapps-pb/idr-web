@@ -15,5 +15,5 @@ export const createPropertyService = httpWithMiddleware<
 	method: 'post',
 	middlewares: [withDelay(), withAuth],
 	resolver: async () =>
-		HttpResponse.json({}, { status: HttpStatusCode.created })
+		HttpResponse.json({}, { status: HttpStatusCode.created }),
 })

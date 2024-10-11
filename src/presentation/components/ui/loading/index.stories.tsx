@@ -4,7 +4,7 @@ import { Loading, type LoadingProps } from '.'
 
 export default {
 	title: 'Components/UI/Loading',
-	component: Loading
+	component: Loading,
 } as Meta
 
 const Template: StoryFn<LoadingProps> = (args) => <Loading {...args} />
