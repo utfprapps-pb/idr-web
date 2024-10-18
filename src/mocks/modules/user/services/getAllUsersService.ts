@@ -1,11 +1,10 @@
+import allUsersData from '@database/allUsersData.json'
 import { HttpResponse } from 'msw'
 
 import { HttpStatusCode } from '@/data/protocols/http'
 import { httpWithMiddleware } from '@/mocks/lib'
 import { withAuth, withDelay } from '@/mocks/middleware'
 import { filterData, normalizeQueryFilters } from '@/mocks/shared'
-
-import allUsersData from '../../../../../database/allUsersData.json'
 
 type Response = {
 	id: string

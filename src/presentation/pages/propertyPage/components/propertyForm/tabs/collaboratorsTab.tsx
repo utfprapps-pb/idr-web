@@ -3,9 +3,9 @@ import { useCallback } from 'react'
 import { Plus, Trash2 } from 'lucide-react'
 import { useFieldArray } from 'react-hook-form'
 
-import { Button, Form, Input } from '@/presentation/components/ui'
-
 import type { TabProps } from './types'
+
+import { Button, Form, Input } from '@/presentation/components/ui'
 
 export const CollaboratorsTab: React.FC<TabProps> = ({ form }) => {
 	const { control } = form

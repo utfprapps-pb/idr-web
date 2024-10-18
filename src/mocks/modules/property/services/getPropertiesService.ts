@@ -1,3 +1,4 @@
+import propertiesData from '@database/propertiesData.json'
 import { HttpResponse } from 'msw'
 
 import { HttpStatusCode } from '@/data/protocols/http'
@@ -9,8 +10,6 @@ import {
 	sortData,
 	filterData,
 } from '@/mocks/shared/'
-
-import propertiesData from '../../../../../database/propertiesData.json'
 
 type Params = {
 	filter: string

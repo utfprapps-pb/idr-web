@@ -3,9 +3,6 @@ import { useMemo, useState } from 'react'
 import { ColumnDef } from '@tanstack/react-table'
 import { MoreHorizontal, Pencil, Trash2 } from 'lucide-react'
 
-import { DropdownMenu } from '@/presentation/components/ui'
-import { useDebounce } from '@/presentation/hooks'
-
 import { useProperties } from '../../hooks/useProperties'
 import { usePropertyContext } from '../../propertyContext'
 
@@ -14,6 +11,9 @@ import type {
 	PropertyFilters,
 	PropertySort,
 } from '@/presentation/pages/propertyPage/types'
+
+import { DropdownMenu } from '@/presentation/components/ui'
+import { useDebounce } from '@/presentation/hooks'
 
 export const usePropertiesDataTable = () => {
 	const { getProperties, openEditPropertyForm, openDeletePropertyContainer } =
