@@ -1,41 +1,46 @@
 import { type IHttpClient, HttpStatusCode } from '@/data/protocols/http'
 import {
-	BadRequestError,
-	ForbiddenError,
-	NotFoundError,
-	UnexpectedError,
+  BadRequestError,
+  ForbiddenError,
+  NotFoundError,
+  UnexpectedError,
 } from '@/domain/errors'
 
 import type { IGetAllUsers } from '@/domain/useCases/user'
 
 export class RemoteGetAll implements IGetAllUsers {
-	constructor(
-		private readonly url: string,
-		private readonly httpClient: IHttpClient
-	) {}
+  constructor(
+    private readonly url: string,
+    private readonly httpClient: IHttpClient
+  ) {}
 
-	execute: IGetAllUsers['execute'] = async (search) => {
-		const { statusCode, body } = await this.httpClient.request({
-			url: this.url,
-			method: 'get',
-			filters: {
-				name: search,
-			},
-		})
+  execute: IGetAllUsers['execute'] = async (search) => {
+    const { statusCode, body } = await this.httpClient.request({
+      url: this.url,
+      method: 'get',
+      filters: {
+        name: search,
+      },
+    })
 
-		if (statusCode === HttpStatusCode.ok)
-			return body.map((item: any) => ({
-				value: item.id,
-				label: item.name,
-			}))
+    if (statusCode === HttpStatusCode.ok) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return body.map((item: any) => ({
+        value: item.id,
+        label: item.name,
+      }))
+    }
 
-		if (statusCode === HttpStatusCode.forbidden) throw new ForbiddenError()
+    if (statusCode === HttpStatusCode.forbidden) {
+      throw new ForbiddenError()
+    }
 
-		if (statusCode === HttpStatusCode.notFound)
-			throw new NotFoundError('Usuários')
+    if (statusCode === HttpStatusCode.notFound) {
+      throw new NotFoundError('Usuários')
+    }
 
-		if (statusCode === HttpStatusCode.badRequest) throw new BadRequestError()
+    if (statusCode === HttpStatusCode.badRequest) throw new BadRequestError()
 
-		throw new UnexpectedError()
-	}
+    throw new UnexpectedError()
+  }
 }

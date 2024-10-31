@@ -3,17 +3,17 @@ import { LocalStorageAdapter } from '@/infra/cache'
 import type { InternalAxiosRequestConfig } from 'axios'
 
 export async function authInterceptorRequest(
-	config: InternalAxiosRequestConfig
+  config: InternalAxiosRequestConfig
 ) {
-	const accessToken = LocalStorageAdapter.get(
-		LocalStorageAdapter.LOCAL_STORAGE_KEYS.AUTH
-	)
+  const accessToken = LocalStorageAdapter.get(
+    LocalStorageAdapter.LOCAL_STORAGE_KEYS.AUTH
+  )
 
-	if (accessToken) {
-		Object.assign(config.headers, {
-			Authorization: `Bearer ${accessToken}`,
-		})
-	}
+  if (accessToken) {
+    Object.assign(config.headers, {
+      Authorization: `Bearer ${accessToken}`,
+    })
+  }
 
-	return config
+  return config
 }

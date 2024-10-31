@@ -5,21 +5,21 @@ import type { CepModel } from '@/domain/models/cepModel'
 import type { IGetCep } from '@/domain/useCases/cep'
 
 export class RemoteGetOne implements IGetCep {
-	constructor(
-		private readonly url: string,
-		private readonly httpClient: IHttpClient<CepModel>
-	) {}
+  constructor(
+    private readonly url: string,
+    private readonly httpClient: IHttpClient<CepModel>
+  ) {}
 
-	execute: IGetCep['execute'] = async (cep) => {
-		const { statusCode, body } = await this.httpClient.request({
-			url: `${this.url}/${cep}`,
-			method: 'get',
-		})
+  execute: IGetCep['execute'] = async (cep) => {
+    const { statusCode, body } = await this.httpClient.request({
+      url: `${this.url}/${cep}`,
+      method: 'get',
+    })
 
-		if (statusCode === HttpStatusCode.ok && !!body) return body
+    if (statusCode === HttpStatusCode.ok && !!body) return body
 
-		if (statusCode === HttpStatusCode.notFound) throw new NotFoundError('CEP')
+    if (statusCode === HttpStatusCode.notFound) throw new NotFoundError('CEP')
 
-		throw new UnexpectedError()
-	}
+    throw new UnexpectedError()
+  }
 }

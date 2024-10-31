@@ -1,16 +1,16 @@
 import { cn } from '@/shared/utils'
 
 export const Header: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
-	className,
-	...props
+  className,
+  ...props
 }) => (
-	<div
-		className={cn(
-			'flex flex-col space-y-1.5 text-center sm:text-left',
-			className
-		)}
-		{...props}
-	/>
+  <div
+    className={cn(
+      'flex flex-col space-y-1.5 text-center sm:text-left',
+      className
+    )}
+    {...props}
+  />
 )
 
 Header.displayName = 'DialogHeader'

@@ -8,12 +8,12 @@ import { Root } from './root'
 import { Row } from './row'
 
 export const Table = {
-	Root,
-	Header,
-	Body,
-	Footer,
-	Head,
-	Row,
-	Cell,
-	Caption,
+  Root,
+  Header,
+  Body,
+  Footer,
+  Head,
+  Row,
+  Cell,
+  Caption,
 }

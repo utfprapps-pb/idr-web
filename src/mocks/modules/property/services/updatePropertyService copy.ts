@@ -5,13 +5,13 @@ import { httpWithMiddleware } from '@/mocks/lib'
 import { withAuth, withDelay } from '@/mocks/middleware'
 
 export const updatePropertyService = httpWithMiddleware<
-	PathParams<'id'>,
-	never,
-	never
+  PathParams<'id'>,
+  never,
+  never
 >({
-	routePath: '/api/properties/:id',
-	method: 'patch',
-	middlewares: [withDelay(), withAuth],
-	resolver: async () =>
-		HttpResponse.json(undefined, { status: HttpStatusCode.noContent }),
+  routePath: '/api/properties/:id',
+  method: 'patch',
+  middlewares: [withDelay(), withAuth],
+  resolver: async () =>
+    HttpResponse.json(undefined, { status: HttpStatusCode.noContent }),
 })

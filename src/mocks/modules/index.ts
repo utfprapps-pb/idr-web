@@ -5,7 +5,7 @@ import { propertyHandlers } from './property'
 import { userHandlers } from './user'
 
 export const handlers: HttpHandler[] = [
-	...authHandlers,
-	...userHandlers,
-	...propertyHandlers,
+  ...authHandlers,
+  ...userHandlers,
+  ...propertyHandlers,
 ]

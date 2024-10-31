@@ -6,10 +6,10 @@ import { Root as Container } from './root'
 import { Title } from './title'
 
 export const Card = {
-	Container,
-	Content,
-	Description,
-	Footer,
-	Header,
-	Title,
+  Container,
+  Content,
+  Description,
+  Footer,
+  Header,
+  Title,
 }

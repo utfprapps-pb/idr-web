@@ -4,15 +4,15 @@ import { LucideIcon } from 'lucide-react'
 import { inputVariants } from './styles'
 
 export type InputIcon = {
-	key: string
-	icon: LucideIcon
-	onClick?: () => void
+  key: string
+  icon: LucideIcon
+  onClick?: () => void
 }
 
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement> &
-	VariantProps<typeof inputVariants> & {
-		iconsStart?: InputIcon[]
-		iconsEnd?: InputIcon[]
-		loading?: boolean
-		mask?: (value: string) => string
-	}
+  VariantProps<typeof inputVariants> & {
+    iconsStart?: InputIcon[]
+    iconsEnd?: InputIcon[]
+    loading?: boolean
+    mask?: (value: string) => string
+  }

@@ -5,7 +5,7 @@ import type { PropertyModel } from '@/domain/models/propertyModel'
 import type { IGetProperties } from '@/domain/useCases/property'
 
 export const makeRemoteGetAll = (): IGetProperties =>
-	new PropertiesData.RemoteGetAll(
-		'properties',
-		makeApiHttpClient<PropertyModel[]>()
-	)
+  new PropertiesData.RemoteGetAll(
+    'properties',
+    makeApiHttpClient<PropertyModel[]>()
+  )

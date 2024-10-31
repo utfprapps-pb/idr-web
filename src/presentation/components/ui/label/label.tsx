@@ -9,9 +9,9 @@ import { labelVariants } from './styles'
 import type { LabelElement, LabelProps } from './types'
 
 export const Label = forwardRef<LabelElement, LabelProps>(
-	({ className, ...props }, ref) => (
-		<Root ref={ref} className={cn(labelVariants(), className)} {...props} />
-	)
+  ({ className, ...props }, ref) => (
+    <Root ref={ref} className={cn(labelVariants(), className)} {...props} />
+  )
 )
 
 Label.displayName = Root.displayName

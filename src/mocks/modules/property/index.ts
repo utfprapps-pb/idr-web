@@ -7,9 +7,9 @@ import { getPropertyService } from './services/getPropertyService'
 import { updatePropertyService } from './services/updatePropertyService copy'
 
 export const propertyHandlers: HttpHandler[] = [
-	createPropertyService,
-	updatePropertyService,
-	deletePropertyService,
-	getPropertiesService,
-	getPropertyService,
+  createPropertyService,
+  updatePropertyService,
+  deletePropertyService,
+  getPropertiesService,
+  getPropertyService,
 ]

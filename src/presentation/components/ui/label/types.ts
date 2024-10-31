@@ -5,4 +5,4 @@ import { labelVariants } from './styles'
 
 export type LabelElement = React.ElementRef<typeof Root>
 export type LabelProps = React.ComponentPropsWithoutRef<typeof Root> &
-	VariantProps<typeof labelVariants>
+  VariantProps<typeof labelVariants>

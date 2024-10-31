@@ -1,4 +1,4 @@
 export type Option<TValue = string> = {
-	label: string
-	value: TValue
+  label: string
+  value: TValue
 }

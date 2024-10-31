@@ -8,11 +8,11 @@ import { Label } from './label'
 import { Message } from './message'
 
 export const Form = {
-	Provider: FormProvider,
-	Control,
-	Description,
-	Field,
-	Item,
-	Label,
-	Message,
+  Provider: FormProvider,
+  Control,
+  Description,
+  Field,
+  Item,
+  Label,
+  Message,
 }
