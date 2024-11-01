@@ -46,7 +46,7 @@ jobs:
         run: pnpm install
 
       - name: Run Linters
-        run: pnpm lint:check && pnpm format:check
+        run: pnpm lint:ci && pnpm format:ci
 
       - name: Check if build fails
         run: pnpm build
