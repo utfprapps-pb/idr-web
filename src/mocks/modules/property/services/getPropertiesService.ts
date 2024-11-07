@@ -9,6 +9,7 @@ import {
   sortData,
   filterData,
 } from '@/mocks/shared/'
+
 import propertiesData from '@database/propertiesData.json'
 
 type Params = {

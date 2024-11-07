@@ -48,7 +48,7 @@ export default [
       'import/resolver': {
         typescript: {
           alwaysTryTypes: true,
-          project: './tsconfig.app.json',
+          project: ['./tsconfig.app.json', './tsconfig.node.json'],
         },
       },
     },
@@ -97,6 +97,7 @@ export default [
           ],
           pathGroups: [
             { pattern: 'react', group: 'external', position: 'before' },
+            { pattern: '@database/**', group: 'internal', position: 'after' },
           ],
           pathGroupsExcludedImportTypes: ['react'],
           alphabetize: { order: 'asc', caseInsensitive: true },

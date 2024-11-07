@@ -4,6 +4,7 @@ import { HttpResponse, type PathParams } from 'msw'
 import { HttpStatusCode } from '@/data/protocols/http'
 import { httpWithMiddleware } from '@/mocks/lib'
 import { withAuth, withDelay } from '@/mocks/middleware'
+
 import propertiesData from '@database/propertiesData.json'
 
 export const getPropertyService = httpWithMiddleware<
