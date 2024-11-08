@@ -1,6 +1,5 @@
 import {
   PropsWithChildren,
-  createContext,
   useCallback,
   useEffect,
   useMemo,
@@ -14,19 +13,7 @@ import { LocalStorageAdapter } from '@/infra/cache'
 import { UserDataFactory } from '@/main/factories/useCases/user'
 import { useIdrHistory } from '@/presentation/hooks/useIdrHistory'
 
-import type { UserModel } from '@/domain/models/userModel'
-
-type AuthContextProps = {
-  signedIn: boolean
-  user?: UserModel
-
-  signIn(accessToken: string): void
-  signOut(): void
-}
-
-export const AuthContext = createContext<AuthContextProps>(
-  {} as AuthContextProps
-)
+import { AuthContext } from './context'
 
 export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const meService = UserDataFactory.makeRemoteMe()
