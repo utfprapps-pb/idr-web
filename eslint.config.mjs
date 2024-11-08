@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url'
 import { FlatCompat } from '@eslint/eslintrc'
 import js from '@eslint/js'
 import tsParser from '@typescript-eslint/parser'
-import eslintConfigPrettier from 'eslint-config-prettier'
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
@@ -27,11 +27,9 @@ export default [
     'plugin:storybook/recommended',
     'plugin:jsx-a11y/recommended',
     'plugin:import/recommended',
-    'plugin:import/typescript',
-    'prettier'
+    'plugin:import/typescript'
   ),
   ...tseslint.configs.recommended,
-  eslintConfigPrettier,
   {
     plugins: {
       'react-refresh': reactRefresh,
@@ -48,7 +46,7 @@ export default [
       'import/resolver': {
         typescript: {
           alwaysTryTypes: true,
-          project: ['./tsconfig.app.json', './tsconfig.node.json'],
+          project: './tsconfig.app.json',
         },
       },
     },
@@ -134,4 +132,5 @@ export default [
       'import/no-extraneous-dependencies': 'off',
     },
   },
+  eslintPluginPrettierRecommended,
 ]

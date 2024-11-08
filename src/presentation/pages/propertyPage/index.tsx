@@ -3,7 +3,7 @@ import { Button } from '@/presentation/components/ui'
 import { PropertiesDataTable } from './components/propertiesDataTable'
 import { PropertyDeleteDialog } from './components/propertyDeleteDialog'
 import { PropertyForm } from './components/propertyForm'
-import { PropertyContext, PropertyProvider } from './propertyContext'
+import { PropertyContext, PropertyProvider } from './contexts/propertyContext'
 
 import type { PropertyPageProps } from './types'
 

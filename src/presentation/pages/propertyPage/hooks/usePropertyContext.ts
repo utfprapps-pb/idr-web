@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 
-import { PropertyContext } from '../propertyContext'
+import { PropertyContext } from '../contexts/propertyContext'
 
 export const usePropertyContext = () => {
   const context = useContext(PropertyContext)

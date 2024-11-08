@@ -1,47 +1,11 @@
-import React, {
-  createContext,
-  PropsWithChildren,
-  useCallback,
-  useMemo,
-  useState,
-} from 'react'
+import React, { PropsWithChildren, useCallback, useMemo, useState } from 'react'
 
-import { IGetAllUsers } from '@/domain/useCases/user'
+import { PropertyContext } from './context'
 
+import type { Services } from './types'
 import type { PropertyModel } from '@/domain/models/propertyModel'
-import type {
-  ICreateProperty,
-  IDeleteProperty,
-  IGetProperties,
-  IGetProperty,
-  IUpdateProperty,
-} from '@/domain/useCases/property'
-
-type Services = {
-  getProperties: IGetProperties
-  deleteProperty: IDeleteProperty
-  createProperty: ICreateProperty
-  updateProperty: IUpdateProperty
-  getProperty: IGetProperty
-  getAllUsers: IGetAllUsers
-}
-
-type PropertyContextValue = Services & {
-  propertySelected: null | PropertyModel
-  isOpenNewPropertyForm: boolean
-  isOpenEditPropertyForm: boolean
-  isOpenDeletePropertyContainer: boolean
-  openNewPropertyForm: () => void
-  closeNewPropertyForm: () => void
-  openEditPropertyForm: (property: PropertyModel) => void
-  closeEditPropertyForm: () => void
-  openDeletePropertyContainer: (property: PropertyModel) => void
-  closeDeletePropertyContainer: () => void
-}
 
 type PropertyProviderProps = Services
-
-export const PropertyContext = createContext({} as PropertyContextValue)
 
 export const PropertyProvider: React.FC<
   PropsWithChildren<PropertyProviderProps>
