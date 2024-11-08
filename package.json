@@ -101,10 +101,10 @@
     ],
     "*.{json,js,jsx,ts,tsx,htm,html,md}": "pnpm format:check"
   },
-  "packageManager": "pnpm@7.26.3",
+  "packageManager": "pnpm@9.4.0",
   "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=6.14.13"
+    "node": ">=20.0.0",
+    "npm": ">=10.8.2"
   },
   "msw": {
     "workerDirectory": [
