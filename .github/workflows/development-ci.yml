@@ -45,6 +45,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Generate seed
+        run: pnpm seed:mock
+
       - name: Run Linters
         run: pnpm lint:ci && pnpm format:ci
 
