@@ -1,8 +1,8 @@
 {
-	"tailwindCSS.experimental.classRegex": [
-		"clsx\\(`([^`]*)`\\)",
-		"clsx`([^`]*)`",
-		"cva\\(`([^`]*)`\\)",
-		"cva`([^`]*)`"
-	]
+  "tailwindCSS.experimental.classRegex": [
+    "clsx\\(`([^`]*)`\\)",
+    "clsx`([^`]*)`",
+    "cva\\(`([^`]*)`\\)",
+    "cva`([^`]*)`"
+  ]
 }

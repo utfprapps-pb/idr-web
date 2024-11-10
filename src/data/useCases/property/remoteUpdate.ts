@@ -1,34 +1,35 @@
 import { type IHttpClient, HttpStatusCode } from '@/data/protocols/http'
 import {
-	BadRequestError,
-	ForbiddenError,
-	UnexpectedError
+  BadRequestError,
+  ForbiddenError,
+  UnexpectedError,
 } from '@/domain/errors'
 
 import type { IUpdateProperty } from '@/domain/useCases/property'
 
 export class RemoteUpdate implements IUpdateProperty {
-	constructor(
-		private readonly url: string,
-		private readonly httpClient: IHttpClient
-	) {}
+  constructor(
+    private readonly url: string,
+    private readonly httpClient: IHttpClient
+  ) {}
 
-	execute: IUpdateProperty['execute'] = async ({ id, ...property }) => {
-		const { statusCode } = await this.httpClient.request({
-			url: `${this.url}/${id}`,
-			method: 'patch',
-			body: property
-		})
+  execute: IUpdateProperty['execute'] = async ({ id, ...property }) => {
+    const { statusCode } = await this.httpClient.request({
+      url: `${this.url}/${id}`,
+      method: 'patch',
+      body: property,
+    })
 
-		if (statusCode === HttpStatusCode.noContent) return
+    if (statusCode === HttpStatusCode.noContent) return
 
-		if (statusCode === HttpStatusCode.badRequest) throw new BadRequestError()
+    if (statusCode === HttpStatusCode.badRequest) throw new BadRequestError()
 
-		if (statusCode === HttpStatusCode.forbidden)
-			throw new ForbiddenError(
-				'Você não tem permissão para editar uma propriedade'
-			)
+    if (statusCode === HttpStatusCode.forbidden) {
+      throw new ForbiddenError(
+        'Você não tem permissão para editar uma propriedade'
+      )
+    }
 
-		throw new UnexpectedError()
-	}
+    throw new UnexpectedError()
+  }
 }

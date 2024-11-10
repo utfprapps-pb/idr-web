@@ -7,11 +7,11 @@ import { Previous } from './previous'
 import { Root } from './root'
 
 export const Pagination = {
-	Root,
-	Content,
-	Ellipsis,
-	Item,
-	Link,
-	Next,
-	Previous
+  Root,
+  Content,
+  Ellipsis,
+  Item,
+  Link,
+  Next,
+  Previous,
 }

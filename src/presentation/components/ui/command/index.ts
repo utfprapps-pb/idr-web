@@ -10,14 +10,14 @@ import { Separator } from './separator'
 import { Shortcut } from './shortcut'
 
 export const Command = {
-	Root,
-	Dialog,
-	Input,
-	List,
-	Empty,
-	Group,
-	Item,
-	Shortcut,
-	Separator,
-	Loading
+  Root,
+  Dialog,
+  Input,
+  List,
+  Empty,
+  Group,
+  Item,
+  Shortcut,
+  Separator,
+  Loading,
 }

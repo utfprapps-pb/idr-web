@@ -5,9 +5,9 @@ import { RemoteGetOne } from './remoteGetOne'
 import { RemoteUpdate } from './remoteUpdate'
 
 export const PropertiesData = {
-	RemoteCreate,
-	RemoteDelete,
-	RemoteGetAll,
-	RemoteGetOne,
-	RemoteUpdate
+  RemoteCreate,
+  RemoteDelete,
+  RemoteGetAll,
+  RemoteGetOne,
+  RemoteUpdate,
 }

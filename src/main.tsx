@@ -12,39 +12,39 @@ import { AuthProvider } from './presentation/contexts'
 import { env } from './shared/env'
 
 async function bootstrap() {
-	const queryClient = new QueryClient({
-		defaultOptions: {
-			queries: {
-				retry: false,
-				refetchOnWindowFocus: false
-			}
-		}
-	})
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+        refetchOnWindowFocus: false,
+      },
+    },
+  })
 
-	if (env.VITE_API_MOCKED) {
-		const { worker } = await import('./mocks/browser')
-		await worker.start()
-	}
+  if (env.VITE_API_MOCKED) {
+    const { worker } = await import('./mocks/browser')
+    await worker.start()
+  }
 
-	createRoot(document.getElementById('root') as HTMLElement).render(
-		<StrictMode>
-			<BrowserRouter>
-				<Compose
-					components={[
-						{
-							component: QueryClientProvider,
-							props: { client: queryClient }
-						},
-						{
-							component: AuthProvider
-						}
-					]}
-				>
-					<App />
-					<ReactQueryDevtools />
-				</Compose>
-			</BrowserRouter>
-		</StrictMode>
-	)
+  createRoot(document.getElementById('root') as HTMLElement).render(
+    <StrictMode>
+      <BrowserRouter>
+        <Compose
+          components={[
+            {
+              component: QueryClientProvider,
+              props: { client: queryClient },
+            },
+            {
+              component: AuthProvider,
+            },
+          ]}
+        >
+          <App />
+          <ReactQueryDevtools />
+        </Compose>
+      </BrowserRouter>
+    </StrictMode>
+  )
 }
 bootstrap()

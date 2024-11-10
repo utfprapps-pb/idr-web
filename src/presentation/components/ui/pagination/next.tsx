@@ -7,23 +7,23 @@ import { cn } from '@/shared/utils'
 import { Link } from './link'
 
 type NextProps = ComponentProps<typeof Link> & {
-	text?: string
+  text?: string
 }
 
 export const Next: React.FC<NextProps> = ({
-	className,
-	text = 'Próximo',
-	...props
+  className,
+  text = 'Próximo',
+  ...props
 }) => (
-	<Link
-		aria-label="Vai para a próxima página"
-		size="default"
-		className={cn('gap-1 pr-2.5', className)}
-		{...props}
-	>
-		<span>{text}</span>
-		<ChevronRight className="h-4 w-4" />
-	</Link>
+  <Link
+    aria-label="Vai para a próxima página"
+    size="default"
+    className={cn('gap-1 pr-2.5', className)}
+    {...props}
+  >
+    <span>{text}</span>
+    <ChevronRight className="h-4 w-4" />
+  </Link>
 )
 
 Next.displayName = 'PaginationNext'

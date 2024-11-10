@@ -1,4 +1,4 @@
 export type HeaderProps = React.HTMLAttributes<HTMLDivElement> & {
-	displayName: string
-	imageUrl: string
+  displayName: string
+  imageUrl: string
 }

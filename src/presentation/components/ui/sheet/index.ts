@@ -8,14 +8,14 @@ import { Overlay } from './overlay'
 import { Title } from './title'
 
 export const Sheet = {
-	Root,
-	Portal,
-	Overlay,
-	Trigger,
-	Close,
-	Content,
-	Header,
-	Footer,
-	Title,
-	Description
+  Root,
+  Portal,
+  Overlay,
+  Trigger,
+  Close,
+  Content,
+  Header,
+  Footer,
+  Title,
+  Description,
 }

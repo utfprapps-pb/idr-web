@@ -1,10 +1,10 @@
 import {
-	Group,
-	Portal,
-	RadioGroup,
-	Root,
-	Sub,
-	Trigger
+  Group,
+  Portal,
+  RadioGroup,
+  Root,
+  Sub,
+  Trigger,
 } from '@radix-ui/react-dropdown-menu'
 
 import { CheckboxItem } from './checkboxItem'
@@ -18,19 +18,19 @@ import { SubContent } from './subContent'
 import { SubTrigger } from './subTrigger'
 
 export const DropdownMenu = {
-	Root,
-	Trigger,
-	Content,
-	Item,
-	CheckboxItem,
-	RadioItem,
-	Label,
-	Separator,
-	Shortcut,
-	Group,
-	Portal,
-	Sub,
-	SubContent,
-	SubTrigger,
-	RadioGroup
+  Root,
+  Trigger,
+  Content,
+  Item,
+  CheckboxItem,
+  RadioItem,
+  Label,
+  Separator,
+  Shortcut,
+  Group,
+  Portal,
+  Sub,
+  SubContent,
+  SubTrigger,
+  RadioGroup,
 }

@@ -8,14 +8,14 @@ import { Overlay } from './overlay'
 import { Title } from './title'
 
 export const Dialog = {
-	Root,
-	Portal,
-	Overlay,
-	Close,
-	Trigger,
-	Content,
-	Header,
-	Footer,
-	Title,
-	Description
+  Root,
+  Portal,
+  Overlay,
+  Close,
+  Trigger,
+  Content,
+  Header,
+  Footer,
+  Title,
+  Description,
 }

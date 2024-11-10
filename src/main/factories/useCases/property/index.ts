@@ -5,9 +5,9 @@ import { makeRemoteGetOne } from './remoteGetOneFactory'
 import { makeRemoteUpdate } from './remoteUpdateFactory'
 
 export const PropertyDataFactory = {
-	makeRemoteCreate,
-	makeRemoteDelete,
-	makeRemoteGetAll,
-	makeRemoteGetOne,
-	makeRemoteUpdate
+  makeRemoteCreate,
+  makeRemoteDelete,
+  makeRemoteGetAll,
+  makeRemoteGetOne,
+  makeRemoteUpdate,
 }

@@ -2,9 +2,10 @@ import { createCustomContext } from '@/presentation/contexts'
 
 import type { FormFieldProviderProps } from './types'
 
-export const { Context: FormFieldContext, useContext: useFormFieldContext } =
-	createCustomContext<FormFieldProviderProps>({
-		providerFn: () => ({
-			name: ''
-		})
-	})
+const { Context, useContext } = createCustomContext<FormFieldProviderProps>({
+  providerFn: () => ({
+    name: '',
+  }),
+})
+
+export { Context as FormFieldContext, useContext as useFormFieldContext }

@@ -1,4 +1,4 @@
 export interface IListResponse<TData> {
-	resources: TData[]
-	totalPages: number
+  resources: TData[]
+  totalPages: number
 }

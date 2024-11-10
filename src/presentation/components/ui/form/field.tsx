@@ -1,25 +1,25 @@
 import { useMemo } from 'react'
 
 import {
-	FieldValues,
-	FieldPath,
-	ControllerProps,
-	Controller
+  FieldValues,
+  FieldPath,
+  ControllerProps,
+  Controller,
 } from 'react-hook-form'
 
 import { FormFieldContext } from './contexts'
 
 export const Field = <
-	TFieldValues extends FieldValues = FieldValues,
-	TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
-	...props
+  ...props
 }: ControllerProps<TFieldValues, TName>) => {
-	const providerProps = useMemo(() => ({ name: props.name }), [props.name])
+  const providerProps = useMemo(() => ({ name: props.name }), [props.name])
 
-	return (
-		<FormFieldContext.Provider value={providerProps}>
-			<Controller {...props} />
-		</FormFieldContext.Provider>
-	)
+  return (
+    <FormFieldContext.Provider value={providerProps}>
+      <Controller {...props} />
+    </FormFieldContext.Provider>
+  )
 }

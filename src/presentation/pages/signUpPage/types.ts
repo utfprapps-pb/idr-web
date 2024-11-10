@@ -5,11 +5,11 @@ import type { IGetCep } from '@/domain/useCases/cep'
 import type { ICreateUser } from '@/domain/useCases/user'
 
 export type SignUpPageProps = {
-	createUser: ICreateUser
-	getCep: IGetCep
+  createUser: ICreateUser
+  getCep: IGetCep
 }
 
 export type UseInputDataProps = {
-	control: Control<CreateUserModel>
-	cepLoading: boolean
+  control: Control<CreateUserModel>
+  cepLoading: boolean
 }

@@ -5,18 +5,18 @@ import { httpWithMiddleware } from '@/mocks/lib'
 import { withAuth, withDelay } from '@/mocks/middleware'
 
 type Response = {
-	name: string
+  name: string
 }
 
-export const meService = httpWithMiddleware<never, never, Response | {}>({
-	routePath: '/api/users/me',
-	method: 'get',
-	middlewares: [withDelay(), withAuth],
-	resolver: async () =>
-		HttpResponse.json(
-			{
-				name: faker.person.fullName()
-			},
-			{ status: 200 }
-		)
+export const meService = httpWithMiddleware<never, never, Response | object>({
+  routePath: '/api/users/me',
+  method: 'get',
+  middlewares: [withDelay(), withAuth],
+  resolver: async () =>
+    HttpResponse.json(
+      {
+        name: faker.person.fullName(),
+      },
+      { status: 200 }
+    ),
 })

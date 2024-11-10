@@ -10,15 +10,15 @@ import { Overlay } from './overlay'
 import { Title } from './title'
 
 export const AlertDialog = {
-	Root,
-	Trigger,
-	Portal,
-	Action,
-	Cancel,
-	Content,
-	Description,
-	Footer,
-	Header,
-	Overlay,
-	Title
+  Root,
+  Trigger,
+  Portal,
+  Action,
+  Cancel,
+  Content,
+  Description,
+  Footer,
+  Header,
+  Overlay,
+  Title,
 }
