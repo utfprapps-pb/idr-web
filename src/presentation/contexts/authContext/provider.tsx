@@ -11,13 +11,13 @@ import toast from 'react-hot-toast'
 
 import { LocalStorageAdapter } from '@/infra/cache'
 import { UserDataFactory } from '@/main/factories/useCases/user'
-import { useIdrHistory } from '@/presentation/hooks/useIdrHistory'
+import { useIdrNavigate } from '@/presentation/hooks/useIdrNavigate'
 
 import { AuthContext } from './context'
 
 export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const meService = UserDataFactory.makeRemoteMe()
-  const { navigateToBasePath, navigateToSignedBasePath } = useIdrHistory()
+  const { navigateToBasePath, navigateToSignedBasePath } = useIdrNavigate()
 
   const [signedIn, setSignedIn] = useState<boolean>(() => {
     const storedAccessToken = LocalStorageAdapter.get(

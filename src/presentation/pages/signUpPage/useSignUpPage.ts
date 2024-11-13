@@ -4,9 +4,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { AxiosError } from 'axios'
 import { toast } from 'react-hot-toast'
 
-import { PAGE_PATHS } from '@/main/routes/paths'
+import { generateRoutePath } from '@/main/routes/generateRoutePath'
 import { onlyNumbersMask } from '@/masker'
-import { useDebounce, useIdrHistory } from '@/presentation/hooks'
+import { useDebounce, useIdrNavigate } from '@/presentation/hooks'
 import { useHookForm } from '@/presentation/hooks/useHookForm'
 
 import { signUpSchema } from './validation'
@@ -38,7 +38,7 @@ export const useSignUpPage = (props: SignUpPageProps) => {
   )
   const [isFirstStep, setIsFirstStep] = useState(true)
 
-  const { navigate } = useIdrHistory()
+  const { navigate } = useIdrNavigate()
 
   const form = useHookForm({
     defaultValues: INITIAL_FORM_DATA,
@@ -60,7 +60,7 @@ export const useSignUpPage = (props: SignUpPageProps) => {
   } = form
 
   const goToLoginPage = useCallback(
-    () => navigate(PAGE_PATHS.login),
+    () => navigate(generateRoutePath('LOGIN')),
     [navigate]
   )
 

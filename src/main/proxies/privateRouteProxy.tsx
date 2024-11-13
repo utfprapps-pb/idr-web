@@ -3,8 +3,9 @@ import { PropsWithChildren } from 'react'
 import { Navigate } from 'react-router-dom'
 
 import { LocalStorageAdapter } from '@/infra/cache'
-import { PAGE_PATHS } from '@/main/routes/paths'
 import { LoggedContainer } from '@/presentation/containers'
+
+import { generateRoutePath } from '../routes/generateRoutePath'
 
 export const PrivateRouteProxy: React.FC<PropsWithChildren> = ({
   children,
@@ -14,5 +15,5 @@ export const PrivateRouteProxy: React.FC<PropsWithChildren> = ({
   )
   if (token) return <LoggedContainer>{children}</LoggedContainer>
 
-  return <Navigate to={PAGE_PATHS.login} />
+  return <Navigate to={generateRoutePath('LOGIN')} />
 }
