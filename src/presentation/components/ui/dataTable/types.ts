@@ -15,4 +15,5 @@ export type DataTableProps<TData extends RowData> = {
     onSorting: (sort: Sort<keyof TData> | null) => void
   }
   loading?: boolean
+  onClickRow?: (row: TData) => void
 }

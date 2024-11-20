@@ -35,9 +35,9 @@ export const PropertyPage: React.FC<PropertyPageProps> = ({
           <header>
             <div className="flex justify-between items-center">
               <div className="flex flex-col gap-2">
-                <span className="text-3xl text-slate-900 font-semibold">
+                <h1 className="text-3xl text-slate-900 font-semibold">
                   Propriedades
-                </span>
+                </h1>
                 <p className="text-base text-slate-600">
                   Gerenciamento das propriedades dos produtores
                 </p>

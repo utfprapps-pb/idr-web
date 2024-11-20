@@ -1,4 +1,6 @@
+import { generateRoutePath } from '@/main/routes/generateRoutePath'
 import { Input, DataTable } from '@/presentation/components/ui'
+import { useIdrNavigate } from '@/presentation/hooks'
 
 import { usePropertiesDataTable } from './usePropertiesDataTable'
 
@@ -17,6 +19,8 @@ export const PropertiesDataTable: React.FC = () => {
     setPage,
   } = usePropertiesDataTable()
 
+  const { navigate } = useIdrNavigate()
+
   return (
     <div className="flex flex-col gap-4">
       <Input
@@ -34,6 +38,15 @@ export const PropertiesDataTable: React.FC = () => {
         columns={columns}
         data={properties.resources}
         totalPages={properties.totalPages}
+        onClickRow={(row) =>
+          navigate(
+            generateRoutePath('PROPERTIES_DETAILS', {
+              params: {
+                id: row.id,
+              },
+            })
+          )
+        }
         pagination={{
           currentPage: page,
           onPageChange: setPage,
