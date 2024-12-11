@@ -23,7 +23,7 @@ const ROUTE_PAGE_MAPPER: Record<keyof typeof ROUTES, ReactNode> = {
   ),
   PROPERTIES_DETAILS: (
     <PrivateRouteProxy>
-      <h1>oi</h1>
+      <PageFactory.MakePropertyDetailsPage />
     </PrivateRouteProxy>
   ),
   GENERAL_REGISTRATIONS: (

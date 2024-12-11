@@ -18,6 +18,10 @@ export const ROUTES = {
     params: {
       id: true,
     },
+    query: {
+      property: true,
+      producer: true,
+    },
   },
   GENERAL_REGISTRATIONS: {
     path: PAGE_PATHS.GENERAL_REGISTRATIONS,

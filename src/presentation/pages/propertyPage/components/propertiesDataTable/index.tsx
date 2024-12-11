@@ -44,6 +44,10 @@ export const PropertiesDataTable: React.FC = () => {
               params: {
                 id: row.id,
               },
+              query: {
+                producer: row.producer,
+                property: row.name,
+              },
             })
           )
         }

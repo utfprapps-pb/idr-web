@@ -26,7 +26,7 @@ export class RemoteGetAll implements IGetPerennialForages {
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        resources: body.properties.map(
+        resources: body.perennialForages.map(
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (item: any) =>
             ({
