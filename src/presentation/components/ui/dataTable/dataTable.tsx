@@ -97,7 +97,7 @@ export const DataTable = <TData extends RowData>({
           : updaterOrValue
 
       if (!sort) {
-        onSorting(null)
+        onSorting()
         return
       }
 
