@@ -284,3 +284,5 @@ export const DataTable = <TData extends RowData>({
     </div>
   )
 }
+
+DataTable.displayName = 'DataTable'
