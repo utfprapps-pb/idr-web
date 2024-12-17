@@ -1,4 +1,4 @@
-import { HttpResponse, PathParams } from 'msw'
+import { HttpResponse, type PathParams } from 'msw'
 
 import { httpWithMiddleware } from '@/mocks/lib'
 import { withAuth, withDelay } from '@/mocks/middleware'
