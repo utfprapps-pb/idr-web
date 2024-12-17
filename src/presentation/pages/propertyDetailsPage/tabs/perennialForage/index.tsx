@@ -1,5 +1,7 @@
 import { Button, Input } from '@/presentation/components/ui'
 
+import { PerennialForageDeleteDialog } from './components/perennialForageDeleteDialog'
+import { PerennialForageForm } from './components/perennialForageForm'
 import { PerennialForagesDataTable } from './components/perennialForagesDataTable'
 import {
   PerennialForageContext,
@@ -10,7 +12,15 @@ export const PerennialForageTab: React.FC = () => {
   return (
     <PerennialForageProvider>
       <PerennialForageContext.Consumer>
-        {({ filters, handleChangeFilters, openNewPerennialForageForm }) => (
+        {({
+          selectedPerennialForage,
+          isOpenDeletePerennialForageContainer,
+          isOpenNewPerennialForageForm,
+          isOpenEditPerennialForageForm,
+          filters,
+          handleChangeFilters,
+          openNewPerennialForageForm,
+        }) => (
           <section className="flex flex-col gap-4 w-full">
             <div className="flex flex-col gap-2">
               <Button
@@ -24,15 +34,24 @@ export const PerennialForageTab: React.FC = () => {
 
               <Input
                 className="w-1/4"
-                value={filters.description}
+                value={filters.cultivation}
                 onChange={({ target }) => {
-                  handleChangeFilters({ description: target.value })
+                  handleChangeFilters({ cultivation: target.value })
                 }}
                 placeholder="Procurar forrageira por descrição"
               />
             </div>
 
             <PerennialForagesDataTable />
+            {selectedPerennialForage &&
+              isOpenDeletePerennialForageContainer && (
+                <PerennialForageDeleteDialog />
+              )}
+
+            {(isOpenNewPerennialForageForm ||
+              isOpenEditPerennialForageForm) && (
+              <PerennialForageForm id={selectedPerennialForage?.id} />
+            )}
           </section>
         )}
       </PerennialForageContext.Consumer>

@@ -6,13 +6,16 @@ import {
   type PropsWithChildren,
 } from 'react'
 
-import type { PerennialForageFilters } from '../../types'
+import { useParams } from 'react-router-dom'
+
+import type { PerennialForageFilters } from '../types'
 import type { PerennialForageModel } from '@/domain/models/perennialForageModel'
 
 type PerennialForageContextValue = {
+  propertyId: string
   filters: PerennialForageFilters
   handleChangeFilters: (newFilters: PerennialForageFilters) => void
-  perennialForageSelected?: PerennialForageModel
+  selectedPerennialForage?: PerennialForageModel
   isOpenNewPerennialForageForm: boolean
   isOpenEditPerennialForageForm: boolean
   isOpenDeletePerennialForageContainer: boolean
@@ -33,8 +36,10 @@ export const PerennialForageContext = createContext(
 export const PerennialForageProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
+  const params = useParams<{ id: string }>()
+
   const [filters, setFilters] = useState<PerennialForageFilters>({
-    description: '',
+    cultivation: '',
   })
 
   const handleChangeFilters = useCallback(
@@ -58,7 +63,7 @@ export const PerennialForageProvider: React.FC<PropsWithChildren> = ({
     setIsOpenDeletePerennialForageContainer,
   ] = useState(false)
 
-  const [perennialForageSelected, setPerennialForageSelected] =
+  const [selectedPerennialForage, setSelectedPerennialForage] =
     useState<PerennialForageModel>()
 
   const openNewPerennialForageForm = useCallback(() => {
@@ -71,35 +76,36 @@ export const PerennialForageProvider: React.FC<PropsWithChildren> = ({
 
   const openEditPerennialForageForm = useCallback(
     (perennialForage: PerennialForageModel) => {
-      setPerennialForageSelected(perennialForage)
+      setSelectedPerennialForage(perennialForage)
       setIsOpenEditPerennialForageForm(true)
     },
     []
   )
 
   const closeEditPerennialForageForm = useCallback(() => {
-    setPerennialForageSelected(undefined)
+    setSelectedPerennialForage(undefined)
     setIsOpenEditPerennialForageForm(false)
   }, [])
 
   const openDeletePerennialForageContainer = useCallback(
     (perennialForage: PerennialForageModel) => {
-      setPerennialForageSelected(perennialForage)
+      setSelectedPerennialForage(perennialForage)
       setIsOpenDeletePerennialForageContainer(true)
     },
     []
   )
 
   const closeDeletePerennialForageContainer = useCallback(() => {
-    setPerennialForageSelected(undefined)
+    setSelectedPerennialForage(undefined)
     setIsOpenDeletePerennialForageContainer(false)
   }, [])
 
   const providerValues = useMemo(
     () => ({
+      propertyId: params.id as string, // Typecast allowed to avoid undefined, as it has validation below
       filters,
       handleChangeFilters,
-      perennialForageSelected,
+      selectedPerennialForage,
       isOpenNewPerennialForageForm,
       isOpenEditPerennialForageForm,
       isOpenDeletePerennialForageContainer,
@@ -111,9 +117,10 @@ export const PerennialForageProvider: React.FC<PropsWithChildren> = ({
       closeDeletePerennialForageContainer,
     }),
     [
+      params.id,
       filters,
       handleChangeFilters,
-      perennialForageSelected,
+      selectedPerennialForage,
       isOpenNewPerennialForageForm,
       isOpenEditPerennialForageForm,
       isOpenDeletePerennialForageContainer,
@@ -125,6 +132,10 @@ export const PerennialForageProvider: React.FC<PropsWithChildren> = ({
       closeDeletePerennialForageContainer,
     ]
   )
+
+  if (!params.id) {
+    return null
+  }
 
   return (
     <PerennialForageContext.Provider value={providerValues}>

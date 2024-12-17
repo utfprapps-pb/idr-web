@@ -8,12 +8,18 @@ import { PerennialForageDataFactory } from '@/main/factories/useCases/perennialF
 import type { PerennialForageFilters, PerennialForageSort } from '../types'
 
 type Props = {
+  propertyId: string
   filters: PerennialForageFilters
   page: number
   sort?: PerennialForageSort
 }
 
-export const usePerennialForages = ({ filters, page, sort }: Props) => {
+export const usePerennialForages = ({
+  propertyId,
+  filters,
+  page,
+  sort,
+}: Props) => {
   const getPerennialForages = PerennialForageDataFactory.makeRemoteGetAll()
 
   const {
@@ -25,9 +31,12 @@ export const usePerennialForages = ({ filters, page, sort }: Props) => {
     queryKey: ['perennialForages', { page, sort, filters }],
     queryFn: () =>
       getPerennialForages.execute({
-        pagination: { page },
-        sort,
-        filters,
+        propertyId,
+        queryParams: {
+          pagination: { page },
+          sort,
+          filters,
+        },
       }),
   })
 
