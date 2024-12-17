@@ -9,7 +9,7 @@ export const perennialForagesData = Array.from(
   },
   () => ({
     id: faker.string.uuid(),
-    description: faker.lorem.sentence(),
+    cultivation: faker.food.vegetable(),
     area: String(
       faker.number.float({
         min: 1,
@@ -29,8 +29,7 @@ export const perennialForagesData = Array.from(
       })
     ),
     formation: faker.date.past(),
-    // todo: validar types do backend e ajustar o mock
-    type: faker.helpers.arrayElement(['Terra arrendada', 'Terra própria']),
+    type: faker.helpers.arrayElement(['LEASED_LAND', 'OWNED_LAND']),
     observation: faker.lorem.sentence({
       min: 10,
       max: 20,
