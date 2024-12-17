@@ -5,6 +5,6 @@ import type { ICreatePerennialForage } from '@/domain/useCases/perennialForage'
 
 export const makeRemoteCreate = (): ICreatePerennialForage =>
   new PerennialForageData.RemoteCreate(
-    'perennial-forages',
+    'properties/:propertyId/perennial-forages',
     makeApiHttpClient<void>()
   )

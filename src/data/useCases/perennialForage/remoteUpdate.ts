@@ -14,11 +14,13 @@ export class RemoteUpdate implements IUpdatePerennialForage {
   ) {}
 
   execute: IUpdatePerennialForage['execute'] = async ({
-    id,
-    ...perennialForage
+    propertyId,
+    perennialForage: { id, ...perennialForage },
   }) => {
+    const url = this.url.replace(':propertyId', propertyId)
+
     const { statusCode } = await this.httpClient.request({
-      url: `${this.url}/${id}`,
+      url: `${url}/${id}`,
       method: 'patch',
       body: perennialForage,
     })

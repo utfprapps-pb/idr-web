@@ -6,6 +6,9 @@ import type {
 } from '@/domain/shared/types'
 
 export type IGetPerennialForages = IRequestInterface<
-  IListParams<keyof PerennialForageModel>,
+  {
+    propertyId: string
+    queryParams: IListParams<keyof PerennialForageModel>
+  },
   IListResponse<PerennialForageModel>
 >

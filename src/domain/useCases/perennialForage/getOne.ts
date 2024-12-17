@@ -2,6 +2,9 @@ import type { PerennialForageDetailsModel } from '@/domain/models/perennialForag
 import type { IRequestInterface } from '@/domain/shared/types'
 
 export type IGetPerennialForage = IRequestInterface<
-  string,
+  {
+    propertyId: string
+    perennialForageId: string
+  },
   PerennialForageDetailsModel
 >

@@ -1,4 +1,4 @@
-import { HttpResponse } from 'msw'
+import { HttpResponse, type PathParams } from 'msw'
 
 import { HttpStatusCode } from '@/data/protocols/http'
 import { httpWithMiddleware } from '@/mocks/lib'
@@ -20,12 +20,12 @@ type Params = {
 
 type PerennialForage = {
   id: string
-  description: string
+  cultivation: string
   area: string
   averageCost: string
   usefulLife: string
   formation: string
-  type: string
+  type: 'OWNED_LAND' | 'LEASED_LAND'
   observation: string
 }
 
@@ -34,8 +34,12 @@ type Response = {
   totalRegisters: number
 }
 
-export const getPerennialForages = httpWithMiddleware<never, Params, Response>({
-  routePath: '/api/perennial-forages',
+export const getPerennialForagesService = httpWithMiddleware<
+  PathParams<'propertyId'>,
+  Params,
+  Response
+>({
+  routePath: '/api/properties/:propertyId/perennial-forages',
   method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ request }) => {
@@ -54,7 +58,7 @@ export const getPerennialForages = httpWithMiddleware<never, Params, Response>({
     const url = new URL(request.url)
     const { pagination, filters, sort } = normalizeQueryFilters(url)
 
-    let perennialForages = perennialForagesData
+    let perennialForages = perennialForagesData as PerennialForage[]
 
     if (filters)
       perennialForages = filterData<PerennialForage>(filters, perennialForages)

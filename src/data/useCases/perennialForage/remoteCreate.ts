@@ -13,11 +13,16 @@ export class RemoteCreate implements ICreatePerennialForage {
     private readonly httpClient: IHttpClient
   ) {}
 
-  execute: ICreatePerennialForage['execute'] = async (property) => {
+  execute: ICreatePerennialForage['execute'] = async ({
+    propertyId,
+    perennialForage,
+  }) => {
+    const url = this.url.replace(':propertyId', propertyId)
+
     const { statusCode } = await this.httpClient.request({
-      url: `${this.url}`,
+      url,
       method: 'post',
-      body: property,
+      body: perennialForage,
     })
 
     if (statusCode === HttpStatusCode.created) return

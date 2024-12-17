@@ -5,6 +5,6 @@ import type { IDeletePerennialForage } from '@/domain/useCases/perennialForage'
 
 export const makeRemoteDelete = (): IDeletePerennialForage =>
   new PerennialForageData.RemoteDelete(
-    'perennial-forages',
+    'properties/:propertyId/perennial-forages',
     makeApiHttpClient<void>()
   )

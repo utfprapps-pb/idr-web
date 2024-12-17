@@ -6,6 +6,6 @@ import type { IGetPerennialForage } from '@/domain/useCases/perennialForage'
 
 export const makeRemoteGetOne = (): IGetPerennialForage =>
   new PerennialForageData.RemoteGetOne(
-    'perennial-forages',
+    'properties/:propertyId/perennial-forages',
     makeApiHttpClient<PerennialForageDetailsModel>()
   )

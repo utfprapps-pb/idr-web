@@ -1,7 +1,10 @@
 import { type IHttpClient, HttpStatusCode } from '@/data/protocols/http'
 import { UnexpectedError, NotFoundError, ForbiddenError } from '@/domain/errors'
 
-import type { PerennialForageDetailsModel } from '@/domain/models/perennialForageModel'
+import type {
+  PerennialForageDetailsModel,
+  PerennialForageType,
+} from '@/domain/models/perennialForageModel'
 import type { IGetPerennialForage } from '@/domain/useCases/perennialForage'
 
 export class RemoteGetOne implements IGetPerennialForage {
@@ -10,9 +13,14 @@ export class RemoteGetOne implements IGetPerennialForage {
     private readonly httpClient: IHttpClient
   ) {}
 
-  execute: IGetPerennialForage['execute'] = async (id) => {
+  execute: IGetPerennialForage['execute'] = async ({
+    perennialForageId,
+    propertyId,
+  }) => {
+    const url = this.url.replace(':propertyId', propertyId)
+
     const { statusCode, body } = await this.httpClient.request({
-      url: `${this.url}/${id}`,
+      url: `${url}/${perennialForageId}`,
       method: 'get',
     })
 
@@ -21,10 +29,10 @@ export class RemoteGetOne implements IGetPerennialForage {
         id: body.id,
         area: body.area,
         averageCost: body.averageCost,
-        description: body.description,
+        cultivation: body.cultivation,
         formation: new Date(body.formation),
         observation: body.observation,
-        type: body.type,
+        type: body.type as PerennialForageType,
         usefulLife: body.usefulLife,
       } as PerennialForageDetailsModel
     }

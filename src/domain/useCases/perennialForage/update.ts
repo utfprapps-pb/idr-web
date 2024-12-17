@@ -3,6 +3,9 @@ import type { IRequestInterface } from '@/domain/shared/types'
 import type { WithId } from '@/domain/shared/types/withId'
 
 export type IUpdatePerennialForage = IRequestInterface<
-  WithId<PerennialForageDetailsModel>,
+  {
+    propertyId: string
+    perennialForage: WithId<PerennialForageDetailsModel>
+  },
   void
 >

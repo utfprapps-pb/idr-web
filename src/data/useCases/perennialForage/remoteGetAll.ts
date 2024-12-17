@@ -12,12 +12,13 @@ export class RemoteGetAll implements IGetPerennialForages {
   ) {}
 
   execute: IGetPerennialForages['execute'] = async ({
-    filters,
-    pagination,
-    sort,
+    propertyId,
+    queryParams: { filters, pagination, sort },
   }) => {
+    const url = this.url.replace(':propertyId', propertyId)
+
     const { statusCode, body } = await this.httpClient.request({
-      url: `${this.url}`,
+      url,
       method: 'get',
       filters,
       pagination,
@@ -25,6 +26,11 @@ export class RemoteGetAll implements IGetPerennialForages {
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
+      const types = {
+        OWNED_LAND: 'Terra Própria',
+        LEASED_LAND: 'Terra Arrendada',
+      }
+
       return {
         resources: body.perennialForages.map(
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -33,14 +39,14 @@ export class RemoteGetAll implements IGetPerennialForages {
               id: item.id,
               area: item.area,
               averageCost: item.averageCost,
-              description: item.description,
+              cultivation: item.cultivation,
               formation: new Intl.DateTimeFormat('pt-BR', {
                 day: '2-digit',
                 month: '2-digit',
                 year: 'numeric',
               }).format(new Date(item.formation)),
               observation: item.observation,
-              type: item.type,
+              type: types[item.type as keyof typeof types],
               usefulLife: item.usefulLife,
             }) as PerennialForageModel
         ),

@@ -5,6 +5,6 @@ import type { IUpdatePerennialForage } from '@/domain/useCases/perennialForage'
 
 export const makeRemoteUpdate = (): IUpdatePerennialForage =>
   new PerennialForageData.RemoteUpdate(
-    'perennial-forages',
+    'properties/:propertyId/perennial-forages',
     makeApiHttpClient<void>()
   )

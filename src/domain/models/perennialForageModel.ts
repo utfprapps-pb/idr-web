@@ -1,23 +1,29 @@
-import type { WithId } from '../shared/types/withId'
+import type { Option, WithId } from '../shared/types'
+
+type PerennialForageType = 'OWNED_LAND' | 'LEASED_LAND'
 
 type PerennialForageDetailsModel = {
-  description: string
+  cultivation: Option
   area: string
   averageCost: string
   usefulLife: string
   formation: Date
-  type: string
-  observation: string
+  type: PerennialForageType
+  observation?: string
 }
 
 type PerennialForageModel = WithId<{
-  description: string
+  cultivation: string
   area: string
   averageCost: string
   usefulLife: string
   formation: string
-  type: string
-  observation: string
+  type: PerennialForageType
+  observation?: string
 }>
 
-export type { PerennialForageDetailsModel, PerennialForageModel }
+export type {
+  PerennialForageDetailsModel,
+  PerennialForageModel,
+  PerennialForageType,
+}

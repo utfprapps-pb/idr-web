@@ -9,9 +9,14 @@ export class RemoteDelete implements IDeletePerennialForage {
     private readonly httpClient: IHttpClient
   ) {}
 
-  execute: IDeletePerennialForage['execute'] = async (id) => {
+  execute: IDeletePerennialForage['execute'] = async ({
+    propertyId,
+    perennialForageId,
+  }) => {
+    const url = this.url.replace(':propertyId', propertyId)
+
     const { statusCode } = await this.httpClient.request({
-      url: `${this.url}/${id}`,
+      url: `${url}/${perennialForageId}`,
       method: 'delete',
     })
 
