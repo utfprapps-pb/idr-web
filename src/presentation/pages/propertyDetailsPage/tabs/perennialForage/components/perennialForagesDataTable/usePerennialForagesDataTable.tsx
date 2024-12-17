@@ -4,7 +4,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { EyeIcon, MoreHorizontal, Pencil, Trash2 } from 'lucide-react'
 
 import { PerennialForageModel } from '@/domain/models/perennialForageModel'
-import { Button, DropdownMenu } from '@/presentation/components/ui'
+import { Button, DropdownMenu, Tooltip } from '@/presentation/components/ui'
 import { useDebounce } from '@/presentation/hooks'
 
 import { usePerennialForageContext } from '../../hooks/usePerennialForageContext'
@@ -13,6 +13,7 @@ import { PerennialForageSort } from '../../types'
 
 export const usePerennialForagesDataTable = () => {
   const {
+    propertyId,
     filters,
     openEditPerennialForageForm,
     openDeletePerennialForageContainer,
@@ -37,6 +38,7 @@ export const usePerennialForagesDataTable = () => {
   const debouncedFilters = useDebounce({ value: filters, delayInMs: 1000 })
 
   const { isLoading, perennialForages } = usePerennialForages({
+    propertyId,
     filters: debouncedFilters,
     page,
     sort,
@@ -45,8 +47,8 @@ export const usePerennialForagesDataTable = () => {
   const columns = useMemo<ColumnDef<PerennialForageModel>[]>(
     () => [
       {
-        accessorKey: 'description',
-        header: 'Descrição',
+        accessorKey: 'cultivation',
+        header: 'Cultivo',
       },
       {
         accessorKey: 'area',
@@ -73,6 +75,21 @@ export const usePerennialForagesDataTable = () => {
         header: 'Observação',
         cell: ({ row }) => {
           const { observation } = row.original
+
+          if (!observation) {
+            return (
+              <Tooltip.Provider>
+                <Tooltip.Root>
+                  <Tooltip.Trigger>
+                    <Button type="button" variant="ghost" size="icon" disabled>
+                      <EyeIcon className="size-5" />
+                    </Button>
+                  </Tooltip.Trigger>
+                  <Tooltip.Content>Sem observação</Tooltip.Content>
+                </Tooltip.Root>
+              </Tooltip.Provider>
+            )
+          }
 
           return (
             <Button

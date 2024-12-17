@@ -1,3 +1,5 @@
+import React from 'react'
+
 import { PerennialForageModel } from '@/domain/models/perennialForageModel'
 import { DataTable } from '@/presentation/components/ui'
 
@@ -5,7 +7,7 @@ import { ObservationDialog } from '../observationDialog'
 
 import { usePerennialForagesDataTable } from './usePerennialForagesDataTable'
 
-export const PerennialForagesDataTable = () => {
+export const PerennialForagesDataTable: React.FC = () => {
   const {
     columns,
     perennialForages,
