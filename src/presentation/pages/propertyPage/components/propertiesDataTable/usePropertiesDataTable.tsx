@@ -20,7 +20,7 @@ export const usePropertiesDataTable = () => {
     usePropertyContext()
 
   const [page, setPage] = useState(1)
-  const [sort, setSort] = useState<PropertySort | null>(null)
+  const [sort, setSort] = useState<PropertySort>()
   const [filters, setFilters] = useState<PropertyFilters>({
     name: '',
   })

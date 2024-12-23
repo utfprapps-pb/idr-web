@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom'
 import { sidebarItems } from '@/main/routes/menu'
 import { Button, Header } from '@/presentation/components/ui'
 import { Sidebar } from '@/presentation/components/ui/sidebar'
-import { useAuth, useIdrHistory } from '@/presentation/hooks'
+import { useAuth, useIdrNavigate } from '@/presentation/hooks'
 import { cn } from '@/shared/utils'
 
 import { styles } from './styles'
@@ -17,7 +17,7 @@ export const LoggedContainer: React.FC<LoggedContainerProps> = ({
   ...props
 }) => {
   const { pathname: currentPathname } = useLocation()
-  const { navigate } = useIdrHistory()
+  const { navigate } = useIdrNavigate()
   const { signOut, user } = useAuth()
 
   return (
@@ -38,10 +38,10 @@ export const LoggedContainer: React.FC<LoggedContainerProps> = ({
         style={styles.sidebar.inline}
       >
         <Sidebar.List>
-          {sidebarItems.map(({ key, name, icon: Icon, path }) => (
+          {sidebarItems.map(({ key, name, icon: Icon, path, matchPattern }) => (
             <Sidebar.Item
               key={key}
-              active={path === currentPathname}
+              active={new RegExp(matchPattern).test(currentPathname)}
               onClick={() => navigate(path)}
             >
               <Icon size={24} /> {name}

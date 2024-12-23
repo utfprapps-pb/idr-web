@@ -1,57 +1,32 @@
-import * as PageFactory from '@/main/factories/pages'
-import { PrivateRouteProxy } from '@/main/proxies'
+import { PAGE_PATHS } from './paths'
 
-import { PAGE_PATHS, Pages } from './paths'
-
-type RouteProps = {
-  path: () => string
-  component: React.ReactNode
+export const ROUTES = {
+  LOGIN: {
+    path: PAGE_PATHS.LOGIN,
+  },
+  SIGN_UP: {
+    path: PAGE_PATHS.SIGN_UP,
+  },
+  HOME: {
+    path: PAGE_PATHS.HOME,
+  },
+  PROPERTIES: {
+    path: PAGE_PATHS.PROPERTIES,
+  },
+  PROPERTIES_DETAILS: {
+    path: PAGE_PATHS.PROPERTIES_DETAILS,
+    params: {
+      id: true,
+    },
+    query: {
+      property: true,
+      producer: true,
+    },
+  },
+  GENERAL_REGISTRATIONS: {
+    path: PAGE_PATHS.GENERAL_REGISTRATIONS,
+  },
+  REPORTS: {
+    path: PAGE_PATHS.REPORTS,
+  },
 }
-
-type RoutesProps = {
-  [key in Pages]: RouteProps
-}
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const ROUTES = Object.freeze<RoutesProps>({
-  login: {
-    path: () => PAGE_PATHS.login,
-    component: <PageFactory.MakeLoginPage />,
-  },
-  signUp: {
-    path: () => PAGE_PATHS.signUp,
-    component: <PageFactory.MakeSignUpPage />,
-  },
-  home: {
-    path: () => PAGE_PATHS.home,
-    component: (
-      <PrivateRouteProxy>
-        <h1>Under construction!</h1>
-      </PrivateRouteProxy>
-    ),
-  },
-  properties: {
-    path: () => PAGE_PATHS.properties,
-    component: (
-      <PrivateRouteProxy>
-        <PageFactory.MakePropertyPage />
-      </PrivateRouteProxy>
-    ),
-  },
-  generalRegistrations: {
-    path: () => PAGE_PATHS.generalRegistrations,
-    component: (
-      <PrivateRouteProxy>
-        <h1>Under construction!</h1>
-      </PrivateRouteProxy>
-    ),
-  },
-  reports: {
-    path: () => PAGE_PATHS.reports,
-    component: (
-      <PrivateRouteProxy>
-        <h1>Under construction!</h1>
-      </PrivateRouteProxy>
-    ),
-  },
-})

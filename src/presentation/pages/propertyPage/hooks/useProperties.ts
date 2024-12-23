@@ -9,8 +9,8 @@ import type { IGetProperties } from '@/domain/useCases/property'
 type Props = {
   filters: PropertyFilters
   page: number
-  sort: PropertySort | null
   getProperties: IGetProperties
+  sort?: PropertySort
 }
 
 export const useProperties = ({
@@ -20,11 +20,11 @@ export const useProperties = ({
   getProperties,
 }: Props) => {
   const { data, isError, isLoading, refetch } = useQuery({
-    queryKey: ['properties', { page, sort: sort ?? 'withoutSort', filters }],
+    queryKey: ['properties', { page, sort, filters }],
     queryFn: () =>
       getProperties.execute({
         pagination: { page },
-        sort: sort ?? undefined,
+        sort,
         filters,
       }),
   })

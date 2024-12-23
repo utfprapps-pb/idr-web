@@ -1,9 +1,9 @@
 import { ChevronRight, Eye, EyeOff, LockKeyhole, Mail } from 'lucide-react'
 
 import { LogoIdr, LogoParana } from '@/assets/imgs'
-import { PAGE_PATHS } from '@/main/routes/paths'
+import { generateRoutePath } from '@/main/routes/generateRoutePath'
 import { Button, Card, Form, Input, Wave } from '@/presentation/components/ui'
-import { useIdrHistory } from '@/presentation/hooks'
+import { useIdrNavigate } from '@/presentation/hooks'
 
 import { LoginPageProps } from './types'
 import { useLoginPage } from './useLoginPage'
@@ -12,7 +12,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ remoteLogin }) => {
   const { form, viewPassword, setViewPassword, handleSubmit } = useLoginPage({
     remoteLogin,
   })
-  const { navigate } = useIdrHistory()
+  const { navigate } = useIdrNavigate()
 
   return (
     <section className="flex flex-col items-center justify-center h-full relative">
@@ -110,7 +110,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ remoteLogin }) => {
                   <Button
                     className="flex flex-row items-center"
                     variant="link"
-                    onClick={() => navigate(PAGE_PATHS.signUp)}
+                    onClick={() => navigate(generateRoutePath('SIGN_UP'))}
                   >
                     Criar minha conta <ChevronRight />
                   </Button>

@@ -1,20 +1,9 @@
-export type Pages =
-  | 'login'
-  | 'signUp'
-  | 'home'
-  | 'properties'
-  | 'generalRegistrations'
-  | 'reports'
-
-type PagePaths = {
-  readonly [K in Pages]: string
-}
-
-export const PAGE_PATHS = Object.freeze<PagePaths>({
-  login: '/login',
-  signUp: '/sign-up',
-  home: '/',
-  properties: '/properties',
-  generalRegistrations: '/general-registrations',
-  reports: '/reports',
-})
+export const PAGE_PATHS = Object.freeze({
+  LOGIN: '/login',
+  SIGN_UP: '/sign-up',
+  HOME: '/',
+  PROPERTIES: '/properties',
+  PROPERTIES_DETAILS: '/properties/:id',
+  GENERAL_REGISTRATIONS: '/general-registrations',
+  REPORTS: '/reports',
+} as const)

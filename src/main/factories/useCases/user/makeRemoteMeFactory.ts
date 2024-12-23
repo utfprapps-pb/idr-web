@@ -1,7 +1,8 @@
 import { UsersData } from '@/data/useCases/user'
 import { makeApiHttpClient } from '@/main/factories/http'
 
+import type { UserModel } from '@/domain/models/userModel'
 import type { IMeUser } from '@/domain/useCases/user'
 
 export const makeRemoteMe = (): IMeUser =>
-  new UsersData.RemoteMe('users/me', makeApiHttpClient<void>())
+  new UsersData.RemoteMe('users/me', makeApiHttpClient<UserModel>())

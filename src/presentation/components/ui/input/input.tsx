@@ -5,7 +5,7 @@ import { AlertCircle } from 'lucide-react'
 import { Loading } from '@/presentation/components/ui/loading'
 import { cn } from '@/shared/utils'
 
-import { inputVariants, styles } from './styles'
+import { inputVariants } from './styles'
 import { useInput } from './useInput'
 
 import type { InputProps } from './types'
@@ -50,7 +50,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             paddingLeft: `${paddingLeft}px`,
             paddingRight: `${paddingRight}px`,
           }}
-          className={cn(styles, className, inputVariants({ isError }))}
+          className={cn(inputVariants({ isError, className }))}
           ref={ref}
           {...props}
           onChange={handleOnChange}

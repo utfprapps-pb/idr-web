@@ -27,7 +27,8 @@ const TableBody = <TData extends RowData>({
   columns,
   loading,
   rowModel,
-}: Pick<DataTableProps<TData>, 'loading' | 'columns'> & {
+  onClickRow,
+}: Pick<DataTableProps<TData>, 'loading' | 'columns' | 'onClickRow'> & {
   rowModel: RowModel<TData>
 }) => {
   if (loading) {
@@ -50,8 +51,18 @@ const TableBody = <TData extends RowData>({
     )
   }
 
+  const handleOnClickRow = (event: React.MouseEvent, row: TData) => {
+    event.stopPropagation()
+    onClickRow?.(row)
+  }
+
   return rowModel.rows.map((row) => (
-    <Table.Row key={row.id} data-state={row.getIsSelected() && 'selected'}>
+    <Table.Row
+      key={row.id}
+      data-state={row.getIsSelected() && 'selected'}
+      className={onClickRow ? 'cursor-pointer' : ''}
+      onClick={(event) => handleOnClickRow(event, row.original)}
+    >
       {row.getVisibleCells().map((cell) => (
         <Table.Cell key={cell.id}>
           {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -68,6 +79,7 @@ export const DataTable = <TData extends RowData>({
   pagination,
   totalPages,
   loading = false,
+  onClickRow,
 }: DataTableProps<TData>) => {
   const { currentSorting, onSorting } = sorting
   const { currentPage, onPageChange } = pagination
@@ -85,7 +97,7 @@ export const DataTable = <TData extends RowData>({
           : updaterOrValue
 
       if (!sort) {
-        onSorting(null)
+        onSorting()
         return
       }
 
@@ -211,6 +223,7 @@ export const DataTable = <TData extends RowData>({
               columns={columns}
               rowModel={getRowModel()}
               loading={loading}
+              onClickRow={onClickRow}
             />
           </Table.Body>
         </Table.Root>
@@ -271,3 +284,5 @@ export const DataTable = <TData extends RowData>({
     </div>
   )
 }
+
+DataTable.displayName = 'DataTable'

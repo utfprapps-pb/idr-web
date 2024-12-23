@@ -53,7 +53,7 @@ export const GeneralTab: React.FC<GeneralTabProps> = ({
     queryFn: () => getAllUsers.execute(debouncedSearch),
   })
 
-  const usersToAdd = useMemo(
+  const usersToAdd: Option[] = useMemo(
     () =>
       allUsersData.filter(
         (user) =>
