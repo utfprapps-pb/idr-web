@@ -1,6 +1,6 @@
 import { type ReactNode, useCallback, useMemo, useState } from 'react'
 
-import { PerennialForageTab } from '../tabs'
+import { ForageTab } from '../tabs'
 
 type Tab = {
   key: string
@@ -20,9 +20,9 @@ export const usePropertyDetailsPage = () => {
         name: 'Dados da Terra',
         subTabs: [
           {
-            key: 'perennial-forage',
-            name: 'Forrageiras Perenes',
-            component: <PerennialForageTab />,
+            key: 'forage',
+            name: 'Forrageiras',
+            component: <ForageTab />,
           },
         ],
       },
@@ -31,7 +31,7 @@ export const usePropertyDetailsPage = () => {
   )
 
   const [activeTab, setActiveTab] = useState('soil-data')
-  const [activeSubTab, setActiveSubTab] = useState('perennial-forage')
+  const [activeSubTab, setActiveSubTab] = useState('forage')
 
   const subTabs = useMemo(() => {
     const tab = tabs.find((tab) => tab.key === activeTab)
