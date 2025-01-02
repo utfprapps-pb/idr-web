@@ -1,5 +1,0 @@
-export type { ICreatePerennialForage } from './create'
-export type { IDeletePerennialForage } from './delete'
-export type { IGetPerennialForages } from './getAll'
-export type { IGetPerennialForage } from './getOne'
-export type { IUpdatePerennialForage } from './update'

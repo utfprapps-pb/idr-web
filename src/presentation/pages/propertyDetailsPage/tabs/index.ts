@@ -1,1 +1,1 @@
-export { PerennialForageTab } from './perennialForage'
+export { ForageTab } from './forage'
