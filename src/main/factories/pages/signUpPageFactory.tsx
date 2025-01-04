@@ -5,7 +5,7 @@ import { UserDataFactory } from '../useCases/user'
 
 export const MakeSignUpPage: React.FC = () => (
   <SignUpPage
-    createUser={UserDataFactory.makeRemoteCreate()}
+    createUser={UserDataFactory.makeRemoteCreateUser()}
     getCep={CepDataFactory.makeRemoteGetOne()}
   />
 )

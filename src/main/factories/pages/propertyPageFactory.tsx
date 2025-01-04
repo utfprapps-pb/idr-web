@@ -5,11 +5,11 @@ import { UserDataFactory } from '../useCases/user'
 
 export const MakePropertyPage: React.FC = () => (
   <PropertyPage
-    createProperty={PropertyDataFactory.makeRemoteCreate()}
-    updateProperty={PropertyDataFactory.makeRemoteUpdate()}
-    deleteProperty={PropertyDataFactory.makeRemoteDelete()}
-    getProperties={PropertyDataFactory.makeRemoteGetAll()}
-    getProperty={PropertyDataFactory.makeRemoteGetOne()}
-    getAllUsers={UserDataFactory.makeRemoteGetAll()}
+    createProperty={PropertyDataFactory.makeRemoteCreateProperty()}
+    updateProperty={PropertyDataFactory.makeRemoteUpdateProperty()}
+    deleteProperty={PropertyDataFactory.makeRemoteDeleteProperty()}
+    getProperties={PropertyDataFactory.makeRemoteGetProperties()}
+    getProperty={PropertyDataFactory.makeRemoteGetProperty()}
+    getAllUsers={UserDataFactory.makeRemoteGetAllUsers()}
   />
 )

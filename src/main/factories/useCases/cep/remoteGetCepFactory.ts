@@ -5,4 +5,4 @@ import type { CepModel } from '@/domain/models/cepModel'
 import type { IGetCep } from '@/domain/useCases/cep'
 
 export const makeRemoteGetCep = (): IGetCep =>
-  new CepData.RemoteGetOneCep('/cep/v1', makeBrasilApiHttpClient<CepModel>())
+  new CepData.RemoteGetCep('/cep/v1', makeBrasilApiHttpClient<CepModel>())
