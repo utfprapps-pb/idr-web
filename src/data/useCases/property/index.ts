@@ -1,13 +1,13 @@
-import { RemoteCreate } from './remoteCreate'
-import { RemoteDelete } from './remoteDelete'
-import { RemoteGetAll } from './remoteGetAll'
-import { RemoteGetOne } from './remoteGetOne'
-import { RemoteUpdate } from './remoteUpdate'
+import { RemoteCreateProperty } from './remoteCreateProperty'
+import { RemoteDeleteProperty } from './remoteDeleteProperty'
+import { RemoteGetProperties } from './remoteGetProperties'
+import { RemoteGetProperty } from './remoteGetProperty'
+import { RemoteUpdateProperty } from './remoteUpdateProperty'
 
 export const PropertiesData = {
-  RemoteCreate,
-  RemoteDelete,
-  RemoteGetAll,
-  RemoteGetOne,
-  RemoteUpdate,
+  RemoteCreateProperty,
+  RemoteDeleteProperty,
+  RemoteGetProperties,
+  RemoteGetProperty,
+  RemoteUpdateProperty,
 }

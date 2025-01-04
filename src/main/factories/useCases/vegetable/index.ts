@@ -1,5 +1,5 @@
-import { makeRemoteGetAll } from './remoteGetAllFactory'
+import { makeRemoteGetAllVegetables } from './remoteGetAllVegetablesFactory'
 
 export const VegetableDataFactory = {
-  makeRemoteGetAll,
+  makeRemoteGetAllVegetables,
 }

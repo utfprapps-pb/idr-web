@@ -1,9 +1,9 @@
-import { makeRemoteMe } from './makeRemoteMeFactory'
-import { makeRemoteCreate } from './remoteCreateFactory'
-import { makeRemoteGetAll } from './remoteGetAllFactory'
+import { makeRemoteCreateUser } from './remoteCreateUserFactory'
+import { makeRemoteGetAllUsers } from './remoteGetAllUsersFactory'
+import { makeRemoteGetMe } from './remoteGetMeFactory'
 
 export const UserDataFactory = {
-  makeRemoteMe,
-  makeRemoteCreate,
-  makeRemoteGetAll,
+  makeRemoteGetMe,
+  makeRemoteCreateUser,
+  makeRemoteGetAllUsers,
 }

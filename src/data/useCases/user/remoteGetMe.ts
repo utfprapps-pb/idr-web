@@ -6,15 +6,15 @@ import {
   UnexpectedError,
 } from '@/domain/errors'
 
-import type { IMeUser } from '@/domain/useCases/user'
+import type { IGetMe } from '@/domain/useCases/user'
 
-export class RemoteMe implements IMeUser {
+export class RemoteGetMe implements IGetMe {
   constructor(
     private readonly url: string,
     private readonly httpClient: IHttpClient
   ) {}
 
-  execute: IMeUser['execute'] = async () => {
+  execute: IGetMe['execute'] = async () => {
     const { statusCode, body } = await this.httpClient.request({
       url: this.url,
       method: 'get',

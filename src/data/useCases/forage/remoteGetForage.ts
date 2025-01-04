@@ -7,7 +7,7 @@ import type {
 } from '@/domain/models/forageModel'
 import type { IGetForage } from '@/domain/useCases/forage'
 
-export class RemoteGetOne implements IGetForage {
+export class RemoteGetForage implements IGetForage {
   constructor(
     private readonly url: string,
     private readonly httpClient: IHttpClient

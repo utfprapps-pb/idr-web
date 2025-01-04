@@ -1,13 +1,13 @@
-import { RemoteCreate } from './remoteCreate'
-import { RemoteDelete } from './remoteDelete'
-import { RemoteGetAll } from './remoteGetAll'
-import { RemoteGetOne } from './remoteGetOne'
-import { RemoteUpdate } from './remoteUpdate'
+import { RemoteCreateForage } from './remoteCreateForage'
+import { RemoteDeleteForage } from './remoteDeleteForage'
+import { RemoteGetForage } from './remoteGetForage'
+import { RemoteGetForages } from './remoteGetForages'
+import { RemoteUpdateForage } from './remoteUpdateForage'
 
 export const ForageData = {
-  RemoteCreate,
-  RemoteDelete,
-  RemoteGetAll,
-  RemoteGetOne,
-  RemoteUpdate,
+  RemoteCreateForage,
+  RemoteDeleteForage,
+  RemoteGetForages,
+  RemoteGetForage,
+  RemoteUpdateForage,
 }

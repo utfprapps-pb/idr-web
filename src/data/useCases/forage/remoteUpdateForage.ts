@@ -5,19 +5,24 @@ import {
   UnexpectedError,
 } from '@/domain/errors'
 
-import type { IUpdateProperty } from '@/domain/useCases/property'
+import type { IUpdateForage } from '@/domain/useCases/forage'
 
-export class RemoteUpdate implements IUpdateProperty {
+export class RemoteUpdateForage implements IUpdateForage {
   constructor(
     private readonly url: string,
     private readonly httpClient: IHttpClient
   ) {}
 
-  execute: IUpdateProperty['execute'] = async ({ id, ...property }) => {
+  execute: IUpdateForage['execute'] = async ({
+    propertyId,
+    forage: { id, ...forage },
+  }) => {
+    const url = this.url.replace(':propertyId', propertyId)
+
     const { statusCode } = await this.httpClient.request({
-      url: `${this.url}/${id}`,
+      url: `${url}/${id}`,
       method: 'patch',
-      body: property,
+      body: forage,
     })
 
     if (statusCode === HttpStatusCode.noContent) return
@@ -26,7 +31,7 @@ export class RemoteUpdate implements IUpdateProperty {
 
     if (statusCode === HttpStatusCode.forbidden) {
       throw new ForbiddenError(
-        'Você não tem permissão para editar uma propriedade'
+        'Você não tem permissão para editar uma forrageira'
       )
     }
 

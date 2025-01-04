@@ -5,7 +5,7 @@ import { ITEMS_PER_PAGE } from '@/infra/http'
 import type { PropertyModel } from '@/domain/models/propertyModel'
 import type { IGetProperties } from '@/domain/useCases/property'
 
-export class RemoteGetAll implements IGetProperties {
+export class RemoteGetProperties implements IGetProperties {
   constructor(
     private readonly url: string,
     private readonly httpClient: IHttpClient

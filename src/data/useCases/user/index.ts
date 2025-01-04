@@ -1,9 +1,9 @@
-import { RemoteCreate } from './remoteCreate'
-import { RemoteGetAll } from './remoteGetAll'
-import { RemoteMe } from './remoteMe'
+import { RemoteCreateUser } from './remoteCreateUser'
+import { RemoteGetAllUsers } from './remoteGetAllUsers'
+import { RemoteGetMe } from './remoteGetMe'
 
 export const UsersData = {
-  RemoteCreate,
-  RemoteGetAll,
-  RemoteMe,
+  RemoteCreateUser,
+  RemoteGetAllUsers,
+  RemoteGetMe,
 }

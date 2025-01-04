@@ -7,7 +7,7 @@ import {
 
 import type { ICreateForage } from '@/domain/useCases/forage'
 
-export class RemoteCreate implements ICreateForage {
+export class RemoteCreateForage implements ICreateForage {
   constructor(
     private readonly url: string,
     private readonly httpClient: IHttpClient

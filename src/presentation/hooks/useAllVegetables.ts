@@ -6,7 +6,7 @@ import toast from 'react-hot-toast'
 import { VegetableDataFactory } from '@/main/factories/useCases/vegetable'
 
 export const useAllVegetables = (search: string) => {
-  const getAllVegetables = VegetableDataFactory.makeRemoteGetAll()
+  const getAllVegetables = VegetableDataFactory.makeRemoteGetAllVegetables()
 
   const {
     data: allVegetables = [],

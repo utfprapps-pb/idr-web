@@ -1,13 +1,13 @@
-import { makeRemoteCreate } from './remoteCreateFactory'
-import { makeRemoteDelete } from './remoteDeleteFactory'
-import { makeRemoteGetAll } from './remoteGetAllFactory'
-import { makeRemoteGetOne } from './remoteGetOneFactory'
-import { makeRemoteUpdate } from './remoteUpdateFactory'
+import { makeRemoteCreateProperty } from './remoteCreatePropertyFactory'
+import { makeRemoteDeleteProperty } from './remoteDeletePropertyFactory'
+import { makeRemoteGetProperties } from './remoteGetPropertiesFactory'
+import { makeRemoteGetProperty } from './remoteGetPropertyFactory'
+import { makeRemoteUpdateProperty } from './remoteUpdatePropertyFactory'
 
 export const PropertyDataFactory = {
-  makeRemoteCreate,
-  makeRemoteDelete,
-  makeRemoteGetAll,
-  makeRemoteGetOne,
-  makeRemoteUpdate,
+  makeRemoteCreateProperty,
+  makeRemoteDeleteProperty,
+  makeRemoteGetProperties,
+  makeRemoteGetProperty,
+  makeRemoteUpdateProperty,
 }
