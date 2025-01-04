@@ -5,7 +5,7 @@ import { ITEMS_PER_PAGE } from '@/infra/http'
 import type { ForageModel } from '@/domain/models/forageModel'
 import type { IGetForages } from '@/domain/useCases/forage'
 
-export class RemoteGetAll implements IGetForages {
+export class RemoteGetForages implements IGetForages {
   constructor(
     private readonly url: string,
     private readonly httpClient: IHttpClient

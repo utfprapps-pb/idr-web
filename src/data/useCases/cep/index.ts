@@ -1,5 +1,5 @@
-import { RemoteGetOne } from './remoteGetOne'
+import { RemoteGetOneCep } from './remoteGetOneCep'
 
 export const CepData = {
-  RemoteGetOne,
+  RemoteGetOneCep,
 }

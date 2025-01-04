@@ -8,7 +8,7 @@ import {
 
 import type { IMeUser } from '@/domain/useCases/user'
 
-export class RemoteMe implements IMeUser {
+export class RemoteGetMe implements IMeUser {
   constructor(
     private readonly url: string,
     private readonly httpClient: IHttpClient

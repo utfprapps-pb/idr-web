@@ -7,7 +7,7 @@ import {
 
 import type { ICreateProperty } from '@/domain/useCases/property'
 
-export class RemoteCreate implements ICreateProperty {
+export class RemoteCreateProperty implements ICreateProperty {
   constructor(
     private readonly url: string,
     private readonly httpClient: IHttpClient

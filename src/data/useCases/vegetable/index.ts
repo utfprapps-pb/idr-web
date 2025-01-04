@@ -1,5 +1,5 @@
-import { RemoteGetAll } from './remoteGetAll'
+import { RemoteGetAllVegetables } from './remoteGetAllVegetables'
 
 export const VegetablesData = {
-  RemoteGetAll,
+  RemoteGetAllVegetables,
 }

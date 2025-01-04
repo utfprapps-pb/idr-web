@@ -1,29 +1,31 @@
 import { type IHttpClient, HttpStatusCode } from '@/data/protocols/http'
 import { UnexpectedError, NotFoundError, ForbiddenError } from '@/domain/errors'
 
-import type { IDeleteProperty } from '@/domain/useCases/property'
+import type { IDeleteForage } from '@/domain/useCases/forage'
 
-export class RemoteDelete implements IDeleteProperty {
+export class RemoteDeleteForage implements IDeleteForage {
   constructor(
     private readonly url: string,
     private readonly httpClient: IHttpClient
   ) {}
 
-  execute: IDeleteProperty['execute'] = async (id) => {
+  execute: IDeleteForage['execute'] = async ({ propertyId, forageId }) => {
+    const url = this.url.replace(':propertyId', propertyId)
+
     const { statusCode } = await this.httpClient.request({
-      url: `${this.url}/${id}`,
+      url: `${url}/${forageId}`,
       method: 'delete',
     })
 
     if (statusCode === HttpStatusCode.noContent) return
 
     if (statusCode === HttpStatusCode.notFound) {
-      throw new NotFoundError('Propriedades')
+      throw new NotFoundError('Forrageira')
     }
 
     if (statusCode === HttpStatusCode.forbidden) {
       throw new ForbiddenError(
-        'Você não tem permissão para excluir uma propriedade'
+        'Você não tem permissão para excluir uma forrageira'
       )
     }
 

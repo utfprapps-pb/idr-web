@@ -3,7 +3,7 @@ import { UnexpectedError, NotFoundError, ForbiddenError } from '@/domain/errors'
 
 import type { IGetProperty } from '@/domain/useCases/property'
 
-export class RemoteGetOne implements IGetProperty {
+export class RemoteGetProperty implements IGetProperty {
   constructor(
     private readonly url: string,
     private readonly httpClient: IHttpClient

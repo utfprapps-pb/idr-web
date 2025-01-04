@@ -3,7 +3,7 @@ import { BadRequestError, UnexpectedError } from '@/domain/errors'
 
 import type { ICreateUser } from '@/domain/useCases/user'
 
-export class RemoteCreate implements ICreateUser {
+export class RemoteCreateUser implements ICreateUser {
   constructor(
     private readonly url: string,
     private readonly httpClient: IHttpClient<void>

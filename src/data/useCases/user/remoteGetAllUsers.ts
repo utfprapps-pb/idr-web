@@ -5,15 +5,16 @@ import {
   NotFoundError,
   UnexpectedError,
 } from '@/domain/errors'
-import { type IGetAllVegetables } from '@/domain/useCases/vegetable'
 
-export class RemoteGetAll implements IGetAllVegetables {
+import type { IGetAllUsers } from '@/domain/useCases/user'
+
+export class RemoteGetAllUsers implements IGetAllUsers {
   constructor(
     private readonly url: string,
     private readonly httpClient: IHttpClient
   ) {}
 
-  execute: IGetAllVegetables['execute'] = async (search) => {
+  execute: IGetAllUsers['execute'] = async (search) => {
     const { statusCode, body } = await this.httpClient.request({
       url: this.url,
       method: 'get',
@@ -23,7 +24,8 @@ export class RemoteGetAll implements IGetAllVegetables {
     })
 
     if (statusCode === HttpStatusCode.ok) {
-      return body.map((item: { id: string; name: string }) => ({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return body.map((item: any) => ({
         value: item.id,
         label: item.name,
       }))
@@ -34,7 +36,7 @@ export class RemoteGetAll implements IGetAllVegetables {
     }
 
     if (statusCode === HttpStatusCode.notFound) {
-      throw new NotFoundError('Vegetais')
+      throw new NotFoundError('Usuários')
     }
 
     if (statusCode === HttpStatusCode.badRequest) throw new BadRequestError()

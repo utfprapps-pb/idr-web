@@ -4,7 +4,7 @@ import { UnexpectedError, NotFoundError } from '@/domain/errors'
 import type { CepModel } from '@/domain/models/cepModel'
 import type { IGetCep } from '@/domain/useCases/cep'
 
-export class RemoteGetOne implements IGetCep {
+export class RemoteGetOneCep implements IGetCep {
   constructor(
     private readonly url: string,
     private readonly httpClient: IHttpClient<CepModel>
