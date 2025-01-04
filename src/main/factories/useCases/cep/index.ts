@@ -1,5 +1,5 @@
-import { makeRemoteGetOne } from './remoteGetOneFactory'
+import { makeRemoteGetCep } from './remoteGetCepFactory'
 
 export const CepDataFactory = {
-  makeRemoteGetOne,
+  makeRemoteGetOne: makeRemoteGetCep,
 }

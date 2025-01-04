@@ -3,8 +3,8 @@ import { makeApiHttpClient } from '@/main/factories/http'
 
 import type { IDeleteForage } from '@/domain/useCases/forage'
 
-export const makeRemoteDelete = (): IDeleteForage =>
-  new ForageData.RemoteDelete(
+export const makeRemoteDeleteForage = (): IDeleteForage =>
+  new ForageData.RemoteDeleteForage(
     'properties/:propertyId/forages',
     makeApiHttpClient<void>()
   )
