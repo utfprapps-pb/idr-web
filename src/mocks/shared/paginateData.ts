@@ -1,4 +1,4 @@
-export const paginateData = <TData extends Record<string, string>>(
+export const paginateData = <TData extends Record<string, string | number>>(
   pagination: {
     page: number
     perPage?: number
