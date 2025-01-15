@@ -5,7 +5,7 @@ import type { WithId } from '@/domain/shared/types/withId'
 export type IUpdateImprovement = IRequestInterface<
   {
     propertyId: string
-    forage: WithId<ImprovementDetailsModel>
+    improvement: WithId<ImprovementDetailsModel>
   },
   void
 >
