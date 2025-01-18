@@ -16,7 +16,7 @@ import { useIdrNavigate } from '@/presentation/hooks/useIdrNavigate'
 import { AuthContext } from './context'
 
 export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const meService = UserDataFactory.makeRemoteMe()
+  const meService = UserDataFactory.makeRemoteGetMe()
   const { navigateToBasePath, navigateToSignedBasePath } = useIdrNavigate()
 
   const [signedIn, setSignedIn] = useState<boolean>(() => {

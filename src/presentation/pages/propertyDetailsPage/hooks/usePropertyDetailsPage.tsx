@@ -1,6 +1,6 @@
 import { type ReactNode, useCallback, useMemo, useState } from 'react'
 
-import { ForageTab } from '../tabs'
+import { ForageTab, ImprovementTab } from '../tabs'
 
 type Tab = {
   key: string
@@ -23,6 +23,11 @@ export const usePropertyDetailsPage = () => {
             key: 'forage',
             name: 'Forrageiras',
             component: <ForageTab />,
+          },
+          {
+            key: 'improvement',
+            name: 'Benfeitorias',
+            component: <ImprovementTab />,
           },
         ],
       },

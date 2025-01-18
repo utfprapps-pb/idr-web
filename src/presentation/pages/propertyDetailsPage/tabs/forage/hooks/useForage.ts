@@ -11,7 +11,7 @@ type Props = {
 }
 
 export const useForage = ({ id, propertyId }: Props) => {
-  const getForage = ForageDataFactory.makeRemoteGetOne()
+  const getForage = ForageDataFactory.makeRemoteGetForage()
 
   const {
     data: forage,

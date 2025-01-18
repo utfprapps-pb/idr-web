@@ -7,7 +7,7 @@ import { Button, DropdownMenu, Tooltip } from '@/presentation/components/ui'
 import { useDebounce } from '@/presentation/hooks'
 
 import { useForageContext } from '../../hooks/useForageContext'
-import { useForage } from '../../hooks/useForages'
+import { useForages } from '../../hooks/useForages'
 import { ForageSort } from '../../types'
 
 import type { ForageModel } from '@/domain/models/forageModel'
@@ -34,7 +34,7 @@ export const useForagesDataTable = () => {
 
   const debouncedFilters = useDebounce({ value: filters, delayInMs: 1000 })
 
-  const { isLoading, forages } = useForage({
+  const { isLoading, forages } = useForages({
     propertyId,
     filters: debouncedFilters,
     page,

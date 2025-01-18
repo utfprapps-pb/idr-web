@@ -18,7 +18,7 @@ export const CreateForageForm: React.FC = () => {
   const { propertyId, isOpenNewForageForm, closeNewForageForm } =
     useForageContext()
 
-  const createForage = ForageDataFactory.makeRemoteCreate()
+  const createForage = ForageDataFactory.makeRemoteCreateForage()
 
   const queryClient = useQueryClient()
 
