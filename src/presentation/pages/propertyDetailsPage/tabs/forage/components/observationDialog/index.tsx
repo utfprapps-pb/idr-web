@@ -15,7 +15,7 @@ export const ObservationDialog: React.FC<Props> = ({
     <Dialog.Root open={open} onOpenChange={onClose}>
       <Dialog.Content>
         <Dialog.Header>
-          <Dialog.Title>Observação da forrageira perene</Dialog.Title>
+          <Dialog.Title>Observação da forrageira</Dialog.Title>
           <Dialog.Description>
             Caso seja necessário alterar, edite o registro na tabela.
           </Dialog.Description>

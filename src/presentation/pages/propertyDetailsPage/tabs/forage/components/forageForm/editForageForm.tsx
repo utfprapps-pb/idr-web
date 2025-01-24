@@ -29,7 +29,7 @@ export const EditForageForm: React.FC = () => {
     propertyId,
   })
 
-  const updateForage = ForageDataFactory.makeRemoteUpdate()
+  const updateForage = ForageDataFactory.makeRemoteUpdateForage()
 
   const queryClient = useQueryClient()
 
@@ -92,7 +92,7 @@ export const EditForageForm: React.FC = () => {
         <Sheet.Header>
           <Sheet.Title>{`Editar Forrageira de ${selectedForage?.cultivation}`}</Sheet.Title>
           <Sheet.Description>
-            Preencha o formulário para editar a forrageira perene
+            Preencha o formulário para editar a forrageira
           </Sheet.Description>
         </Sheet.Header>
         <Form.Provider {...form}>

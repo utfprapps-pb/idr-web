@@ -9,7 +9,7 @@ import { AlertDialog } from '@/presentation/components/ui'
 import { useForageContext } from '../../hooks/useForageContext'
 
 export const ForageDeleteDialog: React.FC = () => {
-  const deleteForage = ForageDataFactory.makeRemoteDelete()
+  const deleteForage = ForageDataFactory.makeRemoteDeleteForage()
 
   const {
     propertyId,
@@ -26,7 +26,7 @@ export const ForageDeleteDialog: React.FC = () => {
 
   const handleDeleteForage = useCallback(async () => {
     if (!selectedForage) {
-      toast.error('Erro ao remover forrageira perene')
+      toast.error('Erro ao remover forrageira')
       return
     }
 
@@ -41,9 +41,9 @@ export const ForageDeleteDialog: React.FC = () => {
         exact: false,
       })
 
-      toast.success('Forrageira perene removida com sucesso')
+      toast.success('Forrageira removida com sucesso')
     } catch {
-      toast.error('Erro ao remover forrageira perene')
+      toast.error('Erro ao remover forrageira')
     } finally {
       closeDeleteForageContainer()
     }

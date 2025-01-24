@@ -42,7 +42,7 @@ export const PropertyDetailsPage: React.FC = () => {
             onValueChange={handleSubTabChange}
           >
             <div className="flex gap-8">
-              <Tabs.List>
+              <Tabs.List className="flex flex-col">
                 {subTabs.map((subTab) => (
                   <Tabs.Trigger key={subTab.key} value={subTab.key}>
                     {subTab.name}

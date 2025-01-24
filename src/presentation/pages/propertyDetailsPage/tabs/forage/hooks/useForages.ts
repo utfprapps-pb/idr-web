@@ -14,7 +14,7 @@ type Props = {
   sort?: ForageSort
 }
 
-export const useForage = ({ propertyId, filters, page, sort }: Props) => {
+export const useForages = ({ propertyId, filters, page, sort }: Props) => {
   const getForages = ForageDataFactory.makeRemoteGetForages()
 
   const {

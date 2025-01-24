@@ -1,5 +1,5 @@
-export const filterData = <TData extends Record<string, string>>(
-  filters: Record<string, string>,
+export const filterData = <TData extends Record<string, string | number>>(
+  filters: Record<string, string | number>,
   data: TData[]
 ) => {
   const filterEntries = Object.entries(filters).filter(([, value]) =>
@@ -16,7 +16,10 @@ export const filterData = <TData extends Record<string, string>>(
       }
 
       const itemValue = item[key as keyof TData]
-      return itemValue.toLowerCase().includes(value.toLowerCase())
+
+      return String(itemValue)
+        .toLowerCase()
+        .includes(String(value).toLowerCase())
     })
   )
 }
