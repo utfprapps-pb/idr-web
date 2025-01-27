@@ -178,7 +178,7 @@ export const ImprovementFormInputs: React.FC = () => {
                 <Form.Label>Valor para o Gado de Leite*</Form.Label>
                 <Tooltip.Provider>
                   <Tooltip.Root>
-                    <Tooltip.Trigger>
+                    <Tooltip.Trigger type="button">
                       <InfoIcon className="size-4" />
                     </Tooltip.Trigger>
 
