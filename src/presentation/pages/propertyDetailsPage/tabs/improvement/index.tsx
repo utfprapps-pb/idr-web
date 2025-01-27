@@ -33,7 +33,7 @@ export const ImprovementTab: React.FC = () => {
               </Button>
 
               <Input
-                className="w-1/4"
+                className="w-fit"
                 value={filters.description}
                 onChange={({ target }) => {
                   handleChangeFilters({ description: target.value })
