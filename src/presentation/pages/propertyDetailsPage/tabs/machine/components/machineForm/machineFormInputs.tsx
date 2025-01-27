@@ -6,23 +6,23 @@ import { useFormContext } from 'react-hook-form'
 import { moneyMask, onlyNumbersMask, percentMask } from '@/masker'
 import { DatePicker, Form, Input, Tooltip } from '@/presentation/components/ui'
 
-import type { ImprovementFormData } from './validation'
+import type { MachineFormData } from './validation'
 
-export const ImprovementFormInputs: React.FC = () => {
-  const form = useFormContext<ImprovementFormData>()
+export const MachineFormInputs: React.FC = () => {
+  const form = useFormContext<MachineFormData>()
 
   useEffect(() => {
-    const improvementAmount = Number(onlyNumbersMask(form.getValues('amount')))
-    const improvementUnitPrice =
+    const machineAmount = Number(onlyNumbersMask(form.getValues('amount')))
+    const machineUnitPrice =
       Number(onlyNumbersMask(form.getValues('unitPrice'))) / 100
 
-    const improvementTotalPrice = improvementAmount * improvementUnitPrice
-    const improvementPercentDairyCattle =
+    const machineTotalPrice = machineAmount * machineUnitPrice
+    const machinePercentDairyCattle =
       Number(onlyNumbersMask(form.getValues('percentDairyCattle'))) / 100
 
     const moneyDairyCattle = (
-      improvementTotalPrice *
-      (improvementPercentDairyCattle / 100)
+      machineTotalPrice *
+      (machinePercentDairyCattle / 100)
     ).toFixed(2)
 
     form.setValue('moneyDairyCattle', moneyMask(moneyDairyCattle))
@@ -31,18 +31,18 @@ export const ImprovementFormInputs: React.FC = () => {
   return (
     <>
       <Form.Field
-        name="description"
+        name="name"
         control={form.control}
         render={({ field, fieldState }) => {
           const { error } = fieldState
 
           return (
             <Form.Item>
-              <Form.Label>Descrição da Benfeitoria*</Form.Label>
+              <Form.Label>Nome da máquina*</Form.Label>
               <Form.Control>
                 <Input
                   {...field}
-                  placeholder="Casa"
+                  placeholder="Trator"
                   isError={!!error?.message}
                 />
               </Form.Control>
@@ -83,7 +83,7 @@ export const ImprovementFormInputs: React.FC = () => {
 
           return (
             <Form.Item>
-              <Form.Label>Valor unitário da nova benfeitoria*</Form.Label>
+              <Form.Label>Valor unitário da nova máquina*</Form.Label>
               <Form.Control>
                 <Input
                   {...field}

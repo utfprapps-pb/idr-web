@@ -36,24 +36,22 @@ export const PropertyDetailsPage: React.FC = () => {
             </Tabs.Trigger>
           ))}
         </Tabs.List>
-        <Tabs.Content className="mt-6" value={activeTab}>
+        <Tabs.Content value={activeTab}>
           <Tabs.Root
             defaultValue={activeSubTab}
             onValueChange={handleSubTabChange}
           >
-            <div className="flex gap-8">
-              <Tabs.List className="flex flex-col">
-                {subTabs.map((subTab) => (
-                  <Tabs.Trigger key={subTab.key} value={subTab.key}>
-                    {subTab.name}
-                  </Tabs.Trigger>
-                ))}
-              </Tabs.List>
+            <Tabs.List>
+              {subTabs.map((subTab) => (
+                <Tabs.Trigger key={subTab.key} value={subTab.key}>
+                  {subTab.name}
+                </Tabs.Trigger>
+              ))}
+            </Tabs.List>
 
-              <Tabs.Content className="mt-0 w-full" value={activeSubTab}>
-                {subTab?.component}
-              </Tabs.Content>
-            </div>
+            <Tabs.Content className="mt-0 w-full" value={activeSubTab}>
+              {subTab?.component}
+            </Tabs.Content>
           </Tabs.Root>
         </Tabs.Content>
       </Tabs.Root>

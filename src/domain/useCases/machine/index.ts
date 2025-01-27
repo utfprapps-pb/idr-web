@@ -1,0 +1,5 @@
+export type { ICreateMachine } from './createMachine'
+export type { IDeleteMachine } from './deleteMachine'
+export type { IGetMachines } from './getMachines'
+export type { IGetMachine } from './getMachine'
+export type { IUpdateMachine } from './updateMachine'
