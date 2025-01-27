@@ -5,7 +5,7 @@ import type { WithId } from '@/domain/shared/types/withId'
 export type IUpdateMachine = IRequestInterface<
   {
     propertyId: string
-    improvement: WithId<MachineDetailsModel>
+    machine: WithId<MachineDetailsModel>
   },
   void
 >
