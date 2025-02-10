@@ -1,0 +1,5 @@
+export type { ICreateAnimal } from './createAnimal'
+export type { IDeleteAnimal } from './deleteAnimal'
+export type { IGetAnimals } from './getAnimals'
+export type { IGetAnimal } from './getAnimal'
+export type { IUpdateAnimal } from './updateAnimal'
