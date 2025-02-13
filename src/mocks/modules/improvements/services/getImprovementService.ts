@@ -25,7 +25,7 @@ export const getImprovementService = httpWithMiddleware<
     }
 
     const improvementFound = improvementsData.find(
-      (forage) => forage.id === String(params.id)
+      (improvement) => improvement.id === String(params.id)
     )
 
     if (!improvementFound) {
