@@ -1,8 +1,8 @@
-import type { WithId } from '../shared/types'
+import type { Option, WithId } from '../shared/types'
 
 type AnimalDetailsModel = {
   name: string
-  breed: string
+  breed: Option
 }
 
 type AnimalModel = WithId<AnimalDetailsModel>
