@@ -27,7 +27,7 @@ export class RemoteGetAnimals implements IGetAnimals {
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        resources: body.improvements.map(
+        resources: body.animals.map(
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (item: any) =>
             ({
