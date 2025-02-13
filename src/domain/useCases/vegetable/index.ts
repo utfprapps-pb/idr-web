@@ -1,1 +1,1 @@
-export type { IGetAllVegetables } from './getAll'
+export type { IGetAllVegetables } from './getAllVegetables'
