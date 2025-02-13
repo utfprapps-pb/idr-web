@@ -10,6 +10,7 @@ export const PropertyDetailsPage: React.FC = () => {
   const producer = searchParams.get('producer') ?? ''
 
   const {
+    tab,
     tabs,
     subTab,
     subTabs,
@@ -37,22 +38,26 @@ export const PropertyDetailsPage: React.FC = () => {
           ))}
         </Tabs.List>
         <Tabs.Content value={activeTab}>
-          <Tabs.Root
-            defaultValue={activeSubTab}
-            onValueChange={handleSubTabChange}
-          >
-            <Tabs.List>
-              {subTabs.map((subTab) => (
-                <Tabs.Trigger key={subTab.key} value={subTab.key}>
-                  {subTab.name}
-                </Tabs.Trigger>
-              ))}
-            </Tabs.List>
+          {tab?.component ? (
+            tab.component
+          ) : (
+            <Tabs.Root
+              defaultValue={activeSubTab}
+              onValueChange={handleSubTabChange}
+            >
+              <Tabs.List>
+                {subTabs.map((subTab) => (
+                  <Tabs.Trigger key={subTab.key} value={subTab.key}>
+                    {subTab.name}
+                  </Tabs.Trigger>
+                ))}
+              </Tabs.List>
 
-            <Tabs.Content className="mt-0 w-full" value={activeSubTab}>
-              {subTab?.component}
-            </Tabs.Content>
-          </Tabs.Root>
+              <Tabs.Content className="mt-0 w-full" value={activeSubTab}>
+                {subTab?.component}
+              </Tabs.Content>
+            </Tabs.Root>
+          )}
         </Tabs.Content>
       </Tabs.Root>
     </section>
