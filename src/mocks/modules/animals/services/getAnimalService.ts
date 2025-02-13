@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker/locale/pt_BR'
 import { HttpResponse, type PathParams } from 'msw'
 
 import { HttpStatusCode } from '@/data/protocols/http'
@@ -25,7 +26,7 @@ export const getAnimalService = httpWithMiddleware<
     }
 
     const animalFound = animalsData.find(
-      (forage) => forage.id === String(params.id)
+      (animal) => animal.id === String(params.id)
     )
 
     if (!animalFound) {
@@ -37,6 +38,15 @@ export const getAnimalService = httpWithMiddleware<
       )
     }
 
-    return HttpResponse.json(animalFound, { status: HttpStatusCode.ok })
+    return HttpResponse.json(
+      {
+        name: animalFound.name,
+        breed: {
+          label: animalFound.breed,
+          value: faker.string.uuid(),
+        },
+      },
+      { status: HttpStatusCode.ok }
+    )
   },
 })
