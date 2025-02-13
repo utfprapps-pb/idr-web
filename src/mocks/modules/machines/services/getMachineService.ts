@@ -25,7 +25,7 @@ export const getMachineService = httpWithMiddleware<
     }
 
     const machineFound = machinesData.find(
-      (forage) => forage.id === String(params.id)
+      (machine) => machine.id === String(params.id)
     )
 
     if (!machineFound) {

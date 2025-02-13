@@ -1,5 +1,5 @@
 import { RemoteGetAllVegetables } from './remoteGetAllVegetables'
 
-export const VegetablesData = {
+export const VegetableData = {
   RemoteGetAllVegetables,
 }

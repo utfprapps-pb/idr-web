@@ -1,16 +1,24 @@
 import { type ReactNode, useCallback, useMemo, useState } from 'react'
 
-import { ForageTab, ImprovementTab, MachineTab } from '../tabs'
+import { AnimalTab, ForageTab, ImprovementTab, MachineTab } from '../tabs'
 
-type Tab = {
-  key: string
-  name: string
-  subTabs: {
-    key: string
-    name: string
-    component: ReactNode
-  }[]
-}
+type Tab =
+  | {
+      key: string
+      name: string
+      subTabs: {
+        key: string
+        name: string
+        component: ReactNode
+      }[]
+      component?: never
+    }
+  | {
+      key: string
+      name: string
+      component: ReactNode
+      subTabs?: never
+    }
 
 export const usePropertyDetailsPage = () => {
   const tabs = useMemo<Tab[]>(
@@ -36,6 +44,11 @@ export const usePropertyDetailsPage = () => {
           },
         ],
       },
+      {
+        key: 'animal-data',
+        name: 'Dados dos Animais',
+        component: <AnimalTab />,
+      },
     ],
     []
   )
@@ -47,6 +60,10 @@ export const usePropertyDetailsPage = () => {
     const tab = tabs.find((tab) => tab.key === activeTab)
 
     return tab?.subTabs || []
+  }, [activeTab, tabs])
+
+  const tab = useMemo(() => {
+    return tabs.find((tab) => tab.key === activeTab)
   }, [activeTab, tabs])
 
   const subTab = useMemo(() => {
@@ -62,6 +79,7 @@ export const usePropertyDetailsPage = () => {
   }, [])
 
   return {
+    tab,
     tabs,
     subTab,
     subTabs,

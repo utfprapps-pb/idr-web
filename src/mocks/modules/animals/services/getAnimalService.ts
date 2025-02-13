@@ -1,21 +1,22 @@
+import { faker } from '@faker-js/faker/locale/pt_BR'
 import { HttpResponse, type PathParams } from 'msw'
 
 import { HttpStatusCode } from '@/data/protocols/http'
 import { httpWithMiddleware } from '@/mocks/lib'
 import { withAuth, withDelay } from '@/mocks/middleware'
 
-import improvementsData from '@database/improvementData.json'
+import animalsData from '@database/animalData.json'
 
-export const getImprovementService = httpWithMiddleware<
+export const getAnimalService = httpWithMiddleware<
   PathParams<'propertyId' | 'id'>,
   never,
   never
 >({
-  routePath: '/api/properties/:propertyId/improvements/:id',
+  routePath: '/api/properties/:propertyId/animals/:id',
   method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ params }) => {
-    if (!improvementsData.length) {
+    if (!animalsData.length) {
       return HttpResponse.json(
         {},
         {
@@ -24,11 +25,11 @@ export const getImprovementService = httpWithMiddleware<
       )
     }
 
-    const improvementFound = improvementsData.find(
-      (improvement) => improvement.id === String(params.id)
+    const animalFound = animalsData.find(
+      (animal) => animal.id === String(params.id)
     )
 
-    if (!improvementFound) {
+    if (!animalFound) {
       return HttpResponse.json(
         {},
         {
@@ -37,6 +38,15 @@ export const getImprovementService = httpWithMiddleware<
       )
     }
 
-    return HttpResponse.json(improvementFound, { status: HttpStatusCode.ok })
+    return HttpResponse.json(
+      {
+        name: animalFound.name,
+        breed: {
+          label: animalFound.breed,
+          value: faker.string.uuid(),
+        },
+      },
+      { status: HttpStatusCode.ok }
+    )
   },
 })
