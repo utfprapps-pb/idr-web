@@ -1,0 +1,5 @@
+export * from './remote-create-animal-use-case-factory'
+export * from './remote-delete-animal-use-case-factory'
+export * from './remote-get-animal-use-case-factory'
+export * from './remote-get-animals-use-case-factory'
+export * from './remote-update-animal-use-case-factory'
