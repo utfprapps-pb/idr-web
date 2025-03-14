@@ -67,7 +67,9 @@ export default [
       'no-console': ['warn', { allow: ['info', 'warn', 'error'] }],
       'react-refresh/only-export-components': [
         'warn',
-        { allowConstantExport: true },
+        {
+          allowConstantExport: true,
+        },
       ],
       'import/no-extraneous-dependencies': 'off',
       'import/extensions': [
