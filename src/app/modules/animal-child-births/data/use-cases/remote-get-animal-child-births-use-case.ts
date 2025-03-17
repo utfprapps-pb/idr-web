@@ -21,9 +21,12 @@ export class RemoteGetAnimalChildBirthsUseCase
 
   execute: GetAnimalChildBirthsUseCase['execute'] = async ({
     propertyId,
+    animalId,
     queryParams: { filters, pagination, sort },
   }) => {
-    const url = this.url.replace(':propertyId', propertyId)
+    const url = this.url
+      .replace(':propertyId', propertyId)
+      .replace(':animalId', animalId)
 
     const { statusCode, body } = await this.httpClient.request({
       url,

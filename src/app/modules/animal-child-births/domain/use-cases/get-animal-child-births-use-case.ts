@@ -8,6 +8,7 @@ import type {
 export type GetAnimalChildBirthsUseCase = RequestInterface<
   {
     propertyId: string
+    animalId: string
     queryParams: ListParams<keyof AnimalChildBirthModel>
   },
   ListResponse<AnimalChildBirthModel>

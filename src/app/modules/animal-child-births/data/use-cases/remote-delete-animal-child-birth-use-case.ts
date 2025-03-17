@@ -17,14 +17,15 @@ export class RemoteDeleteAnimalChildBirthUseCase
 
   execute: DeleteAnimalChildBirthUseCase['execute'] = async ({
     propertyId,
-    animalChildBirthId,
+    animalId,
+    id,
   }) => {
     const url = this.url
       .replace(':propertyId', propertyId)
-      .replace(':animalChildBirthId', animalChildBirthId)
+      .replace(':animalId', animalId)
 
     const { statusCode } = await this.httpClient.request({
-      url,
+      url: `${url}/${id}`,
       method: 'delete',
     })
 

@@ -17,12 +17,15 @@ export class RemoteUpdateAnimalChildBirthUseCase
 
   execute: UpdateAnimalChildBirthUseCase['execute'] = async ({
     propertyId,
+    animalId,
     animalChildBirth: { id, ...animalChildBirth },
   }) => {
-    const url = this.url.replace(':propertyId', propertyId).replace(':id', id)
+    const url = this.url
+      .replace(':propertyId', propertyId)
+      .replace(':animalId', animalId)
 
     const { statusCode } = await this.httpClient.request({
-      url,
+      url: `${url}/${id}`,
       method: 'patch',
       body: animalChildBirth,
     })
