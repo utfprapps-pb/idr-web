@@ -1,6 +1,6 @@
 import type { WithId } from '@/core/domain/types'
 
-type AnimalChildBirthCondition = 'HEALTHY' | 'DEAD'
+type AnimalChildBirthCondition = 'ALIVE' | 'DEAD'
 
 type AnimalChildBirthGender = 'MASCULINE' | 'FEMININE'
 
@@ -14,8 +14,8 @@ export type AnimalChildBirthDetailsModel = {
 
 export type AnimalChildBirthModel = WithId<{
   date: string
-  gender: AnimalChildBirthGender
+  gender: string
   weight: string
-  condition: AnimalChildBirthCondition
+  condition: string
   breed: string
 }>
