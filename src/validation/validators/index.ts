@@ -1,6 +1,0 @@
-export { cpfValidation } from './cpfValidation'
-export { emailValidation } from './emailValidation'
-export { moneyValidation } from './moneyValidation'
-export { passwordValidation } from './passwordValidation'
-export { phoneValidation } from './phoneValidation'
-export { yearValidation } from './yearValidation'

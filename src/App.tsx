@@ -1,12 +1,14 @@
 import { Toaster } from 'react-hot-toast'
 
-import './styles/globals.css'
+import './core/styles/globals.css'
 
-import { Router } from './main/routes'
+import { Router } from './core/main/routes'
 
-export const App = () => (
-	<>
-		<Router />
-		<Toaster position="top-right" reverseOrder={false} gutter={26} />
-	</>
-)
+export function App() {
+  return (
+    <>
+      <Router />
+      <Toaster position="top-right" reverseOrder={false} gutter={26} />
+    </>
+  )
+}

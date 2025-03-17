@@ -1,5 +1,0 @@
-export type { ICreateProperty } from './create'
-export type { IDeleteProperty } from './delete'
-export type { IGetProperties } from './getAll'
-export type { IGetProperty } from './getOne'
-export type { IUpdateProperty } from './update'
