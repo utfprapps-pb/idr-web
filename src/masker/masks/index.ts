@@ -1,7 +1,0 @@
-export * from './cepMask'
-export * from './cpfMask'
-export * from './floatMask'
-export * from './moneyMask'
-export * from './onlyNumbers'
-export * from './phoneMask'
-export * from './percentMask'

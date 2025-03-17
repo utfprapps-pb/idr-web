@@ -1,5 +1,0 @@
-export type { ICreateForage } from './createForage'
-export type { IDeleteForage } from './deleteForage'
-export type { IGetForages } from './getForages'
-export type { IGetForage } from './getForage'
-export type { IUpdateForage } from './updateForage'
