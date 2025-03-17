@@ -30,7 +30,7 @@ export function useAnimalChildBirthsQuery({
     isLoading,
     refetch: refetchAnimalChildBirths,
   } = useQuery({
-    queryKey: ['animals', { page, sort, filters }],
+    queryKey: ['animal-child-births', { page, sort, filters }],
     queryFn: () =>
       getAnimalChildBirthsUseCase.execute({
         propertyId,
