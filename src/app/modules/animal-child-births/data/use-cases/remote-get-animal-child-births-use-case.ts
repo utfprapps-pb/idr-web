@@ -39,7 +39,7 @@ export class RemoteGetAnimalChildBirthsUseCase
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (item: any) => {
             const condition = item.condition === 'ALIVE' ? 'Vivo' : 'Morto'
-            const gender = item.gender === 'MASCULINE' ? 'Macho' : 'Fêmea'
+            const gender = item.gender === 'MALE' ? 'Macho' : 'Fêmea'
 
             return {
               id: item.id,

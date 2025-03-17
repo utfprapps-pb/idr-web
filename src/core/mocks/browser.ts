@@ -2,6 +2,13 @@ import { type HttpHandler } from 'msw'
 import { setupWorker } from 'msw/browser'
 
 import {
+  createAnimalChildBirthHandler,
+  deleteAnimalChildBirthHandler,
+  getAnimalChildBirthHandler,
+  getAnimalChildBirthsHandler,
+  updateAnimalChildBirthHandler,
+} from '@/app/modules/animal-child-births/mocks/handlers'
+import {
   createAnimalHandler,
   deleteAnimalHandler,
   getAnimalHandler,
@@ -81,6 +88,12 @@ const handlers: HttpHandler[] = [
   getMachineHandler,
   getMachinesHandler,
   updateMachineHandler,
+
+  createAnimalChildBirthHandler,
+  deleteAnimalChildBirthHandler,
+  getAnimalChildBirthHandler,
+  getAnimalChildBirthsHandler,
+  updateAnimalChildBirthHandler,
 ]
 
 export const worker = setupWorker(...handlers)

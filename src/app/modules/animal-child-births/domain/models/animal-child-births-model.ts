@@ -1,15 +1,15 @@
-import type { WithId } from '@/core/domain/types'
+import type { Option, WithId } from '@/core/domain/types'
 
 type AnimalChildBirthCondition = 'ALIVE' | 'DEAD'
 
-type AnimalChildBirthGender = 'MASCULINE' | 'FEMININE'
+type AnimalChildBirthGender = 'MALE' | 'FEMALE'
 
 export type AnimalChildBirthDetailsModel = {
   date: Date
   gender: AnimalChildBirthGender
   weight: string
   condition: AnimalChildBirthCondition
-  breed: string
+  breed: Option
 }
 
 export type AnimalChildBirthModel = WithId<{
