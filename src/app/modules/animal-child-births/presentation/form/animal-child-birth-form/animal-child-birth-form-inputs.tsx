@@ -81,7 +81,7 @@ export function AnimalChildBirthFormInputs() {
 
           return (
             <Form.Item>
-              <Form.Label>Sexo do Bezerro*</Form.Label>
+              <Form.Label>Peso do Bezerro*</Form.Label>
               <Form.Control>
                 <Input
                   {...field}
