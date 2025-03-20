@@ -25,6 +25,7 @@ export function PropertyDataTable() {
     <div className="flex flex-col gap-4">
       <Input
         value={filters.name}
+        className="w-fit"
         onChange={({ target }) => {
           setFilters((prevState) => ({
             ...prevState,
