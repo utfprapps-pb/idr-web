@@ -1,5 +1,0 @@
-export * from './create-animal-child-birth-use-case'
-export * from './delete-animal-child-birth-use-case'
-export * from './get-animal-child-births-use-case'
-export * from './get-animal-child-birth-use-case'
-export * from './update-animal-child-birth-use-case'

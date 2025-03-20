@@ -9,7 +9,7 @@ import {
 import { useParams } from 'react-router-dom'
 
 import type { AnimalModel } from '../../domain/models/animals-model'
-import type { AnimalFilters } from '../types'
+import type { AnimalFilters } from '../types/animal-types'
 
 type AnimalContextValue = {
   propertyId: string

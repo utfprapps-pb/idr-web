@@ -5,7 +5,7 @@ import toast from 'react-hot-toast'
 
 import { makeRemoteGetAnimalsUseCase } from '../../../main/factories/use-cases'
 
-import type { AnimalFilters, AnimalSort } from '../../types'
+import type { AnimalFilters, AnimalSort } from '../../types/animal-types'
 
 type Props = {
   propertyId: string

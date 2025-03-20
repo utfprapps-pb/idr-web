@@ -1,5 +1,0 @@
-export * from './create-animal-child-birth-handler'
-export * from './delete-animal-child-birth-handler'
-export * from './get-animal-child-birth-handler'
-export * from './get-animal-child-births-handler'
-export * from './update-animal-child-birth-handler'

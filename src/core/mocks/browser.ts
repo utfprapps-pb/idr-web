@@ -2,19 +2,19 @@ import { type HttpHandler } from 'msw'
 import { setupWorker } from 'msw/browser'
 
 import {
-  createAnimalChildBirthHandler,
-  deleteAnimalChildBirthHandler,
-  getAnimalChildBirthHandler,
-  getAnimalChildBirthsHandler,
-  updateAnimalChildBirthHandler,
-} from '@/app/modules/animal-child-births/mocks/handlers'
-import {
   createAnimalHandler,
   deleteAnimalHandler,
   getAnimalHandler,
   getAnimalsHandler,
   updateAnimalHandler,
 } from '@/app/modules/animals/mocks/handlers/'
+import {
+  createAnimalChildBirthHandler,
+  deleteAnimalChildBirthHandler,
+  getAnimalChildBirthHandler,
+  getAnimalChildBirthsHandler,
+  updateAnimalChildBirthHandler,
+} from '@/app/modules/animals/mocks/handlers/animal-childbirths-handlers'
 import { loginHandler } from '@/app/modules/auth/mocks/handlers'
 import {
   createForageHandler,

@@ -1,5 +1,0 @@
-export * from './remote-create-animal-child-birth-use-case-factory'
-export * from './remote-delete-animal-child-birth-use-case-factory'
-export * from './remote-get-animal-child-birth-use-case-factory'
-export * from './remote-get-animal-child-births-use-case-factory'
-export * from './remote-update-animal-child-birth-use-case-factory'
