@@ -38,24 +38,24 @@ export function PropertyScreen() {
         name: 'Dados da Terra',
         subTabs: [
           {
-            key: 'forage',
+            key: 'forages',
             name: 'Forrageiras',
             component: <ForagesScreen />,
           },
           {
-            key: 'improvement',
+            key: 'improvements',
             name: 'Benfeitorias',
             component: <ImprovementsScreen />,
           },
           {
-            key: 'machine',
+            key: 'machines',
             name: 'Máquinas',
             component: <MachinesScreen />,
           },
         ],
       },
       {
-        key: 'animal-data',
+        key: 'animals-data',
         name: 'Dados dos Animais',
         component: <AnimalsScreen />,
       },
@@ -64,7 +64,7 @@ export function PropertyScreen() {
   )
 
   const [activeTab, setActiveTab] = useState('soil-data')
-  const [activeSubTab, setActiveSubTab] = useState('forage')
+  const [activeSubTab, setActiveSubTab] = useState('forages')
 
   const subTabs = useMemo(() => {
     const tab = tabs.find((tab) => tab.key === activeTab)
