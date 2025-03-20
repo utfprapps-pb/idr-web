@@ -13,10 +13,10 @@ export const ROUTES = {
   PROPERTIES: {
     path: PAGE_PATHS.PROPERTIES,
   },
-  PROPERTIES_DETAILS: {
-    path: PAGE_PATHS.PROPERTIES_DETAILS,
+  PROPERTY: {
+    path: PAGE_PATHS.PROPERTY,
     params: {
-      id: true,
+      propertyId: true,
     },
     query: {
       property: true,

@@ -25,6 +25,7 @@ export function PropertyDataTable() {
     <div className="flex flex-col gap-4">
       <Input
         value={filters.name}
+        className="w-fit"
         onChange={({ target }) => {
           setFilters((prevState) => ({
             ...prevState,
@@ -40,9 +41,9 @@ export function PropertyDataTable() {
         totalPages={properties.totalPages}
         onClickRow={(row) =>
           navigate(
-            generateRoutePath('PROPERTIES_DETAILS', {
+            generateRoutePath('PROPERTY', {
               params: {
-                id: row.id,
+                propertyId: row.id,
               },
               query: {
                 producer: row.producer,

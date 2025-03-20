@@ -8,6 +8,13 @@ import {
   getAnimalsHandler,
   updateAnimalHandler,
 } from '@/app/modules/animals/mocks/handlers/'
+import {
+  createAnimalChildbirthHandler,
+  deleteAnimalChildbirthHandler,
+  getAnimalChildbirthHandler,
+  getAnimalChildbirthsHandler,
+  updateAnimalChildbirthHandler,
+} from '@/app/modules/animals/mocks/handlers/animal-childbirths-handlers'
 import { loginHandler } from '@/app/modules/auth/mocks/handlers'
 import {
   createForageHandler,
@@ -81,6 +88,12 @@ const handlers: HttpHandler[] = [
   getMachineHandler,
   getMachinesHandler,
   updateMachineHandler,
+
+  createAnimalChildbirthHandler,
+  deleteAnimalChildbirthHandler,
+  getAnimalChildbirthHandler,
+  getAnimalChildbirthsHandler,
+  updateAnimalChildbirthHandler,
 ]
 
 export const worker = setupWorker(...handlers)

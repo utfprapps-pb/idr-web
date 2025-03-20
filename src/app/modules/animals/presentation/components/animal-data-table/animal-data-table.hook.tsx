@@ -9,7 +9,7 @@ import { useAnimalContext } from '../../hooks/animal-context.hook'
 import { useAnimalsQuery } from '../../hooks/queries'
 
 import type { AnimalModel } from '../../../domain/models/animals-model'
-import type { AnimalSort } from '../../types'
+import type { AnimalSort } from '../../types/animal-types'
 import type { ColumnDef } from '@tanstack/react-table'
 
 export function useAnimalDataTable() {

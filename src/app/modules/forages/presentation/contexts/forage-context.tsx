@@ -30,7 +30,7 @@ type ForageContextValue = {
 export const ForageContext = createContext({} as ForageContextValue)
 
 export function ForageProvider({ children }: PropsWithChildren) {
-  const params = useParams<{ id: string }>()
+  const params = useParams<{ propertyId: string }>()
 
   const [filters, setFilters] = useState<ForageFilters>({
     cultivation: '',
@@ -82,7 +82,7 @@ export function ForageProvider({ children }: PropsWithChildren) {
 
   const providerValues = useMemo(
     () => ({
-      propertyId: params.id as string, // Typecast allowed to avoid undefined, as it has validation below
+      propertyId: params.propertyId as string, // Typecast allowed to avoid undefined, as it has validation below
       filters,
       handleChangeFilters,
       selectedForage,
@@ -97,7 +97,7 @@ export function ForageProvider({ children }: PropsWithChildren) {
       closeDeleteForageContainer,
     }),
     [
-      params.id,
+      params.propertyId,
       filters,
       handleChangeFilters,
       selectedForage,
@@ -113,7 +113,7 @@ export function ForageProvider({ children }: PropsWithChildren) {
     ]
   )
 
-  if (!params.id) {
+  if (!params.propertyId) {
     return null
   }
 
