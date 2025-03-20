@@ -1,13 +1,13 @@
 import { makeApiHttpClient } from '@/core/main/factories/http'
 
-import { RemoteGetAnimalChildBirthUseCase } from '../../../../data/use-cases/childbirths-use-cases'
+import { RemoteGetAnimalChildbirthUseCase } from '../../../../data/use-cases/childbirths-use-cases'
 
-import type { AnimalChildBirthDetailsModel } from '../../../../domain/models/animal-childbirths-model'
-import type { GetAnimalChildBirthUseCase } from '../../../../domain/use-cases/animal-childbirths-use-cases'
+import type { AnimalChildbirthDetailsModel } from '../../../../domain/models/animal-childbirths-model'
+import type { GetAnimalChildbirthUseCase } from '../../../../domain/use-cases/animal-childbirths-use-cases'
 
-export function makeRemoteGetAnimalChildBirthUseCase(): GetAnimalChildBirthUseCase {
-  return new RemoteGetAnimalChildBirthUseCase(
+export function makeRemoteGetAnimalChildbirthUseCase(): GetAnimalChildbirthUseCase {
+  return new RemoteGetAnimalChildbirthUseCase(
     'properties/:propertyId/animals/:animalId/childbirths',
-    makeApiHttpClient<AnimalChildBirthDetailsModel>()
+    makeApiHttpClient<AnimalChildbirthDetailsModel>()
   )
 }

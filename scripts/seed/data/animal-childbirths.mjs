@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker/locale/pt_BR'
 
-export const animalChildBirthsData = Array.from(
+export const animalChildbirthsData = Array.from(
   {
     length: faker.number.int({
       min: 1,

@@ -3,39 +3,39 @@ import { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
-import { makeRemoteGetAnimalChildBirthsUseCase } from '../../../main/factories/use-cases/animal-childbirths-use-cases'
+import { makeRemoteGetAnimalChildbirthsUseCase } from '../../../main/factories/use-cases/animal-childbirths-use-cases'
 
 import type {
-  AnimalChildBirthFilters,
-  AnimalChildBirthSort,
+  AnimalChildbirthFilters,
+  AnimalChildbirthSort,
 } from '../../types/animal-childbirth-types'
 
 type Props = {
   propertyId: string
   animalId: string
-  filters: AnimalChildBirthFilters
+  filters: AnimalChildbirthFilters
   page: number
-  sort?: AnimalChildBirthSort
+  sort?: AnimalChildbirthSort
 }
 
-export function useAnimalChildBirthsQuery({
+export function useAnimalChildbirthsQuery({
   propertyId,
   animalId,
   filters,
   page,
   sort,
 }: Props) {
-  const getAnimalChildBirthsUseCase = makeRemoteGetAnimalChildBirthsUseCase()
+  const getAnimalChildbirthsUseCase = makeRemoteGetAnimalChildbirthsUseCase()
 
   const {
     data,
     isError,
     isLoading,
-    refetch: refetchAnimalChildBirths,
+    refetch: refetchAnimalChildbirths,
   } = useQuery({
     queryKey: ['animal-child-births', { page, sort, filters }],
     queryFn: () =>
-      getAnimalChildBirthsUseCase.execute({
+      getAnimalChildbirthsUseCase.execute({
         propertyId,
         animalId,
         queryParams: {
@@ -51,11 +51,11 @@ export function useAnimalChildBirthsQuery({
   }, [isError])
 
   return {
-    animalChildBirths: data ?? {
+    animalChildbirths: data ?? {
       resources: [],
       totalPages: 1,
     },
     isLoading,
-    refetchAnimalChildBirths,
+    refetchAnimalChildbirths,
   }
 }

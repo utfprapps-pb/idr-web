@@ -1,25 +1,25 @@
 import { DataTable } from '@/core/presentation/components/ui'
 
-import { useAnimalChildBirthDataTable } from './animal-childbirth-data-table.hook'
+import { useAnimalChildbirthDataTable } from './animal-childbirth-data-table.hook'
 
-import type { AnimalChildBirthModel } from '../../../domain/models/animal-childbirths-model'
+import type { AnimalChildbirthModel } from '../../../domain/models/animal-childbirths-model'
 
-export function AnimalChildBirthDataTable() {
+export function AnimalChildbirthDataTable() {
   const {
     columns,
-    animalChildBirths,
+    animalChildbirths,
     isLoading,
     page,
     sort,
     setSort,
     setPage,
-  } = useAnimalChildBirthDataTable()
+  } = useAnimalChildbirthDataTable()
 
   return (
-    <DataTable<AnimalChildBirthModel>
+    <DataTable<AnimalChildbirthModel>
       columns={columns}
-      data={animalChildBirths.resources}
-      totalPages={animalChildBirths.totalPages}
+      data={animalChildbirths.resources}
+      totalPages={animalChildbirths.totalPages}
       pagination={{
         currentPage: page,
         onPageChange: setPage,
@@ -33,4 +33,4 @@ export function AnimalChildBirthDataTable() {
   )
 }
 
-AnimalChildBirthDataTable.displayName = 'AnimalChildBirthDataTable'
+AnimalChildbirthDataTable.displayName = 'AnimalChildbirthDataTable'

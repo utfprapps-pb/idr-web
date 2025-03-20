@@ -7,63 +7,63 @@ import toast from 'react-hot-toast'
 import { Button, Form, Loading, Sheet } from '@/core/presentation/components/ui'
 import { useHookForm } from '@/core/presentation/hooks'
 
-import { makeRemoteUpdateAnimalChildBirthUseCase } from '../../../main/factories/use-cases/animal-childbirths-use-cases'
-import { useAnimalChildBirthContext } from '../../hooks/animal-childbirth-context.hook'
-import { useAnimalChildBirthQuery } from '../../hooks/queries/animal-childbirth-query.hook'
+import { makeRemoteUpdateAnimalChildbirthUseCase } from '../../../main/factories/use-cases/animal-childbirths-use-cases'
+import { useAnimalChildbirthContext } from '../../hooks/animal-childbirth-context.hook'
+import { useAnimalChildbirthQuery } from '../../hooks/queries/animal-childbirth-query.hook'
 import {
-  animalChildBirthFormSchema,
-  type AnimalChildBirthFormSchema,
+  animalChildbirthFormSchema,
+  type AnimalChildbirthFormSchema,
 } from '../../validations/animal-childbirth-form-schema'
 
-import { AnimalChildBirthFormInputs } from './animal-childbirth-form-inputs'
+import { AnimalChildbirthFormInputs } from './animal-childbirth-form-inputs'
 import { ANIMAL_CHILD_BIRTH_INITIAL_FORM_DATA } from './animal-childbirth-initial-data'
 
-export function EditAnimalChildBirthForm() {
+export function EditAnimalChildbirthForm() {
   const {
     propertyId,
     animalId,
-    isOpenEditAnimalChildBirthForm,
-    closeEditAnimalChildBirthForm,
-    selectedAnimalChildBirth,
-  } = useAnimalChildBirthContext()
+    isOpenEditAnimalChildbirthForm,
+    closeEditAnimalChildbirthForm,
+    selectedAnimalChildbirth,
+  } = useAnimalChildbirthContext()
 
-  const { isLoading, animalChildBirth } = useAnimalChildBirthQuery({
-    id: selectedAnimalChildBirth!.id,
+  const { isLoading, animalChildbirth } = useAnimalChildbirthQuery({
+    id: selectedAnimalChildbirth!.id,
     propertyId,
     animalId,
   })
 
-  const updateAnimalChildBirthUseCase =
-    makeRemoteUpdateAnimalChildBirthUseCase()
+  const updateAnimalChildbirthUseCase =
+    makeRemoteUpdateAnimalChildbirthUseCase()
 
   const queryClient = useQueryClient()
 
-  const form = useHookForm<AnimalChildBirthFormSchema>({
+  const form = useHookForm<AnimalChildbirthFormSchema>({
     defaultValues: ANIMAL_CHILD_BIRTH_INITIAL_FORM_DATA,
-    ...(animalChildBirth && {
+    ...(animalChildbirth && {
       values: {
-        ...animalChildBirth,
+        ...animalChildbirth,
       },
     }),
-    resolver: zodResolver(animalChildBirthFormSchema),
+    resolver: zodResolver(animalChildbirthFormSchema),
   })
 
-  const { mutateAsync: mutateHandleUpdateAnimalChildBirth } = useMutation({
-    mutationFn: updateAnimalChildBirthUseCase.execute,
+  const { mutateAsync: mutateHandleUpdateAnimalChildbirth } = useMutation({
+    mutationFn: updateAnimalChildbirthUseCase.execute,
   })
 
-  const handleUpdateAnimalChildBirth = useCallback(
-    async (data: AnimalChildBirthFormSchema) => {
+  const handleUpdateAnimalChildbirth = useCallback(
+    async (data: AnimalChildbirthFormSchema) => {
       try {
-        if (!selectedAnimalChildBirth) {
+        if (!selectedAnimalChildbirth) {
           toast.error('Erro ao atualizar parto do animal')
           return
         }
 
-        await mutateHandleUpdateAnimalChildBirth({
-          animalChildBirth: {
+        await mutateHandleUpdateAnimalChildbirth({
+          animalChildbirth: {
             ...data,
-            id: selectedAnimalChildBirth.id,
+            id: selectedAnimalChildbirth.id,
           },
           animalId,
           propertyId,
@@ -74,30 +74,30 @@ export function EditAnimalChildBirthForm() {
         })
         toast.success('Animal foi editado com sucesso')
         form.reset(ANIMAL_CHILD_BIRTH_INITIAL_FORM_DATA)
-        closeEditAnimalChildBirthForm()
+        closeEditAnimalChildbirthForm()
       } catch {
         toast.error('Erro ao salvar alterações')
       }
     },
     [
       animalId,
-      closeEditAnimalChildBirthForm,
+      closeEditAnimalChildbirthForm,
       form,
-      mutateHandleUpdateAnimalChildBirth,
+      mutateHandleUpdateAnimalChildbirth,
       propertyId,
       queryClient,
-      selectedAnimalChildBirth,
+      selectedAnimalChildbirth,
     ]
   )
 
   return (
     <Sheet.Root
-      open={isOpenEditAnimalChildBirthForm}
-      onOpenChange={closeEditAnimalChildBirthForm}
+      open={isOpenEditAnimalChildbirthForm}
+      onOpenChange={closeEditAnimalChildbirthForm}
     >
       <Sheet.Content className="overflow-y-scroll h-screen" side="right">
         <Sheet.Header>
-          <Sheet.Title>{`Editar Parto do Animal ${selectedAnimalChildBirth?.breed}`}</Sheet.Title>
+          <Sheet.Title>{`Editar Parto do Animal ${selectedAnimalChildbirth?.breed}`}</Sheet.Title>
           <Sheet.Description>
             Preencha o formulário para editar o parto do animal
           </Sheet.Description>
@@ -106,14 +106,14 @@ export function EditAnimalChildBirthForm() {
           <form
             id="update-animal-child-birth-form"
             className="flex flex-col h-full gap-4"
-            onSubmit={form.handleSubmit(handleUpdateAnimalChildBirth)}
+            onSubmit={form.handleSubmit(handleUpdateAnimalChildbirth)}
           >
             {isLoading ? (
               <div className="flex justify-center h-full items-center">
                 <Loading size="lg" />
               </div>
             ) : (
-              <AnimalChildBirthFormInputs />
+              <AnimalChildbirthFormInputs />
             )}
           </form>
         </Form.Provider>
@@ -133,4 +133,4 @@ export function EditAnimalChildBirthForm() {
   )
 }
 
-EditAnimalChildBirthForm.displayName = 'EditAnimalChildBirthForm'
+EditAnimalChildbirthForm.displayName = 'EditAnimalChildbirthForm'

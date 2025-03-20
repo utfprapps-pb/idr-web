@@ -5,18 +5,18 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
-import type { AnimalChildBirthDetailsModel } from '../../../domain/models/animal-childbirths-model'
-import type { GetAnimalChildBirthUseCase } from '../../../domain/use-cases/animal-childbirths-use-cases'
+import type { AnimalChildbirthDetailsModel } from '../../../domain/models/animal-childbirths-model'
+import type { GetAnimalChildbirthUseCase } from '../../../domain/use-cases/animal-childbirths-use-cases'
 
-export class RemoteGetAnimalChildBirthUseCase
-  implements GetAnimalChildBirthUseCase
+export class RemoteGetAnimalChildbirthUseCase
+  implements GetAnimalChildbirthUseCase
 {
   constructor(
     private readonly url: string,
     private readonly httpClient: HttpClient
   ) {}
 
-  execute: GetAnimalChildBirthUseCase['execute'] = async ({
+  execute: GetAnimalChildbirthUseCase['execute'] = async ({
     id,
     animalId,
     propertyId,
@@ -37,7 +37,7 @@ export class RemoteGetAnimalChildBirthUseCase
         condition: body.condition,
         gender: body.gender,
         weight: body.weight,
-      } as AnimalChildBirthDetailsModel
+      } as AnimalChildbirthDetailsModel
     }
 
     if (statusCode === HttpStatusCode.notFound)

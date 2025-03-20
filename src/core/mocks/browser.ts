@@ -9,11 +9,11 @@ import {
   updateAnimalHandler,
 } from '@/app/modules/animals/mocks/handlers/'
 import {
-  createAnimalChildBirthHandler,
-  deleteAnimalChildBirthHandler,
-  getAnimalChildBirthHandler,
-  getAnimalChildBirthsHandler,
-  updateAnimalChildBirthHandler,
+  createAnimalChildbirthHandler,
+  deleteAnimalChildbirthHandler,
+  getAnimalChildbirthHandler,
+  getAnimalChildbirthsHandler,
+  updateAnimalChildbirthHandler,
 } from '@/app/modules/animals/mocks/handlers/animal-childbirths-handlers'
 import { loginHandler } from '@/app/modules/auth/mocks/handlers'
 import {
@@ -89,11 +89,11 @@ const handlers: HttpHandler[] = [
   getMachinesHandler,
   updateMachineHandler,
 
-  createAnimalChildBirthHandler,
-  deleteAnimalChildBirthHandler,
-  getAnimalChildBirthHandler,
-  getAnimalChildBirthsHandler,
-  updateAnimalChildBirthHandler,
+  createAnimalChildbirthHandler,
+  deleteAnimalChildbirthHandler,
+  getAnimalChildbirthHandler,
+  getAnimalChildbirthsHandler,
+  updateAnimalChildbirthHandler,
 ]
 
 export const worker = setupWorker(...handlers)

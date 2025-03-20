@@ -12,10 +12,10 @@ import {
 } from '@/core/presentation/components/ui'
 import { useAllBreedsQuery, useDebounce } from '@/core/presentation/hooks'
 
-import { AnimalChildBirthFormSchema } from '../../validations/animal-childbirth-form-schema'
+import { AnimalChildbirthFormSchema } from '../../validations/animal-childbirth-form-schema'
 
-export function AnimalChildBirthFormInputs() {
-  const form = useFormContext<AnimalChildBirthFormSchema>()
+export function AnimalChildbirthFormInputs() {
+  const form = useFormContext<AnimalChildbirthFormSchema>()
 
   const [searchBreed, setSearchBreed] = useState('')
 
@@ -154,4 +154,4 @@ export function AnimalChildBirthFormInputs() {
   )
 }
 
-AnimalChildBirthFormInputs.displayName = 'AnimalChildBirthFormInputs'
+AnimalChildbirthFormInputs.displayName = 'AnimalChildbirthFormInputs'

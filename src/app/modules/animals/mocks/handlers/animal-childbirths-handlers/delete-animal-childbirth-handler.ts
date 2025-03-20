@@ -3,7 +3,7 @@ import { HttpResponse, type PathParams } from 'msw'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
 
-export const deleteAnimalChildBirthHandler = httpWithMiddleware<
+export const deleteAnimalChildbirthHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId' | 'id'>,
   never,
   never

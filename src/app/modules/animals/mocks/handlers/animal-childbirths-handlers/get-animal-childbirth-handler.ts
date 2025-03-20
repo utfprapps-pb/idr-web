@@ -5,9 +5,9 @@ import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
 
-import animalChildBirthsData from '@database/animalChildBirthsData.json'
+import animalChildbirthsData from '@database/animalChildbirthsData.json'
 
-export const getAnimalChildBirthHandler = httpWithMiddleware<
+export const getAnimalChildbirthHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId' | 'id'>,
   never,
   never
@@ -16,7 +16,7 @@ export const getAnimalChildBirthHandler = httpWithMiddleware<
   method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ params }) => {
-    if (!animalChildBirthsData.length) {
+    if (!animalChildbirthsData.length) {
       return HttpResponse.json(
         {},
         {
@@ -25,11 +25,11 @@ export const getAnimalChildBirthHandler = httpWithMiddleware<
       )
     }
 
-    const animalChildBirthFound = animalChildBirthsData.find(
+    const animalChildbirthFound = animalChildbirthsData.find(
       (animal) => animal.id === String(params.id)
     )
 
-    if (!animalChildBirthFound) {
+    if (!animalChildbirthFound) {
       return HttpResponse.json(
         {},
         {
@@ -40,12 +40,12 @@ export const getAnimalChildBirthHandler = httpWithMiddleware<
 
     return HttpResponse.json(
       {
-        date: animalChildBirthFound.date,
-        gender: animalChildBirthFound.gender,
-        weight: animalChildBirthFound.weight,
-        condition: animalChildBirthFound.condition,
+        date: animalChildbirthFound.date,
+        gender: animalChildbirthFound.gender,
+        weight: animalChildbirthFound.weight,
+        condition: animalChildbirthFound.condition,
         breed: {
-          label: animalChildBirthFound.breed,
+          label: animalChildbirthFound.breed,
           value: faker.string.uuid(),
         },
       },

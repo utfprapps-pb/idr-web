@@ -1,18 +1,18 @@
 import type { Option, WithId } from '@/core/domain/types'
 
-type AnimalChildBirthCondition = 'ALIVE' | 'DEAD'
+type AnimalChildbirthCondition = 'ALIVE' | 'DEAD'
 
-type AnimalChildBirthGender = 'MALE' | 'FEMALE'
+type AnimalChildbirthGender = 'MALE' | 'FEMALE'
 
-export type AnimalChildBirthDetailsModel = {
+export type AnimalChildbirthDetailsModel = {
   date: Date
-  gender: AnimalChildBirthGender
+  gender: AnimalChildbirthGender
   weight: string
-  condition: AnimalChildBirthCondition
+  condition: AnimalChildbirthCondition
   breed: Option
 }
 
-export type AnimalChildBirthModel = WithId<{
+export type AnimalChildbirthModel = WithId<{
   date: string
   gender: string
   weight: string

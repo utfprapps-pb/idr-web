@@ -5,20 +5,20 @@ import {
   UnexpectedError,
 } from '@/core/domain/errors'
 
-import type { CreateAnimalChildBirthUseCase } from '../../../domain/use-cases/animal-childbirths-use-cases'
+import type { CreateAnimalChildbirthUseCase } from '../../../domain/use-cases/animal-childbirths-use-cases'
 
-export class RemoteCreateAnimalChildBirthUseCase
-  implements CreateAnimalChildBirthUseCase
+export class RemoteCreateAnimalChildbirthUseCase
+  implements CreateAnimalChildbirthUseCase
 {
   constructor(
     private readonly url: string,
     private readonly httpClient: HttpClient
   ) {}
 
-  execute: CreateAnimalChildBirthUseCase['execute'] = async ({
+  execute: CreateAnimalChildbirthUseCase['execute'] = async ({
     propertyId,
     animalId,
-    animalChildBirth,
+    animalChildbirth,
   }) => {
     const url = this.url
       .replace(':propertyId', propertyId)
@@ -27,7 +27,7 @@ export class RemoteCreateAnimalChildBirthUseCase
     const { statusCode } = await this.httpClient.request({
       url,
       method: 'post',
-      body: animalChildBirth,
+      body: animalChildbirth,
     })
 
     if (statusCode === HttpStatusCode.created) return

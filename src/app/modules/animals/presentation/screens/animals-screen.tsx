@@ -12,7 +12,7 @@ import { AnimalDeleteDialog } from '../components/animal-delete-dialog'
 import { AnimalContext, AnimalProvider } from '../contexts/animal-context'
 import { AnimalForm } from '../forms/animal-form'
 
-import { AnimalChildBirthsScreen } from './animal-childbirths-screen'
+import { AnimalChildbirthsScreen } from './animal-childbirths-screen'
 
 type Tab = {
   key: string
@@ -28,7 +28,7 @@ export function AnimalsScreen() {
       {
         key: 'animal-childbirths',
         name: 'Parto',
-        component: animalId && <AnimalChildBirthsScreen animalId={animalId} />,
+        component: animalId && <AnimalChildbirthsScreen animalId={animalId} />,
       },
     ],
     [animalId]

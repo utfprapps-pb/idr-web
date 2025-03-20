@@ -5,38 +5,38 @@ import toast from 'react-hot-toast'
 
 import { AlertDialog } from '@/core/presentation/components/ui'
 
-import { makeRemoteDeleteAnimalChildBirthUseCase } from '../../../main/factories/use-cases/animal-childbirths-use-cases'
-import { useAnimalChildBirthContext } from '../../hooks/animal-childbirth-context.hook'
+import { makeRemoteDeleteAnimalChildbirthUseCase } from '../../../main/factories/use-cases/animal-childbirths-use-cases'
+import { useAnimalChildbirthContext } from '../../hooks/animal-childbirth-context.hook'
 
-export function AnimalChildBirthDeleteDialog() {
-  const deleteAnimalChildBirthUseCase =
-    makeRemoteDeleteAnimalChildBirthUseCase()
+export function AnimalChildbirthDeleteDialog() {
+  const deleteAnimalChildbirthUseCase =
+    makeRemoteDeleteAnimalChildbirthUseCase()
 
   const {
     propertyId,
     animalId,
-    selectedAnimalChildBirth,
-    isOpenDeleteAnimalChildBirthContainer,
-    closeDeleteAnimalChildBirthContainer,
-  } = useAnimalChildBirthContext()
+    selectedAnimalChildbirth,
+    isOpenDeleteAnimalChildbirthContainer,
+    closeDeleteAnimalChildbirthContainer,
+  } = useAnimalChildbirthContext()
 
   const queryClient = useQueryClient()
 
-  const { mutateAsync: mutateHandleDeleteAnimalChildBirth } = useMutation({
-    mutationFn: deleteAnimalChildBirthUseCase.execute,
+  const { mutateAsync: mutateHandleDeleteAnimalChildbirth } = useMutation({
+    mutationFn: deleteAnimalChildbirthUseCase.execute,
   })
 
-  const handleDeleteAnimalChildBirth = useCallback(async () => {
-    if (!selectedAnimalChildBirth?.id) {
+  const handleDeleteAnimalChildbirth = useCallback(async () => {
+    if (!selectedAnimalChildbirth?.id) {
       toast.error('Erro ao remover parto do animal')
       return
     }
 
     try {
-      await mutateHandleDeleteAnimalChildBirth({
+      await mutateHandleDeleteAnimalChildbirth({
         propertyId,
         animalId,
-        id: selectedAnimalChildBirth.id,
+        id: selectedAnimalChildbirth.id,
       })
 
       queryClient.invalidateQueries({
@@ -48,26 +48,26 @@ export function AnimalChildBirthDeleteDialog() {
     } catch {
       toast.error('Erro ao remover parto do animal')
     } finally {
-      closeDeleteAnimalChildBirthContainer()
+      closeDeleteAnimalChildbirthContainer()
     }
   }, [
     animalId,
-    closeDeleteAnimalChildBirthContainer,
-    mutateHandleDeleteAnimalChildBirth,
+    closeDeleteAnimalChildbirthContainer,
+    mutateHandleDeleteAnimalChildbirth,
     propertyId,
     queryClient,
-    selectedAnimalChildBirth,
+    selectedAnimalChildbirth,
   ])
 
   return (
     <AlertDialog.Root
-      open={isOpenDeleteAnimalChildBirthContainer}
-      onOpenChange={closeDeleteAnimalChildBirthContainer}
+      open={isOpenDeleteAnimalChildbirthContainer}
+      onOpenChange={closeDeleteAnimalChildbirthContainer}
     >
       <AlertDialog.Content>
         <AlertDialog.Header>
           <AlertDialog.Title>
-            {`Deseja remover o parto do animal ${selectedAnimalChildBirth?.breed}`}
+            {`Deseja remover o parto do animal ${selectedAnimalChildbirth?.breed}`}
           </AlertDialog.Title>
           <AlertDialog.Description>
             Não será possível desfazer essa ação!
@@ -75,7 +75,7 @@ export function AnimalChildBirthDeleteDialog() {
         </AlertDialog.Header>
         <AlertDialog.Footer>
           <AlertDialog.Cancel>Cancelar</AlertDialog.Cancel>
-          <AlertDialog.Action onClick={handleDeleteAnimalChildBirth}>
+          <AlertDialog.Action onClick={handleDeleteAnimalChildbirth}>
             Remover
           </AlertDialog.Action>
         </AlertDialog.Footer>
@@ -84,4 +84,4 @@ export function AnimalChildBirthDeleteDialog() {
   )
 }
 
-AnimalChildBirthDeleteDialog.displayName = 'AnimalChildBirthDeleteDialog'
+AnimalChildbirthDeleteDialog.displayName = 'AnimalChildbirthDeleteDialog'

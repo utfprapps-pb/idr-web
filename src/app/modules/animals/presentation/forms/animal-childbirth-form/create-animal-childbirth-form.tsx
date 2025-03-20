@@ -7,45 +7,45 @@ import toast from 'react-hot-toast'
 import { Button, Form, Sheet } from '@/core/presentation/components/ui'
 import { useHookForm } from '@/core/presentation/hooks'
 
-import { makeRemoteCreateAnimalChildBirthUseCase } from '../../../main/factories/use-cases/animal-childbirths-use-cases'
-import { useAnimalChildBirthContext } from '../../hooks/animal-childbirth-context.hook'
+import { makeRemoteCreateAnimalChildbirthUseCase } from '../../../main/factories/use-cases/animal-childbirths-use-cases'
+import { useAnimalChildbirthContext } from '../../hooks/animal-childbirth-context.hook'
 import {
-  animalChildBirthFormSchema,
-  AnimalChildBirthFormSchema,
+  animalChildbirthFormSchema,
+  AnimalChildbirthFormSchema,
 } from '../../validations/animal-childbirth-form-schema'
 
-import { AnimalChildBirthFormInputs } from './animal-childbirth-form-inputs'
+import { AnimalChildbirthFormInputs } from './animal-childbirth-form-inputs'
 import { ANIMAL_CHILD_BIRTH_INITIAL_FORM_DATA } from './animal-childbirth-initial-data'
 
-export function CreateAnimalChildBirthForm() {
+export function CreateAnimalChildbirthForm() {
   const {
     propertyId,
     animalId,
-    isOpenNewAnimalChildBirthForm,
-    closeNewAnimalChildBirthForm,
-  } = useAnimalChildBirthContext()
+    isOpenNewAnimalChildbirthForm,
+    closeNewAnimalChildbirthForm,
+  } = useAnimalChildbirthContext()
 
-  const createAnimalChildBirthUseCase =
-    makeRemoteCreateAnimalChildBirthUseCase()
+  const createAnimalChildbirthUseCase =
+    makeRemoteCreateAnimalChildbirthUseCase()
 
   const queryClient = useQueryClient()
 
-  const form = useHookForm<AnimalChildBirthFormSchema>({
+  const form = useHookForm<AnimalChildbirthFormSchema>({
     defaultValues: ANIMAL_CHILD_BIRTH_INITIAL_FORM_DATA,
-    resolver: zodResolver(animalChildBirthFormSchema),
+    resolver: zodResolver(animalChildbirthFormSchema),
   })
 
-  const { mutateAsync: mutateHandleCreateAnimalChildBirth } = useMutation({
-    mutationFn: createAnimalChildBirthUseCase.execute,
+  const { mutateAsync: mutateHandleCreateAnimalChildbirth } = useMutation({
+    mutationFn: createAnimalChildbirthUseCase.execute,
   })
 
-  const handleCreateAnimalChildBirth = useCallback(
-    async (data: AnimalChildBirthFormSchema) => {
+  const handleCreateAnimalChildbirth = useCallback(
+    async (data: AnimalChildbirthFormSchema) => {
       try {
-        await mutateHandleCreateAnimalChildBirth({
+        await mutateHandleCreateAnimalChildbirth({
           propertyId,
           animalId,
-          animalChildBirth: data,
+          animalChildbirth: data,
         })
 
         queryClient.invalidateQueries({
@@ -57,16 +57,16 @@ export function CreateAnimalChildBirthForm() {
 
         form.reset(ANIMAL_CHILD_BIRTH_INITIAL_FORM_DATA)
 
-        closeNewAnimalChildBirthForm()
+        closeNewAnimalChildbirthForm()
       } catch {
         toast.error('Erro ao cadastrar parto de animal')
       }
     },
     [
       animalId,
-      closeNewAnimalChildBirthForm,
+      closeNewAnimalChildbirthForm,
       form,
-      mutateHandleCreateAnimalChildBirth,
+      mutateHandleCreateAnimalChildbirth,
       propertyId,
       queryClient,
     ]
@@ -74,8 +74,8 @@ export function CreateAnimalChildBirthForm() {
 
   return (
     <Sheet.Root
-      open={isOpenNewAnimalChildBirthForm}
-      onOpenChange={closeNewAnimalChildBirthForm}
+      open={isOpenNewAnimalChildbirthForm}
+      onOpenChange={closeNewAnimalChildbirthForm}
     >
       <Sheet.Content className="overflow-y-scroll h-screen" side="right">
         <Sheet.Header>
@@ -89,9 +89,9 @@ export function CreateAnimalChildBirthForm() {
           <form
             id="create-animal-child-birth-form"
             className="flex flex-col h-full gap-4"
-            onSubmit={form.handleSubmit(handleCreateAnimalChildBirth)}
+            onSubmit={form.handleSubmit(handleCreateAnimalChildbirth)}
           >
-            <AnimalChildBirthFormInputs />
+            <AnimalChildbirthFormInputs />
           </form>
         </Form.Provider>
 
@@ -110,4 +110,4 @@ export function CreateAnimalChildBirthForm() {
   )
 }
 
-CreateAnimalChildBirthForm.displayName = 'CreateAnimalChildBirthForm'
+CreateAnimalChildbirthForm.displayName = 'CreateAnimalChildbirthForm'

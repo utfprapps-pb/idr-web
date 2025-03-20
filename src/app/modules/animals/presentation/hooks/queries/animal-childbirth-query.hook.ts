@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
-import { makeRemoteGetAnimalChildBirthUseCase } from '../../../main/factories/use-cases/animal-childbirths-use-cases'
+import { makeRemoteGetAnimalChildbirthUseCase } from '../../../main/factories/use-cases/animal-childbirths-use-cases'
 
 type Props = {
   id: string
@@ -11,18 +11,18 @@ type Props = {
   animalId: string
 }
 
-export function useAnimalChildBirthQuery({ id, propertyId, animalId }: Props) {
-  const getAnimalChildBirthUseCase = makeRemoteGetAnimalChildBirthUseCase()
+export function useAnimalChildbirthQuery({ id, propertyId, animalId }: Props) {
+  const getAnimalChildbirthUseCase = makeRemoteGetAnimalChildbirthUseCase()
 
   const {
-    data: animalChildBirth,
+    data: animalChildbirth,
     isError,
     isLoading,
-    refetch: refetchAnimalChildBirth,
+    refetch: refetchAnimalChildbirth,
   } = useQuery({
     queryKey: ['animal-child-birth', id],
     queryFn: () =>
-      getAnimalChildBirthUseCase.execute({
+      getAnimalChildbirthUseCase.execute({
         propertyId,
         animalId,
         id,
@@ -34,8 +34,8 @@ export function useAnimalChildBirthQuery({ id, propertyId, animalId }: Props) {
   }, [isError])
 
   return {
-    animalChildBirth,
+    animalChildbirth,
     isLoading,
-    refetchAnimalChildBirth,
+    refetchAnimalChildbirth,
   }
 }

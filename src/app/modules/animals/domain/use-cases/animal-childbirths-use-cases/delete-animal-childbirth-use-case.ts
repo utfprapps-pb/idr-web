@@ -1,6 +1,6 @@
 import type { RequestInterface } from '@/core/domain/types'
 
-export type DeleteAnimalChildBirthUseCase = RequestInterface<
+export type DeleteAnimalChildbirthUseCase = RequestInterface<
   {
     propertyId: string
     animalId: string

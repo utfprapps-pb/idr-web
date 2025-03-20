@@ -1,31 +1,31 @@
 import { Button, Input } from '@/core/presentation/components/ui'
 
-import { AnimalChildBirthDataTable } from '../components/animal-childbirth-data-table'
-import { AnimalChildBirthDeleteDialog } from '../components/animal-childbirth-delete-dialog'
+import { AnimalChildbirthDataTable } from '../components/animal-childbirth-data-table'
+import { AnimalChildbirthDeleteDialog } from '../components/animal-childbirth-delete-dialog'
 import {
-  AnimalChildBirthContext,
-  AnimalChildBirthProvider,
+  AnimalChildbirthContext,
+  AnimalChildbirthProvider,
 } from '../contexts/animal-childbirth-context'
-import { AnimalChildBirthForm } from '../forms/animal-childbirth-form'
+import { AnimalChildbirthForm } from '../forms/animal-childbirth-form'
 
-type AnimalChildBirthsScreenProps = {
+type AnimalChildbirthsScreenProps = {
   animalId: string
 }
 
-export function AnimalChildBirthsScreen({
+export function AnimalChildbirthsScreen({
   animalId,
-}: AnimalChildBirthsScreenProps) {
+}: AnimalChildbirthsScreenProps) {
   return (
-    <AnimalChildBirthProvider animalId={animalId}>
-      <AnimalChildBirthContext.Consumer>
+    <AnimalChildbirthProvider animalId={animalId}>
+      <AnimalChildbirthContext.Consumer>
         {({
           filters,
           handleChangeFilters,
-          selectedAnimalChildBirth,
-          isOpenDeleteAnimalChildBirthContainer,
-          isOpenNewAnimalChildBirthForm,
-          isOpenEditAnimalChildBirthForm,
-          openNewAnimalChildBirthForm,
+          selectedAnimalChildbirth,
+          isOpenDeleteAnimalChildbirthContainer,
+          isOpenNewAnimalChildbirthForm,
+          isOpenEditAnimalChildbirthForm,
+          openNewAnimalChildbirthForm,
         }) => (
           <section className="flex flex-col gap-4 w-full">
             <div className="flex justify-between gap-2">
@@ -41,25 +41,25 @@ export function AnimalChildBirthsScreen({
               <Button
                 type="button"
                 variant="default"
-                onClick={openNewAnimalChildBirthForm}
+                onClick={openNewAnimalChildbirthForm}
               >
                 Adicionar Parto do Animal
               </Button>
             </div>
 
-            <AnimalChildBirthDataTable />
-            {selectedAnimalChildBirth &&
-              isOpenDeleteAnimalChildBirthContainer && (
-                <AnimalChildBirthDeleteDialog />
+            <AnimalChildbirthDataTable />
+            {selectedAnimalChildbirth &&
+              isOpenDeleteAnimalChildbirthContainer && (
+                <AnimalChildbirthDeleteDialog />
               )}
 
-            {(isOpenNewAnimalChildBirthForm ||
-              isOpenEditAnimalChildBirthForm) && (
-              <AnimalChildBirthForm id={selectedAnimalChildBirth?.id} />
+            {(isOpenNewAnimalChildbirthForm ||
+              isOpenEditAnimalChildbirthForm) && (
+              <AnimalChildbirthForm id={selectedAnimalChildbirth?.id} />
             )}
           </section>
         )}
-      </AnimalChildBirthContext.Consumer>
-    </AnimalChildBirthProvider>
+      </AnimalChildbirthContext.Consumer>
+    </AnimalChildbirthProvider>
   )
 }

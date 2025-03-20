@@ -1,16 +1,16 @@
-import { CreateAnimalChildBirthForm } from './create-animal-childbirth-form'
-import { EditAnimalChildBirthForm } from './edit-animal-childbirth-form'
+import { CreateAnimalChildbirthForm } from './create-animal-childbirth-form'
+import { EditAnimalChildbirthForm } from './edit-animal-childbirth-form'
 
-type AnimalChildBirthFormProps = {
+type AnimalChildbirthFormProps = {
   id?: string
 }
 
-export function AnimalChildBirthForm({ id }: AnimalChildBirthFormProps) {
+export function AnimalChildbirthForm({ id }: AnimalChildbirthFormProps) {
   if (id) {
-    return <EditAnimalChildBirthForm />
+    return <EditAnimalChildbirthForm />
   }
 
-  return <CreateAnimalChildBirthForm />
+  return <CreateAnimalChildbirthForm />
 }
 
-AnimalChildBirthForm.displayName = 'AnimalChildBirthForm'
+AnimalChildbirthForm.displayName = 'AnimalChildbirthForm'

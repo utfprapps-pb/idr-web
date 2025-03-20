@@ -1,8 +1,8 @@
-import type { AnimalChildBirthModel } from '../../domain/models/animal-childbirths-model'
+import type { AnimalChildbirthModel } from '../../domain/models/animal-childbirths-model'
 import type { Filters, Sort } from '@/core/domain/types'
 
-export type AnimalChildBirthFilters = Partial<
-  Filters<keyof AnimalChildBirthModel>
+export type AnimalChildbirthFilters = Partial<
+  Filters<keyof AnimalChildbirthModel>
 >
 
-export type AnimalChildBirthSort = Sort<keyof AnimalChildBirthModel>
+export type AnimalChildbirthSort = Sort<keyof AnimalChildbirthModel>

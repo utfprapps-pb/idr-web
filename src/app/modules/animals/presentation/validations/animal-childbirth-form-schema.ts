@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 import { optionSchema } from '@/core/validation/schemas'
 
-export const animalChildBirthFormSchema = z.object({
+export const animalChildbirthFormSchema = z.object({
   date: z.date().max(new Date(), { message: 'Data inválida' }),
   gender: z.enum(['MALE', 'FEMALE'], {
     message: 'Campo obrigatório',
@@ -19,6 +19,6 @@ export const animalChildBirthFormSchema = z.object({
   ),
 })
 
-export type AnimalChildBirthFormSchema = z.infer<
-  typeof animalChildBirthFormSchema
+export type AnimalChildbirthFormSchema = z.infer<
+  typeof animalChildbirthFormSchema
 >

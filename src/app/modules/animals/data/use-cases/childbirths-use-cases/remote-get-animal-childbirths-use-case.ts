@@ -8,18 +8,18 @@ import {
 } from '@/core/domain/errors'
 import { ITEMS_PER_PAGE } from '@/core/infra/http'
 
-import type { AnimalChildBirthModel } from '../../../domain/models/animal-childbirths-model'
-import type { GetAnimalChildBirthsUseCase } from '../../../domain/use-cases/animal-childbirths-use-cases'
+import type { AnimalChildbirthModel } from '../../../domain/models/animal-childbirths-model'
+import type { GetAnimalChildbirthsUseCase } from '../../../domain/use-cases/animal-childbirths-use-cases'
 
-export class RemoteGetAnimalChildBirthsUseCase
-  implements GetAnimalChildBirthsUseCase
+export class RemoteGetAnimalChildbirthsUseCase
+  implements GetAnimalChildbirthsUseCase
 {
   constructor(
     private readonly url: string,
     private readonly httpClient: HttpClient
   ) {}
 
-  execute: GetAnimalChildBirthsUseCase['execute'] = async ({
+  execute: GetAnimalChildbirthsUseCase['execute'] = async ({
     propertyId,
     animalId,
     queryParams: { filters, pagination, sort },
@@ -38,7 +38,7 @@ export class RemoteGetAnimalChildBirthsUseCase
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        resources: body.animalChildBirths.map(
+        resources: body.animalChildbirths.map(
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (item: any) => {
             const condition = item.condition === 'ALIVE' ? 'Vivo' : 'Morto'
@@ -51,7 +51,7 @@ export class RemoteGetAnimalChildBirthsUseCase
               gender,
               date: format(new Date(item.date), 'dd/MM/yyyy'),
               weight: item.weight,
-            } as AnimalChildBirthModel
+            } as AnimalChildbirthModel
           }
         ),
         totalPages: Math.ceil(body.totalRegisters / ITEMS_PER_PAGE),

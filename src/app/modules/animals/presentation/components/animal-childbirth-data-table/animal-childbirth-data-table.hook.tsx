@@ -5,28 +5,28 @@ import { MoreHorizontalIcon, PencilIcon, Trash2Icon } from 'lucide-react'
 import { DropdownMenu } from '@/core/presentation/components/ui'
 import { useDebounce } from '@/core/presentation/hooks'
 
-import { useAnimalChildBirthContext } from '../../hooks/animal-childbirth-context.hook'
-import { useAnimalChildBirthsQuery } from '../../hooks/queries/animal-childbirths-query.hook'
+import { useAnimalChildbirthContext } from '../../hooks/animal-childbirth-context.hook'
+import { useAnimalChildbirthsQuery } from '../../hooks/queries/animal-childbirths-query.hook'
 
-import type { AnimalChildBirthModel } from '../../../domain/models/animal-childbirths-model'
-import type { AnimalChildBirthSort } from '../../types/animal-childbirth-types'
+import type { AnimalChildbirthModel } from '../../../domain/models/animal-childbirths-model'
+import type { AnimalChildbirthSort } from '../../types/animal-childbirth-types'
 import type { ColumnDef } from '@tanstack/react-table'
 
-export function useAnimalChildBirthDataTable() {
+export function useAnimalChildbirthDataTable() {
   const {
     propertyId,
     animalId,
     filters,
-    openEditAnimalChildBirthForm,
-    openDeleteAnimalChildBirthContainer,
-  } = useAnimalChildBirthContext()
+    openEditAnimalChildbirthForm,
+    openDeleteAnimalChildbirthContainer,
+  } = useAnimalChildbirthContext()
 
   const [page, setPage] = useState(1)
-  const [sort, setSort] = useState<AnimalChildBirthSort>()
+  const [sort, setSort] = useState<AnimalChildbirthSort>()
 
   const debouncedFilters = useDebounce({ value: filters, delayInMs: 1000 })
 
-  const { isLoading, animalChildBirths } = useAnimalChildBirthsQuery({
+  const { isLoading, animalChildbirths } = useAnimalChildbirthsQuery({
     propertyId,
     animalId,
     filters: debouncedFilters,
@@ -34,7 +34,7 @@ export function useAnimalChildBirthDataTable() {
     sort,
   })
 
-  const columns = useMemo<ColumnDef<AnimalChildBirthModel>[]>(
+  const columns = useMemo<ColumnDef<AnimalChildbirthModel>[]>(
     () => [
       {
         accessorKey: 'date',
@@ -48,9 +48,9 @@ export function useAnimalChildBirthDataTable() {
         accessorKey: 'weight',
         header: 'Peso',
         cell: ({ row }) => {
-          const { original: animalChildBirth } = row
+          const { original: animalChildbirth } = row
 
-          return animalChildBirth.weight ? `${animalChildBirth.weight} kg` : '-'
+          return animalChildbirth.weight ? `${animalChildbirth.weight} kg` : '-'
         },
       },
       {
@@ -65,17 +65,17 @@ export function useAnimalChildBirthDataTable() {
         id: 'row-actions',
         header: '',
         cell: ({ row }) => {
-          const { original: animalChildBirth } = row
+          const { original: animalChildbirth } = row
 
           return (
-            <DropdownMenu.Root key={animalChildBirth.id}>
+            <DropdownMenu.Root key={animalChildbirth.id}>
               <DropdownMenu.Trigger>
                 <MoreHorizontalIcon />
               </DropdownMenu.Trigger>
               <DropdownMenu.Content>
                 <DropdownMenu.Item
                   className="gap-2"
-                  onClick={() => openEditAnimalChildBirthForm(animalChildBirth)}
+                  onClick={() => openEditAnimalChildbirthForm(animalChildbirth)}
                 >
                   <PencilIcon size={14} /> Editar
                 </DropdownMenu.Item>
@@ -83,7 +83,7 @@ export function useAnimalChildBirthDataTable() {
                 <DropdownMenu.Item
                   className="gap-2"
                   onClick={() =>
-                    openDeleteAnimalChildBirthContainer(animalChildBirth)
+                    openDeleteAnimalChildbirthContainer(animalChildbirth)
                   }
                 >
                   <Trash2Icon size={14} /> Excluir
@@ -94,12 +94,12 @@ export function useAnimalChildBirthDataTable() {
         },
       },
     ],
-    [openDeleteAnimalChildBirthContainer, openEditAnimalChildBirthForm]
+    [openDeleteAnimalChildbirthContainer, openEditAnimalChildbirthForm]
   )
 
   return {
     columns,
-    animalChildBirths,
+    animalChildbirths,
     isLoading,
     page,
     sort,

@@ -5,20 +5,20 @@ import {
   UnexpectedError,
 } from '@/core/domain/errors'
 
-import type { UpdateAnimalChildBirthUseCase } from '../../../domain/use-cases/animal-childbirths-use-cases'
+import type { UpdateAnimalChildbirthUseCase } from '../../../domain/use-cases/animal-childbirths-use-cases'
 
-export class RemoteUpdateAnimalChildBirthUseCase
-  implements UpdateAnimalChildBirthUseCase
+export class RemoteUpdateAnimalChildbirthUseCase
+  implements UpdateAnimalChildbirthUseCase
 {
   constructor(
     private readonly url: string,
     private readonly httpClient: HttpClient
   ) {}
 
-  execute: UpdateAnimalChildBirthUseCase['execute'] = async ({
+  execute: UpdateAnimalChildbirthUseCase['execute'] = async ({
     propertyId,
     animalId,
-    animalChildBirth: { id, ...animalChildBirth },
+    animalChildbirth: { id, ...animalChildbirth },
   }) => {
     const url = this.url
       .replace(':propertyId', propertyId)
@@ -27,7 +27,7 @@ export class RemoteUpdateAnimalChildBirthUseCase
     const { statusCode } = await this.httpClient.request({
       url: `${url}/${id}`,
       method: 'patch',
-      body: animalChildBirth,
+      body: animalChildbirth,
     })
 
     if (statusCode === HttpStatusCode.noContent) return

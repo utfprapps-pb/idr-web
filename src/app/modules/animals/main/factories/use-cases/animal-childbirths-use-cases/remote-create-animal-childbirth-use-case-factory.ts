@@ -1,11 +1,11 @@
 import { makeApiHttpClient } from '@/core/main/factories/http'
 
-import { RemoteCreateAnimalChildBirthUseCase } from '../../../../data/use-cases/childbirths-use-cases'
+import { RemoteCreateAnimalChildbirthUseCase } from '../../../../data/use-cases/childbirths-use-cases'
 
-import type { CreateAnimalChildBirthUseCase } from '../../../../domain/use-cases/animal-childbirths-use-cases'
+import type { CreateAnimalChildbirthUseCase } from '../../../../domain/use-cases/animal-childbirths-use-cases'
 
-export function makeRemoteCreateAnimalChildBirthUseCase(): CreateAnimalChildBirthUseCase {
-  return new RemoteCreateAnimalChildBirthUseCase(
+export function makeRemoteCreateAnimalChildbirthUseCase(): CreateAnimalChildbirthUseCase {
+  return new RemoteCreateAnimalChildbirthUseCase(
     'properties/:propertyId/animals/:animalId/childbirths',
     makeApiHttpClient<void>()
   )

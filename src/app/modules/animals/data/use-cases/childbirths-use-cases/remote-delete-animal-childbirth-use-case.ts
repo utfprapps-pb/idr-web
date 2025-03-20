@@ -5,17 +5,17 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
-import type { DeleteAnimalChildBirthUseCase } from '../../../domain/use-cases/animal-childbirths-use-cases'
+import type { DeleteAnimalChildbirthUseCase } from '../../../domain/use-cases/animal-childbirths-use-cases'
 
-export class RemoteDeleteAnimalChildBirthUseCase
-  implements DeleteAnimalChildBirthUseCase
+export class RemoteDeleteAnimalChildbirthUseCase
+  implements DeleteAnimalChildbirthUseCase
 {
   constructor(
     private readonly url: string,
     private readonly httpClient: HttpClient
   ) {}
 
-  execute: DeleteAnimalChildBirthUseCase['execute'] = async ({
+  execute: DeleteAnimalChildbirthUseCase['execute'] = async ({
     propertyId,
     animalId,
     id,

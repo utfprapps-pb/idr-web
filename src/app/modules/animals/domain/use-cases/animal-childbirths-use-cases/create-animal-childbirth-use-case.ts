@@ -1,11 +1,11 @@
-import type { AnimalChildBirthDetailsModel } from '../../models/animal-childbirths-model'
+import type { AnimalChildbirthDetailsModel } from '../../models/animal-childbirths-model'
 import type { RequestInterface } from '@/core/domain/types'
 
-export type CreateAnimalChildBirthUseCase = RequestInterface<
+export type CreateAnimalChildbirthUseCase = RequestInterface<
   {
     propertyId: string
     animalId: string
-    animalChildBirth: AnimalChildBirthDetailsModel
+    animalChildbirth: AnimalChildbirthDetailsModel
   },
   void
 >

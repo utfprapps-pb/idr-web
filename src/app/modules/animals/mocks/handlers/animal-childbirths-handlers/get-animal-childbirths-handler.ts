@@ -10,9 +10,9 @@ import {
   paginateData,
 } from '@/core/mocks/utils'
 
-import animalChildBirthsData from '@database/animalChildBirthsData.json'
+import animalChildbirthsData from '@database/animalChildbirthsData.json'
 
-import type { AnimalChildBirthModel } from '../../../domain/models/animal-childbirths-model'
+import type { AnimalChildbirthModel } from '../../../domain/models/animal-childbirths-model'
 
 type Params = {
   filter: string
@@ -21,11 +21,11 @@ type Params = {
 }
 
 type Response = {
-  animalChildBirths: AnimalChildBirthModel[]
+  animalChildbirths: AnimalChildbirthModel[]
   totalRegisters: number
 }
 
-export const getAnimalChildBirthsHandler = httpWithMiddleware<
+export const getAnimalChildbirthsHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId'>,
   Params,
   Response
@@ -34,10 +34,10 @@ export const getAnimalChildBirthsHandler = httpWithMiddleware<
   method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ request }) => {
-    if (!animalChildBirthsData.length) {
+    if (!animalChildbirthsData.length) {
       return HttpResponse.json(
         {
-          animalChildBirths: [],
+          animalChildbirths: [],
           totalRegisters: 0,
         },
         {
@@ -49,29 +49,29 @@ export const getAnimalChildBirthsHandler = httpWithMiddleware<
     const url = new URL(request.url)
     const { pagination, filters, sort } = normalizeQueryFilters(url)
 
-    let animalChildBirths = animalChildBirthsData as AnimalChildBirthModel[]
+    let animalChildbirths = animalChildbirthsData as AnimalChildbirthModel[]
 
     if (filters)
-      animalChildBirths = filterData<AnimalChildBirthModel>(
+      animalChildbirths = filterData<AnimalChildbirthModel>(
         filters,
-        animalChildBirths
+        animalChildbirths
       )
     if (sort)
-      animalChildBirths = sortData<AnimalChildBirthModel>(
+      animalChildbirths = sortData<AnimalChildbirthModel>(
         sort,
-        animalChildBirths
+        animalChildbirths
       )
-    const totalRegisters = animalChildBirths.length
+    const totalRegisters = animalChildbirths.length
 
     if (pagination)
-      animalChildBirths = paginateData<AnimalChildBirthModel>(
+      animalChildbirths = paginateData<AnimalChildbirthModel>(
         pagination,
-        animalChildBirths
+        animalChildbirths
       )
 
     return HttpResponse.json(
       {
-        animalChildBirths,
+        animalChildbirths,
         totalRegisters,
       },
       { status: HttpStatusCode.ok }

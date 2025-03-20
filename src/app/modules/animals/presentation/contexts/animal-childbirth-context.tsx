@@ -8,50 +8,50 @@ import {
 
 import { useParams } from 'react-router-dom'
 
-import type { AnimalChildBirthModel } from '../../domain/models/animal-childbirths-model'
-import type { AnimalChildBirthFilters } from '../types/animal-childbirth-types'
+import type { AnimalChildbirthModel } from '../../domain/models/animal-childbirths-model'
+import type { AnimalChildbirthFilters } from '../types/animal-childbirth-types'
 
-type AnimalChildBirthValue = {
+type AnimalChildbirthValue = {
   propertyId: string
   animalId: string
-  selectedAnimalChildBirth?: AnimalChildBirthModel
-  filters: AnimalChildBirthFilters
-  handleChangeFilters: (newFilters: AnimalChildBirthFilters) => void
-  isOpenNewAnimalChildBirthForm: boolean
-  isOpenEditAnimalChildBirthForm: boolean
-  isOpenDeleteAnimalChildBirthContainer: boolean
-  openNewAnimalChildBirthForm: () => void
-  closeNewAnimalChildBirthForm: () => void
-  openEditAnimalChildBirthForm: (
-    animalChildBirth: AnimalChildBirthModel
+  selectedAnimalChildbirth?: AnimalChildbirthModel
+  filters: AnimalChildbirthFilters
+  handleChangeFilters: (newFilters: AnimalChildbirthFilters) => void
+  isOpenNewAnimalChildbirthForm: boolean
+  isOpenEditAnimalChildbirthForm: boolean
+  isOpenDeleteAnimalChildbirthContainer: boolean
+  openNewAnimalChildbirthForm: () => void
+  closeNewAnimalChildbirthForm: () => void
+  openEditAnimalChildbirthForm: (
+    animalChildbirth: AnimalChildbirthModel
   ) => void
-  closeEditAnimalChildBirthForm: () => void
-  openDeleteAnimalChildBirthContainer: (
-    animalChildBirth: AnimalChildBirthModel
+  closeEditAnimalChildbirthForm: () => void
+  openDeleteAnimalChildbirthContainer: (
+    animalChildbirth: AnimalChildbirthModel
   ) => void
-  closeDeleteAnimalChildBirthContainer: () => void
+  closeDeleteAnimalChildbirthContainer: () => void
 }
 
-export const AnimalChildBirthContext = createContext<AnimalChildBirthValue>(
-  {} as AnimalChildBirthValue
+export const AnimalChildbirthContext = createContext<AnimalChildbirthValue>(
+  {} as AnimalChildbirthValue
 )
 
-type AnimalChildBirthProviderProps = PropsWithChildren<{
+type AnimalChildbirthProviderProps = PropsWithChildren<{
   animalId: string
 }>
 
-export function AnimalChildBirthProvider({
+export function AnimalChildbirthProvider({
   children,
   animalId,
-}: AnimalChildBirthProviderProps) {
+}: AnimalChildbirthProviderProps) {
   const params = useParams<{ propertyId: string }>()
 
-  const [filters, setFilters] = useState<AnimalChildBirthFilters>({
+  const [filters, setFilters] = useState<AnimalChildbirthFilters>({
     condition: '',
   })
 
   const handleChangeFilters = useCallback(
-    (newFilters: AnimalChildBirthFilters) => {
+    (newFilters: AnimalChildbirthFilters) => {
       setFilters((prevState) => ({
         ...prevState,
         ...newFilters,
@@ -60,52 +60,52 @@ export function AnimalChildBirthProvider({
     []
   )
 
-  const [isOpenNewAnimalChildBirthForm, setIsOpenNewAnimalChildBirthForm] =
+  const [isOpenNewAnimalChildbirthForm, setIsOpenNewAnimalChildbirthForm] =
     useState(false)
 
-  const [isOpenEditAnimalChildBirthForm, setIsOpenEditAnimalChildBirthForm] =
+  const [isOpenEditAnimalChildbirthForm, setIsOpenEditAnimalChildbirthForm] =
     useState(false)
 
   const [
-    isOpenDeleteAnimalChildBirthContainer,
-    setIsOpenDeleteAnimalChildBirthContainer,
+    isOpenDeleteAnimalChildbirthContainer,
+    setIsOpenDeleteAnimalChildbirthContainer,
   ] = useState(false)
 
-  const [selectedAnimalChildBirth, setSelectedAnimalChildBirth] =
-    useState<AnimalChildBirthModel>()
+  const [selectedAnimalChildbirth, setSelectedAnimalChildbirth] =
+    useState<AnimalChildbirthModel>()
 
-  const openNewAnimalChildBirthForm = useCallback(() => {
-    setIsOpenNewAnimalChildBirthForm(true)
+  const openNewAnimalChildbirthForm = useCallback(() => {
+    setIsOpenNewAnimalChildbirthForm(true)
   }, [])
 
-  const closeNewAnimalChildBirthForm = useCallback(() => {
-    setIsOpenNewAnimalChildBirthForm(false)
+  const closeNewAnimalChildbirthForm = useCallback(() => {
+    setIsOpenNewAnimalChildbirthForm(false)
   }, [])
 
-  const openEditAnimalChildBirthForm = useCallback(
-    (animalChildBirth: AnimalChildBirthModel) => {
-      setSelectedAnimalChildBirth(animalChildBirth)
-      setIsOpenEditAnimalChildBirthForm(true)
+  const openEditAnimalChildbirthForm = useCallback(
+    (animalChildbirth: AnimalChildbirthModel) => {
+      setSelectedAnimalChildbirth(animalChildbirth)
+      setIsOpenEditAnimalChildbirthForm(true)
     },
     []
   )
 
-  const closeEditAnimalChildBirthForm = useCallback(() => {
-    setSelectedAnimalChildBirth(undefined)
-    setIsOpenEditAnimalChildBirthForm(false)
+  const closeEditAnimalChildbirthForm = useCallback(() => {
+    setSelectedAnimalChildbirth(undefined)
+    setIsOpenEditAnimalChildbirthForm(false)
   }, [])
 
-  const openDeleteAnimalChildBirthContainer = useCallback(
-    (animalChildBirth: AnimalChildBirthModel) => {
-      setSelectedAnimalChildBirth(animalChildBirth)
-      setIsOpenDeleteAnimalChildBirthContainer(true)
+  const openDeleteAnimalChildbirthContainer = useCallback(
+    (animalChildbirth: AnimalChildbirthModel) => {
+      setSelectedAnimalChildbirth(animalChildbirth)
+      setIsOpenDeleteAnimalChildbirthContainer(true)
     },
     []
   )
 
-  const closeDeleteAnimalChildBirthContainer = useCallback(() => {
-    setSelectedAnimalChildBirth(undefined)
-    setIsOpenDeleteAnimalChildBirthContainer(false)
+  const closeDeleteAnimalChildbirthContainer = useCallback(() => {
+    setSelectedAnimalChildbirth(undefined)
+    setIsOpenDeleteAnimalChildbirthContainer(false)
   }, [])
 
   const providerValues = useMemo(
@@ -114,38 +114,38 @@ export function AnimalChildBirthProvider({
       animalId,
       filters,
       handleChangeFilters,
-      selectedAnimalChildBirth,
-      isOpenNewAnimalChildBirthForm,
-      isOpenEditAnimalChildBirthForm,
-      isOpenDeleteAnimalChildBirthContainer,
-      openNewAnimalChildBirthForm,
-      closeNewAnimalChildBirthForm,
-      openEditAnimalChildBirthForm,
-      closeEditAnimalChildBirthForm,
-      openDeleteAnimalChildBirthContainer,
-      closeDeleteAnimalChildBirthContainer,
+      selectedAnimalChildbirth,
+      isOpenNewAnimalChildbirthForm,
+      isOpenEditAnimalChildbirthForm,
+      isOpenDeleteAnimalChildbirthContainer,
+      openNewAnimalChildbirthForm,
+      closeNewAnimalChildbirthForm,
+      openEditAnimalChildbirthForm,
+      closeEditAnimalChildbirthForm,
+      openDeleteAnimalChildbirthContainer,
+      closeDeleteAnimalChildbirthContainer,
     }),
     [
       params.propertyId,
       animalId,
       filters,
       handleChangeFilters,
-      selectedAnimalChildBirth,
-      isOpenNewAnimalChildBirthForm,
-      isOpenEditAnimalChildBirthForm,
-      isOpenDeleteAnimalChildBirthContainer,
-      openNewAnimalChildBirthForm,
-      closeNewAnimalChildBirthForm,
-      openEditAnimalChildBirthForm,
-      closeEditAnimalChildBirthForm,
-      openDeleteAnimalChildBirthContainer,
-      closeDeleteAnimalChildBirthContainer,
+      selectedAnimalChildbirth,
+      isOpenNewAnimalChildbirthForm,
+      isOpenEditAnimalChildbirthForm,
+      isOpenDeleteAnimalChildbirthContainer,
+      openNewAnimalChildbirthForm,
+      closeNewAnimalChildbirthForm,
+      openEditAnimalChildbirthForm,
+      closeEditAnimalChildbirthForm,
+      openDeleteAnimalChildbirthContainer,
+      closeDeleteAnimalChildbirthContainer,
     ]
   )
 
   return (
-    <AnimalChildBirthContext.Provider value={providerValues}>
+    <AnimalChildbirthContext.Provider value={providerValues}>
       {children}
-    </AnimalChildBirthContext.Provider>
+    </AnimalChildbirthContext.Provider>
   )
 }
