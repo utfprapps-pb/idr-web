@@ -15,6 +15,13 @@ import {
   getAnimalChildbirthsHandler,
   updateAnimalChildbirthHandler,
 } from '@/app/modules/animals/mocks/handlers/animal-childbirths-handlers'
+import {
+  createAnimalHeiferCalfStageHandler,
+  deleteAnimalHeiferCalfStageHandler,
+  getAnimalHeiferCalfStageHandler,
+  getAnimalHeiferCalfStagesHandler,
+  updateAnimalHeiferCalfStageHandler,
+} from '@/app/modules/animals/mocks/handlers/animal-heifer-calf-stages-handlers copy'
 import { loginHandler } from '@/app/modules/auth/mocks/handlers'
 import {
   createForageHandler,
@@ -94,6 +101,12 @@ const handlers: HttpHandler[] = [
   getAnimalChildbirthHandler,
   getAnimalChildbirthsHandler,
   updateAnimalChildbirthHandler,
+
+  createAnimalHeiferCalfStageHandler,
+  deleteAnimalHeiferCalfStageHandler,
+  getAnimalHeiferCalfStageHandler,
+  getAnimalHeiferCalfStagesHandler,
+  updateAnimalHeiferCalfStageHandler,
 ]
 
 export const worker = setupWorker(...handlers)
