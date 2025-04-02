@@ -43,100 +43,130 @@ export const getAnimalHeiferCalfStageHandler = httpWithMiddleware<
       {
         weighingDate: animalHeiferCalfStageFound.weighingDate,
         weighing: {
-          last: faker.number.float({
-            min: 0,
-            max: 100,
-            fractionDigits: 2,
-          }),
+          last: String(
+            faker.number.float({
+              min: 0,
+              max: 100,
+              fractionDigits: 2,
+            })
+          ),
           current: animalHeiferCalfStageFound.weight,
         },
         ecc: animalHeiferCalfStageFound.ecc,
         age: {
-          years: faker.number.int({ min: 1, max: 6 }),
-          months: faker.number.int({ min: 1, max: 12 }),
+          years: String(faker.number.int({ min: 1, max: 6 })),
+          months: String(faker.number.int({ min: 1, max: 12 })),
         },
         ageWeightEstimate: {
-          last: faker.number.float({
-            min: 0,
-            max: 100,
-            fractionDigits: 2,
-          }),
-          current: faker.number.float({
-            min: 0,
-            max: 100,
-            fractionDigits: 2,
-          }),
+          last: String(
+            faker.number.float({
+              min: 0,
+              max: 100,
+              fractionDigits: 2,
+            })
+          ),
+          current: String(
+            faker.number.float({
+              min: 0,
+              max: 100,
+              fractionDigits: 2,
+            })
+          ),
         },
         gmd: {
-          min: faker.number.float({
-            min: 0,
-            max: 100,
-            fractionDigits: 2,
-          }),
-          max: faker.number.float({
-            min: 0,
-            max: 100,
-            fractionDigits: 2,
-          }),
-          real: faker.number.float({
-            min: 0,
-            max: 100,
-            fractionDigits: 2,
-          }),
+          min: String(
+            faker.number.float({
+              min: 0,
+              max: 100,
+              fractionDigits: 2,
+            })
+          ),
+          max: String(
+            faker.number.float({
+              min: 0,
+              max: 100,
+              fractionDigits: 2,
+            })
+          ),
+          real: String(
+            faker.number.float({
+              min: 0,
+              max: 100,
+              fractionDigits: 2,
+            })
+          ),
           status: faker.helpers.arrayElement([
             'normal',
             'overweight',
             'underweight',
           ]),
         },
-        amountOfMilk: {
-          morning: faker.number.float({
+        amountOfMilk: (() => {
+          const correction = faker.number.float({
             min: 0,
             max: 100,
             fractionDigits: 2,
-          }),
-          afternoon: faker.number.float({
-            min: 0,
-            max: 100,
-            fractionDigits: 2,
-          }),
-        },
+          })
+
+          return {
+            correction: String(correction),
+            morning: (correction / 2).toFixed(2),
+            afternoon: (correction / 2).toFixed(2),
+          }
+        })(),
         weaningDate: {
           first: faker.date.future().toISOString(),
           second: faker.date.future().toISOString(),
         },
         removeLittleHouseDate: faker.date.future().toISOString(),
         amountOfEstimateConcentrate: {
-          heifer: faker.number.float({
-            min: 0,
-            max: 100,
-            fractionDigits: 2,
-          }),
-          calf: faker.number.float({
-            min: 0,
-            max: 100,
-            fractionDigits: 2,
-          }),
+          correction: String(
+            faker.number.float({
+              min: 0,
+              max: 100,
+              fractionDigits: 2,
+            })
+          ),
+          heifer: String(
+            faker.number.float({
+              min: 0,
+              max: 100,
+              fractionDigits: 2,
+            })
+          ),
+          calf: String(
+            faker.number.float({
+              min: 0,
+              max: 100,
+              fractionDigits: 2,
+            })
+          ),
         },
-        bulky: faker.number.float({
-          min: 0,
-          max: 100,
-          fractionDigits: 2,
-        }),
+        bulky: String(
+          faker.number.float({
+            min: 0,
+            max: 100,
+            fractionDigits: 2,
+          })
+        ),
         dateToProvideSilage: faker.date.future().toISOString(),
         reproduction: {
           status: faker.helpers.arrayElement(['fit', 'unfit']),
-          minWeight: faker.number.float({
-            min: 0,
-            max: 100,
-            fractionDigits: 2,
-          }),
+          minWeight: String(
+            faker.number.float({
+              min: 0,
+              max: 100,
+              fractionDigits: 2,
+            })
+          ),
           fromDate: faker.date.future().toISOString(),
           carriedOut: faker.date.past().toISOString(),
-          artificialInseminationNumber: faker.number.int({
-            min: 1,
-            max: 10,
-          }),
+          artificialInseminationNumber: String(
+            faker.number.int({
+              min: 1,
+              max: 10,
+            })
+          ),
         },
       },
       { status: HttpStatusCode.ok }
