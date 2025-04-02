@@ -49,12 +49,25 @@ export const getAnimalHeiferCalfStagesHandler = httpWithMiddleware<
     const url = new URL(request.url)
     const { pagination, filters, sort } = normalizeQueryFilters(url)
 
-    let animalHeiferCalfStages =
-      animalHeiferCalfStagesData as AnimalHeiferCalfStageModel[]
+    const mappedFilters = {
+      ...filters,
+      weighingDate: filters?.weighingDate
+        ? new Date(filters.weighingDate)
+        : undefined,
+    }
 
-    if (filters)
+    let animalHeiferCalfStages =
+      animalHeiferCalfStagesData.map(
+        (animalHeiferCalfStage) =>
+          ({
+            ...animalHeiferCalfStage,
+            weighingDate: new Date(animalHeiferCalfStage.weighingDate),
+          }) as AnimalHeiferCalfStageModel
+      ) ?? []
+
+    if (mappedFilters)
       animalHeiferCalfStages = filterData<AnimalHeiferCalfStageModel>(
-        filters,
+        mappedFilters,
         animalHeiferCalfStages
       )
     if (sort)

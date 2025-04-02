@@ -1,5 +1,3 @@
-import { format } from 'date-fns'
-
 import { type HttpClient, HttpStatusCode } from '@/core/data/protocols/http'
 import {
   UnexpectedError,
@@ -43,7 +41,7 @@ export class RemoteGetAnimalHeiferCalfStagesUseCase
           (item: any) => {
             return {
               id: item.id,
-              weighingDate: format(new Date(item.weighingDate), 'dd/MM/yyyy'),
+              weighingDate: new Date(item.weighingDate),
               weight: item.weighing,
               ecc: item.ecc,
               age: item.age,

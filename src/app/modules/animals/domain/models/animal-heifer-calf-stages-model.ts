@@ -1,6 +1,6 @@
 import type { WithId } from '@/core/domain/types'
 
-type GMDStatus = 'normal' | 'overweight' | 'underweight'
+export type GMDStatus = 'normal' | 'overweight' | 'underweight'
 
 type ReproductionStatus = 'fit' | 'unfit'
 
@@ -14,8 +14,8 @@ export type AnimalHeiferCalfStageAdditionalDataModel = {
     current: string
   }
   ageWeightEstimate: {
-    last: string
-    current: string
+    min: string
+    max: string
   }
   gmd: {
     min: string
@@ -29,22 +29,22 @@ export type AnimalHeiferCalfStageAdditionalDataModel = {
     afternoon: string
   }
   weaningDate: {
-    first: string
-    second: string
+    first: Date
+    second: Date
   }
-  removeLittleHouseDate: string
+  removeLittleHouseDate: Date
   amountOfEstimateConcentrate: {
     correction: string
     heifer: string
     calf: string
   }
   bulky: string
-  dateToProvideSilage: string
+  dateToProvideSilage: Date
   reproduction: {
     status: ReproductionStatus
     minWeight: string
-    fromDate: string
-    carriedOut: string
+    fromDate: Date
+    carriedOut: Date
     artificialInseminationNumber: string
   }
 }
@@ -55,7 +55,7 @@ export type AnimalHeiferCalfStageDetailsModel = {
 } & AnimalHeiferCalfStageAdditionalDataModel
 
 export type AnimalHeiferCalfStageModel = WithId<{
-  weighingDate: string
+  weighingDate: Date
   weight: string
   ecc: string
   age: string

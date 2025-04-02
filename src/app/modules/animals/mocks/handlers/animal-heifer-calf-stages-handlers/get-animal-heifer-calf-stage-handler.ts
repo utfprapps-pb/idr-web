@@ -58,14 +58,14 @@ export const getAnimalHeiferCalfStageHandler = httpWithMiddleware<
           months: String(faker.number.int({ min: 1, max: 12 })),
         },
         ageWeightEstimate: {
-          last: String(
+          min: String(
             faker.number.float({
               min: 0,
               max: 100,
               fractionDigits: 2,
             })
           ),
-          current: String(
+          max: String(
             faker.number.float({
               min: 0,
               max: 100,

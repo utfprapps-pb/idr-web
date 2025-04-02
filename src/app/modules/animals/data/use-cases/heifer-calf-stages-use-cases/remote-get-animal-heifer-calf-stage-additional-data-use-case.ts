@@ -36,12 +36,19 @@ export class RemoteGetAnimalHeiferCalfStageAdditionalDataUseCase
         ageWeightEstimate: body.ageWeightEstimate,
         gmd: body.gmd,
         amountOfMilk: body.amountOfMilk,
-        weaningDate: body.weaningDate,
-        removeLittleHouseDate: body.removeLittleHouseDate,
+        weaningDate: {
+          first: new Date(body.weaningDate.first),
+          second: new Date(body.weaningDate.second),
+        },
+        removeLittleHouseDate: new Date(body.removeLittleHouseDate),
         amountOfEstimateConcentrate: body.amountOfEstimateConcentrate,
         bulky: body.bulky,
-        dateToProvideSilage: body.dateToProvideSilage,
-        reproduction: body.reproduction,
+        dateToProvideSilage: new Date(body.dateToProvideSilage),
+        reproduction: {
+          ...body.reproduction,
+          carriedOut: new Date(body.reproduction.carriedOut),
+          fromDate: new Date(body.reproduction.fromDate),
+        },
       } as AnimalHeiferCalfStageAdditionalDataModel
     }
 
