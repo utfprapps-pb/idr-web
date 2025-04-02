@@ -21,7 +21,7 @@ import {
   getAnimalHeiferCalfStageHandler,
   getAnimalHeiferCalfStagesHandler,
   updateAnimalHeiferCalfStageHandler,
-} from '@/app/modules/animals/mocks/handlers/animal-heifer-calf-stages-handlers copy'
+} from '@/app/modules/animals/mocks/handlers/animal-heifer-calf-stages-handlers'
 import { loginHandler } from '@/app/modules/auth/mocks/handlers'
 import {
   createForageHandler,
