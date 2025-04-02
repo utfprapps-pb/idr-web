@@ -18,6 +18,7 @@ import {
 import {
   createAnimalHeiferCalfStageHandler,
   deleteAnimalHeiferCalfStageHandler,
+  getAnimalHeiferCalfStageAdditionalDataHandler,
   getAnimalHeiferCalfStageHandler,
   getAnimalHeiferCalfStagesHandler,
   updateAnimalHeiferCalfStageHandler,
@@ -106,6 +107,7 @@ const handlers: HttpHandler[] = [
   deleteAnimalHeiferCalfStageHandler,
   getAnimalHeiferCalfStageHandler,
   getAnimalHeiferCalfStagesHandler,
+  getAnimalHeiferCalfStageAdditionalDataHandler,
   updateAnimalHeiferCalfStageHandler,
 ]
 

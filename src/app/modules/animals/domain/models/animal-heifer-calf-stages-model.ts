@@ -4,9 +4,7 @@ type GMDStatus = 'normal' | 'overweight' | 'underweight'
 
 type ReproductionStatus = 'fit' | 'unfit'
 
-export type AnimalHeiferCalfStageDetailsModel = {
-  weighingDate: Date
-  ecc: string
+export type AnimalHeiferCalfStageAdditionalDataModel = {
   age: {
     years: string
     months: string
@@ -50,6 +48,11 @@ export type AnimalHeiferCalfStageDetailsModel = {
     artificialInseminationNumber: string
   }
 }
+
+export type AnimalHeiferCalfStageDetailsModel = {
+  weighingDate: Date
+  ecc: string
+} & AnimalHeiferCalfStageAdditionalDataModel
 
 export type AnimalHeiferCalfStageModel = WithId<{
   weighingDate: string
