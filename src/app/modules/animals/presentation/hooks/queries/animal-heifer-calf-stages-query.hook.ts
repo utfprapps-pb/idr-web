@@ -42,7 +42,12 @@ export function useAnimalHeiferCalfStagesQuery({
         queryParams: {
           pagination: { page },
           sort,
-          filters,
+          filters: {
+            ...filters,
+            weighingDate: filters.weighingDate
+              ? new Date(filters.weighingDate).toISOString()
+              : undefined,
+          },
         },
       }),
   })

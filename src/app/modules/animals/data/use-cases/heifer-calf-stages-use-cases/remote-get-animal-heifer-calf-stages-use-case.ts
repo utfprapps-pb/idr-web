@@ -42,7 +42,7 @@ export class RemoteGetAnimalHeiferCalfStagesUseCase
             return {
               id: item.id,
               weighingDate: new Date(item.weighingDate),
-              weight: item.weighing,
+              weight: item.weight,
               ecc: item.ecc,
               age: item.age,
             } as AnimalHeiferCalfStageModel
