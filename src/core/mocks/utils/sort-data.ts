@@ -1,6 +1,6 @@
 import { SortDirection } from '@/core/data/protocols/http'
 
-export function sortData<TData extends Record<string, string | number>>(
+export function sortData<TData extends Record<string, string | number | Date>>(
   sort: {
     direction: SortDirection
     field: string

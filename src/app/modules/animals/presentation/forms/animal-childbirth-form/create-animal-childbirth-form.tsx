@@ -15,7 +15,7 @@ import {
 } from '../../validations/animal-childbirth-form-schema'
 
 import { AnimalChildbirthFormInputs } from './animal-childbirth-form-inputs'
-import { ANIMAL_CHILD_BIRTH_INITIAL_FORM_DATA } from './animal-childbirth-initial-data'
+import { ANIMAL_CHILDBIRTH_INITIAL_FORM_DATA } from './animal-childbirth-initial-data'
 
 export function CreateAnimalChildbirthForm() {
   const {
@@ -31,7 +31,7 @@ export function CreateAnimalChildbirthForm() {
   const queryClient = useQueryClient()
 
   const form = useHookForm<AnimalChildbirthFormSchema>({
-    defaultValues: ANIMAL_CHILD_BIRTH_INITIAL_FORM_DATA,
+    defaultValues: ANIMAL_CHILDBIRTH_INITIAL_FORM_DATA,
     resolver: zodResolver(animalChildbirthFormSchema),
   })
 
@@ -49,13 +49,13 @@ export function CreateAnimalChildbirthForm() {
         })
 
         queryClient.invalidateQueries({
-          queryKey: ['animal-child-births'],
+          queryKey: ['animal-childbirths'],
           exact: false,
         })
 
         toast.success('Parto de animal foi cadastrado com sucesso')
 
-        form.reset(ANIMAL_CHILD_BIRTH_INITIAL_FORM_DATA)
+        form.reset(ANIMAL_CHILDBIRTH_INITIAL_FORM_DATA)
 
         closeNewAnimalChildbirthForm()
       } catch {
@@ -87,7 +87,7 @@ export function CreateAnimalChildbirthForm() {
 
         <Form.Provider {...form}>
           <form
-            id="create-animal-child-birth-form"
+            id="create-animal-childbirth-form"
             className="flex flex-col h-full gap-4"
             onSubmit={form.handleSubmit(handleCreateAnimalChildbirth)}
           >
@@ -97,7 +97,7 @@ export function CreateAnimalChildbirthForm() {
 
         <Sheet.Footer>
           <Button
-            form="create-animal-child-birth-form"
+            form="create-animal-childbirth-form"
             type="submit"
             className="w-full"
             disabled={form.buttonDisabled}

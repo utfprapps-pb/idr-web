@@ -13,6 +13,7 @@ import { AnimalContext, AnimalProvider } from '../contexts/animal-context'
 import { AnimalForm } from '../forms/animal-form'
 
 import { AnimalChildbirthsScreen } from './animal-childbirths-screen'
+import { AnimalHeiferCalfStagesScreen } from './animal-heifer-calf-stages-screen'
 
 type Tab = {
   key: string
@@ -29,6 +30,13 @@ export function AnimalsScreen() {
         key: 'animal-childbirths',
         name: 'Parto',
         component: animalId && <AnimalChildbirthsScreen animalId={animalId} />,
+      },
+      {
+        key: 'animal-heifer-calf-stages',
+        name: 'Fase Bezerra/Novilha',
+        component: animalId && (
+          <AnimalHeiferCalfStagesScreen animalId={animalId} />
+        ),
       },
     ],
     [animalId]

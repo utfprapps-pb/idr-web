@@ -2,11 +2,9 @@ import { SortDirection } from '@tanstack/react-table'
 
 import { HttpRequest } from '@/core/data/protocols/http'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type Filters<TKeyOfModel extends keyof any = string> = Record<
-  TKeyOfModel,
-  string
->
+export type Filters<TModel = Record<string, string>> = {
+  [key in keyof TModel]?: TModel[key]
+}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Sort<TKeyOfModel extends keyof any = string> = {
