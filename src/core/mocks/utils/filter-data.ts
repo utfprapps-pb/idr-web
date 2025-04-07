@@ -1,5 +1,5 @@
-export function filterData<TData extends Record<string, string | number>>(
-  filters: Record<string, string | number>,
+export function filterData<TData extends object>(
+  filters: { [key in keyof TData]?: TData[key] },
   data: TData[]
 ) {
   const filterEntries = Object.entries(filters).filter(([, value]) =>
@@ -16,6 +16,18 @@ export function filterData<TData extends Record<string, string | number>>(
       }
 
       const itemValue = item[key as keyof TData]
+
+      const isDate = itemValue instanceof Date
+
+      if (isDate) {
+        const date = new Date(itemValue as unknown as string)
+        const valueDate = new Date(value as unknown as string)
+        return (
+          date.getDate() === valueDate.getDate() &&
+          date.getMonth() === valueDate.getMonth() &&
+          date.getFullYear() === valueDate.getFullYear()
+        )
+      }
 
       return String(itemValue)
         .toLowerCase()

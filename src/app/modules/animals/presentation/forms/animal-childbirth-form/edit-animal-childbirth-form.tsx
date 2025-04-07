@@ -16,7 +16,7 @@ import {
 } from '../../validations/animal-childbirth-form-schema'
 
 import { AnimalChildbirthFormInputs } from './animal-childbirth-form-inputs'
-import { ANIMAL_CHILD_BIRTH_INITIAL_FORM_DATA } from './animal-childbirth-initial-data'
+import { ANIMAL_CHILDBIRTH_INITIAL_FORM_DATA } from './animal-childbirth-initial-data'
 
 export function EditAnimalChildbirthForm() {
   const {
@@ -39,7 +39,7 @@ export function EditAnimalChildbirthForm() {
   const queryClient = useQueryClient()
 
   const form = useHookForm<AnimalChildbirthFormSchema>({
-    defaultValues: ANIMAL_CHILD_BIRTH_INITIAL_FORM_DATA,
+    defaultValues: ANIMAL_CHILDBIRTH_INITIAL_FORM_DATA,
     ...(animalChildbirth && {
       values: {
         ...animalChildbirth,
@@ -73,7 +73,7 @@ export function EditAnimalChildbirthForm() {
           exact: false,
         })
         toast.success('Animal foi editado com sucesso')
-        form.reset(ANIMAL_CHILD_BIRTH_INITIAL_FORM_DATA)
+        form.reset(ANIMAL_CHILDBIRTH_INITIAL_FORM_DATA)
         closeEditAnimalChildbirthForm()
       } catch {
         toast.error('Erro ao salvar alterações')
@@ -104,7 +104,7 @@ export function EditAnimalChildbirthForm() {
         </Sheet.Header>
         <Form.Provider {...form}>
           <form
-            id="update-animal-child-birth-form"
+            id="update-animal-childbirth-form"
             className="flex flex-col h-full gap-4"
             onSubmit={form.handleSubmit(handleUpdateAnimalChildbirth)}
           >
@@ -121,7 +121,7 @@ export function EditAnimalChildbirthForm() {
         <Sheet.Footer>
           <Button
             type="submit"
-            form="update-animal-child-birth-form"
+            form="update-animal-childbirth-form"
             className="w-full"
             disabled={form.buttonDisabled}
           >
