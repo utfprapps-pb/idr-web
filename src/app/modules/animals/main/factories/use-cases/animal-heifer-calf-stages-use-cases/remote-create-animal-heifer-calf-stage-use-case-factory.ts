@@ -1,6 +1,6 @@
 import { makeApiHttpClient } from '@/core/main/factories/http'
 
-import { RemoteCreateAnimalHeiferCalfStageUseCase } from '../../../../data/use-cases/heifer-calf-stages-use-cases'
+import { RemoteCreateAnimalHeiferCalfStageUseCase } from '../../../../data/use-cases/animal-heifer-calf-stages-use-cases'
 
 import type { CreateAnimalHeiferCalfStageUseCase } from '../../../../domain/use-cases/animal-heifer-calf-stages-use-cases'
 
