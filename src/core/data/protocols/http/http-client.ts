@@ -15,7 +15,7 @@ export enum HttpStatusCode {
 
 export type SortDirection = 'asc' | 'desc'
 
-export type HttpRequest<F = Record<string, string>> = {
+export type HttpRequest<F = Record<string, string | undefined>> = {
   url: string
   method: HttpMethod
   body?: unknown
