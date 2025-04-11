@@ -16,6 +16,13 @@ import {
   updateAnimalChildbirthHandler,
 } from '@/app/modules/animals/mocks/handlers/animal-childbirths-handlers'
 import {
+  createAnimalDiseaseHandler,
+  deleteAnimalDiseaseHandler,
+  getAnimalDiseaseHandler,
+  getAnimalDiseasesHandler,
+  updateAnimalDiseaseHandler,
+} from '@/app/modules/animals/mocks/handlers/animal-diseases-handlers'
+import {
   createAnimalHeiferCalfStageHandler,
   deleteAnimalHeiferCalfStageHandler,
   getAnimalHeiferCalfStageAdditionalDataHandler,
@@ -109,6 +116,12 @@ const handlers: HttpHandler[] = [
   getAnimalHeiferCalfStagesHandler,
   getAnimalHeiferCalfStageAdditionalDataHandler,
   updateAnimalHeiferCalfStageHandler,
+
+  createAnimalDiseaseHandler,
+  deleteAnimalDiseaseHandler,
+  getAnimalDiseaseHandler,
+  getAnimalDiseasesHandler,
+  updateAnimalDiseaseHandler,
 ]
 
 export const worker = setupWorker(...handlers)
