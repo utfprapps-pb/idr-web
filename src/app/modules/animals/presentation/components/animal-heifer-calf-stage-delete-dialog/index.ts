@@ -1,1 +1,1 @@
-export * from './animal-childbirth-delete-dialog'
+export * from './animal-heifer-calf-stage-delete-dialog'
