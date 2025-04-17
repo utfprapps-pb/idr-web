@@ -11,7 +11,7 @@ import { useParams } from 'react-router-dom'
 import type { AnimalHeiferCalfStageModel } from '../../domain/models/animal-heifer-calf-stages-model'
 import type { AnimalHeiferCalfStageFilters } from '../types/animal-heifer-calf-stage-types'
 
-type AnimalHeiferCalfStageValue = {
+type AnimalHeiferCalfStageContextValue = {
   propertyId: string
   animalId: string
   selectedAnimalHeiferCalfStage?: AnimalHeiferCalfStageModel
@@ -33,7 +33,9 @@ type AnimalHeiferCalfStageValue = {
 }
 
 export const AnimalHeiferCalfStageContext =
-  createContext<AnimalHeiferCalfStageValue>({} as AnimalHeiferCalfStageValue)
+  createContext<AnimalHeiferCalfStageContextValue>(
+    {} as AnimalHeiferCalfStageContextValue
+  )
 
 type AnimalHeiferCalfStageProviderProps = PropsWithChildren<{
   animalId: string

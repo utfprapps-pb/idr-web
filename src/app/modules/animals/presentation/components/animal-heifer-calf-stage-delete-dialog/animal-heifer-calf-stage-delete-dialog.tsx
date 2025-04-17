@@ -1,6 +1,7 @@
 import { useCallback } from 'react'
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { format } from 'date-fns'
 import toast from 'react-hot-toast'
 
 import { AlertDialog } from '@/core/presentation/components/ui'
@@ -67,7 +68,15 @@ export function AnimalHeiferCalfStageDeleteDialog() {
       <AlertDialog.Content>
         <AlertDialog.Header>
           <AlertDialog.Title>
-            {`Deseja remover a fase bezerra novilha do dia ${selectedAnimalHeiferCalfStage?.weighingDate}`}
+            {`Deseja remover a fase bezerra novilha do dia
+            ${
+              selectedAnimalHeiferCalfStage?.weighingDate
+                ? format(
+                    selectedAnimalHeiferCalfStage?.weighingDate,
+                    'dd/MM/yyyy'
+                  )
+                : '-'
+            }`}
           </AlertDialog.Title>
           <AlertDialog.Description>
             Não será possível desfazer essa ação!

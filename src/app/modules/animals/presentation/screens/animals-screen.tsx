@@ -13,6 +13,7 @@ import { AnimalContext, AnimalProvider } from '../contexts/animal-context'
 import { AnimalForm } from '../forms/animal-form'
 
 import { AnimalChildbirthsScreen } from './animal-childbirths-screen'
+import { AnimalDiseasesScreen } from './animal-diseases-screen'
 import { AnimalHeiferCalfStagesScreen } from './animal-heifer-calf-stages-screen'
 
 type Tab = {
@@ -37,6 +38,11 @@ export function AnimalsScreen() {
         component: animalId && (
           <AnimalHeiferCalfStagesScreen animalId={animalId} />
         ),
+      },
+      {
+        key: 'animal-diseases',
+        name: 'Doenças',
+        component: animalId && <AnimalDiseasesScreen animalId={animalId} />,
       },
     ],
     [animalId]

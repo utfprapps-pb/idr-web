@@ -11,7 +11,7 @@ import { useParams } from 'react-router-dom'
 import type { AnimalChildbirthModel } from '../../domain/models/animal-childbirths-model'
 import type { AnimalChildbirthFilters } from '../types/animal-childbirth-types'
 
-type AnimalChildbirthValue = {
+type AnimalChildbirthContextValue = {
   propertyId: string
   animalId: string
   selectedAnimalChildbirth?: AnimalChildbirthModel
@@ -32,9 +32,10 @@ type AnimalChildbirthValue = {
   closeDeleteAnimalChildbirthContainer: () => void
 }
 
-export const AnimalChildbirthContext = createContext<AnimalChildbirthValue>(
-  {} as AnimalChildbirthValue
-)
+export const AnimalChildbirthContext =
+  createContext<AnimalChildbirthContextValue>(
+    {} as AnimalChildbirthContextValue
+  )
 
 type AnimalChildbirthProviderProps = PropsWithChildren<{
   animalId: string
