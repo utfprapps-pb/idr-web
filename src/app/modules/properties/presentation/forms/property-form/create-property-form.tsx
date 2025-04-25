@@ -4,7 +4,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
-import { Button, Form, Sheet, Tabs } from '@/core/presentation/components/ui'
+import {
+  Button,
+  Form,
+  ScrollArea,
+  Sheet,
+  Tabs,
+} from '@/core/presentation/components/ui'
 import { useHookForm } from '@/core/presentation/hooks'
 
 import { makeRemoteCreatePropertyUseCase } from '../../../main/factories/use-cases'
@@ -85,46 +91,60 @@ export function CreatePropertyForm() {
       open={isOpenNewPropertyForm}
       onOpenChange={closeNewPropertyForm}
     >
-      <Sheet.Content className="overflow-y-scroll h-screen" side="right">
+      <Sheet.Content side="right">
         <Sheet.Header>
           <Sheet.Title>Nova Propriedade</Sheet.Title>
           <Sheet.Description>
             Preencha o formulário para criar uma nova propriedade
           </Sheet.Description>
         </Sheet.Header>
-        <Form.Provider {...form}>
-          <form
-            className="flex flex-col h-full gap-8"
-            onSubmit={form.handleSubmit(handleCreateProperty)}
-          >
-            <Tabs.Root defaultValue="general">
-              <Tabs.List>
-                {tabs.map((tab) => (
-                  <Tabs.Trigger
-                    key={tab.value}
-                    value={tab.value}
-                    onClick={() => setActiveTab(tab.value)}
-                  >
-                    {tab.title}
-                  </Tabs.Trigger>
-                ))}
-              </Tabs.List>
-              <Tabs.Content value={activeTab} className="flex flex-col gap-6">
-                {tabs.find((tab) => tab.value === activeTab)?.component}
-              </Tabs.Content>
-            </Tabs.Root>
 
-            <Sheet.Footer className="pb-8">
-              <Button
-                type="submit"
-                className="w-full"
-                disabled={form.buttonDisabled}
-              >
-                Criar
-              </Button>
-            </Sheet.Footer>
-          </form>
-        </Form.Provider>
+        <Tabs.Root
+          defaultValue="general"
+          value={activeTab}
+          className="h-[calc(100%-110px)]"
+          onValueChange={setActiveTab}
+        >
+          <ScrollArea.Root>
+            <Tabs.List>
+              {tabs.map((tab) => (
+                <Tabs.Trigger key={tab.value} value={tab.value}>
+                  {tab.title}
+                </Tabs.Trigger>
+              ))}
+            </Tabs.List>
+
+            <ScrollArea.ScrollBar orientation="horizontal" />
+          </ScrollArea.Root>
+
+          <Form.Provider {...form}>
+            <form
+              id="create-property-form"
+              className="h-[calc(100%-44px)]"
+              onSubmit={form.handleSubmit(handleCreateProperty)}
+            >
+              <ScrollArea.Root className="h-full">
+                <Tabs.Content
+                  value={activeTab}
+                  className="flex flex-col gap-4 px-2"
+                >
+                  {tabs.find((tab) => tab.value === activeTab)?.component}
+                </Tabs.Content>
+              </ScrollArea.Root>
+            </form>
+          </Form.Provider>
+        </Tabs.Root>
+
+        <Sheet.Footer>
+          <Button
+            form="create-property-form"
+            type="submit"
+            className="w-full"
+            disabled={form.buttonDisabled}
+          >
+            Criar
+          </Button>
+        </Sheet.Footer>
       </Sheet.Content>
     </Sheet.Root>
   )
