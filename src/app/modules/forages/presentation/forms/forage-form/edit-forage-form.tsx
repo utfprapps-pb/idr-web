@@ -5,7 +5,13 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
 import { moneyMask } from '@/core/masker'
-import { Button, Form, Loading, Sheet } from '@/core/presentation/components/ui'
+import {
+  Button,
+  Form,
+  Loading,
+  ScrollArea,
+  Sheet,
+} from '@/core/presentation/components/ui'
 import { useHookForm } from '@/core/presentation/hooks'
 
 import { makeRemoteUpdateForageUseCase } from '../../../main/factories/use-cases'
@@ -91,7 +97,7 @@ export function EditForageForm() {
 
   return (
     <Sheet.Root open={isOpenEditForageForm} onOpenChange={closeEditForageForm}>
-      <Sheet.Content className="overflow-y-scroll h-screen" side="right">
+      <Sheet.Content side="right">
         <Sheet.Header>
           <Sheet.Title>{`Editar Forrageira de ${selectedForage?.cultivation}`}</Sheet.Title>
           <Sheet.Description>
@@ -99,19 +105,21 @@ export function EditForageForm() {
           </Sheet.Description>
         </Sheet.Header>
         <Form.Provider {...form}>
-          <form
-            id="update-forage-form"
-            className="flex flex-col h-full gap-4"
-            onSubmit={form.handleSubmit(handleUpdateForage)}
-          >
-            {isLoading ? (
-              <div className="flex justify-center h-full items-center">
-                <Loading size="lg" />
-              </div>
-            ) : (
-              <ForageFormInputs />
-            )}
-          </form>
+          <ScrollArea.Root>
+            <form
+              id="update-forage-form"
+              className="flex flex-col px-2 gap-4"
+              onSubmit={form.handleSubmit(handleUpdateForage)}
+            >
+              {isLoading ? (
+                <div className="flex justify-center h-full items-center">
+                  <Loading size="lg" />
+                </div>
+              ) : (
+                <ForageFormInputs />
+              )}
+            </form>
+          </ScrollArea.Root>
         </Form.Provider>
 
         <Sheet.Footer>
