@@ -4,7 +4,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
-import { Button, Form, Loading, Sheet } from '@/core/presentation/components/ui'
+import {
+  Button,
+  Form,
+  Loading,
+  ScrollArea,
+  Sheet,
+} from '@/core/presentation/components/ui'
 import { useHookForm } from '@/core/presentation/hooks'
 
 import { makeRemoteUpdateAnimalHeiferCalfStageUseCase } from '../../../main/factories/use-cases/animal-heifer-calf-stages-use-cases'
@@ -95,7 +101,7 @@ export function EditAnimalHeiferCalfStageForm() {
       open={isOpenEditAnimalHeiferCalfStageForm}
       onOpenChange={closeEditAnimalHeiferCalfStageForm}
     >
-      <Sheet.Content className="overflow-y-scroll h-screen" side="right">
+      <Sheet.Content side="right">
         <Sheet.Header>
           <Sheet.Title>{`Editar Fase bezerra novilha com pesagem no dia ${selectedAnimalHeiferCalfStage?.weighingDate}`}</Sheet.Title>
           <Sheet.Description>
@@ -103,19 +109,21 @@ export function EditAnimalHeiferCalfStageForm() {
           </Sheet.Description>
         </Sheet.Header>
         <Form.Provider {...form}>
-          <form
-            id="update-animal-heifer-calf-stage-form"
-            className="flex flex-col h-full gap-4"
-            onSubmit={form.handleSubmit(handleUpdateAnimalHeiferCalfStage)}
-          >
-            {isLoading ? (
-              <div className="flex justify-center h-full items-center">
-                <Loading size="lg" />
-              </div>
-            ) : (
-              <AnimalHeiferCalfStageFormInputs />
-            )}
-          </form>
+          <ScrollArea.Root>
+            <form
+              id="update-animal-heifer-calf-stage-form"
+              className="flex flex-col px-2 gap-4"
+              onSubmit={form.handleSubmit(handleUpdateAnimalHeiferCalfStage)}
+            >
+              {isLoading ? (
+                <div className="flex justify-center h-full items-center">
+                  <Loading size="lg" />
+                </div>
+              ) : (
+                <AnimalHeiferCalfStageFormInputs />
+              )}
+            </form>
+          </ScrollArea.Root>
         </Form.Provider>
 
         <Sheet.Footer>
