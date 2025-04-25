@@ -112,9 +112,9 @@ const handlers: HttpHandler[] = [
 
   createAnimalHeiferCalfStageHandler,
   deleteAnimalHeiferCalfStageHandler,
+  getAnimalHeiferCalfStageAdditionalDataHandler,
   getAnimalHeiferCalfStageHandler,
   getAnimalHeiferCalfStagesHandler,
-  getAnimalHeiferCalfStageAdditionalDataHandler,
   updateAnimalHeiferCalfStageHandler,
 
   createAnimalDiseaseHandler,

@@ -18,17 +18,17 @@ export function AnimalHeiferCalfStageFormInputs() {
   const form = useFormContext<AnimalHeiferCalfStageFormSchema>()
 
   const amountOfMilkCorrection =
-    Number(form.watch('amountOfMilk.correction')) ?? 0
+    Number(form.watch('amountOfMilk.correction').replace(',', '.')) ?? 0
 
   useEffect(() => {
     if (amountOfMilkCorrection) {
       form.setValue(
         'amountOfMilk.morning',
-        (amountOfMilkCorrection / 2).toFixed(2)
+        floatMask((amountOfMilkCorrection / 2).toFixed(2))
       )
       form.setValue(
         'amountOfMilk.afternoon',
-        (amountOfMilkCorrection / 2).toFixed(2)
+        floatMask((amountOfMilkCorrection / 2).toFixed(2))
       )
     }
   }, [amountOfMilkCorrection, form])
@@ -158,7 +158,7 @@ export function AnimalHeiferCalfStageFormInputs() {
                       {...field}
                       isError={!!error?.message}
                       mask={floatMask}
-                      placeholder='"80,3"'
+                      placeholder="80,3"
                     />
                   </Form.Control>
                   <Form.Message />
@@ -378,7 +378,8 @@ export function AnimalHeiferCalfStageFormInputs() {
                   <Form.Label>Primeiro</Form.Label>
                   <Form.Control>
                     <DatePicker
-                      {...field}
+                      date={field.value}
+                      onSelect={field.onChange}
                       isError={!!error?.message}
                       disabled
                     />
@@ -397,10 +398,11 @@ export function AnimalHeiferCalfStageFormInputs() {
 
               return (
                 <Form.Item>
-                  <Form.Label>Primeiro</Form.Label>
+                  <Form.Label>Segundo</Form.Label>
                   <Form.Control>
                     <DatePicker
-                      {...field}
+                      date={field.value}
+                      onSelect={field.onChange}
                       isError={!!error?.message}
                       disabled
                     />
@@ -423,7 +425,12 @@ export function AnimalHeiferCalfStageFormInputs() {
             <Form.Item>
               <Form.Label>Retirar da Casinha em</Form.Label>
               <Form.Control>
-                <DatePicker {...field} isError={!!error?.message} disabled />
+                <DatePicker
+                  date={field.value}
+                  onSelect={field.onChange}
+                  isError={!!error?.message}
+                  disabled
+                />
               </Form.Control>
               <Form.Message />
             </Form.Item>
@@ -443,7 +450,7 @@ export function AnimalHeiferCalfStageFormInputs() {
 
               return (
                 <Form.Item>
-                  <Form.Label>Primeiro</Form.Label>
+                  <Form.Label>Correção (kg/dia)</Form.Label>
                   <Form.Control>
                     <Input
                       {...field}
@@ -524,7 +531,12 @@ export function AnimalHeiferCalfStageFormInputs() {
             <Form.Item>
               <Form.Label>Fornecer Silagem a partir de</Form.Label>
               <Form.Control>
-                <DatePicker {...field} isError={!!error?.message} disabled />
+                <DatePicker
+                  date={field.value}
+                  onSelect={field.onChange}
+                  isError={!!error?.message}
+                  disabled
+                />
               </Form.Control>
               <Form.Message />
             </Form.Item>
@@ -582,76 +594,75 @@ export function AnimalHeiferCalfStageFormInputs() {
               )
             }}
           />
-
-          <Form.Field
-            name="reproduction.fromDate"
-            control={form.control}
-            render={({ field, fieldState }) => {
-              const { error } = fieldState
-
-              return (
-                <Form.Item>
-                  <Form.Label>A partir de</Form.Label>
-                  <Form.Control>
-                    <DatePicker
-                      {...field}
-                      isError={!!error?.message}
-                      disabled
-                    />
-                  </Form.Control>
-                  <Form.Message />
-                </Form.Item>
-              )
-            }}
-          />
         </Grouper>
 
-        <Grouper>
-          <Form.Field
-            name="reproduction.carriedOut"
-            control={form.control}
-            render={({ field, fieldState }) => {
-              const { error } = fieldState
+        <Form.Field
+          name="reproduction.fromDate"
+          control={form.control}
+          render={({ field, fieldState }) => {
+            const { error } = fieldState
 
-              return (
-                <Form.Item>
-                  <Form.Label>Realizada em</Form.Label>
-                  <Form.Control>
-                    <DatePicker
-                      date={field.value}
-                      onSelect={field.onChange}
-                      isError={!!error?.message}
-                    />
-                  </Form.Control>
-                  <Form.Message />
-                </Form.Item>
-              )
-            }}
-          />
+            return (
+              <Form.Item>
+                <Form.Label>A partir de</Form.Label>
+                <Form.Control>
+                  <DatePicker
+                    date={field.value}
+                    onSelect={field.onChange}
+                    isError={!!error?.message}
+                    disabled
+                  />
+                </Form.Control>
+                <Form.Message />
+              </Form.Item>
+            )
+          }}
+        />
 
-          <Form.Field
-            name="reproduction.artificialInseminationNumber"
-            control={form.control}
-            render={({ field, fieldState }) => {
-              const { error } = fieldState
+        <Form.Field
+          name="reproduction.carriedOut"
+          control={form.control}
+          render={({ field, fieldState }) => {
+            const { error } = fieldState
 
-              return (
-                <Form.Item>
-                  <Form.Label>Número de Inseminação Artificial</Form.Label>
-                  <Form.Control>
-                    <Input
-                      {...field}
-                      isError={!!error?.message}
-                      mask={onlyNumbersMask}
-                      placeholder="12345"
-                    />
-                  </Form.Control>
-                  <Form.Message />
-                </Form.Item>
-              )
-            }}
-          />
-        </Grouper>
+            return (
+              <Form.Item>
+                <Form.Label>Realizada em</Form.Label>
+                <Form.Control>
+                  <DatePicker
+                    date={field.value}
+                    onSelect={field.onChange}
+                    isError={!!error?.message}
+                  />
+                </Form.Control>
+                <Form.Message />
+              </Form.Item>
+            )
+          }}
+        />
+
+        <Form.Field
+          name="reproduction.artificialInseminationNumber"
+          control={form.control}
+          render={({ field, fieldState }) => {
+            const { error } = fieldState
+
+            return (
+              <Form.Item>
+                <Form.Label>Número de Inseminação Artificial</Form.Label>
+                <Form.Control>
+                  <Input
+                    {...field}
+                    isError={!!error?.message}
+                    mask={onlyNumbersMask}
+                    placeholder="12345"
+                  />
+                </Form.Control>
+                <Form.Message />
+              </Form.Item>
+            )
+          }}
+        />
       </div>
     </>
   )

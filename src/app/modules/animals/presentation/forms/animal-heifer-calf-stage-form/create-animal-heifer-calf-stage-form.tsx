@@ -7,6 +7,7 @@ import toast from 'react-hot-toast'
 import {
   Button,
   Form,
+  Loading,
   ScrollArea,
   Sheet,
 } from '@/core/presentation/components/ui'
@@ -14,6 +15,7 @@ import { useHookForm } from '@/core/presentation/hooks'
 
 import { makeRemoteCreateAnimalHeiferCalfStageUseCase } from '../../../main/factories/use-cases/animal-heifer-calf-stages-use-cases'
 import { useAnimalHeiferCalfStageContext } from '../../hooks/animal-heifer-calf-stage-context.hook'
+import { useAnimalHeiferCalfStageAdditionalDataQuery } from '../../hooks/queries/animal-heifer-calf-stage-additional-data-query.hook'
 import {
   animalHeiferCalfStageFormSchema,
   AnimalHeiferCalfStageFormSchema,
@@ -30,6 +32,14 @@ export function CreateAnimalHeiferCalfStageForm() {
     closeNewAnimalHeiferCalfStageForm,
   } = useAnimalHeiferCalfStageContext()
 
+  const {
+    isLoading: isLoadingAnimalHeiferCalfStageAdditionalData,
+    animalHeiferCalfStageAdditionalData,
+  } = useAnimalHeiferCalfStageAdditionalDataQuery({
+    propertyId,
+    animalId,
+  })
+
   const createAnimalHeiferCalfStageUseCase =
     makeRemoteCreateAnimalHeiferCalfStageUseCase()
 
@@ -38,6 +48,12 @@ export function CreateAnimalHeiferCalfStageForm() {
   const form = useHookForm<AnimalHeiferCalfStageFormSchema>({
     defaultValues: ANIMAL_HEIFER_CALF_STAGE_INITIAL_FORM_DATA,
     resolver: zodResolver(animalHeiferCalfStageFormSchema),
+    ...(animalHeiferCalfStageAdditionalData && {
+      values: {
+        ...ANIMAL_HEIFER_CALF_STAGE_INITIAL_FORM_DATA,
+        ...animalHeiferCalfStageAdditionalData,
+      },
+    }),
   })
 
   const { mutateAsync: mutateHandleCreateAnimalHeiferCalfStage } = useMutation({
@@ -97,7 +113,13 @@ export function CreateAnimalHeiferCalfStageForm() {
               className="flex flex-col px-2 gap-4"
               onSubmit={form.handleSubmit(handleCreateAnimalHeiferCalfStage)}
             >
-              <AnimalHeiferCalfStageFormInputs />
+              {isLoadingAnimalHeiferCalfStageAdditionalData ? (
+                <div className="flex justify-center h-full items-center">
+                  <Loading size="lg" />
+                </div>
+              ) : (
+                <AnimalHeiferCalfStageFormInputs />
+              )}
             </form>
           </ScrollArea.Root>
         </Form.Provider>
@@ -107,7 +129,10 @@ export function CreateAnimalHeiferCalfStageForm() {
             form="create-animal-heifer-calf-stage-form"
             type="submit"
             className="w-full"
-            disabled={form.buttonDisabled}
+            disabled={
+              form.buttonDisabled ||
+              isLoadingAnimalHeiferCalfStageAdditionalData
+            }
           >
             Criar
           </Button>
