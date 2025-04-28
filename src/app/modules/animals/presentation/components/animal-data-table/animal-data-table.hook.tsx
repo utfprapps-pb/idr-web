@@ -52,14 +52,20 @@ export function useAnimalDataTable() {
               <DropdownMenu.Content>
                 <DropdownMenu.Item
                   className="gap-2"
-                  onClick={() => openEditAnimalForm(animal)}
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    openEditAnimalForm(animal)
+                  }}
                 >
                   <PencilIcon size={14} /> Editar
                 </DropdownMenu.Item>
                 <DropdownMenu.Separator />
                 <DropdownMenu.Item
                   className="gap-2"
-                  onClick={() => openDeleteAnimalContainer(animal)}
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    openDeleteAnimalContainer(animal)
+                  }}
                 >
                   <Trash2Icon size={14} /> Excluir
                 </DropdownMenu.Item>

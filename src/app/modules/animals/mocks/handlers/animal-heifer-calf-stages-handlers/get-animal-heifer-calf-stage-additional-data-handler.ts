@@ -10,7 +10,8 @@ export const getAnimalHeiferCalfStageAdditionalDataHandler = httpWithMiddleware<
   never,
   never
 >({
-  routePath: '/api/properties/:propertyId/animals/:animalId/heifer-calf-stages',
+  routePath:
+    '/api/properties/:propertyId/animals/:animalId/heifer-calf-stages/additional-data',
   method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async () => {

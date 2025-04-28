@@ -5,7 +5,13 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
 import { moneyMask, percentMask } from '@/core/masker'
-import { Button, Form, Loading, Sheet } from '@/core/presentation/components/ui'
+import {
+  Button,
+  Form,
+  Loading,
+  ScrollArea,
+  Sheet,
+} from '@/core/presentation/components/ui'
 import { useHookForm } from '@/core/presentation/hooks'
 
 import { makeRemoteUpdateMachineUseCase } from '../../../main/factories/use-cases'
@@ -96,7 +102,7 @@ export function EditMachineForm() {
       open={isOpenEditMachineForm}
       onOpenChange={closeEditMachineForm}
     >
-      <Sheet.Content className="overflow-y-scroll h-screen" side="right">
+      <Sheet.Content side="right">
         <Sheet.Header>
           <Sheet.Title>
             {`Editar a Máquina ${selectedMachine?.name}`}
@@ -106,19 +112,21 @@ export function EditMachineForm() {
           </Sheet.Description>
         </Sheet.Header>
         <Form.Provider {...form}>
-          <form
-            id="update-machine-form"
-            className="flex flex-col h-full gap-4"
-            onSubmit={form.handleSubmit(handleUpdateMachine)}
-          >
-            {isLoading ? (
-              <div className="flex justify-center h-full items-center">
-                <Loading size="lg" />
-              </div>
-            ) : (
-              <MachineFormInputs />
-            )}
-          </form>
+          <ScrollArea.Root>
+            <form
+              id="update-machine-form"
+              className="flex flex-col px-2 gap-4"
+              onSubmit={form.handleSubmit(handleUpdateMachine)}
+            >
+              {isLoading ? (
+                <div className="flex justify-center h-full items-center">
+                  <Loading size="lg" />
+                </div>
+              ) : (
+                <MachineFormInputs />
+              )}
+            </form>
+          </ScrollArea.Root>
         </Form.Provider>
 
         <Sheet.Footer>

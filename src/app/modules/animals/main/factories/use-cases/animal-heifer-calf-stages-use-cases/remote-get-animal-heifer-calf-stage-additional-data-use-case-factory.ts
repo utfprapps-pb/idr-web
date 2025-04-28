@@ -7,7 +7,7 @@ import type { GetAnimalHeiferCalfStageAdditionalDataUseCase } from '../../../../
 
 export function makeRemoteGetAnimalHeiferCalfStageAdditionalDataUseCase(): GetAnimalHeiferCalfStageAdditionalDataUseCase {
   return new RemoteGetAnimalHeiferCalfStageAdditionalDataUseCase(
-    'properties/:propertyId/animals/:animalId/heifer-calf-stages',
+    'properties/:propertyId/animals/:animalId/heifer-calf-stages/additional-data',
     makeApiHttpClient<AnimalHeiferCalfStageDetailsModel>()
   )
 }

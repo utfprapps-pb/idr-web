@@ -4,7 +4,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
-import { Button, Form, Loading, Sheet } from '@/core/presentation/components/ui'
+import {
+  Button,
+  Form,
+  Loading,
+  ScrollArea,
+  Sheet,
+} from '@/core/presentation/components/ui'
 import { useHookForm } from '@/core/presentation/hooks'
 
 import { makeRemoteUpdateAnimalUseCase } from '../../../main/factories/use-cases'
@@ -89,7 +95,7 @@ export function EditAnimalForm() {
 
   return (
     <Sheet.Root open={isOpenEditAnimalForm} onOpenChange={closeEditAnimalForm}>
-      <Sheet.Content className="overflow-y-scroll h-screen" side="right">
+      <Sheet.Content side="right">
         <Sheet.Header>
           <Sheet.Title>{`Editar Animal ${selectedAnimal?.name}`}</Sheet.Title>
           <Sheet.Description>
@@ -97,19 +103,21 @@ export function EditAnimalForm() {
           </Sheet.Description>
         </Sheet.Header>
         <Form.Provider {...form}>
-          <form
-            id="update-animal-form"
-            className="flex flex-col h-full gap-4"
-            onSubmit={hookFormSubmit(handleUpdateAnimal)}
-          >
-            {isLoading ? (
-              <div className="flex justify-center h-full items-center">
-                <Loading size="lg" />
-              </div>
-            ) : (
-              <AnimalFormInputs />
-            )}
-          </form>
+          <ScrollArea.Root>
+            <form
+              id="update-animal-form"
+              className="flex flex-col gap-4"
+              onSubmit={hookFormSubmit(handleUpdateAnimal)}
+            >
+              {isLoading ? (
+                <div className="flex justify-center h-full items-center">
+                  <Loading size="lg" />
+                </div>
+              ) : (
+                <AnimalFormInputs />
+              )}
+            </form>
+          </ScrollArea.Root>
         </Form.Provider>
 
         <Sheet.Footer>

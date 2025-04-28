@@ -1,4 +1,4 @@
-import React, { type ComponentProps } from 'react'
+import { type ComponentProps } from 'react'
 
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import { DayPicker } from 'react-day-picker'

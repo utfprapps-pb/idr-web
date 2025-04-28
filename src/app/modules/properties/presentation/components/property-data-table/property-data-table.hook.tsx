@@ -58,7 +58,8 @@ export function usePropertyDataTable() {
               <DropdownMenu.Content>
                 <DropdownMenu.Item
                   className="gap-2"
-                  onClick={() => {
+                  onClick={(event) => {
+                    event.stopPropagation()
                     openEditPropertyForm(property)
                   }}
                 >
@@ -67,7 +68,8 @@ export function usePropertyDataTable() {
                 <DropdownMenu.Separator />
                 <DropdownMenu.Item
                   className="gap-2"
-                  onClick={() => {
+                  onClick={(event) => {
+                    event.stopPropagation()
                     openDeletePropertyContainer(property)
                   }}
                 >

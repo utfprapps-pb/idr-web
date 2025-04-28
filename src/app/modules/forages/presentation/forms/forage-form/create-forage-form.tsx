@@ -4,7 +4,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
-import { Button, Form, Sheet } from '@/core/presentation/components/ui'
+import {
+  Button,
+  Form,
+  ScrollArea,
+  Sheet,
+} from '@/core/presentation/components/ui'
 import { useHookForm } from '@/core/presentation/hooks'
 
 import { makeRemoteCreateForageUseCase } from '../../../main/factories/use-cases'
@@ -65,7 +70,7 @@ export function CreateForageForm() {
 
   return (
     <Sheet.Root open={isOpenNewForageForm} onOpenChange={closeNewForageForm}>
-      <Sheet.Content className="overflow-y-scroll h-screen" side="right">
+      <Sheet.Content side="right">
         <Sheet.Header>
           <Sheet.Title>Nova Forrageira</Sheet.Title>
           <Sheet.Description>
@@ -74,13 +79,15 @@ export function CreateForageForm() {
         </Sheet.Header>
 
         <Form.Provider {...form}>
-          <form
-            id="create-forage-form"
-            className="flex flex-col h-full gap-4"
-            onSubmit={form.handleSubmit(handleCreateForage)}
-          >
-            <ForageFormInputs />
-          </form>
+          <ScrollArea.Root>
+            <form
+              id="create-forage-form"
+              className="flex flex-col px-2 gap-4"
+              onSubmit={form.handleSubmit(handleCreateForage)}
+            >
+              <ForageFormInputs />
+            </form>
+          </ScrollArea.Root>
         </Form.Provider>
 
         <Sheet.Footer>
