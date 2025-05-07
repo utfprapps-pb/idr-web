@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
-import { useHookForm } from '@/core/presentation/hooks'
+import { useHookForm, useIdrNavigate } from '@/core/presentation/hooks'
 
 import { makeRemoteCreateUserUseCase } from '../../../main/factories/use-cases'
 import {
@@ -20,6 +20,8 @@ export function useSignUpForm() {
   const [isFirstStep, setIsFirstStep] = useState(true)
   const [firstStepData, setFirstStepData] =
     useState<SignUpFormFirstStepSchema | null>(null)
+
+  const { navigateToBasePath } = useIdrNavigate()
 
   const createUser = makeRemoteCreateUserUseCase()
 
@@ -60,12 +62,13 @@ export function useSignUpForm() {
 
         await mutateHandleCreateUser({ ...firstStepData, ...data })
         toast.success('Conta criada com sucesso')
+        navigateToBasePath()
       } catch (error) {
         const axiosError = error as AxiosError
         toast.error(axiosError.message)
       }
     },
-    [firstStepData, isFirstStep, mutateHandleCreateUser]
+    [firstStepData, isFirstStep, mutateHandleCreateUser, navigateToBasePath]
   )
 
   return {
