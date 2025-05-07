@@ -1,22 +1,31 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { Mail, EyeOff, Eye } from 'lucide-react'
-import { useForm } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 
 import { cpfMask, onlyNumbersMask, phoneMask, cepMask } from '@/core/masker'
 import { Form, Input } from '@/core/presentation/components/ui'
 import { Grouper } from '@/core/presentation/components/utils'
+import { useCepQuery } from '@/core/presentation/hooks'
 
 import type {
   SignUpFormFirstStepSchema,
   SignUpFormSecondStepSchema,
 } from '../../validations/sign-up-form-schema'
 
-export function useSignUpFormInputs(cepLoading: boolean) {
+export function useSignUpFormInputs() {
+  const cepRef = useRef<string | null>(null)
+
   const [viewPassword, setViewPassword] = useState(false)
   const [viewConfirmPassword, setViewConfirmPassword] = useState(false)
 
-  const form = useForm<SignUpFormFirstStepSchema & SignUpFormSecondStepSchema>()
+  const form = useFormContext<
+    SignUpFormFirstStepSchema & SignUpFormSecondStepSchema
+  >()
+
+  const cepForQuery = form.watch('cep')
+
+  const { address, isLoading: cepLoading } = useCepQuery(cepForQuery)
 
   const inputDataFirstStep = [
     <Grouper key="grouper-name-email">
@@ -251,6 +260,9 @@ export function useSignUpFormInputs(cepLoading: boolean) {
               <Form.Control>
                 <Input
                   {...field}
+                  onChange={(event) => {
+                    return field.onChange(event)
+                  }}
                   isError={!!cep?.message}
                   placeholder="Digite seu CEP"
                   mask={cepMask}
@@ -327,6 +339,23 @@ export function useSignUpFormInputs(cepLoading: boolean) {
       />
     </Grouper>,
   ]
+
+  useEffect(() => {
+    if (!address || cepForQuery === cepRef.current) return
+
+    cepRef.current = cepForQuery
+
+    form.setValue('street', address.street, {
+      shouldDirty: true,
+      shouldValidate: true,
+      shouldTouch: true,
+    })
+    form.setValue('city', address.city, {
+      shouldDirty: true,
+      shouldValidate: true,
+      shouldTouch: true,
+    })
+  }, [address, cepForQuery, form])
 
   return {
     inputDataFirstStep,

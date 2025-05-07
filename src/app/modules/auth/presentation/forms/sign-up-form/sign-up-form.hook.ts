@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
-import { useCepQuery, useHookForm } from '@/core/presentation/hooks'
+import { useHookForm } from '@/core/presentation/hooks'
 
 import { makeRemoteCreateUserUseCase } from '../../../main/factories/use-cases'
 import {
@@ -18,30 +18,10 @@ import type { AxiosError } from 'axios'
 
 export function useSignUpForm() {
   const [isFirstStep, setIsFirstStep] = useState(true)
+  const [firstStepData, setFirstStepData] =
+    useState<SignUpFormFirstStepSchema | null>(null)
 
   const createUser = makeRemoteCreateUserUseCase()
-
-  const { mutateAsync: mutateHandleCreateUser } = useMutation({
-    mutationFn: createUser.execute,
-  })
-
-  const handleCreateUser = useCallback(
-    async (data: SignUpFormFirstStepSchema & SignUpFormSecondStepSchema) => {
-      try {
-        if (isFirstStep) {
-          setIsFirstStep(false)
-          return
-        }
-
-        await mutateHandleCreateUser(data)
-        toast.success('Conta criada com sucesso')
-      } catch (error) {
-        const axiosError = error as AxiosError
-        toast.error(axiosError.message)
-      }
-    },
-    [isFirstStep, mutateHandleCreateUser]
-  )
 
   const form = useHookForm<
     SignUpFormFirstStepSchema & SignUpFormSecondStepSchema
@@ -65,25 +45,30 @@ export function useSignUpForm() {
     ),
   })
 
-  const { address, isLoading: cepLoading } = useCepQuery(form.getValues('cep'))
+  const { mutateAsync: mutateHandleCreateUser } = useMutation({
+    mutationFn: createUser.execute,
+  })
 
-  useEffect(() => {
-    if (address) {
-      form.setValue('street', address.street, {
-        shouldDirty: true,
-        shouldValidate: true,
-        shouldTouch: true,
-      })
-      form.setValue('city', address.city, {
-        shouldDirty: true,
-        shouldValidate: true,
-        shouldTouch: true,
-      })
-    }
-  }, [address, form])
+  const handleCreateUser = useCallback(
+    async (data: SignUpFormFirstStepSchema & SignUpFormSecondStepSchema) => {
+      try {
+        if (isFirstStep) {
+          setFirstStepData(data)
+          setIsFirstStep(false)
+          return
+        }
+
+        await mutateHandleCreateUser({ ...firstStepData, ...data })
+        toast.success('Conta criada com sucesso')
+      } catch (error) {
+        const axiosError = error as AxiosError
+        toast.error(axiosError.message)
+      }
+    },
+    [firstStepData, isFirstStep, mutateHandleCreateUser]
+  )
 
   return {
-    cepLoading,
     form,
     isFirstStep,
     handleCreateUser,

@@ -3,11 +3,18 @@ import { Button, Card, Form } from '@/core/presentation/components/ui'
 import { useSignUpFormInputs } from './sign-up-form-inputs.hook'
 import { useSignUpForm } from './sign-up-form.hook'
 
-export function SignUpForm() {
-  const { form, isFirstStep, cepLoading, handleCreateUser } = useSignUpForm()
+function FormFields({ isFirstStep }: { isFirstStep: boolean }) {
+  const { inputDataFirstStep, inputDataSecondStep } = useSignUpFormInputs()
 
-  const { inputDataFirstStep, inputDataSecondStep } =
-    useSignUpFormInputs(cepLoading)
+  if (isFirstStep) {
+    return inputDataFirstStep.map((component) => component)
+  }
+
+  return inputDataSecondStep.map((component) => component)
+}
+
+export function SignUpForm() {
+  const { form, isFirstStep, handleCreateUser } = useSignUpForm()
 
   return (
     <Form.Provider {...form}>
@@ -16,9 +23,7 @@ export function SignUpForm() {
         onSubmit={form.handleSubmit(handleCreateUser)}
       >
         <Card.Content className="flex flex-col gap-4 sm:gap-6">
-          {isFirstStep
-            ? inputDataFirstStep.map((component) => component)
-            : inputDataSecondStep.map((component) => component)}
+          <FormFields isFirstStep={isFirstStep} />
         </Card.Content>
         <Card.Footer>
           <Button
