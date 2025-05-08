@@ -60,6 +60,10 @@ export function useSignUpForm() {
           return
         }
 
+        if (!firstStepData) {
+          throw new Error('Dados do primeiro formulário não encontrados')
+        }
+
         await mutateHandleCreateUser({ ...firstStepData, ...data })
         toast.success('Conta criada com sucesso')
         navigateToBasePath()

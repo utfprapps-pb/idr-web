@@ -260,9 +260,7 @@ export function useSignUpFormInputs() {
               <Form.Control>
                 <Input
                   {...field}
-                  onChange={(event) => {
-                    return field.onChange(event)
-                  }}
+                  onChange={field.onChange}
                   isError={!!cep?.message}
                   placeholder="Digite seu CEP"
                   mask={cepMask}
