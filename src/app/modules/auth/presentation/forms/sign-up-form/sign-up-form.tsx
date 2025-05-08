@@ -7,10 +7,10 @@ function FormFields({ isFirstStep }: { isFirstStep: boolean }) {
   const { inputDataFirstStep, inputDataSecondStep } = useSignUpFormInputs()
 
   if (isFirstStep) {
-    return inputDataFirstStep.map((component) => component)
+    return inputDataFirstStep
   }
 
-  return inputDataSecondStep.map((component) => component)
+  return inputDataSecondStep
 }
 
 export function SignUpForm() {
