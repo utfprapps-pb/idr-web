@@ -2,6 +2,10 @@ export type UserModel = {
   name: string
 }
 
+export type UserApiResponse = {
+  displayName: string
+}
+
 export type CreateUserModel = {
   name: string
   email: string
