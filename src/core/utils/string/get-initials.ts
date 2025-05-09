@@ -1,6 +1,6 @@
 export function getInitials(value: string): string {
   if (!value || value.trim() === '') {
-    throw new Error('getInitials function value must be a non-empty string')
+    return ''
   }
 
   const words = value.split(/\s+/)
