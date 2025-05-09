@@ -8,10 +8,14 @@ import {
 
 import type { GetMeUseCase } from '@/core/domain/use-cases/users-use-cases'
 
+type UserResponse = {
+  displayName: string
+}
+
 export class RemoteGetMeUseCase implements GetMeUseCase {
   constructor(
     private readonly url: string,
-    private readonly httpClient: HttpClient
+    private readonly httpClient: HttpClient<UserResponse>
   ) {}
 
   execute: GetMeUseCase['execute'] = async () => {
@@ -20,9 +24,9 @@ export class RemoteGetMeUseCase implements GetMeUseCase {
       method: 'get',
     })
 
-    if (statusCode === HttpStatusCode.ok) {
+    if (statusCode === HttpStatusCode.ok && body) {
       return {
-        name: body.name,
+        name: body.displayName,
       }
     }
 
