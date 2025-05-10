@@ -1,3 +1,5 @@
+import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
+
 export type HttpMethod = 'get' | 'post' | 'delete' | 'patch'
 
 export enum HttpStatusCode {
@@ -15,26 +17,61 @@ export enum HttpStatusCode {
 
 export type SortDirection = 'asc' | 'desc'
 
-export type HttpRequest<F = Record<string, string | undefined>> = {
+export type FilterType =
+  | 'EQUALS'
+  | 'NOT_EQUALS'
+  | 'LIKE'
+  | 'NOT_LIKE'
+  | 'GREATER'
+  | 'LESS'
+  | 'GREATER_EQUAL'
+  | 'LESS_EQUALS'
+  | 'IN'
+  | 'NOT_IN'
+  | 'IS_NULL'
+  | 'IS_NOT_NULL'
+  | 'BETWEEN'
+
+export type FilterValue = {
+  value: string
+  type: FilterType
+}
+
+export type Filters<TModel> = {
+  [key in keyof TModel]?: {
+    value: TModel[key]
+    type: FilterType
+  }
+}
+
+export type Sort<TModel> = {
+  direction: SortDirection
+  field: keyof TModel
+}
+
+export type HttpRequest<
+  TModel = Record<string, string>,
+  TApiModel = unknown,
+> = {
   url: string
   method: HttpMethod
   body?: unknown
-  filters?: F
+  filters?: Filters<TModel>
   pagination?: {
     page: number
     perPage?: number
   }
-  sort?: {
-    direction: SortDirection
-    field: string
-  }
+  sort?: Sort<TModel>
+  mapApiProperties?: MapApiProperties<TModel, TApiModel>
 }
 
-export type HttpResponse<TBody = unknown> = {
+export type HttpResponse<TData = unknown> = {
   statusCode: HttpStatusCode
-  body?: TBody
+  body?: ListApiResponse<TData>
 }
 
-export type HttpClient<T = unknown, F = Record<string, string | undefined>> = {
-  request: (data: HttpRequest<F>) => Promise<HttpResponse<T>>
+export type HttpClient<TModel = unknown, TApiModel = unknown> = {
+  request: (
+    data: HttpRequest<TModel, TApiModel>
+  ) => Promise<HttpResponse<TApiModel[]>>
 }
