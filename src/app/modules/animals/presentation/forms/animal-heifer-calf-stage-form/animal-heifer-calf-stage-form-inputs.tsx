@@ -18,7 +18,7 @@ export function AnimalHeiferCalfStageFormInputs() {
   const form = useFormContext<AnimalHeiferCalfStageFormSchema>()
 
   const amountOfMilkCorrection =
-    Number(form.watch('amountOfMilk.correction').replace(',', '.')) ?? 0
+    Number((form.watch('amountOfMilk.correction') ?? '').replace(',', '.')) ?? 0
 
   useEffect(() => {
     if (amountOfMilkCorrection) {
