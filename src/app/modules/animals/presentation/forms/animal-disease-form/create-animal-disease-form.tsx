@@ -4,7 +4,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
-import { Button, Form, Sheet } from '@/core/presentation/components/ui'
+import {
+  Button,
+  Form,
+  ScrollArea,
+  Sheet,
+} from '@/core/presentation/components/ui'
 import { useHookForm } from '@/core/presentation/hooks'
 
 import { makeRemoteCreateAnimalDiseaseUseCase } from '../../../main/factories/use-cases/animal-diseases-use-cases'
@@ -76,7 +81,7 @@ export function CreateAnimalDiseaseForm() {
       open={isOpenNewAnimalDiseaseForm}
       onOpenChange={closeNewAnimalDiseaseForm}
     >
-      <Sheet.Content className="overflow-y-scroll h-screen" side="right">
+      <Sheet.Content side="right">
         <Sheet.Header>
           <Sheet.Title>Nova Doença</Sheet.Title>
           <Sheet.Description>
@@ -85,13 +90,15 @@ export function CreateAnimalDiseaseForm() {
         </Sheet.Header>
 
         <Form.Provider {...form}>
-          <form
-            id="create-animal-disease-form"
-            className="flex flex-col h-full gap-4"
-            onSubmit={form.handleSubmit(handleCreateAnimalDisease)}
-          >
-            <AnimalDiseaseFormInputs />
-          </form>
+          <ScrollArea.Root>
+            <form
+              id="create-animal-disease-form"
+              className="flex flex-col gap-4"
+              onSubmit={form.handleSubmit(handleCreateAnimalDisease)}
+            >
+              <AnimalDiseaseFormInputs />
+            </form>
+          </ScrollArea.Root>
         </Form.Provider>
 
         <Sheet.Footer>

@@ -8,6 +8,7 @@ import {
   Button,
   Form,
   Loading,
+  ScrollArea,
   Sheet,
   Tabs,
 } from '@/core/presentation/components/ui'
@@ -105,52 +106,70 @@ export function EditPropertyForm() {
       open={isOpenEditPropertyForm}
       onOpenChange={closeEditPropertyForm}
     >
-      <Sheet.Content className="overflow-y-scroll h-screen" side="right">
+      <Sheet.Content side="right">
         <Sheet.Header>
           <Sheet.Title>{`Editar Propriedade ${propertySelected?.name}`}</Sheet.Title>
           <Sheet.Description>
             Preencha o formulário para editar a propriedade
           </Sheet.Description>
         </Sheet.Header>
-        <Form.Provider {...form}>
-          <form
-            className="flex flex-col h-full gap-8"
-            onSubmit={form.handleSubmit(handleUpdateProperty)}
-          >
-            {isLoading ? (
-              <div className="flex justify-center h-full items-center">
-                <Loading size="lg" />
-              </div>
-            ) : (
-              <Tabs.Root defaultValue="general">
-                <Tabs.List>
-                  {tabs.map((tab) => (
-                    <Tabs.Trigger
-                      key={tab.value}
-                      value={tab.value}
-                      onClick={() => setActiveTab(tab.value)}
-                    >
-                      {tab.title}
-                    </Tabs.Trigger>
-                  ))}
-                </Tabs.List>
-                <Tabs.Content value={activeTab} className="flex flex-col gap-6">
-                  {tabs.find((tab) => tab.value === activeTab)?.component}
-                </Tabs.Content>
-              </Tabs.Root>
-            )}
 
-            <Sheet.Footer className="pb-8">
-              <Button
-                type="submit"
-                className="w-full"
-                disabled={form.buttonDisabled}
+        {isLoading ? (
+          <div className="flex justify-center h-full items-center">
+            <Loading size="lg" />
+          </div>
+        ) : (
+          <Tabs.Root
+            defaultValue="general"
+            value={activeTab}
+            className="h-[calc(100%-110px)]"
+            onValueChange={setActiveTab}
+          >
+            <ScrollArea.Root>
+              <Tabs.List>
+                {tabs.map((tab) => (
+                  <Tabs.Trigger
+                    key={tab.value}
+                    value={tab.value}
+                    onClick={() => setActiveTab(tab.value)}
+                  >
+                    {tab.title}
+                  </Tabs.Trigger>
+                ))}
+              </Tabs.List>
+
+              <ScrollArea.ScrollBar orientation="horizontal" />
+            </ScrollArea.Root>
+
+            <Form.Provider {...form}>
+              <form
+                id="update-property-form"
+                className="h-[calc(100%-44px)]"
+                onSubmit={form.handleSubmit(handleUpdateProperty)}
               >
-                Salvar
-              </Button>
-            </Sheet.Footer>
-          </form>
-        </Form.Provider>
+                <ScrollArea.Root className="h-full">
+                  <Tabs.Content
+                    value={activeTab}
+                    className="flex flex-col gap-4 px-2"
+                  >
+                    {tabs.find((tab) => tab.value === activeTab)?.component}
+                  </Tabs.Content>
+                </ScrollArea.Root>
+              </form>
+            </Form.Provider>
+          </Tabs.Root>
+        )}
+
+        <Sheet.Footer className="pb-8">
+          <Button
+            form="update-property-form"
+            type="submit"
+            className="w-full"
+            disabled={form.buttonDisabled || isLoading}
+          >
+            Salvar
+          </Button>
+        </Sheet.Footer>
       </Sheet.Content>
     </Sheet.Root>
   )

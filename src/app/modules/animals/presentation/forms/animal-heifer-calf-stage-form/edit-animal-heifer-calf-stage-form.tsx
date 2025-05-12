@@ -2,13 +2,21 @@ import { useCallback } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { format } from 'date-fns'
 import toast from 'react-hot-toast'
 
-import { Button, Form, Loading, Sheet } from '@/core/presentation/components/ui'
+import {
+  Button,
+  Form,
+  Loading,
+  ScrollArea,
+  Sheet,
+} from '@/core/presentation/components/ui'
 import { useHookForm } from '@/core/presentation/hooks'
 
 import { makeRemoteUpdateAnimalHeiferCalfStageUseCase } from '../../../main/factories/use-cases/animal-heifer-calf-stages-use-cases'
 import { useAnimalHeiferCalfStageContext } from '../../hooks/animal-heifer-calf-stage-context.hook'
+import { useAnimalHeiferCalfStageAdditionalDataQuery } from '../../hooks/queries/animal-heifer-calf-stage-additional-data-query.hook'
 import { useAnimalHeiferCalfStageQuery } from '../../hooks/queries/animal-heifer-calf-stage-query.hook'
 import {
   animalHeiferCalfStageFormSchema,
@@ -33,6 +41,14 @@ export function EditAnimalHeiferCalfStageForm() {
     animalId,
   })
 
+  const {
+    isLoading: isLoadingAnimalHeiferCalfStageAdditionalData,
+    animalHeiferCalfStageAdditionalData,
+  } = useAnimalHeiferCalfStageAdditionalDataQuery({
+    propertyId,
+    animalId,
+  })
+
   const updateAnimalHeiferCalfStageUseCase =
     makeRemoteUpdateAnimalHeiferCalfStageUseCase()
 
@@ -40,11 +56,13 @@ export function EditAnimalHeiferCalfStageForm() {
 
   const form = useHookForm<AnimalHeiferCalfStageFormSchema>({
     defaultValues: ANIMAL_HEIFER_CALF_STAGE_INITIAL_FORM_DATA,
-    ...(animalHeiferCalfStage && {
-      values: {
-        ...animalHeiferCalfStage,
-      },
-    }),
+    ...(animalHeiferCalfStage &&
+      animalHeiferCalfStageAdditionalData && {
+        values: {
+          ...animalHeiferCalfStage,
+          ...animalHeiferCalfStageAdditionalData,
+        },
+      }),
     resolver: zodResolver(animalHeiferCalfStageFormSchema),
   })
 
@@ -95,27 +113,33 @@ export function EditAnimalHeiferCalfStageForm() {
       open={isOpenEditAnimalHeiferCalfStageForm}
       onOpenChange={closeEditAnimalHeiferCalfStageForm}
     >
-      <Sheet.Content className="overflow-y-scroll h-screen" side="right">
+      <Sheet.Content side="right">
         <Sheet.Header>
-          <Sheet.Title>{`Editar Fase bezerra novilha com pesagem no dia ${selectedAnimalHeiferCalfStage?.weighingDate}`}</Sheet.Title>
+          <Sheet.Title>{`Editar Fase bezerra novilha com pesagem no dia ${
+            selectedAnimalHeiferCalfStage?.weighingDate
+              ? format(selectedAnimalHeiferCalfStage.weighingDate, 'dd/MM/yyyy')
+              : '-'
+          }`}</Sheet.Title>
           <Sheet.Description>
             Preencha o formulário para editar o parto do animal
           </Sheet.Description>
         </Sheet.Header>
         <Form.Provider {...form}>
-          <form
-            id="update-animal-heifer-calf-stage-form"
-            className="flex flex-col h-full gap-4"
-            onSubmit={form.handleSubmit(handleUpdateAnimalHeiferCalfStage)}
-          >
-            {isLoading ? (
-              <div className="flex justify-center h-full items-center">
-                <Loading size="lg" />
-              </div>
-            ) : (
-              <AnimalHeiferCalfStageFormInputs />
-            )}
-          </form>
+          <ScrollArea.Root>
+            <form
+              id="update-animal-heifer-calf-stage-form"
+              className="flex flex-col px-2 gap-4"
+              onSubmit={form.handleSubmit(handleUpdateAnimalHeiferCalfStage)}
+            >
+              {isLoading || isLoadingAnimalHeiferCalfStageAdditionalData ? (
+                <div className="flex justify-center h-full items-center">
+                  <Loading size="lg" />
+                </div>
+              ) : (
+                <AnimalHeiferCalfStageFormInputs />
+              )}
+            </form>
+          </ScrollArea.Root>
         </Form.Provider>
 
         <Sheet.Footer>
@@ -123,7 +147,11 @@ export function EditAnimalHeiferCalfStageForm() {
             type="submit"
             form="update-animal-heifer-calf-stage-form"
             className="w-full"
-            disabled={form.buttonDisabled}
+            disabled={
+              form.buttonDisabled ||
+              isLoadingAnimalHeiferCalfStageAdditionalData ||
+              isLoading
+            }
           >
             Salvar
           </Button>
