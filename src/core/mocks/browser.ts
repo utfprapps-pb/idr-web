@@ -61,7 +61,7 @@ import {
 } from '@/app/modules/properties/mocks/handlers'
 
 import { getAllBreedsHandler } from './handlers/breeds-handlers'
-import { getAllUsersHandler, meHandler } from './handlers/users-handlers'
+import { getAllUsersHandler, getMeHandler } from './handlers/users-handlers'
 import { getAllVegetablesHandler } from './handlers/vegetables-handlers'
 
 const handlers: HttpHandler[] = [
@@ -72,7 +72,7 @@ const handlers: HttpHandler[] = [
   getAllVegetablesHandler,
 
   getAllUsersHandler,
-  meHandler,
+  getMeHandler,
 
   createAnimalHandler,
   deleteAnimalHandler,
