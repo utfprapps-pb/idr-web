@@ -22,12 +22,15 @@ export const baseApi = axios.create({
 })
 baseApi.interceptors.request.use(authInterceptorRequest)
 
-export class ApiHttpClient<TModel = unknown, TApiModel = unknown>
-  implements HttpClient<TModel, TApiModel>
+export class ApiHttpClient<
+  TModel = unknown,
+  TApiModel = unknown,
+  TApiResponse = unknown,
+> implements HttpClient<TModel, TApiModel, TApiResponse>
 {
   async request(
     data: HttpRequest<TModel, TApiModel>
-  ): Promise<HttpResponse<TApiModel[]>> {
+  ): Promise<HttpResponse<TApiResponse>> {
     let axiosResponse: AxiosResponse
 
     const { url, pagination, filters, sort, mapApiProperties } = data
@@ -62,7 +65,7 @@ export class ApiHttpClient<TModel = unknown, TApiModel = unknown>
       sort && mapApiProperties && sort.field in mapApiProperties
         ? {
             sort: {
-              field: mapApiProperties[sort.field as keyof TModel] as string,
+              field: mapApiProperties[sort.field] as string,
               type: sort.direction.toUpperCase(),
             },
           }

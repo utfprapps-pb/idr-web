@@ -10,12 +10,16 @@ import type {
   PropertyModel,
 } from '../../domain/models/properties-model'
 import type { GetPropertiesUseCase } from '../../domain/use-cases'
-import type { MapApiProperties } from '@/core/domain/types'
+import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
 
 export class RemoteGetPropertiesUseCase implements GetPropertiesUseCase {
   constructor(
     private readonly url: string,
-    private readonly httpClient: HttpClient<PropertyModel, PropertyApiResponse>
+    private readonly httpClient: HttpClient<
+      PropertyModel,
+      PropertyApiResponse,
+      ListApiResponse<PropertyApiResponse[]>
+    >
   ) {}
 
   execute: GetPropertiesUseCase['execute'] = async ({

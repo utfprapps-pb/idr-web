@@ -1,4 +1,4 @@
-import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
+import type { MapApiProperties } from '@/core/domain/types'
 
 export type HttpMethod = 'get' | 'post' | 'delete' | 'patch'
 
@@ -67,11 +67,15 @@ export type HttpRequest<
 
 export type HttpResponse<TData = unknown> = {
   statusCode: HttpStatusCode
-  body?: ListApiResponse<TData>
+  body?: TData
 }
 
-export type HttpClient<TModel = unknown, TApiModel = unknown> = {
+export type HttpClient<
+  TModel = unknown,
+  TApiModel = unknown,
+  TApiResponse = TApiModel,
+> = {
   request: (
     data: HttpRequest<TModel, TApiModel>
-  ) => Promise<HttpResponse<TApiModel[]>>
+  ) => Promise<HttpResponse<TApiResponse>>
 }
