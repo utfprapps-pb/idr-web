@@ -4,15 +4,18 @@ import {
   NotFoundError,
   ForbiddenError,
 } from '@/core/domain/errors'
-import { ITEMS_PER_PAGE } from '@/core/infra/http'
 
-import type { PropertyModel } from '../../domain/models/properties-model'
+import type {
+  PropertyApiResponse,
+  PropertyModel,
+} from '../../domain/models/properties-model'
 import type { GetPropertiesUseCase } from '../../domain/use-cases'
+import type { MapApiProperties } from '@/core/domain/types'
 
 export class RemoteGetPropertiesUseCase implements GetPropertiesUseCase {
   constructor(
     private readonly url: string,
-    private readonly httpClient: HttpClient
+    private readonly httpClient: HttpClient<PropertyModel, PropertyApiResponse>
   ) {}
 
   execute: GetPropertiesUseCase['execute'] = async ({
@@ -20,30 +23,34 @@ export class RemoteGetPropertiesUseCase implements GetPropertiesUseCase {
     pagination,
     sort,
   }) => {
+    const mapApiProperties: MapApiProperties<
+      PropertyModel,
+      PropertyApiResponse
+    > = {
+      producer: 'user.displayName',
+    }
+
     const { statusCode, body } = await this.httpClient.request({
-      url: `${this.url}`,
-      method: 'get',
+      url: `${this.url}/search`,
+      method: 'post',
       filters,
       pagination,
       sort,
+      mapApiProperties,
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        resources: body.properties.map(
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (item: any) =>
-            ({
-              id: item.id,
-              name: item.name,
-              producer: item.producer,
-              county: {
-                city: item.city,
-                state: item.state,
-              },
-            }) as PropertyModel
-        ),
-        totalPages: Math.ceil(body.totalRegisters / ITEMS_PER_PAGE),
+        resources: body.content.map((item) => ({
+          id: String(item.id),
+          name: 'MOCKADO - SEM RETORNO DA API', // todo: remove mock
+          producer: item.user.displayName,
+          county: {
+            city: 'MOCKADO - SEM RETORNO DA API', // todo: remove mock
+            state: 'MOCKADO - SEM RETORNO DA API', // todo: remove mock
+          },
+        })),
+        totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
       }
     }
 

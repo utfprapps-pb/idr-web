@@ -17,10 +17,11 @@ export function usePropertyDataTable() {
     usePropertyContext()
 
   const [page, setPage] = useState(1)
-  const [sort, setSort] = useState<PropertySort>()
-  const [filters, setFilters] = useState<PropertyFilters>({
-    name: '',
+  const [sort, setSort] = useState<PropertySort>({
+    field: 'producer',
+    direction: 'asc',
   })
+  const [filters, setFilters] = useState<PropertyFilters>({})
   const debouncedFilters = useDebounce({ value: filters })
 
   const { isLoading, properties } = usePropertiesQuery({

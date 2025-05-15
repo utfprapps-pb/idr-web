@@ -6,6 +6,6 @@ import type {
 } from '@/core/domain/types'
 
 export type GetPropertiesUseCase = RequestInterface<
-  ListParams<keyof PropertyModel>,
+  ListParams<PropertyModel>,
   ListResponse<PropertyModel>
 >
