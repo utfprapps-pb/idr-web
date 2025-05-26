@@ -6,12 +6,13 @@ import {
   UnexpectedError,
 } from '@/core/domain/errors'
 
+import type { UserApiResponse } from '@/core/domain/models/users-model'
 import type { GetMeUseCase } from '@/core/domain/use-cases/users-use-cases'
 
 export class RemoteGetMeUseCase implements GetMeUseCase {
   constructor(
     private readonly url: string,
-    private readonly httpClient: HttpClient
+    private readonly httpClient: HttpClient<UserApiResponse>
   ) {}
 
   execute: GetMeUseCase['execute'] = async () => {
@@ -20,9 +21,9 @@ export class RemoteGetMeUseCase implements GetMeUseCase {
       method: 'get',
     })
 
-    if (statusCode === HttpStatusCode.ok) {
+    if (statusCode === HttpStatusCode.ok && body) {
       return {
-        name: body.name,
+        name: body.displayName,
       }
     }
 

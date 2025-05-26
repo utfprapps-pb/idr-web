@@ -35,7 +35,6 @@ export type HttpResponse<TBody = unknown> = {
   body?: TBody
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type HttpClient<T = any, F = Record<string, string | undefined>> = {
+export type HttpClient<T = unknown, F = Record<string, string | undefined>> = {
   request: (data: HttpRequest<F>) => Promise<HttpResponse<T>>
 }
