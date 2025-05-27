@@ -1,19 +1,46 @@
-import { SortDirection } from '@/core/data/protocols/http'
+import { getNestedValue } from './get-nested-value'
 
-export function sortData<TData extends Record<string, string | number | Date>>(
-  sort: {
-    direction: SortDirection
-    field: string
-  },
+import type { ApiSort } from '@/core/domain/types'
+
+export function sortData<TData extends object>(
+  sort: ApiSort<TData>,
   data: TData[]
 ) {
-  return data.sort((prevItem, nextItem) => {
-    const fieldToSort = sort.field as keyof TData
+  if (!sort?.field) {
+    return data
+  }
 
-    if (sort.direction === 'asc') {
-      return prevItem[fieldToSort] < nextItem[fieldToSort] ? -1 : 1
+  const sortedData = [...data]
+
+  sortedData.sort((prevItem, nextItem) => {
+    const fieldPath = String(sort.field)
+
+    const prevValue = getNestedValue(prevItem, fieldPath)
+
+    const nextValue = getNestedValue(nextItem, fieldPath)
+
+    const direction = (sort.type || 'asc').toLowerCase()
+
+    const directionMultiplier = direction === 'asc' ? 1 : -1
+
+    if (prevValue === null || prevValue === undefined) return 1
+    if (nextValue === null || nextValue === undefined) return -1
+
+    if (typeof prevValue === 'string' && typeof nextValue === 'string') {
+      return prevValue.localeCompare(nextValue) * directionMultiplier
     }
 
-    return prevItem[fieldToSort] > nextItem[fieldToSort] ? -1 : 1
+    if (
+      (typeof prevValue === 'number' && typeof nextValue === 'number') ||
+      (prevValue instanceof Date && nextValue instanceof Date)
+    ) {
+      if (prevValue < nextValue) return -1 * directionMultiplier
+      if (prevValue > nextValue) return 1 * directionMultiplier
+      return 0
+    }
+
+    return 0
   })
+
+  return sortedData
 }
