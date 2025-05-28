@@ -4,11 +4,12 @@ import {
   HttpClient,
   HttpRequest,
   HttpResponse,
-  type FilterValue,
 } from '@/core/data/protocols/http'
 import { env } from '@/core/env'
 
 import { authInterceptorRequest } from './interceptors/auth-interceptor'
+
+import type { ApiSort, FilterValue } from '@/core/domain/types'
 
 export const ITEMS_PER_PAGE = 10
 
@@ -61,15 +62,13 @@ export class ApiHttpClient<
           )
       : undefined
 
-    const sortInfo =
+    const sortInfo: ApiSort<TApiModel> | undefined =
       sort && mapApiProperties && sort.field in mapApiProperties
         ? {
-            sort: {
-              field: mapApiProperties[sort.field] as string,
-              type: sort.direction.toUpperCase(),
-            },
+            type: sort.direction,
+            field: mapApiProperties[sort.field] as keyof TApiModel,
           }
-        : {}
+        : undefined
 
     try {
       axiosResponse = await baseApi.request({
@@ -85,7 +84,7 @@ export class ApiHttpClient<
                 rows: pagination.perPage ?? ITEMS_PER_PAGE,
               }
             : {}),
-          ...sortInfo,
+          ...(sortInfo ? { sort: sortInfo } : {}),
           ...(filtersArray && filtersArray.length > 0
             ? { filters: filtersArray }
             : {}),
