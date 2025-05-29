@@ -32,6 +32,7 @@ export class RemoteGetPropertiesUseCase implements GetPropertiesUseCase {
       PropertyApiResponse
     > = {
       producer: 'user.displayName',
+      name: 'name',
     }
 
     const { statusCode, body } = await this.httpClient.request({
