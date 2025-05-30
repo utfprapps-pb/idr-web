@@ -23,7 +23,7 @@ type PropertyContextValue = {
 
 export const PropertyContext = createContext({} as PropertyContextValue)
 
-export function PropertyProvider({ children }: PropsWithChildren) {
+export function PropertyProvider({ children }: Readonly<PropsWithChildren>) {
   const [isOpenNewPropertyForm, setIsOpenNewPropertyForm] = useState(false)
 
   const [isOpenEditPropertyForm, setIsOpenEditPropertyForm] = useState(false)
