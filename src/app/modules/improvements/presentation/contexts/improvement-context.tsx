@@ -29,12 +29,10 @@ type ImprovementContextValue = {
 
 export const ImprovementContext = createContext({} as ImprovementContextValue)
 
-export function ImprovementProvider({ children }: PropsWithChildren) {
+export function ImprovementProvider({ children }: Readonly<PropsWithChildren>) {
   const params = useParams<{ propertyId: string }>()
 
-  const [filters, setFilters] = useState<ImprovementFilters>({
-    description: '',
-  })
+  const [filters, setFilters] = useState<ImprovementFilters>({})
 
   const handleChangeFilters = useCallback((newFilters: ImprovementFilters) => {
     setFilters((prevState) => ({
