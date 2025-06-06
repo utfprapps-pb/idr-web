@@ -34,9 +34,11 @@ export function ImprovementsScreen() {
 
               <Input
                 className="w-fit"
-                value={filters.description}
+                value={filters.description?.value ?? ''}
                 onChange={({ target }) => {
-                  handleChangeFilters({ description: target.value })
+                  handleChangeFilters({
+                    description: { value: target.value, type: 'LIKE' },
+                  })
                 }}
                 placeholder="Procurar benfeitoria"
               />
