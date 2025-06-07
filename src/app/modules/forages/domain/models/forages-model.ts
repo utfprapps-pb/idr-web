@@ -21,6 +21,17 @@ export type ForageModel = WithId<{
   averageCost: string
   usefulLife: string
   formation: string
+  ownershipType: string
+  growthCycle: string
+  observation?: string
+}>
+
+export type ForageApiResponse = WithId<{
+  cultivation: string
+  area: string
+  averageCost: string
+  usefulLife: string
+  formation: string
   ownershipType: ForageOwnershipType
   growthCycle: ForageGrowthCycle
   observation?: string
