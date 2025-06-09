@@ -3,52 +3,33 @@ import { HttpResponse, type PathParams } from 'msw'
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
-import {
-  normalizeQueryFilters,
-  filterData,
-  sortData,
-  paginateData,
-} from '@/core/mocks/utils'
+import { filterData, sortData, paginateData } from '@/core/mocks/utils'
 
 import foragesData from '@database/forageData.json'
 
-type Params = {
-  filter: string
-  sort: string
-  pagination: string
-}
-
-type Forage = {
-  id: string
-  cultivation: string
-  area: string
-  averageCost: string
-  usefulLife: string
-  formation: string
-  ownershipType: 'OWNED_LAND' | 'LEASED_LAND'
-  growthCycle: 'ANNUAL' | 'PERENNIAL'
-  observation: string
-}
-
-type Response = {
-  forages: Forage[]
-  totalRegisters: number
-}
+import type { ForageApiResponse } from '../../domain/models/forages-model'
+import type { MockParams } from '@/core/mocks/types/mock-params-type'
+import type { MockResponse } from '@/core/mocks/types/mock-response-type'
 
 export const getForagesHandler = httpWithMiddleware<
   PathParams<'propertyId'>,
-  Params,
-  Response
+  MockParams<ForageApiResponse>,
+  MockResponse<ForageApiResponse[]>
 >({
-  routePath: '/api/properties/:propertyId/forages',
-  method: 'get',
+  routePath: '/api/properties/:propertyId/forages/search',
+  method: 'post',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ request }) => {
+    const { filters, page, rows, sort } = await request.json()
+
     if (!foragesData.length) {
       return HttpResponse.json(
         {
-          forages: [],
-          totalRegisters: 0,
+          content: [],
+          numberOfElements: 0,
+          pageable: {
+            pageSize: 0,
+          },
         },
         {
           status: 404,
@@ -56,21 +37,25 @@ export const getForagesHandler = httpWithMiddleware<
       )
     }
 
-    const url = new URL(request.url)
-    const { pagination, filters, sort } = normalizeQueryFilters(url)
+    let forages = foragesData as ForageApiResponse[]
 
-    let forages = foragesData as Forage[]
+    if (filters) forages = filterData<ForageApiResponse>(filters, forages)
+    if (sort) forages = sortData<ForageApiResponse>(sort, forages)
+    const numberOfElements = forages.length
 
-    if (filters) forages = filterData<Forage>(filters, forages)
-    if (sort) forages = sortData<Forage>(sort, forages)
-    const totalRegisters = forages.length
-
-    if (pagination) forages = paginateData<Forage>(pagination, forages)
+    if (page)
+      forages = paginateData<ForageApiResponse>(
+        { page, perPage: rows },
+        forages
+      )
 
     return HttpResponse.json(
       {
-        forages,
-        totalRegisters,
+        content: forages,
+        numberOfElements,
+        pageable: {
+          pageSize: rows,
+        },
       },
       { status: HttpStatusCode.ok }
     )
