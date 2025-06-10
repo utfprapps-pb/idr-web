@@ -20,6 +20,7 @@ export function useForagesQuery({ propertyId, filters, page, sort }: Props) {
   const {
     data,
     isError,
+    error,
     isLoading,
     refetch: refetchForages,
   } = useQuery({
@@ -27,17 +28,15 @@ export function useForagesQuery({ propertyId, filters, page, sort }: Props) {
     queryFn: () =>
       getForagesUseCase.execute({
         propertyId,
-        queryParams: {
-          pagination: { page },
-          sort,
-          filters,
-        },
+        pagination: { page },
+        sort,
+        filters,
       }),
   })
 
   useEffect(() => {
-    if (isError) toast.error('Erro ao buscar forrageiras')
-  }, [isError])
+    if (isError) toast.error(error?.message ?? 'Erro ao buscar forrageiras')
+  }, [error, isError])
 
   return {
     forages: data ?? {
