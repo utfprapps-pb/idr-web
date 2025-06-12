@@ -6,10 +6,9 @@ import type {
 } from '@/core/domain/types'
 
 export type GetAnimalDiseasesUseCase = RequestInterface<
-  {
+  ListParams<AnimalDiseaseModel> & {
     propertyId: string
     animalId: string
-    queryParams: ListParams<keyof AnimalDiseaseModel>
   },
   ListResponse<AnimalDiseaseModel>
 >
