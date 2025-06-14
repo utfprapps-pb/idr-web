@@ -7,6 +7,6 @@ import type { CreateAnimalHeiferCalfStageUseCase } from '../../../../domain/use-
 export function makeRemoteCreateAnimalHeiferCalfStageUseCase(): CreateAnimalHeiferCalfStageUseCase {
   return new RemoteCreateAnimalHeiferCalfStageUseCase(
     'properties/:propertyId/animals/:animalId/heifer-calf-stages',
-    makeApiHttpClient<void>()
+    makeApiHttpClient()
   )
 }
