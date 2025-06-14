@@ -4,43 +4,54 @@ import {
   NotFoundError,
   ForbiddenError,
 } from '@/core/domain/errors'
-import { ITEMS_PER_PAGE } from '@/core/infra/http'
 
-import type { AnimalModel } from '../../domain/models/animals-model'
+import type {
+  AnimalApiResponse,
+  AnimalModel,
+} from '../../domain/models/animals-model'
 import type { GetAnimalsUseCase } from '../../domain/use-cases'
+import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
 
 export class RemoteGetAnimalsUseCase implements GetAnimalsUseCase {
   constructor(
     private readonly url: string,
-    private readonly httpClient: HttpClient
+    private readonly httpClient: HttpClient<
+      AnimalModel,
+      AnimalApiResponse,
+      ListApiResponse<AnimalApiResponse[]>
+    >
   ) {}
 
   execute: GetAnimalsUseCase['execute'] = async ({
     propertyId,
-    queryParams: { filters, pagination, sort },
+    filters,
+    pagination,
+    sort,
   }) => {
+    const mapApiProperties: MapApiProperties<AnimalModel, AnimalApiResponse> = {
+      name: 'name',
+      breed: 'breed',
+    }
+
     const url = this.url.replace(':propertyId', propertyId)
 
     const { statusCode, body } = await this.httpClient.request({
-      url,
-      method: 'get',
+      url: `${url}/search`,
+      method: 'post',
       filters,
       pagination,
       sort,
+      mapApiProperties,
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        resources: body.animals.map(
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (item: any) =>
-            ({
-              id: item.id,
-              name: item.name,
-              breed: item.breed,
-            }) as AnimalModel
-        ),
-        totalPages: Math.ceil(body.totalRegisters / ITEMS_PER_PAGE),
+        resources: body.content.map((item) => ({
+          id: item.id,
+          name: item.name,
+          breed: item.breed,
+        })),
+        totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
       }
     }
 
