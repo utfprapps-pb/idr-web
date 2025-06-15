@@ -3,42 +3,33 @@ import { HttpResponse, type PathParams } from 'msw'
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
-import {
-  normalizeQueryFilters,
-  filterData,
-  sortData,
-  paginateData,
-} from '@/core/mocks/utils'
+import { filterData, sortData, paginateData } from '@/core/mocks/utils'
 
 import animalChildbirthsData from '@database/animalChildbirthsData.json'
 
-import type { AnimalChildbirthModel } from '../../../domain/models/animal-childbirths-model'
-
-type Params = {
-  filter: string
-  sort: string
-  pagination: string
-}
-
-type Response = {
-  animalChildbirths: AnimalChildbirthModel[]
-  totalRegisters: number
-}
+import type { AnimalChildbirthApiResponse } from '../../../domain/models/animal-childbirths-model'
+import type { MockParams } from '@/core/mocks/types/mock-params-type'
+import type { MockResponse } from '@/core/mocks/types/mock-response-type'
 
 export const getAnimalChildbirthsHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId'>,
-  Params,
-  Response
+  MockParams<AnimalChildbirthApiResponse>,
+  MockResponse<AnimalChildbirthApiResponse[]>
 >({
-  routePath: '/api/properties/:propertyId/animals/:animalId/childbirths',
-  method: 'get',
+  routePath: '/api/properties/:propertyId/animals/:animalId/childbirths/search',
+  method: 'post',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ request }) => {
+    const { filters, page, rows, sort } = await request.json()
+
     if (!animalChildbirthsData.length) {
       return HttpResponse.json(
         {
-          animalChildbirths: [],
-          totalRegisters: 0,
+          content: [],
+          numberOfElements: 0,
+          pageable: {
+            pageSize: 0,
+          },
         },
         {
           status: 404,
@@ -46,33 +37,34 @@ export const getAnimalChildbirthsHandler = httpWithMiddleware<
       )
     }
 
-    const url = new URL(request.url)
-    const { pagination, filters, sort } = normalizeQueryFilters(url)
-
-    let animalChildbirths = animalChildbirthsData as AnimalChildbirthModel[]
+    let animalChildbirths =
+      animalChildbirthsData as AnimalChildbirthApiResponse[]
 
     if (filters)
-      animalChildbirths = filterData<AnimalChildbirthModel>(
+      animalChildbirths = filterData<AnimalChildbirthApiResponse>(
         filters,
         animalChildbirths
       )
     if (sort)
-      animalChildbirths = sortData<AnimalChildbirthModel>(
+      animalChildbirths = sortData<AnimalChildbirthApiResponse>(
         sort,
         animalChildbirths
       )
-    const totalRegisters = animalChildbirths.length
+    const numberOfElements = animalChildbirths.length
 
-    if (pagination)
-      animalChildbirths = paginateData<AnimalChildbirthModel>(
-        pagination,
+    if (page)
+      animalChildbirths = paginateData<AnimalChildbirthApiResponse>(
+        { page, perPage: rows },
         animalChildbirths
       )
 
     return HttpResponse.json(
       {
-        animalChildbirths,
-        totalRegisters,
+        content: animalChildbirths,
+        numberOfElements,
+        pageable: {
+          pageSize: rows,
+        },
       },
       { status: HttpStatusCode.ok }
     )
