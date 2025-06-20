@@ -50,7 +50,7 @@ export class RemoteGetAnimalChildbirthsUseCase
       .replace(':animalId', animalId)
 
     const { statusCode, body } = await this.httpClient.request({
-      url,
+      url: `${url}/search`,
       method: 'post',
       filters,
       pagination,
