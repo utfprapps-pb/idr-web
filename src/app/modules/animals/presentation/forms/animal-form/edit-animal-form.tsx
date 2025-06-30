@@ -15,7 +15,7 @@ import { useHookForm } from '@/core/presentation/hooks'
 
 import { makeRemoteUpdateAnimalUseCase } from '../../../main/factories/use-cases'
 import { useAnimalContext } from '../../hooks/animal-context.hook'
-import { useAnimalQuery } from '../../hooks/queries'
+import { useAnimalQuery } from '../../hooks/queries/animal-query.hook'
 import {
   animalFormSchema,
   type AnimalFormSchema,
