@@ -5,7 +5,10 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
-import type { AnimalPregnancyDiagnosisDetailsModel } from '../../../domain/models/animal-pregnancy-diagnoses-model'
+import type {
+  AnimalPregnancyDiagnosisDetailsApiResponse,
+  AnimalPregnancyDiagnosisDetailsModel,
+} from '../../../domain/models/animal-pregnancy-diagnoses-model'
 import type { GetAnimalPregnancyDiagnosisUseCase } from '../../../domain/use-cases/animal-pregnancy-diagnoses-use-cases'
 
 export class RemoteGetAnimalPregnancyDiagnosisUseCase
@@ -15,7 +18,7 @@ export class RemoteGetAnimalPregnancyDiagnosisUseCase
     private readonly url: string,
     private readonly httpClient: HttpClient<
       AnimalPregnancyDiagnosisDetailsModel,
-      AnimalPregnancyDiagnosisDetailsModel
+      AnimalPregnancyDiagnosisDetailsApiResponse
     >
   ) {}
 
