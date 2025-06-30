@@ -4,7 +4,7 @@ export type DeleteAnimalPregnancyDiagnosisUseCase = RequestInterface<
   {
     propertyId: string
     animalId: string
-    id: string
+    id: number
   },
   void
 >
