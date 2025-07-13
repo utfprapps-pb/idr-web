@@ -3,12 +3,11 @@ import type {
   RequestInterface,
   ListParams,
   ListResponse,
+  CustomParams,
 } from '@/core/domain/types'
 
 export type GetAnimalsUseCase = RequestInterface<
-  {
-    propertyId: string
-    queryParams: ListParams<keyof AnimalModel>
-  },
-  ListResponse<AnimalModel>
+  ListParams<AnimalModel>,
+  ListResponse<AnimalModel>,
+  CustomParams
 >
