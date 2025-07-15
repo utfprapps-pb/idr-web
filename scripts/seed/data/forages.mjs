@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker/locale/pt_BR'
 
-export const forageData = Array.from(
+export const foragesData = Array.from(
   {
     length: faker.number.int({
       min: 1,
