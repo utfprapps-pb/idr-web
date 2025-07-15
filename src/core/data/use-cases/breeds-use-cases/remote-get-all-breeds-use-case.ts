@@ -5,26 +5,24 @@ import {
   NotFoundError,
   UnexpectedError,
 } from '@/core/domain/errors'
+import { BreedModel } from '@/core/domain/models/breed-model'
 
 import type { GetAllBreedsUseCase } from '@/core/domain/use-cases/breeds-use-cases'
 
 export class RemoteGetAllBreedsUseCase implements GetAllBreedsUseCase {
   constructor(
     private readonly url: string,
-    private readonly httpClient: HttpClient
+    private readonly httpClient: HttpClient<BreedModel, BreedModel>
   ) {}
 
-  execute: GetAllBreedsUseCase['execute'] = async (search) => {
+  execute: GetAllBreedsUseCase['execute'] = async () => {
     const { statusCode, body } = await this.httpClient.request({
       url: this.url,
       method: 'get',
-      filters: {
-        name: search,
-      },
     })
 
-    if (statusCode === HttpStatusCode.ok) {
-      return body.map((item: { id: string; name: string }) => ({
+    if (statusCode === HttpStatusCode.ok && !!body) {
+      return body.content.map((item) => ({
         value: item.id,
         label: item.name,
       }))
