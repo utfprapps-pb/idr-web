@@ -3,7 +3,6 @@ import fs from 'fs'
 import * as DataModules from './data/index.mjs'
 
 const dir = './database'
-const databaseKeys = []
 
 const convertAndWriteJSON = (data, fileName) => {
   const jsonData = JSON.stringify(data, null, 2)
@@ -19,7 +18,6 @@ const convertAndWriteJSON = (data, fileName) => {
 
 for (const [key, data] of Object.entries(DataModules)) {
   if (Array.isArray(data)) {
-    databaseKeys.push(key)
     convertAndWriteJSON(data, key)
   }
 }
