@@ -7,6 +7,6 @@ import { BreedModel } from '@/core/domain/models/breed-model'
 export function makeRemoteGetAllBreedsUseCase(): GetAllBreedsUseCase {
   return new RemoteGetAllBreedsUseCase(
     'breeds',
-    makeApiHttpClient<BreedModel, BreedModel>()
+    makeApiHttpClient<BreedModel, BreedModel, BreedModel[]>()
   )
 }
