@@ -2,6 +2,7 @@ import type { FileType, Option } from '@/core/domain/types'
 
 export type PropertyApiResponse = {
   id: number
+  name: string
   user: {
     displayName: string
   }

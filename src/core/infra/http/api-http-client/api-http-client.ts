@@ -4,11 +4,12 @@ import {
   HttpClient,
   HttpRequest,
   HttpResponse,
-  type FilterValue,
 } from '@/core/data/protocols/http'
 import { env } from '@/core/env'
 
 import { authInterceptorRequest } from './interceptors/auth-interceptor'
+
+import type { ApiSort, FilterValue } from '@/core/domain/types'
 
 export const ITEMS_PER_PAGE = 10
 
@@ -22,12 +23,15 @@ export const baseApi = axios.create({
 })
 baseApi.interceptors.request.use(authInterceptorRequest)
 
-export class ApiHttpClient<TModel = unknown, TApiModel = unknown>
-  implements HttpClient<TModel, TApiModel>
+export class ApiHttpClient<
+  TModel = unknown,
+  TApiModel = unknown,
+  TApiResponse = unknown,
+> implements HttpClient<TModel, TApiModel, TApiResponse>
 {
   async request(
     data: HttpRequest<TModel, TApiModel>
-  ): Promise<HttpResponse<TApiModel[]>> {
+  ): Promise<HttpResponse<TApiResponse>> {
     let axiosResponse: AxiosResponse
 
     const { url, pagination, filters, sort, mapApiProperties } = data
@@ -58,15 +62,13 @@ export class ApiHttpClient<TModel = unknown, TApiModel = unknown>
           )
       : undefined
 
-    const sortInfo =
+    const sortInfo: ApiSort<TApiModel> | undefined =
       sort && mapApiProperties && sort.field in mapApiProperties
         ? {
-            sort: {
-              field: mapApiProperties[sort.field as keyof TModel] as string,
-              type: sort.direction.toUpperCase(),
-            },
+            type: sort.direction,
+            field: mapApiProperties[sort.field] as keyof TApiModel,
           }
-        : {}
+        : undefined
 
     try {
       axiosResponse = await baseApi.request({
@@ -82,7 +84,7 @@ export class ApiHttpClient<TModel = unknown, TApiModel = unknown>
                 rows: pagination.perPage ?? ITEMS_PER_PAGE,
               }
             : {}),
-          ...sortInfo,
+          ...(sortInfo ? { sort: sortInfo } : {}),
           ...(filtersArray && filtersArray.length > 0
             ? { filters: filtersArray }
             : {}),

@@ -1,4 +1,4 @@
-import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
+import type { Filters, MapApiProperties, Sort } from '@/core/domain/types'
 
 export type HttpMethod = 'get' | 'post' | 'delete' | 'patch'
 
@@ -13,40 +13,6 @@ export enum HttpStatusCode {
   notFound = 404,
 
   serverError = 500,
-}
-
-export type SortDirection = 'asc' | 'desc'
-
-export type FilterType =
-  | 'EQUALS'
-  | 'NOT_EQUALS'
-  | 'LIKE'
-  | 'NOT_LIKE'
-  | 'GREATER'
-  | 'LESS'
-  | 'GREATER_EQUAL'
-  | 'LESS_EQUALS'
-  | 'IN'
-  | 'NOT_IN'
-  | 'IS_NULL'
-  | 'IS_NOT_NULL'
-  | 'BETWEEN'
-
-export type FilterValue = {
-  value: string
-  type: FilterType
-}
-
-export type Filters<TModel> = {
-  [key in keyof TModel]?: {
-    value: TModel[key]
-    type: FilterType
-  }
-}
-
-export type Sort<TModel> = {
-  direction: SortDirection
-  field: keyof TModel
 }
 
 export type HttpRequest<
@@ -67,11 +33,15 @@ export type HttpRequest<
 
 export type HttpResponse<TData = unknown> = {
   statusCode: HttpStatusCode
-  body?: ListApiResponse<TData>
+  body?: TData
 }
 
-export type HttpClient<TModel = unknown, TApiModel = unknown> = {
+export type HttpClient<
+  TModel = unknown,
+  TApiModel = unknown,
+  TApiResponse = TApiModel,
+> = {
   request: (
     data: HttpRequest<TModel, TApiModel>
-  ) => Promise<HttpResponse<TApiModel[]>>
+  ) => Promise<HttpResponse<TApiResponse>>
 }

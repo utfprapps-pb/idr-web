@@ -3,45 +3,44 @@ import { HttpResponse } from 'msw'
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
-import {
-  normalizeQueryFilters,
-  filterData,
-  sortData,
-  paginateData,
-} from '@/core/mocks/utils'
+import { filterData, sortData, paginateData } from '@/core/mocks/utils'
 
 import propertiesData from '@database/propertiesData.json'
 
-type Params = {
-  filter: string
-  sort: string
-  pagination: string
-}
+import type { PropertyApiResponse } from '../../domain/models/properties-model'
+import type { ApiSort, Filters } from '@/core/domain/types'
 
-type Property = {
-  id: string
-  name: string
-  city: string
-  state: string
-  producer: string
+type Params = {
+  filters: Filters<PropertyApiResponse>
+  sort: ApiSort<PropertyApiResponse>
+  page: number
+  rows: number
 }
 
 type Response = {
-  properties: Property[]
-  totalRegisters: number
+  content: PropertyApiResponse[]
+  numberOfElements: number
+  pageable: {
+    pageSize: number
+  }
 }
 
 export const getPropertiesHandler = httpWithMiddleware<never, Params, Response>(
   {
-    routePath: '/api/properties',
-    method: 'get',
+    routePath: '/api/properties/search',
+    method: 'post',
     middlewares: [withDelay(), withAuth],
     resolver: async ({ request }) => {
+      const { filters, page, rows, sort } = await request.json()
+
       if (!propertiesData.length) {
         return HttpResponse.json(
           {
-            properties: [],
-            totalRegisters: 0,
+            content: [],
+            numberOfElements: 0,
+            pageable: {
+              pageSize: rows,
+            },
           },
           {
             status: 404,
@@ -49,22 +48,29 @@ export const getPropertiesHandler = httpWithMiddleware<never, Params, Response>(
         )
       }
 
-      const url = new URL(request.url)
-      const { pagination, filters, sort } = normalizeQueryFilters(url)
+      let properties = propertiesData as PropertyApiResponse[]
 
-      let properties = propertiesData
+      if (filters)
+        properties = filterData<PropertyApiResponse>(filters, properties)
+      if (sort) properties = sortData<PropertyApiResponse>(sort, properties)
+      const numberOfElements = properties.length
 
-      if (filters) properties = filterData<Property>(filters, properties)
-      if (sort) properties = sortData<Property>(sort, properties)
-      const totalRegisters = properties.length
-
-      if (pagination)
-        properties = paginateData<Property>(pagination, properties)
+      if (page)
+        properties = paginateData<PropertyApiResponse>(
+          {
+            page,
+            perPage: rows,
+          },
+          properties
+        )
 
       return HttpResponse.json(
         {
-          properties,
-          totalRegisters,
+          content: properties,
+          numberOfElements,
+          pageable: {
+            pageSize: rows,
+          },
         },
         { status: HttpStatusCode.ok }
       )
