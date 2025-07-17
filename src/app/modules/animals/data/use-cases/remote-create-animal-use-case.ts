@@ -14,7 +14,7 @@ export class RemoteCreateAnimalUseCase implements CreateAnimalUseCase {
   ) {}
 
   execute: CreateAnimalUseCase['execute'] = async ({ propertyId, animal }) => {
-    const url = this.url.replace(':propertyId', propertyId)
+    const url = this.url.replace(':propertyId', String(propertyId))
 
     const { statusCode } = await this.httpClient.request({
       url,
