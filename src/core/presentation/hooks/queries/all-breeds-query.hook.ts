@@ -7,8 +7,6 @@ import { makeRemoteGetAllBreedsUseCase } from '@/core/main/factories/use-cases/b
 
 export function useAllBreedsQuery(search: string) {
   const getAllBreedsUseCase = makeRemoteGetAllBreedsUseCase()
-  console.log("ALLBREEDSQUERY");
-
   const {
     data: allBreeds = [],
     isError,
@@ -18,7 +16,7 @@ export function useAllBreedsQuery(search: string) {
     queryKey: ['allBreeds', search],
     queryFn: () => getAllBreedsUseCase.execute(search),
     // Carregar ou não as raças antes do usuário inserir algo na busca?
-    //enabled: !!search,
+    // enabled: !!search,
   })
 
   useEffect(() => {

@@ -1,3 +1,3 @@
 import type { RequestInterface, Option } from '@/core/domain/types'
 
-export type GetAllBreedsUseCase = RequestInterface<string, Option<'allBreeds'>[]>
+export type GetAllBreedsUseCase = RequestInterface<string, Option[]>

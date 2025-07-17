@@ -5,7 +5,7 @@ import {
   NotFoundError,
   UnexpectedError,
 } from '@/core/domain/errors'
-import { BreedModel } from '@/core/domain/models/breed-model'
+import { BreedApiModel, BreedModel } from '@/core/domain/models/breed-model'
 import { Option } from '@/core/domain/types'
 
 import type { GetAllBreedsUseCase } from '@/core/domain/use-cases/breeds-use-cases'
@@ -13,22 +13,21 @@ import type { GetAllBreedsUseCase } from '@/core/domain/use-cases/breeds-use-cas
 export class RemoteGetAllBreedsUseCase implements GetAllBreedsUseCase {
   constructor(
     private readonly url: string,
-    private readonly httpClient: HttpClient<BreedModel, BreedModel, BreedModel[]>
+    private readonly httpClient: HttpClient<BreedModel, BreedModel, BreedApiModel[]>
   ) {}
 
   execute: GetAllBreedsUseCase['execute'] = async () => {
-    console.log("GETALLBREEDSUSECASE");
-    
     const { statusCode, body } = await this.httpClient.request({
       url: this.url,
       method: 'get',
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
-      console.log("AQUI 2");
-      let response!: Option<'allBreeds'>[];
-      body.forEach(breed => {
-        response.push({label: breed.name, value: breed.id} as Option<'allBreeds'>);
+      console.log(body); // TODO: Remover 
+
+      let response: Option[]= [];
+      body.forEach((breed) => {
+        response.push({label: breed.breedName, value: breed.id.toString()} as Option);
       });
       return response;
     }
