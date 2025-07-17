@@ -5,7 +5,7 @@ import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
 
-import animalsData from '@database/animalData.json'
+import animalsData from '@database/animalsData.json'
 
 export const getAnimalHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'id'>,
@@ -26,7 +26,7 @@ export const getAnimalHandler = httpWithMiddleware<
     }
 
     const animalFound = animalsData.find(
-      (animal) => animal.id === String(params.id)
+      (animal) => animal.id === Number(params.id)
     )
 
     if (!animalFound) {
