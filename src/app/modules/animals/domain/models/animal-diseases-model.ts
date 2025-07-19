@@ -11,8 +11,7 @@ export type AnimalDiseaseModel = WithId<{
 }>
 
 // todo: refactor to be consistent with Api response
-export type AnimalDiseaseApiResponse = {
-  id: string
+export type AnimalDiseaseApiResponse = WithId<{
   diagnosticDate: string
   diagnostic: string
-}
+}>

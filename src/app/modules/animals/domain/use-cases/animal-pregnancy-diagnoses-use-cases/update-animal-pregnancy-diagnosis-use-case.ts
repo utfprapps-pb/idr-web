@@ -4,8 +4,8 @@ import type { WithId } from '@/core/domain/types/with-id-type'
 
 export type UpdateAnimalPregnancyDiagnosisUseCase = RequestInterface<
   {
-    propertyId: string
-    animalId: string
+    propertyId: number
+    animalId: number
     animalPregnancyDiagnosis: WithId<AnimalPregnancyDiagnosisDetailsModel>
   },
   void
