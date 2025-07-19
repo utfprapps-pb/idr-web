@@ -26,7 +26,7 @@ export const getAnimalChildbirthHandler = httpWithMiddleware<
     }
 
     const animalChildbirthFound = animalChildbirthsData.find(
-      (animal) => animal.id === String(params.id)
+      (animal) => animal.id === Number(params.id)
     )
 
     if (!animalChildbirthFound) {
