@@ -82,7 +82,7 @@ export function AnimalProvider({ children }: Readonly<PropsWithChildren>) {
 
   const providerValues = useMemo(
     () => ({
-      propertyId: Number(params.propertyId), // Typecast allowed to avoid undefined, as it has validation below
+      propertyId: Number(params.propertyId),
       filters,
       handleChangeFilters,
       selectedAnimal,

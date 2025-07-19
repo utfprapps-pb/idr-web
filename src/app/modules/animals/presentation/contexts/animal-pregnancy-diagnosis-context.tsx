@@ -12,8 +12,8 @@ import type { AnimalPregnancyDiagnosisModel } from '../../domain/models/animal-p
 import type { AnimalPregnancyDiagnosisFilters } from '../types/animal-pregnancy-diagnosis-types'
 
 type AnimalPregnancyDiagnosisValue = {
-  propertyId: string
-  animalId: string
+  propertyId: number
+  animalId: number
   selectedAnimalPregnancyDiagnosis?: AnimalPregnancyDiagnosisModel
   filters: AnimalPregnancyDiagnosisFilters
   handleChangeFilters: (newFilters: AnimalPregnancyDiagnosisFilters) => void
@@ -38,7 +38,7 @@ export const AnimalPregnancyDiagnosisContext =
   )
 
 type AnimalPregnancyDiagnosisProviderProps = PropsWithChildren<{
-  animalId: string
+  animalId: number
 }>
 
 export function AnimalPregnancyDiagnosisProvider({
@@ -115,7 +115,7 @@ export function AnimalPregnancyDiagnosisProvider({
 
   const providerValues = useMemo(
     () => ({
-      propertyId: params.propertyId as string, // Typecast allowed to avoid undefined, as it has validation below
+      propertyId: Number(params.propertyId),
       animalId,
       filters,
       handleChangeFilters,

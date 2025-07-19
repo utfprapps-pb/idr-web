@@ -12,8 +12,8 @@ import type { AnimalHeiferCalfStageModel } from '../../domain/models/animal-heif
 import type { AnimalHeiferCalfStageFilters } from '../types/animal-heifer-calf-stage-types'
 
 type AnimalHeiferCalfStageContextValue = {
-  propertyId: string
-  animalId: string
+  propertyId: number
+  animalId: number
   selectedAnimalHeiferCalfStage?: AnimalHeiferCalfStageModel
   filters: AnimalHeiferCalfStageFilters
   handleChangeFilters: (newFilters: AnimalHeiferCalfStageFilters) => void
@@ -38,7 +38,7 @@ export const AnimalHeiferCalfStageContext =
   )
 
 type AnimalHeiferCalfStageProviderProps = PropsWithChildren<{
-  animalId: string
+  animalId: number
 }>
 
 export function AnimalHeiferCalfStageProvider({
@@ -113,7 +113,7 @@ export function AnimalHeiferCalfStageProvider({
 
   const providerValues = useMemo(
     () => ({
-      propertyId: params.propertyId as string, // Typecast allowed to avoid undefined, as it has validation below
+      propertyId: Number(params.propertyId),
       animalId,
       filters,
       handleChangeFilters,
