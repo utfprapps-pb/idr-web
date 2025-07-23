@@ -23,7 +23,7 @@ type Tab = {
 }
 
 export function AnimalsScreen() {
-  const [animalId, setAnimalId] = useState<string | null>(null)
+  const [animalId, setAnimalId] = useState<number | null>(null)
 
   const tabs = useMemo<Tab[]>(
     () => [
@@ -58,7 +58,7 @@ export function AnimalsScreen() {
     setActiveTab(tab)
   }, [])
 
-  const handleSelectAnimalId = useCallback((animalId: string | null) => {
+  const handleSelectAnimalId = useCallback((animalId: number | null) => {
     setAnimalId(animalId)
   }, [])
 

@@ -9,7 +9,7 @@ import {
 import { AnimalHeiferCalfStageForm } from '../forms/animal-heifer-calf-stage-form'
 
 type AnimalHeiferCalfStagesScreenProps = {
-  animalId: string
+  animalId: number
 }
 
 export function AnimalHeiferCalfStagesScreen({
