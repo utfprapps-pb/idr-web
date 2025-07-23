@@ -16,6 +16,7 @@ export function useAnimalQuery({ id, propertyId }: Props) {
   const {
     data: animal,
     isError,
+    error,
     isLoading,
     refetch: refetchAnimal,
   } = useQuery({
@@ -28,8 +29,8 @@ export function useAnimalQuery({ id, propertyId }: Props) {
   })
 
   useEffect(() => {
-    if (isError) toast.error('Erro ao buscar animal')
-  }, [isError])
+    if (isError) toast.error(error?.message ?? 'Erro ao buscar animal')
+  }, [error, isError])
 
   return {
     animal,

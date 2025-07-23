@@ -6,9 +6,9 @@ import toast from 'react-hot-toast'
 import { makeRemoteGetAnimalPregnancyDiagnosisUseCase } from '../../../main/factories/use-cases/animal-pregnancy-diagnoses-use-cases'
 
 type Props = {
-  id: string
-  propertyId: string
-  animalId: string
+  id: number
+  propertyId: number
+  animalId: number
 }
 
 export function useAnimalPregnancyDiagnosisQuery({
@@ -40,7 +40,7 @@ export function useAnimalPregnancyDiagnosisQuery({
       toast.error(
         error?.message ?? 'Erro ao buscar diagnóstico de gestação do animal'
       )
-  }, [error?.message, isError])
+  }, [error, isError])
 
   return {
     animalPregnancyDiagnosis,

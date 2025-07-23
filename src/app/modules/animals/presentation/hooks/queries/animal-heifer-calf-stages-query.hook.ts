@@ -11,8 +11,8 @@ import type {
 } from '../../types/animal-heifer-calf-stage-types'
 
 type Props = {
-  propertyId: string
-  animalId: string
+  propertyId: number
+  animalId: number
   filters: AnimalHeiferCalfStageFilters
   page: number
   sort?: AnimalHeiferCalfStageSort
