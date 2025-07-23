@@ -2,5 +2,4 @@ import type { AnimalDiseaseModel } from '../../domain/models/animal-diseases-mod
 import type { Filters, Sort } from '@/core/domain/types'
 
 export type AnimalDiseaseFilters = Partial<Filters<AnimalDiseaseModel>>
-
-export type AnimalDiseaseSort = Sort<keyof AnimalDiseaseModel>
+export type AnimalDiseaseSort = Sort<AnimalDiseaseModel>
