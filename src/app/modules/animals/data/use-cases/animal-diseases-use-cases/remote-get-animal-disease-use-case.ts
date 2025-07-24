@@ -5,13 +5,19 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
-import type { AnimalDiseaseDetailsModel } from '../../../domain/models/animal-diseases-model'
+import type {
+  AnimalDiseaseDetailsModel,
+  AnimalDiseasesDetailsApiResponse,
+} from '../../../domain/models/animal-diseases-model'
 import type { GetAnimalDiseaseUseCase } from '../../../domain/use-cases/animal-diseases-use-cases'
 
 export class RemoteGetAnimalDiseaseUseCase implements GetAnimalDiseaseUseCase {
   constructor(
     private readonly url: string,
-    private readonly httpClient: HttpClient
+    private readonly httpClient: HttpClient<
+      AnimalDiseaseDetailsModel,
+      AnimalDiseasesDetailsApiResponse
+    >
   ) {}
 
   execute: GetAnimalDiseaseUseCase['execute'] = async ({

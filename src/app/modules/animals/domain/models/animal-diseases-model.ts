@@ -5,6 +5,11 @@ export type AnimalDiseaseDetailsModel = {
   diagnostic: string
 }
 
+export type AnimalDiseasesDetailsApiResponse = {
+  diagnosticDate: string
+  diagnostic: string
+}
+
 export type AnimalDiseaseModel = WithId<{
   diagnosticDate: Date
   diagnostic: string
