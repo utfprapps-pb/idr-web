@@ -7,10 +7,12 @@ import { withDelay, withAuth } from '@/core/mocks/middleware'
 
 import animalHeiferCalfStagesData from '@database/animalHeiferCalfStagesData.json'
 
+import type { AnimalHeiferCalfStageDetailsApiResponse } from '../../../domain/models/animal-heifer-calf-stages-model'
+
 export const getAnimalHeiferCalfStageHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId' | 'id'>,
   never,
-  never
+  AnimalHeiferCalfStageDetailsApiResponse
 >({
   routePath:
     '/api/properties/:propertyId/animals/:animalId/heifer-calf-stages/:id',
@@ -18,12 +20,9 @@ export const getAnimalHeiferCalfStageHandler = httpWithMiddleware<
   middlewares: [withDelay(), withAuth],
   resolver: async ({ params }) => {
     if (!animalHeiferCalfStagesData.length) {
-      return HttpResponse.json(
-        {},
-        {
-          status: 404,
-        }
-      )
+      return HttpResponse.json({} as AnimalHeiferCalfStageDetailsApiResponse, {
+        status: 404,
+      })
     }
 
     const animalHeiferCalfStageFound = animalHeiferCalfStagesData.find(
@@ -31,12 +30,9 @@ export const getAnimalHeiferCalfStageHandler = httpWithMiddleware<
     )
 
     if (!animalHeiferCalfStageFound) {
-      return HttpResponse.json(
-        {},
-        {
-          status: 404,
-        }
-      )
+      return HttpResponse.json({} as AnimalHeiferCalfStageDetailsApiResponse, {
+        status: 404,
+      })
     }
 
     return HttpResponse.json(
