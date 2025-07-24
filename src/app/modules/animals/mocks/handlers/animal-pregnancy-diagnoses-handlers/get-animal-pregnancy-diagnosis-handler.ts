@@ -4,33 +4,36 @@ import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
 
-import animalDiseasesData from '@database/animalDiseasesData.json'
+import animalPregnancyDiagnosesData from '@database/animalPregnancyDiagnosesData.json'
 
-export const getAnimalDiseaseHandler = httpWithMiddleware<
+import type { AnimalPregnancyDiagnosisDetailsApiResponse } from '../../../domain/models/animal-pregnancy-diagnoses-model'
+
+export const getAnimalPregnancyDiagnosisHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId' | 'id'>,
   never,
-  never
+  AnimalPregnancyDiagnosisDetailsApiResponse
 >({
-  routePath: '/api/properties/:propertyId/animals/:animalId/diseases/:id',
+  routePath:
+    '/api/properties/:propertyId/animals/:animalId/pregnancy-diagnoses/:id',
   method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ params }) => {
-    if (!animalDiseasesData.length) {
+    if (!animalPregnancyDiagnosesData.length) {
       return HttpResponse.json(
-        {},
+        {} as AnimalPregnancyDiagnosisDetailsApiResponse,
         {
           status: 404,
         }
       )
     }
 
-    const animalDiseaseFound = animalDiseasesData.find(
+    const animalPregnancyDiagnosisFound = animalPregnancyDiagnosesData.find(
       (animal) => animal.id === Number(params.id)
     )
 
-    if (!animalDiseaseFound) {
+    if (!animalPregnancyDiagnosisFound) {
       return HttpResponse.json(
-        {},
+        {} as AnimalPregnancyDiagnosisDetailsApiResponse,
         {
           status: 404,
         }
@@ -39,8 +42,9 @@ export const getAnimalDiseaseHandler = httpWithMiddleware<
 
     return HttpResponse.json(
       {
-        diagnosticDate: animalDiseaseFound.diagnosticDate,
-        diagnostic: animalDiseaseFound.diagnostic,
+        date: animalPregnancyDiagnosisFound.date,
+        lastInseminationDate:
+          animalPregnancyDiagnosisFound.lastInseminationDate,
       },
       { status: HttpStatusCode.ok }
     )

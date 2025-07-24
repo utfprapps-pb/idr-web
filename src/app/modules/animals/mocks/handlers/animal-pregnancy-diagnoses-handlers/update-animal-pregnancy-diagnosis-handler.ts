@@ -4,12 +4,13 @@ import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
 
-export const updateAnimalDiseaseHandler = httpWithMiddleware<
+export const updateAnimalPregnancyDiagnosisHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId' | 'id'>,
   never,
   never
 >({
-  routePath: '/api/properties/:propertyId/animals/:animalId/diseases/:id',
+  routePath:
+    '/api/properties/:propertyId/animals/:animalId/pregnancy-diagnoses/:id',
   method: 'patch',
   middlewares: [withDelay(), withAuth],
   resolver: async () =>
