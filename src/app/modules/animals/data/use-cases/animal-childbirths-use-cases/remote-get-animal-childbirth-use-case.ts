@@ -5,7 +5,12 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
-import type { AnimalChildbirthDetailsModel } from '../../../domain/models/animal-childbirths-model'
+import type {
+  AnimalChildbirthCondition,
+  AnimalChildbirthDetailsApiResponse,
+  AnimalChildbirthDetailsModel,
+  AnimalChildbirthGender,
+} from '../../../domain/models/animal-childbirths-model'
 import type { GetAnimalChildbirthUseCase } from '../../../domain/use-cases/animal-childbirths-use-cases'
 
 export class RemoteGetAnimalChildbirthUseCase
@@ -13,7 +18,10 @@ export class RemoteGetAnimalChildbirthUseCase
 {
   constructor(
     private readonly url: string,
-    private readonly httpClient: HttpClient
+    private readonly httpClient: HttpClient<
+      AnimalChildbirthDetailsModel,
+      AnimalChildbirthDetailsApiResponse
+    >
   ) {}
 
   execute: GetAnimalChildbirthUseCase['execute'] = async ({
@@ -22,8 +30,8 @@ export class RemoteGetAnimalChildbirthUseCase
     propertyId,
   }) => {
     const url = this.url
-      .replace(':propertyId', propertyId)
-      .replace(':animalId', animalId)
+      .replace(':propertyId', String(propertyId))
+      .replace(':animalId', String(animalId))
 
     const { statusCode, body } = await this.httpClient.request({
       url: `${url}/${id}`,
@@ -34,10 +42,10 @@ export class RemoteGetAnimalChildbirthUseCase
       return {
         date: new Date(body.date),
         breed: body.breed,
-        condition: body.condition,
-        gender: body.gender,
+        condition: body.condition as AnimalChildbirthCondition,
+        gender: body.gender as AnimalChildbirthGender,
         weight: body.weight,
-      } as AnimalChildbirthDetailsModel
+      }
     }
 
     if (statusCode === HttpStatusCode.notFound)
