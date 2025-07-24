@@ -38,7 +38,7 @@ export class RemoteGetAnimalDiseaseUseCase implements GetAnimalDiseaseUseCase {
       return {
         diagnosticDate: new Date(body.diagnosticDate),
         diagnostic: body.diagnostic,
-      } as AnimalDiseaseDetailsModel
+      }
     }
 
     if (statusCode === HttpStatusCode.notFound)
