@@ -21,8 +21,8 @@ export class RemoteCreateAnimalChildbirthUseCase
     animalChildbirth,
   }) => {
     const url = this.url
-      .replace(':propertyId', propertyId)
-      .replace(':animalId', animalId)
+      .replace(':propertyId', String(propertyId))
+      .replace(':animalId', String(animalId))
 
     const { statusCode } = await this.httpClient.request({
       url,
