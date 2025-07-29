@@ -60,3 +60,11 @@ export type AnimalHeiferCalfStageModel = WithId<{
   ecc: string
   age: string
 }>
+
+// todo: refactor to be consistent with Api response
+export type AnimalHeiferCalfStageApiResponse = WithId<{
+  weighingDate: string
+  weight: string
+  ecc: string
+  age: string
+}>

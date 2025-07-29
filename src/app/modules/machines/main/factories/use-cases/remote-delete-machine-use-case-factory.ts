@@ -7,6 +7,6 @@ import type { DeleteMachineUseCase } from '../../../domain/use-cases'
 export function makeRemoteDeleteMachineUseCase(): DeleteMachineUseCase {
   return new RemoteDeleteMachineUseCase(
     'properties/:propertyId/machines',
-    makeApiHttpClient<void>()
+    makeApiHttpClient()
   )
 }

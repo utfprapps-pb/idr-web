@@ -7,6 +7,6 @@ import type { DeleteAnimalDiseaseUseCase } from '../../../../domain/use-cases/an
 export function makeRemoteDeleteAnimalDiseaseUseCase(): DeleteAnimalDiseaseUseCase {
   return new RemoteDeleteAnimalDiseaseUseCase(
     'properties/:propertyId/animals/:animalId/diseases',
-    makeApiHttpClient<void>()
+    makeApiHttpClient()
   )
 }

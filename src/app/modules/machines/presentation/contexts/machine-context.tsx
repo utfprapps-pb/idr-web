@@ -29,12 +29,10 @@ type MachineContextValue = {
 
 export const MachineContext = createContext({} as MachineContextValue)
 
-export function MachineProvider({ children }: PropsWithChildren) {
+export function MachineProvider({ children }: Readonly<PropsWithChildren>) {
   const params = useParams<{ propertyId: string }>()
 
-  const [filters, setFilters] = useState<MachineFilters>({
-    name: '',
-  })
+  const [filters, setFilters] = useState<MachineFilters>({})
 
   const handleChangeFilters = useCallback((newFilters: MachineFilters) => {
     setFilters((prevState) => ({

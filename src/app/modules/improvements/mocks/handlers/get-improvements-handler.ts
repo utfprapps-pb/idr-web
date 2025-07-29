@@ -3,51 +3,33 @@ import { HttpResponse, type PathParams } from 'msw'
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
-import {
-  normalizeQueryFilters,
-  filterData,
-  sortData,
-  paginateData,
-} from '@/core/mocks/utils'
+import { filterData, sortData, paginateData } from '@/core/mocks/utils'
 
 import improvementsData from '@database/improvementData.json'
 
-type Params = {
-  filter: string
-  sort: string
-  pagination: string
-}
-
-type Improvement = {
-  id: string
-  description: string
-  amount: number
-  unitPrice: number
-  percentDairyCattle: number
-  usefulLife: number
-  acquisitionDate: string
-  moneyDairyCattle: number
-}
-
-type Response = {
-  improvements: Improvement[]
-  totalRegisters: number
-}
+import type { ImprovementApiResponse } from '../../domain/models/improvements-model'
+import type { MockParams } from '@/core/mocks/types/mock-params-type'
+import type { MockResponse } from '@/core/mocks/types/mock-response-type'
 
 export const getImprovementsHandler = httpWithMiddleware<
   PathParams<'propertyId'>,
-  Params,
-  Response
+  MockParams<ImprovementApiResponse>,
+  MockResponse<ImprovementApiResponse[]>
 >({
-  routePath: '/api/properties/:propertyId/improvements',
-  method: 'get',
+  routePath: '/api/properties/:propertyId/improvements/search',
+  method: 'post',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ request }) => {
+    const { filters, page, rows, sort } = await request.json()
+
     if (!improvementsData.length) {
       return HttpResponse.json(
         {
-          improvements: [],
-          totalRegisters: 0,
+          content: [],
+          numberOfElements: 0,
+          pageable: {
+            pageSize: 0,
+          },
         },
         {
           status: 404,
@@ -55,22 +37,27 @@ export const getImprovementsHandler = httpWithMiddleware<
       )
     }
 
-    const url = new URL(request.url)
-    const { pagination, filters, sort } = normalizeQueryFilters(url)
+    let improvements = improvementsData as ImprovementApiResponse[]
 
-    let improvements = improvementsData as Improvement[]
-
-    if (filters) improvements = filterData<Improvement>(filters, improvements)
-    if (sort) improvements = sortData<Improvement>(sort, improvements)
+    if (filters)
+      improvements = filterData<ImprovementApiResponse>(filters, improvements)
+    if (sort)
+      improvements = sortData<ImprovementApiResponse>(sort, improvements)
     const totalRegisters = improvements.length
 
-    if (pagination)
-      improvements = paginateData<Improvement>(pagination, improvements)
+    if (page)
+      improvements = paginateData<ImprovementApiResponse>(
+        { page, perPage: rows },
+        improvements
+      )
 
     return HttpResponse.json(
       {
-        improvements,
-        totalRegisters,
+        content: improvements,
+        numberOfElements: totalRegisters,
+        pageable: {
+          pageSize: rows,
+        },
       },
       { status: HttpStatusCode.ok }
     )

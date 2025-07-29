@@ -29,12 +29,10 @@ type ForageContextValue = {
 
 export const ForageContext = createContext({} as ForageContextValue)
 
-export function ForageProvider({ children }: PropsWithChildren) {
+export function ForageProvider({ children }: Readonly<PropsWithChildren>) {
   const params = useParams<{ propertyId: string }>()
 
-  const [filters, setFilters] = useState<ForageFilters>({
-    cultivation: '',
-  })
+  const [filters, setFilters] = useState<ForageFilters>({})
 
   const handleChangeFilters = useCallback((newFilters: ForageFilters) => {
     setFilters((prevState) => ({

@@ -4,51 +4,69 @@ import {
   NotFoundError,
   ForbiddenError,
 } from '@/core/domain/errors'
-import { ITEMS_PER_PAGE } from '@/core/infra/http'
 
-import type { AnimalHeiferCalfStageModel } from '../../../domain/models/animal-heifer-calf-stages-model'
+import type {
+  AnimalHeiferCalfStageApiResponse,
+  AnimalHeiferCalfStageModel,
+} from '../../../domain/models/animal-heifer-calf-stages-model'
 import type { GetAnimalHeiferCalfStagesUseCase } from '../../../domain/use-cases/animal-heifer-calf-stages-use-cases'
+import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
 
 export class RemoteGetAnimalHeiferCalfStagesUseCase
   implements GetAnimalHeiferCalfStagesUseCase
 {
   constructor(
     private readonly url: string,
-    private readonly httpClient: HttpClient
+    private readonly httpClient: HttpClient<
+      AnimalHeiferCalfStageModel,
+      AnimalHeiferCalfStageApiResponse,
+      ListApiResponse<AnimalHeiferCalfStageModel[]>
+    >
   ) {}
 
   execute: GetAnimalHeiferCalfStagesUseCase['execute'] = async ({
     propertyId,
     animalId,
-    queryParams: { filters, pagination, sort },
+    filters,
+    pagination,
+    sort,
   }) => {
+    const mapApiProperties: MapApiProperties<
+      AnimalHeiferCalfStageModel,
+      AnimalHeiferCalfStageApiResponse
+    > = {
+      id: 'id',
+      weighingDate: 'weighingDate',
+      weight: 'weight',
+      ecc: 'ecc',
+      age: 'age',
+    }
+
     const url = this.url
       .replace(':propertyId', propertyId)
       .replace(':animalId', animalId)
 
     const { statusCode, body } = await this.httpClient.request({
-      url,
-      method: 'get',
+      url: `${url}/search`,
+      method: 'post',
       filters,
       pagination,
       sort,
+      mapApiProperties,
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        resources: body.animalHeiferCalfStages.map(
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (item: any) => {
-            return {
-              id: item.id,
-              weighingDate: new Date(item.weighingDate),
-              weight: item.weight,
-              ecc: item.ecc,
-              age: item.age,
-            } as AnimalHeiferCalfStageModel
+        resources: body.content.map((item) => {
+          return {
+            id: item.id,
+            weighingDate: new Date(item.weighingDate),
+            weight: item.weight,
+            ecc: item.ecc,
+            age: item.age,
           }
-        ),
-        totalPages: Math.ceil(body.totalRegisters / ITEMS_PER_PAGE),
+        }),
+        totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
       }
     }
 

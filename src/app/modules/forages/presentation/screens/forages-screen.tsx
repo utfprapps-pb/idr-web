@@ -31,9 +31,11 @@ export function ForagesScreen() {
 
               <Input
                 className="w-fit"
-                value={filters.cultivation}
+                value={filters.cultivation?.value ?? ''}
                 onChange={({ target }) => {
-                  handleChangeFilters({ cultivation: target.value })
+                  handleChangeFilters({
+                    cultivation: { value: target.value, type: 'LIKE' },
+                  })
                 }}
                 placeholder="Procurar forrageira por cultivo"
               />

@@ -25,6 +25,7 @@ export function useImprovementsQuery({
   const {
     data,
     isError,
+    error,
     isLoading,
     refetch: refetchImprovements,
   } = useQuery({
@@ -32,18 +33,15 @@ export function useImprovementsQuery({
     queryFn: () =>
       getImprovementsUseCase.execute({
         propertyId,
-        queryParams: {
-          pagination: { page },
-          sort,
-          filters,
-        },
+        pagination: { page },
+        sort,
+        filters,
       }),
   })
 
   useEffect(() => {
-    if (isError) toast.error('Erro ao buscar benfeitorias')
-  }, [isError])
-
+    if (isError) toast.error(error?.message ?? 'Erro ao buscar benfeitorias')
+  }, [error, isError])
   return {
     improvements: data ?? {
       resources: [],

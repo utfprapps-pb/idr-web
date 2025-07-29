@@ -5,4 +5,10 @@ export type AnimalDetailsModel = {
   breed: Option
 }
 
-export type AnimalModel = WithId<AnimalDetailsModel>
+export type AnimalModel = WithId<{
+  name: string
+  breed: string
+}>
+
+// todo: refactor to be consistent with Api response
+export type AnimalApiResponse = AnimalModel

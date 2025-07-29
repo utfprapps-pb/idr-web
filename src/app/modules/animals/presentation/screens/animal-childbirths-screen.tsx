@@ -9,7 +9,7 @@ import {
 import { AnimalChildbirthForm } from '../forms/animal-childbirth-form'
 
 type AnimalChildbirthsScreenProps = {
-  animalId: string
+  readonly animalId: string
 }
 
 export function AnimalChildbirthsScreen({
@@ -31,9 +31,14 @@ export function AnimalChildbirthsScreen({
             <div className="flex justify-between gap-2">
               <Input
                 className="w-fit"
-                value={filters.breed}
+                value={filters.breed?.value}
                 onChange={({ target }) => {
-                  handleChangeFilters({ breed: target.value })
+                  handleChangeFilters({
+                    breed: {
+                      value: target.value,
+                      type: 'LIKE',
+                    },
+                  })
                 }}
                 placeholder="Procurar animal por raça"
               />

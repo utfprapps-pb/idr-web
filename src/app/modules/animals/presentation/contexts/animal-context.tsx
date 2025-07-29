@@ -31,12 +31,10 @@ export const AnimalContext = createContext<AnimalContextValue>(
   {} as AnimalContextValue
 )
 
-export function AnimalProvider({ children }: PropsWithChildren) {
+export function AnimalProvider({ children }: Readonly<PropsWithChildren>) {
   const params = useParams<{ propertyId: string }>()
 
-  const [filters, setFilters] = useState<AnimalFilters>({
-    name: '',
-  })
+  const [filters, setFilters] = useState<AnimalFilters>({})
 
   const handleChangeFilters = useCallback((newFilters: AnimalFilters) => {
     setFilters((prevState) => ({
