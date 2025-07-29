@@ -52,7 +52,7 @@ export function useAnimalDiseasesQuery({
 
   useEffect(() => {
     if (isError)
-      toast.error(error.message ?? 'Erro ao buscar doenças do animal')
+      toast.error(error?.message ?? 'Erro ao buscar doenças do animal')
   }, [error, isError])
 
   return {
