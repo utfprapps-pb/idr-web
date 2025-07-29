@@ -3,6 +3,7 @@ import type {
   RequestInterface,
   ListParams,
   ListResponse,
+  CustomParams,
 } from '@/core/domain/types'
 
 export type GetAnimalsUseCase = RequestInterface<

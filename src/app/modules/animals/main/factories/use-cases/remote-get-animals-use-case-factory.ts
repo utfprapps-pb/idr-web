@@ -6,6 +6,7 @@ import type {
   AnimalApiResponse,
   AnimalModel,
 } from '../../../domain/models/animals-model'
+
 import type { GetAnimalsUseCase } from '../../../domain/use-cases'
 import type { ListApiResponse } from '@/core/domain/types'
 

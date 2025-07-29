@@ -12,6 +12,7 @@ import type {
 import type { GetAnimalsUseCase } from '../../domain/use-cases'
 import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
 
+
 export class RemoteGetAnimalsUseCase implements GetAnimalsUseCase {
   constructor(
     private readonly url: string,
@@ -49,6 +50,7 @@ export class RemoteGetAnimalsUseCase implements GetAnimalsUseCase {
         resources: body.content.map((item) => ({
           id: item.id,
           name: item.name,
+
           breed: item.breed,
         })),
         totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
