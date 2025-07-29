@@ -44,7 +44,8 @@ export function useAnimalHeiferCalfStagesQuery({
         sort,
         filters: {
           ...filters,
-          weighingDate: filters.weighingDate?.value
+          weighingDate: filters.weighingDate?.value &&
+            !isNaN(new Date(filters.weighingDate.value).getTime())
             ? new Date(filters.weighingDate.value).toISOString()
             : undefined,
         },
