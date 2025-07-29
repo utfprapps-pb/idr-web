@@ -47,7 +47,7 @@ export function useAnimalChildbirthsQuery({
   })
 
   useEffect(() => {
-    if (isError) toast.error(error.message ?? 'Erro ao buscar partos do animal')
+    if (isError) toast.error(error?.message ?? 'Erro ao buscar partos do animal')
   }, [error, isError])
 
   return {
