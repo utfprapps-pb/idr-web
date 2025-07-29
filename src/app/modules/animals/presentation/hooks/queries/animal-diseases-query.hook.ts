@@ -43,10 +43,11 @@ export function useAnimalDiseasesQuery({
         sort,
         filters: {
           ...filters,
-          diagnosticDate: filters.diagnosticDate?.value &&
-            !isNaN(Date.parse(filters.diagnosticDate.value))
-            ? validateAndFormatDate(filters.diagnosticDate.value)
-            : undefined,
+          diagnosticDate:
+            filters.diagnosticDate?.value &&
+            !Number.isNaN(new Date(filters.diagnosticDate.value).getTime())
+              ? new Date(filters.diagnosticDate.value).toISOString()
+              : undefined,
         },
       }),
   })
