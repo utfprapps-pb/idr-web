@@ -31,11 +31,9 @@ export function MachinesScreen() {
 
               <Input
                 className="w-fit"
-                value={filters.name?.value}
+                value={filters.name}
                 onChange={({ target }) => {
-                  handleChangeFilters({
-                    name: { value: target.value, type: 'LIKE' },
-                  })
+                  handleChangeFilters({ name: target.value })
                 }}
                 placeholder="Procurar máquina por nome"
               />

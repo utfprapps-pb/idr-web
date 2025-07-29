@@ -20,7 +20,6 @@ export function useMachinesQuery({ propertyId, filters, page, sort }: Props) {
   const {
     data,
     isError,
-    error,
     isLoading,
     refetch: refetchMachines,
   } = useQuery({
@@ -28,15 +27,17 @@ export function useMachinesQuery({ propertyId, filters, page, sort }: Props) {
     queryFn: () =>
       getMachinesUseCase.execute({
         propertyId,
-        pagination: { page },
-        sort,
-        filters,
+        queryParams: {
+          pagination: { page },
+          sort,
+          filters,
+        },
       }),
   })
 
   useEffect(() => {
-    if (isError) toast.error(error?.message ?? 'Erro ao buscar máquinas')
-  }, [error, isError])
+    if (isError) toast.error('Erro ao buscar máquinas')
+  }, [isError])
 
   return {
     machines: data ?? {

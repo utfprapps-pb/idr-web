@@ -19,13 +19,3 @@ export type MachineModel = WithId<{
   acquisitionDate: string
   moneyDairyCattle: string
 }>
-
-export type MachineApiResponse = WithId<{
-  name: string
-  amount: number
-  unitPrice: number
-  percentDairyCattle: number
-  usefulLife: number
-  acquisitionDate: string
-  moneyDairyCattle: number
-}>

@@ -14,7 +14,7 @@ type AnimalHeiferCalfStagesScreenProps = {
 
 export function AnimalHeiferCalfStagesScreen({
   animalId,
-}: Readonly<AnimalHeiferCalfStagesScreenProps>) {
+}: AnimalHeiferCalfStagesScreenProps) {
   return (
     <AnimalHeiferCalfStageProvider animalId={animalId}>
       <AnimalHeiferCalfStageContext.Consumer>
@@ -32,17 +32,13 @@ export function AnimalHeiferCalfStagesScreen({
               <DatePicker
                 className="w-fit"
                 label="Filtrar por data de pesagem"
-                date={filters.weighingDate?.value}
-                onSelect={(date) => {
-                  if (!date) return
+                date={filters.weighingDate}
+                onSelect={(date) =>
                   handleChangeFilters({
                     ...filters,
-                    weighingDate: {
-                      value: date,
-                      type: 'LIKE',
-                    },
+                    weighingDate: date,
                   })
-                }}
+                }
               />
 
               <Button

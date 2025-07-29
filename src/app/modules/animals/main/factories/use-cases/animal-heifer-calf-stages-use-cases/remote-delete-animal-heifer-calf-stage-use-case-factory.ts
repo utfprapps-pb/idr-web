@@ -7,6 +7,6 @@ import type { DeleteAnimalHeiferCalfStageUseCase } from '../../../../domain/use-
 export function makeRemoteDeleteAnimalHeiferCalfStageUseCase(): DeleteAnimalHeiferCalfStageUseCase {
   return new RemoteDeleteAnimalHeiferCalfStageUseCase(
     'properties/:propertyId/animals/:animalId/heifer-calf-stages',
-    makeApiHttpClient()
+    makeApiHttpClient<void>()
   )
 }

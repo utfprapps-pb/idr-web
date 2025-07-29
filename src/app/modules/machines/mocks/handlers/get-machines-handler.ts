@@ -3,33 +3,51 @@ import { HttpResponse, type PathParams } from 'msw'
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
-import { filterData, sortData, paginateData } from '@/core/mocks/utils'
+import {
+  normalizeQueryFilters,
+  filterData,
+  sortData,
+  paginateData,
+} from '@/core/mocks/utils'
 
 import machinesData from '@database/machineData.json'
 
-import type { MachineApiResponse } from '../../domain/models/machines-model'
-import type { MockParams } from '@/core/mocks/types/mock-params-type'
-import type { MockResponse } from '@/core/mocks/types/mock-response-type'
+type Params = {
+  filter: string
+  sort: string
+  pagination: string
+}
+
+type Machine = {
+  id: string
+  name: string
+  amount: number
+  unitPrice: number
+  percentDairyCattle: number
+  usefulLife: number
+  acquisitionDate: string
+  moneyDairyCattle: number
+}
+
+type Response = {
+  machines: Machine[]
+  totalRegisters: number
+}
 
 export const getMachinesHandler = httpWithMiddleware<
   PathParams<'propertyId'>,
-  MockParams<MachineApiResponse>,
-  MockResponse<MachineApiResponse[]>
+  Params,
+  Response
 >({
-  routePath: '/api/properties/:propertyId/machines/search',
-  method: 'post',
+  routePath: '/api/properties/:propertyId/machines',
+  method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ request }) => {
-    const { filters, page, rows, sort } = await request.json()
-
     if (!machinesData.length) {
       return HttpResponse.json(
         {
-          content: [],
-          numberOfElements: 0,
-          pageable: {
-            pageSize: 0,
-          },
+          machines: [],
+          totalRegisters: 0,
         },
         {
           status: 404,
@@ -37,25 +55,21 @@ export const getMachinesHandler = httpWithMiddleware<
       )
     }
 
-    let machines = machinesData as MachineApiResponse[]
+    const url = new URL(request.url)
+    const { pagination, filters, sort } = normalizeQueryFilters(url)
 
-    if (filters) machines = filterData<MachineApiResponse>(filters, machines)
-    if (sort) machines = sortData<MachineApiResponse>(sort, machines)
-    const numberOfElements = machines.length
+    let machines = machinesData as Machine[]
 
-    if (page)
-      machines = paginateData<MachineApiResponse>(
-        { page, perPage: rows },
-        machines
-      )
+    if (filters) machines = filterData<Machine>(filters, machines)
+    if (sort) machines = sortData<Machine>(sort, machines)
+    const totalRegisters = machines.length
+
+    if (pagination) machines = paginateData<Machine>(pagination, machines)
 
     return HttpResponse.json(
       {
-        content: machines,
-        numberOfElements,
-        pageable: {
-          pageSize: rows,
-        },
+        machines,
+        totalRegisters,
       },
       { status: HttpStatusCode.ok }
     )

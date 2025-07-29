@@ -6,66 +6,51 @@ import {
   NotFoundError,
   ForbiddenError,
 } from '@/core/domain/errors'
+import { ITEMS_PER_PAGE } from '@/core/infra/http'
 
-import type {
-  MachineApiResponse,
-  MachineModel,
-} from '../../domain/models/machines-model'
+import type { MachineModel } from '../../domain/models/machines-model'
 import type { GetMachinesUseCase } from '../../domain/use-cases'
-import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
 
 export class RemoteGetMachinesUseCase implements GetMachinesUseCase {
   constructor(
     private readonly url: string,
-    private readonly httpClient: HttpClient<
-      MachineModel,
-      MachineApiResponse,
-      ListApiResponse<MachineApiResponse[]>
-    >
+    private readonly httpClient: HttpClient
   ) {}
 
   execute: GetMachinesUseCase['execute'] = async ({
     propertyId,
-    filters,
-    pagination,
-    sort,
+    queryParams: { filters, pagination, sort },
   }) => {
-    const mapApiProperties: MapApiProperties<MachineModel, MachineApiResponse> =
-      {
-        id: 'id',
-        name: 'name',
-        amount: 'amount',
-        unitPrice: 'unitPrice',
-        percentDairyCattle: 'percentDairyCattle',
-        usefulLife: 'usefulLife',
-        acquisitionDate: 'acquisitionDate',
-        moneyDairyCattle: 'moneyDairyCattle',
-      }
-
     const url = this.url.replace(':propertyId', propertyId)
 
     const { statusCode, body } = await this.httpClient.request({
-      url: `${url}/search`,
-      method: 'post',
+      url,
+      method: 'get',
       filters,
       pagination,
       sort,
-      mapApiProperties,
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        resources: body.content.map((item) => ({
-          id: item.id,
-          name: item.name,
-          amount: String(item.amount),
-          unitPrice: `R$ ${item.unitPrice}`,
-          percentDairyCattle: `${item.percentDairyCattle}%`,
-          usefulLife: String(item.usefulLife),
-          acquisitionDate: format(new Date(item.acquisitionDate), 'dd/MM/yyyy'),
-          moneyDairyCattle: `R$ ${item.moneyDairyCattle}`,
-        })),
-        totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
+        resources: body.machines.map(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (item: any) =>
+            ({
+              id: item.id,
+              name: item.name,
+              amount: String(item.amount),
+              unitPrice: `R$ ${item.unitPrice}`,
+              percentDairyCattle: `${item.percentDairyCattle}%`,
+              usefulLife: String(item.usefulLife),
+              acquisitionDate: format(
+                new Date(item.acquisitionDate),
+                'dd/MM/yyyy'
+              ),
+              moneyDairyCattle: `R$ ${item.moneyDairyCattle}`,
+            }) as MachineModel
+        ),
+        totalPages: Math.ceil(body.totalRegisters / ITEMS_PER_PAGE),
       }
     }
 

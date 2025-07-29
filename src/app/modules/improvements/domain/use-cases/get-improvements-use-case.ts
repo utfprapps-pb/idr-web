@@ -6,6 +6,9 @@ import type {
 } from '@/core/domain/types'
 
 export type GetImprovementsUseCase = RequestInterface<
-  ListParams<ImprovementModel> & { propertyId: string },
+  {
+    propertyId: string
+    queryParams: ListParams<keyof ImprovementModel>
+  },
   ListResponse<ImprovementModel>
 >

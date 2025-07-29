@@ -7,6 +7,6 @@ import type { UpdateImprovementUseCase } from '../../../domain/use-cases'
 export function makeRemoteUpdateImprovementUseCase(): UpdateImprovementUseCase {
   return new RemoteUpdateImprovementUseCase(
     'properties/:propertyId/improvements',
-    makeApiHttpClient()
+    makeApiHttpClient<void>()
   )
 }

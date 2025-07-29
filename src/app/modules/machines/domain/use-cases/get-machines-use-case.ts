@@ -6,6 +6,9 @@ import type {
 } from '@/core/domain/types'
 
 export type GetMachinesUseCase = RequestInterface<
-  ListParams<MachineModel> & { propertyId: string },
+  {
+    propertyId: string
+    queryParams: ListParams<keyof MachineModel>
+  },
   ListResponse<MachineModel>
 >

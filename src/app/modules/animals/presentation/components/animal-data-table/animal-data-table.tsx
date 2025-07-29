@@ -8,9 +8,7 @@ type AnimalDataTableProps = {
   onClickRow: (animalId: string) => void
 }
 
-export function AnimalDataTable({
-  onClickRow,
-}: Readonly<AnimalDataTableProps>) {
+export function AnimalDataTable({ onClickRow }: AnimalDataTableProps) {
   const { columns, animals, isLoading, page, sort, setSort, setPage } =
     useAnimalDataTable()
 

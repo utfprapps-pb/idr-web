@@ -20,7 +20,6 @@ export function useAnimalsQuery({ propertyId, filters, page, sort }: Props) {
   const {
     data,
     isError,
-    error,
     isLoading,
     refetch: refetchAnimals,
   } = useQuery({
@@ -28,15 +27,17 @@ export function useAnimalsQuery({ propertyId, filters, page, sort }: Props) {
     queryFn: () =>
       getAnimalsUseCase.execute({
         propertyId,
-        pagination: { page },
-        sort,
-        filters,
+        queryParams: {
+          pagination: { page },
+          sort,
+          filters,
+        },
       }),
   })
 
   useEffect(() => {
-    if (isError) toast.error(error?.message ?? 'Erro ao buscar animais')
-  }, [error, isError])
+    if (isError) toast.error('Erro ao buscar animais')
+  }, [isError])
 
   return {
     animals: data ?? {

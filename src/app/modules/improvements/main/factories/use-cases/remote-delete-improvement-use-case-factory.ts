@@ -7,6 +7,6 @@ import type { DeleteImprovementUseCase } from '../../../domain/use-cases'
 export function makeRemoteDeleteImprovementUseCase(): DeleteImprovementUseCase {
   return new RemoteDeleteImprovementUseCase(
     'properties/:propertyId/improvements',
-    makeApiHttpClient()
+    makeApiHttpClient<void>()
   )
 }

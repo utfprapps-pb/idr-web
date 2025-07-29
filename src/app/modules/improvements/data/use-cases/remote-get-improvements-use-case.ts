@@ -6,68 +6,51 @@ import {
   NotFoundError,
   ForbiddenError,
 } from '@/core/domain/errors'
+import { ITEMS_PER_PAGE } from '@/core/infra/http'
 
-import type {
-  ImprovementApiResponse,
-  ImprovementModel,
-} from '../../domain/models/improvements-model'
+import type { ImprovementModel } from '../../domain/models/improvements-model'
 import type { GetImprovementsUseCase } from '../../domain/use-cases'
-import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
 
 export class RemoteGetImprovementsUseCase implements GetImprovementsUseCase {
   constructor(
     private readonly url: string,
-    private readonly httpClient: HttpClient<
-      ImprovementModel,
-      ImprovementApiResponse,
-      ListApiResponse<ImprovementApiResponse[]>
-    >
+    private readonly httpClient: HttpClient
   ) {}
 
   execute: GetImprovementsUseCase['execute'] = async ({
     propertyId,
-    filters,
-    pagination,
-    sort,
+    queryParams: { filters, pagination, sort },
   }) => {
-    const mapApiProperties: MapApiProperties<
-      ImprovementModel,
-      ImprovementApiResponse
-    > = {
-      id: 'id',
-      description: 'description',
-      amount: 'amount',
-      unitPrice: 'unitPrice',
-      percentDairyCattle: 'percentDairyCattle',
-      usefulLife: 'usefulLife',
-      acquisitionDate: 'acquisitionDate',
-      moneyDairyCattle: 'moneyDairyCattle',
-    }
-
     const url = this.url.replace(':propertyId', propertyId)
 
     const { statusCode, body } = await this.httpClient.request({
-      url: `${url}/search`,
-      method: 'post',
+      url,
+      method: 'get',
       filters,
       pagination,
       sort,
-      mapApiProperties,
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        resources: body.content.map((item) => ({
-          id: item.id,
-          description: item.description,
-          amount: String(item.amount),
-          unitPrice: `R$ ${item.unitPrice}`,
-          percentDairyCattle: `${item.percentDairyCattle}%`,
-          usefulLife: String(item.usefulLife),
-          acquisitionDate: format(new Date(item.acquisitionDate), 'dd/MM/yyyy'),
-          moneyDairyCattle: `R$ ${item.moneyDairyCattle}`,
-        })),
-        totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
+        resources: body.improvements.map(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (item: any) =>
+            ({
+              id: item.id,
+              description: item.description,
+              amount: String(item.amount),
+              unitPrice: `R$ ${item.unitPrice}`,
+              percentDairyCattle: `${item.percentDairyCattle}%`,
+              usefulLife: String(item.usefulLife),
+              acquisitionDate: format(
+                new Date(item.acquisitionDate),
+                'dd/MM/yyyy'
+              ),
+              moneyDairyCattle: `R$ ${item.moneyDairyCattle}`,
+            }) as ImprovementModel
+        ),
+        totalPages: Math.ceil(body.totalRegisters / ITEMS_PER_PAGE),
       }
     }
 

@@ -19,7 +19,7 @@ export function useAnimalDataTable() {
   const [page, setPage] = useState(1)
   const [sort, setSort] = useState<AnimalSort>()
 
-  const debouncedFilters = useDebounce({ value: filters })
+  const debouncedFilters = useDebounce({ value: filters, delayInMs: 1000 })
 
   const { isLoading, animals } = useAnimalsQuery({
     propertyId,

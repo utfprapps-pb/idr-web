@@ -6,6 +6,9 @@ import type {
 } from '@/core/domain/types'
 
 export type GetForagesUseCase = RequestInterface<
-  ListParams<ForageModel> & { propertyId: string },
+  {
+    propertyId: string
+    queryParams: ListParams<keyof ForageModel>
+  },
   ListResponse<ForageModel>
 >

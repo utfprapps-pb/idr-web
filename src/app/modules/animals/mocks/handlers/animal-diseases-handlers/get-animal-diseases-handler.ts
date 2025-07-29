@@ -3,33 +3,42 @@ import { HttpResponse, type PathParams } from 'msw'
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
-import { filterData, sortData, paginateData } from '@/core/mocks/utils'
+import {
+  normalizeQueryFilters,
+  filterData,
+  sortData,
+  paginateData,
+} from '@/core/mocks/utils'
 
 import animalDiseasesData from '@database/animalDiseasesData.json'
 
-import type { AnimalDiseaseApiResponse } from '../../../domain/models/animal-diseases-model'
-import type { MockParams } from '@/core/mocks/types/mock-params-type'
-import type { MockResponse } from '@/core/mocks/types/mock-response-type'
+import type { AnimalDiseaseModel } from '../../../domain/models/animal-diseases-model'
+
+type Params = {
+  filter: string
+  sort: string
+  pagination: string
+}
+
+type Response = {
+  animalDiseases: AnimalDiseaseModel[]
+  totalRegisters: number
+}
 
 export const getAnimalDiseasesHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId'>,
-  MockParams<AnimalDiseaseApiResponse>,
-  MockResponse<AnimalDiseaseApiResponse[]>
+  Params,
+  Response
 >({
-  routePath: '/api/properties/:propertyId/animals/:animalId/diseases/search',
-  method: 'post',
+  routePath: '/api/properties/:propertyId/animals/:animalId/diseases',
+  method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ request }) => {
-    const { filters, page, rows, sort } = await request.json()
-
     if (!animalDiseasesData.length) {
       return HttpResponse.json(
         {
-          content: [],
-          numberOfElements: 0,
-          pageable: {
-            pageSize: 0,
-          },
+          animalDiseases: [],
+          totalRegisters: 0,
         },
         {
           status: 404,
@@ -37,31 +46,31 @@ export const getAnimalDiseasesHandler = httpWithMiddleware<
       )
     }
 
-    let animalDiseases = animalDiseasesData
+    const url = new URL(request.url)
+    const { pagination, filters, sort } = normalizeQueryFilters(url)
+
+    let animalDiseases = animalDiseasesData.map((animalDisease) => ({
+      id: animalDisease.id,
+      diagnosticDate: new Date(animalDisease.diagnosticDate),
+      diagnostic: animalDisease.diagnostic,
+    }))
 
     if (filters)
-      animalDiseases = filterData<AnimalDiseaseApiResponse>(
-        filters,
-        animalDiseases
-      )
+      animalDiseases = filterData<AnimalDiseaseModel>(filters, animalDiseases)
     if (sort)
-      animalDiseases = sortData<AnimalDiseaseApiResponse>(sort, animalDiseases)
+      animalDiseases = sortData<AnimalDiseaseModel>(sort, animalDiseases)
+    const totalRegisters = animalDiseases.length
 
-    const numberOfElements = animalDiseases.length
-
-    if (page)
-      animalDiseases = paginateData<AnimalDiseaseApiResponse>(
-        { page, perPage: rows },
+    if (pagination)
+      animalDiseases = paginateData<AnimalDiseaseModel>(
+        pagination,
         animalDiseases
       )
 
     return HttpResponse.json(
       {
-        content: animalDiseases,
-        numberOfElements,
-        pageable: {
-          pageSize: rows,
-        },
+        animalDiseases,
+        totalRegisters,
       },
       { status: HttpStatusCode.ok }
     )

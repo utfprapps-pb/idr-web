@@ -12,14 +12,14 @@ type Props = {
 export function usePropertyQuery({ id }: Props) {
   const getPropertyUseCase = makeRemoteGetPropertyUseCase()
 
-  const { data, isError, error, isLoading, refetch } = useQuery({
+  const { data, isError, isLoading, refetch } = useQuery({
     queryKey: ['property', id],
     queryFn: () => getPropertyUseCase.execute(id),
   })
 
   useEffect(() => {
-    if (isError) toast.error(error.message ?? 'Erro ao buscar propriedade')
-  }, [error, isError])
+    if (isError) toast.error('Erro ao buscar propriedade')
+  }, [isError])
 
   return {
     property: data,

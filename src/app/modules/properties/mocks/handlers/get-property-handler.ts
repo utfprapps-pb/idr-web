@@ -26,7 +26,7 @@ export const getPropertyHandler = httpWithMiddleware<
     }
 
     const propertyFound = propertiesData.find(
-      (property) => property.id === Number(params.id)
+      (property) => property.id === String(params.id)
     )
 
     if (!propertyFound) {
@@ -42,9 +42,9 @@ export const getPropertyHandler = httpWithMiddleware<
       {
         general: {
           name: propertyFound.name,
-          producer: propertyFound.user.displayName,
-          city: 'MOCKADO - SEM RETORNO DA API',
-          state: 'MOCKADO - SEM RETORNO DA API',
+          producer: propertyFound.producer,
+          city: propertyFound.city,
+          state: propertyFound.state,
           leaseAveragePricePerHectare: faker.finance.amount(),
           nakedAveragePricePerHectare: faker.finance.amount(),
           responsibleTechnicians: Array.from(

@@ -4,65 +4,49 @@ import {
   NotFoundError,
   ForbiddenError,
 } from '@/core/domain/errors'
+import { ITEMS_PER_PAGE } from '@/core/infra/http'
 
-import type {
-  AnimalDiseaseApiResponse,
-  AnimalDiseaseModel,
-} from '../../../domain/models/animal-diseases-model'
+import type { AnimalDiseaseModel } from '../../../domain/models/animal-diseases-model'
 import type { GetAnimalDiseasesUseCase } from '../../../domain/use-cases/animal-diseases-use-cases'
-import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
 
 export class RemoteGetAnimalDiseasesUseCase
   implements GetAnimalDiseasesUseCase
 {
   constructor(
     private readonly url: string,
-    private readonly httpClient: HttpClient<
-      AnimalDiseaseModel,
-      AnimalDiseaseApiResponse,
-      ListApiResponse<AnimalDiseaseModel[]>
-    >
+    private readonly httpClient: HttpClient
   ) {}
 
   execute: GetAnimalDiseasesUseCase['execute'] = async ({
     propertyId,
     animalId,
-    filters,
-    pagination,
-    sort,
+    queryParams: { filters, pagination, sort },
   }) => {
-    const mapApiProperties: MapApiProperties<
-      AnimalDiseaseModel,
-      AnimalDiseaseApiResponse
-    > = {
-      id: 'id',
-      diagnosticDate: 'diagnosticDate',
-      diagnostic: 'diagnostic',
-    }
-
     const url = this.url
       .replace(':propertyId', propertyId)
       .replace(':animalId', animalId)
 
     const { statusCode, body } = await this.httpClient.request({
-      url: `${url}/search`,
-      method: 'post',
+      url,
+      method: 'get',
       filters,
       pagination,
       sort,
-      mapApiProperties,
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        resources: body.content.map((item) => {
-          return {
-            id: item.id,
-            diagnosticDate: new Date(item.diagnosticDate),
-            diagnostic: item.diagnostic,
+        resources: body.animalDiseases.map(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (item: any) => {
+            return {
+              id: item.id,
+              diagnosticDate: new Date(item.diagnosticDate),
+              diagnostic: item.diagnostic,
+            } as AnimalDiseaseModel
           }
-        }),
-        totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
+        ),
+        totalPages: Math.ceil(body.totalRegisters / ITEMS_PER_PAGE),
       }
     }
 

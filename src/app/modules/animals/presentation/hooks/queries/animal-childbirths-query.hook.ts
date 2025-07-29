@@ -30,7 +30,6 @@ export function useAnimalChildbirthsQuery({
   const {
     data,
     isError,
-    error,
     isLoading,
     refetch: refetchAnimalChildbirths,
   } = useQuery({
@@ -39,17 +38,17 @@ export function useAnimalChildbirthsQuery({
       getAnimalChildbirthsUseCase.execute({
         propertyId,
         animalId,
-
-        pagination: { page },
-        sort,
-        filters,
+        queryParams: {
+          pagination: { page },
+          sort,
+          filters,
+        },
       }),
   })
 
   useEffect(() => {
-    if (isError)
-      toast.error(error?.message ?? 'Erro ao buscar partos do animal')
-  }, [error, isError])
+    if (isError) toast.error('Erro ao buscar partos do animal')
+  }, [isError])
 
   return {
     animalChildbirths: data ?? {

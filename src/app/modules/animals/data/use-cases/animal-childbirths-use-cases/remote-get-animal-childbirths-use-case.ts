@@ -6,74 +6,55 @@ import {
   NotFoundError,
   ForbiddenError,
 } from '@/core/domain/errors'
+import { ITEMS_PER_PAGE } from '@/core/infra/http'
 
-import type {
-  AnimalChildbirthApiResponse,
-  AnimalChildbirthModel,
-} from '../../../domain/models/animal-childbirths-model'
+import type { AnimalChildbirthModel } from '../../../domain/models/animal-childbirths-model'
 import type { GetAnimalChildbirthsUseCase } from '../../../domain/use-cases/animal-childbirths-use-cases'
-import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
 
 export class RemoteGetAnimalChildbirthsUseCase
   implements GetAnimalChildbirthsUseCase
 {
   constructor(
     private readonly url: string,
-    private readonly httpClient: HttpClient<
-      AnimalChildbirthModel,
-      AnimalChildbirthApiResponse,
-      ListApiResponse<AnimalChildbirthModel[]>
-    >
+    private readonly httpClient: HttpClient
   ) {}
 
   execute: GetAnimalChildbirthsUseCase['execute'] = async ({
     propertyId,
     animalId,
-    filters,
-    pagination,
-    sort,
+    queryParams: { filters, pagination, sort },
   }) => {
-    const mapApiProperties: MapApiProperties<
-      AnimalChildbirthModel,
-      AnimalChildbirthApiResponse
-    > = {
-      id: 'id',
-      breed: 'breed',
-      condition: 'condition',
-      date: 'date',
-      gender: 'gender',
-      weight: 'weight',
-    }
-
     const url = this.url
       .replace(':propertyId', propertyId)
       .replace(':animalId', animalId)
 
     const { statusCode, body } = await this.httpClient.request({
-      url: `${url}/search`,
-      method: 'post',
+      url,
+      method: 'get',
       filters,
       pagination,
       sort,
-      mapApiProperties,
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        resources: body.content.map((item) => {
-          const condition = item.condition === 'ALIVE' ? 'Vivo' : 'Morto'
-          const gender = item.gender === 'MALE' ? 'Macho' : 'Fêmea'
+        resources: body.animalChildbirths.map(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (item: any) => {
+            const condition = item.condition === 'ALIVE' ? 'Vivo' : 'Morto'
+            const gender = item.gender === 'MALE' ? 'Macho' : 'Fêmea'
 
-          return {
-            id: item.id,
-            breed: item.breed,
-            condition,
-            gender,
-            date: format(new Date(item.date), 'dd/MM/yyyy'),
-            weight: item.weight,
+            return {
+              id: item.id,
+              breed: item.breed,
+              condition,
+              gender,
+              date: format(new Date(item.date), 'dd/MM/yyyy'),
+              weight: item.weight,
+            } as AnimalChildbirthModel
           }
-        }),
-        totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
+        ),
+        totalPages: Math.ceil(body.totalRegisters / ITEMS_PER_PAGE),
       }
     }
 
