@@ -30,6 +30,7 @@ export function useAnimalDiseasesQuery({
   const {
     data,
     isError,
+    error,
     isLoading,
     refetch: refetchAnimalDiseases,
   } = useQuery({
@@ -38,22 +39,23 @@ export function useAnimalDiseasesQuery({
       getAnimalDiseasesUseCase.execute({
         propertyId,
         animalId,
-        queryParams: {
-          pagination: { page },
-          sort,
-          filters: {
-            ...filters,
-            diagnosticDate: filters.diagnosticDate
-              ? new Date(filters.diagnosticDate).toISOString()
+        pagination: { page },
+        sort,
+        filters: {
+          ...filters,
+          diagnosticDate:
+            filters.diagnosticDate?.value &&
+            !Number.isNaN(new Date(filters.diagnosticDate.value).getTime())
+              ? new Date(filters.diagnosticDate.value).toISOString()
               : undefined,
-          },
         },
       }),
   })
 
   useEffect(() => {
-    if (isError) toast.error('Erro ao buscar doenças do animal')
-  }, [isError])
+    if (isError)
+      toast.error(error?.message ?? 'Erro ao buscar doenças do animal')
+  }, [error, isError])
 
   return {
     animalDiseases: data ?? {

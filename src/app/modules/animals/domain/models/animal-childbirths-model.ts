@@ -19,3 +19,5 @@ export type AnimalChildbirthModel = WithId<{
   condition: string
   breed: string
 }>
+
+export type AnimalChildbirthApiResponse = AnimalChildbirthModel

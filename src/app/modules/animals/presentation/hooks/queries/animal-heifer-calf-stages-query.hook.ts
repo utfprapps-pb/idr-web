@@ -31,6 +31,7 @@ export function useAnimalHeiferCalfStagesQuery({
   const {
     data,
     isError,
+    error,
     isLoading,
     refetch: refetchAnimalHeiferCalfStages,
   } = useQuery({
@@ -39,22 +40,23 @@ export function useAnimalHeiferCalfStagesQuery({
       getAnimalHeiferCalfStagesUseCase.execute({
         propertyId,
         animalId,
-        queryParams: {
-          pagination: { page },
-          sort,
-          filters: {
-            ...filters,
-            weighingDate: filters.weighingDate
-              ? new Date(filters.weighingDate).toISOString()
+        pagination: { page },
+        sort,
+        filters: {
+          ...filters,
+          weighingDate:
+            filters.weighingDate?.value &&
+            !Number.isNaN(new Date(filters.weighingDate.value).getTime())
+              ? new Date(filters.weighingDate.value).toISOString()
               : undefined,
-          },
         },
       }),
   })
 
   useEffect(() => {
-    if (isError) toast.error('Erro ao buscar fases de bezerra novilha')
-  }, [isError])
+    if (isError)
+      toast.error(error?.message ?? 'Erro ao buscar fases de bezerra novilha')
+  }, [error, isError])
 
   return {
     animalHeiferCalfStages: data ?? {

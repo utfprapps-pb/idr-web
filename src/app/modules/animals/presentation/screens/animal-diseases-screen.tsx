@@ -9,7 +9,7 @@ import {
 import { AnimalDiseaseForm } from '../forms/animal-disease-form'
 
 type AnimalDiseasesScreenProps = {
-  animalId: string
+  readonly animalId: string
 }
 
 export function AnimalDiseasesScreen({ animalId }: AnimalDiseasesScreenProps) {
@@ -29,9 +29,15 @@ export function AnimalDiseasesScreen({ animalId }: AnimalDiseasesScreenProps) {
             <div className="flex justify-between gap-2">
               <DatePicker
                 className="w-fit"
-                date={filters.diagnosticDate}
+                date={filters.diagnosticDate?.value}
                 onSelect={(date) => {
-                  handleChangeFilters({ diagnosticDate: date })
+                  if (!date) return
+                  handleChangeFilters({
+                    diagnosticDate: {
+                      value: date,
+                      type: 'LIKE',
+                    },
+                  })
                 }}
                 label="Filtrar por Data do diagnóstico"
               />

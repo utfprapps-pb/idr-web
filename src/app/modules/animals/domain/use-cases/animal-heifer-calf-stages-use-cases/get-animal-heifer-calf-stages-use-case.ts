@@ -6,10 +6,9 @@ import type {
 } from '@/core/domain/types'
 
 export type GetAnimalHeiferCalfStagesUseCase = RequestInterface<
-  {
+  ListParams<AnimalHeiferCalfStageModel> & {
     propertyId: string
     animalId: string
-    queryParams: ListParams<keyof AnimalHeiferCalfStageModel>
   },
   ListResponse<AnimalHeiferCalfStageModel>
 >

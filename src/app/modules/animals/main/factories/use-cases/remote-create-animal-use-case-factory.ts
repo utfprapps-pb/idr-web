@@ -7,6 +7,6 @@ import type { CreateAnimalUseCase } from '../../../domain/use-cases'
 export function makeRemoteCreateAnimalUseCase(): CreateAnimalUseCase {
   return new RemoteCreateAnimalUseCase(
     'properties/:propertyId/animals/sendAnimals',
-    makeApiHttpClient<void>()
+    makeApiHttpClient()
   )
 }

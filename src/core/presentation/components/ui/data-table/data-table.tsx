@@ -33,8 +33,8 @@ export type DataTableProps<TData extends RowData> = {
     onPageChange: (page: number) => void
   }
   sorting: {
-    currentSorting?: Sort<keyof TData>
-    onSorting: (sort?: Sort<keyof TData>) => void
+    currentSorting?: Sort<TData>
+    onSorting: (sort?: Sort<TData>) => void
   }
   loading?: boolean
   onClickRow?: (row: TData) => void
@@ -97,7 +97,7 @@ export function DataTable<TData extends RowData>({
   totalPages,
   loading = false,
   onClickRow,
-}: DataTableProps<TData>) {
+}: Readonly<DataTableProps<TData>>) {
   const { currentSorting, onSorting } = sorting
   const { currentPage, onPageChange } = pagination
 
