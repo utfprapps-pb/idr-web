@@ -5,29 +5,31 @@ import {
   NotFoundError,
   UnexpectedError,
 } from '@/core/domain/errors'
+import { BreedApiModel, BreedModel } from '@/core/domain/models/breed-model'
+import { Option } from '@/core/domain/types'
 
 import type { GetAllBreedsUseCase } from '@/core/domain/use-cases/breeds-use-cases'
 
 export class RemoteGetAllBreedsUseCase implements GetAllBreedsUseCase {
   constructor(
     private readonly url: string,
-    private readonly httpClient: HttpClient
+    private readonly httpClient: HttpClient<BreedModel, BreedModel, BreedApiModel[]>
   ) {}
 
-  execute: GetAllBreedsUseCase['execute'] = async (search) => {
+  execute: GetAllBreedsUseCase['execute'] = async () => {
     const { statusCode, body } = await this.httpClient.request({
       url: this.url,
       method: 'get',
-      filters: {
-        name: search,
-      },
     })
 
-    if (statusCode === HttpStatusCode.ok) {
-      return body.map((item: { id: string; name: string }) => ({
-        value: item.id,
-        label: item.name,
-      }))
+    if (statusCode === HttpStatusCode.ok && !!body) {
+      console.log(body); // TODO: Remover 
+
+      let response: Option[]= [];
+      body.forEach((breed) => {
+        response.push({label: breed.breedName, value: breed.id.toString()} as Option);
+      });
+      return response;
     }
 
     if (statusCode === HttpStatusCode.forbidden) {
@@ -38,7 +40,9 @@ export class RemoteGetAllBreedsUseCase implements GetAllBreedsUseCase {
       throw new NotFoundError('Raças')
     }
 
-    if (statusCode === HttpStatusCode.badRequest) throw new BadRequestError()
+    if (statusCode === HttpStatusCode.badRequest) {
+      throw new BadRequestError()
+    }
 
     throw new UnexpectedError()
   }

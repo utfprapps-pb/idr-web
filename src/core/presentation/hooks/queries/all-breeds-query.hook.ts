@@ -6,8 +6,7 @@ import toast from 'react-hot-toast'
 import { makeRemoteGetAllBreedsUseCase } from '@/core/main/factories/use-cases/breeds-use-cases'
 
 export function useAllBreedsQuery(search: string) {
-  const getAllBreeds = makeRemoteGetAllBreedsUseCase()
-
+  const getAllBreedsUseCase = makeRemoteGetAllBreedsUseCase()
   const {
     data: allBreeds = [],
     isError,
@@ -15,8 +14,9 @@ export function useAllBreedsQuery(search: string) {
     refetch: refetchAllBreeds,
   } = useQuery({
     queryKey: ['allBreeds', search],
-    queryFn: () => getAllBreeds.execute(search),
-    enabled: !!search,
+    queryFn: () => getAllBreedsUseCase.execute(search),
+    // Carregar ou não as raças antes do usuário inserir algo na busca?
+    // enabled: !!search,
   })
 
   useEffect(() => {

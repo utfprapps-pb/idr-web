@@ -3,6 +3,7 @@ import { ApiHttpClient } from '@/core/infra/http'
 export function makeApiHttpClient<
   TModel = unknown,
   TApiModel = unknown,
->(): ApiHttpClient<TModel, TApiModel> {
-  return new ApiHttpClient<TModel, TApiModel>()
+  TApiResponse = TApiModel,
+>(): ApiHttpClient<TModel, TApiModel, TApiResponse> {
+  return new ApiHttpClient<TModel, TApiModel, TApiResponse>()
 }

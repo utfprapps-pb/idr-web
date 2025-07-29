@@ -5,17 +5,17 @@ import { httpWithMiddleware } from '../../lib'
 import { withDelay, withAuth } from '../../middleware'
 
 type Response = {
-  name: string
+  displayName: string
 }
 
-export const meHandler = httpWithMiddleware<never, never, Response | object>({
+export const getMeHandler = httpWithMiddleware<never, never, Response>({
   routePath: '/api/users/me',
   method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async () =>
     HttpResponse.json(
       {
-        name: faker.person.fullName(),
+        displayName: faker.person.fullName(),
       },
       { status: 200 }
     ),
