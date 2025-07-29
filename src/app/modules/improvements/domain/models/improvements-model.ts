@@ -19,3 +19,13 @@ export type ImprovementModel = WithId<{
   acquisitionDate: string
   moneyDairyCattle: string
 }>
+
+export type ImprovementApiResponse = WithId<{
+  description: string
+  amount: number
+  unitPrice: number
+  percentDairyCattle: number
+  usefulLife: number
+  acquisitionDate: string
+  moneyDairyCattle: number
+}>

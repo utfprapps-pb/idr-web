@@ -8,6 +8,28 @@ import {
   getAnimalsHandler,
   updateAnimalHandler,
 } from '@/app/modules/animals/mocks/handlers/'
+import {
+  createAnimalChildbirthHandler,
+  deleteAnimalChildbirthHandler,
+  getAnimalChildbirthHandler,
+  getAnimalChildbirthsHandler,
+  updateAnimalChildbirthHandler,
+} from '@/app/modules/animals/mocks/handlers/animal-childbirths-handlers'
+import {
+  createAnimalDiseaseHandler,
+  deleteAnimalDiseaseHandler,
+  getAnimalDiseaseHandler,
+  getAnimalDiseasesHandler,
+  updateAnimalDiseaseHandler,
+} from '@/app/modules/animals/mocks/handlers/animal-diseases-handlers'
+import {
+  createAnimalHeiferCalfStageHandler,
+  deleteAnimalHeiferCalfStageHandler,
+  getAnimalHeiferCalfStageAdditionalDataHandler,
+  getAnimalHeiferCalfStageHandler,
+  getAnimalHeiferCalfStagesHandler,
+  updateAnimalHeiferCalfStageHandler,
+} from '@/app/modules/animals/mocks/handlers/animal-heifer-calf-stages-handlers'
 import { loginHandler } from '@/app/modules/auth/mocks/handlers'
 import {
   createForageHandler,
@@ -39,7 +61,7 @@ import {
 } from '@/app/modules/properties/mocks/handlers'
 
 import { getAllBreedsHandler } from './handlers/breeds-handlers'
-import { getAllUsersHandler, meHandler } from './handlers/users-handlers'
+import { getAllUsersHandler, getMeHandler } from './handlers/users-handlers'
 import { getAllVegetablesHandler } from './handlers/vegetables-handlers'
 
 const handlers: HttpHandler[] = [
@@ -50,7 +72,7 @@ const handlers: HttpHandler[] = [
   getAllVegetablesHandler,
 
   getAllUsersHandler,
-  meHandler,
+  getMeHandler,
 
   createAnimalHandler,
   deleteAnimalHandler,
@@ -81,6 +103,25 @@ const handlers: HttpHandler[] = [
   getMachineHandler,
   getMachinesHandler,
   updateMachineHandler,
+
+  createAnimalChildbirthHandler,
+  deleteAnimalChildbirthHandler,
+  getAnimalChildbirthHandler,
+  getAnimalChildbirthsHandler,
+  updateAnimalChildbirthHandler,
+
+  createAnimalHeiferCalfStageHandler,
+  deleteAnimalHeiferCalfStageHandler,
+  getAnimalHeiferCalfStageAdditionalDataHandler,
+  getAnimalHeiferCalfStageHandler,
+  getAnimalHeiferCalfStagesHandler,
+  updateAnimalHeiferCalfStageHandler,
+
+  createAnimalDiseaseHandler,
+  deleteAnimalDiseaseHandler,
+  getAnimalDiseaseHandler,
+  getAnimalDiseasesHandler,
+  updateAnimalDiseaseHandler,
 ]
 
 export const worker = setupWorker(...handlers)

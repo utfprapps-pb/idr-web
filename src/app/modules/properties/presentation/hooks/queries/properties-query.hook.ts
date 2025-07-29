@@ -16,7 +16,7 @@ type Props = {
 export function usePropertiesQuery({ page, filters, sort }: Props) {
   const getPropertiesUseCase = makeRemoteGetPropertiesUseCase()
 
-  const { data, isError, isLoading, refetch } = useQuery({
+  const { data, isError, error, isLoading, refetch } = useQuery({
     queryKey: ['properties', { page, sort, filters }],
     queryFn: () =>
       getPropertiesUseCase.execute({
@@ -27,8 +27,8 @@ export function usePropertiesQuery({ page, filters, sort }: Props) {
   })
 
   useEffect(() => {
-    if (isError) toast.error('Erro ao buscar propriedades')
-  }, [isError])
+    if (isError) toast.error(error?.message ?? 'Erro ao buscar propriedades')
+  }, [error, isError])
 
   return {
     properties: data ?? {

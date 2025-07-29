@@ -1,4 +1,4 @@
-export function paginateData<TData extends Record<string, string | number>>(
+export function paginateData<TData extends object>(
   pagination: {
     page: number
     perPage?: number

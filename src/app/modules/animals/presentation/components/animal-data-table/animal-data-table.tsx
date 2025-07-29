@@ -4,7 +4,13 @@ import { useAnimalDataTable } from './animal-data-table.hook'
 
 import type { AnimalModel } from '../../../domain/models/animals-model'
 
-export function AnimalDataTable() {
+type AnimalDataTableProps = {
+  onClickRow: (animalId: string) => void
+}
+
+export function AnimalDataTable({
+  onClickRow,
+}: Readonly<AnimalDataTableProps>) {
   const { columns, animals, isLoading, page, sort, setSort, setPage } =
     useAnimalDataTable()
 
@@ -13,6 +19,7 @@ export function AnimalDataTable() {
       columns={columns}
       data={animals.resources}
       totalPages={animals.totalPages}
+      onClickRow={(animal) => onClickRow(animal.id)}
       pagination={{
         currentPage: page,
         onPageChange: setPage,

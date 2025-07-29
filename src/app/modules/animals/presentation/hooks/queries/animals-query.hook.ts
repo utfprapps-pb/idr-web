@@ -5,7 +5,7 @@ import toast from 'react-hot-toast'
 
 import { makeRemoteGetAnimalsUseCase } from '../../../main/factories/use-cases'
 
-import type { AnimalFilters, AnimalSort } from '../../types'
+import type { AnimalFilters, AnimalSort } from '../../types/animal-types'
 
 type Props = {
   propertyId: string
@@ -20,6 +20,7 @@ export function useAnimalsQuery({ propertyId, filters, page, sort }: Props) {
   const {
     data,
     isError,
+    error,
     isLoading,
     refetch: refetchAnimals,
   } = useQuery({
@@ -27,17 +28,15 @@ export function useAnimalsQuery({ propertyId, filters, page, sort }: Props) {
     queryFn: () =>
       getAnimalsUseCase.execute({
         propertyId,
-        queryParams: {
-          pagination: { page },
-          sort,
-          filters,
-        },
+        pagination: { page },
+        sort,
+        filters,
       }),
   })
 
   useEffect(() => {
-    if (isError) toast.error('Erro ao buscar animais')
-  }, [isError])
+    if (isError) toast.error(error?.message ?? 'Erro ao buscar animais')
+  }, [error, isError])
 
   return {
     animals: data ?? {

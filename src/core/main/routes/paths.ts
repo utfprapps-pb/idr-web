@@ -3,7 +3,7 @@ export const PAGE_PATHS = Object.freeze({
   SIGN_UP: '/sign-up',
   HOME: '/',
   PROPERTIES: '/properties',
-  PROPERTIES_DETAILS: '/properties/:id',
+  PROPERTY: '/properties/:propertyId',
   GENERAL_REGISTRATIONS: '/general-registrations',
   REPORTS: '/reports',
 } as const)

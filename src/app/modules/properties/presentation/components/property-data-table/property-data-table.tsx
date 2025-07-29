@@ -24,14 +24,18 @@ export function PropertyDataTable() {
   return (
     <div className="flex flex-col gap-4">
       <Input
-        value={filters.name}
+        value={filters.producer?.value ?? ''}
+        className="w-fit"
         onChange={({ target }) => {
           setFilters((prevState) => ({
             ...prevState,
-            name: target.value,
+            producer: {
+              value: target.value,
+              type: 'LIKE',
+            },
           }))
         }}
-        placeholder="Procurar propriedade"
+        placeholder="Procurar por produtor"
       />
 
       <DataTable<PropertyModel>
@@ -40,9 +44,9 @@ export function PropertyDataTable() {
         totalPages={properties.totalPages}
         onClickRow={(row) =>
           navigate(
-            generateRoutePath('PROPERTIES_DETAILS', {
+            generateRoutePath('PROPERTY', {
               params: {
-                id: row.id,
+                propertyId: row.id,
               },
               query: {
                 producer: row.producer,

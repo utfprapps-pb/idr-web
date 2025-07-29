@@ -29,12 +29,10 @@ type ImprovementContextValue = {
 
 export const ImprovementContext = createContext({} as ImprovementContextValue)
 
-export function ImprovementProvider({ children }: PropsWithChildren) {
-  const params = useParams<{ id: string }>()
+export function ImprovementProvider({ children }: Readonly<PropsWithChildren>) {
+  const params = useParams<{ propertyId: string }>()
 
-  const [filters, setFilters] = useState<ImprovementFilters>({
-    description: '',
-  })
+  const [filters, setFilters] = useState<ImprovementFilters>({})
 
   const handleChangeFilters = useCallback((newFilters: ImprovementFilters) => {
     setFilters((prevState) => ({
@@ -93,7 +91,7 @@ export function ImprovementProvider({ children }: PropsWithChildren) {
 
   const providerValues = useMemo(
     () => ({
-      propertyId: params.id as string, // Typecast allowed to avoid undefined, as it has validation below
+      propertyId: params.propertyId as string, // Typecast allowed to avoid undefined, as it has validation below
       filters,
       handleChangeFilters,
       selectedImprovement,
@@ -108,7 +106,7 @@ export function ImprovementProvider({ children }: PropsWithChildren) {
       closeDeleteImprovementContainer,
     }),
     [
-      params.id,
+      params.propertyId,
       filters,
       handleChangeFilters,
       selectedImprovement,
@@ -124,7 +122,7 @@ export function ImprovementProvider({ children }: PropsWithChildren) {
     ]
   )
 
-  if (!params.id) {
+  if (!params.propertyId) {
     return null
   }
 

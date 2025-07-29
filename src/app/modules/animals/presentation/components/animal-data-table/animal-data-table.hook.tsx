@@ -9,7 +9,7 @@ import { useAnimalContext } from '../../hooks/animal-context.hook'
 import { useAnimalsQuery } from '../../hooks/queries'
 
 import type { AnimalModel } from '../../../domain/models/animals-model'
-import type { AnimalSort } from '../../types'
+import type { AnimalSort } from '../../types/animal-types'
 import type { ColumnDef } from '@tanstack/react-table'
 
 export function useAnimalDataTable() {
@@ -19,7 +19,7 @@ export function useAnimalDataTable() {
   const [page, setPage] = useState(1)
   const [sort, setSort] = useState<AnimalSort>()
 
-  const debouncedFilters = useDebounce({ value: filters, delayInMs: 1000 })
+  const debouncedFilters = useDebounce({ value: filters })
 
   const { isLoading, animals } = useAnimalsQuery({
     propertyId,
@@ -52,14 +52,20 @@ export function useAnimalDataTable() {
               <DropdownMenu.Content>
                 <DropdownMenu.Item
                   className="gap-2"
-                  onClick={() => openEditAnimalForm(animal)}
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    openEditAnimalForm(animal)
+                  }}
                 >
                   <PencilIcon size={14} /> Editar
                 </DropdownMenu.Item>
                 <DropdownMenu.Separator />
                 <DropdownMenu.Item
                   className="gap-2"
-                  onClick={() => openDeleteAnimalContainer(animal)}
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    openDeleteAnimalContainer(animal)
+                  }}
                 >
                   <Trash2Icon size={14} /> Excluir
                 </DropdownMenu.Item>

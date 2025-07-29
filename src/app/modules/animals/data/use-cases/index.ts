@@ -1,4 +1,4 @@
-export * from './remote-create-anima-use-case'
+export * from './remote-create-animal-use-case'
 export * from './remote-delete-animal-use-case'
 export * from './remote-get-animal-use-case'
 export * from './remote-get-animals-use-case'

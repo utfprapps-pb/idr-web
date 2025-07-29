@@ -9,6 +9,8 @@ import { env } from '@/core/env'
 
 import { authInterceptorRequest } from './interceptors/auth-interceptor'
 
+import type { ApiSort, FilterValue } from '@/core/domain/types'
+
 export const ITEMS_PER_PAGE = 10
 
 export const baseApi = axios.create({
@@ -21,24 +23,72 @@ export const baseApi = axios.create({
 })
 baseApi.interceptors.request.use(authInterceptorRequest)
 
-export class ApiHttpClient<TBody = unknown> implements HttpClient<TBody> {
-  async request(data: HttpRequest): Promise<HttpResponse<TBody>> {
+export class ApiHttpClient<
+  TModel = unknown,
+  TApiModel = unknown,
+  TApiResponse = unknown,
+> implements HttpClient<TModel, TApiModel, TApiResponse>
+{
+  async request(
+    data: HttpRequest<TModel, TApiModel>
+  ): Promise<HttpResponse<TApiResponse>> {
     let axiosResponse: AxiosResponse
 
-    const { url: rawUrl, pagination, filters, sort } = data
+    const { url, pagination, filters, sort, mapApiProperties } = data
+
+    const filtersArray = filters
+      ? Object.entries(filters)
+          .filter(([, filter]) => {
+            const { value } = filter as FilterValue
+            return value !== undefined && value !== null && value !== ''
+          })
+          .reduce<Array<{ field: string; value: string; type: string }>>(
+            (acc, [field, filter]) => {
+              const { value, type } = filter as FilterValue
+              if (mapApiProperties && field in mapApiProperties) {
+                const mappedField = mapApiProperties[
+                  field as keyof TModel
+                ] as string
+                acc.push({
+                  field: mappedField,
+                  value: String(value),
+                  type,
+                })
+              }
+
+              return acc
+            },
+            []
+          )
+      : undefined
+
+    const sortInfo: ApiSort<TApiModel> | undefined =
+      sort && mapApiProperties && sort.field in mapApiProperties
+        ? {
+            type: sort.direction,
+            field: mapApiProperties[sort.field] as keyof TApiModel,
+          }
+        : undefined
 
     try {
-      const url = this.makeUrlWithFiltersAndPagination({
-        url: rawUrl,
-        filters,
-        pagination,
-        sort,
-      })
-
       axiosResponse = await baseApi.request({
         ...data,
         url,
-        data: data.body,
+        data: {
+          ...(typeof data.body === 'object' && data.body !== null
+            ? data.body
+            : {}),
+          ...(pagination
+            ? {
+                page: pagination.page - 1,
+                rows: pagination.perPage ?? ITEMS_PER_PAGE,
+              }
+            : {}),
+          ...(sortInfo ? { sort: sortInfo } : {}),
+          ...(filtersArray && filtersArray.length > 0
+            ? { filters: filtersArray }
+            : {}),
+        },
       })
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -49,36 +99,5 @@ export class ApiHttpClient<TBody = unknown> implements HttpClient<TBody> {
       statusCode: axiosResponse.status,
       body: axiosResponse.data,
     }
-  }
-
-  private makeUrlWithFiltersAndPagination({
-    url,
-    filters,
-    pagination,
-    sort,
-  }: Pick<HttpRequest, 'url' | 'filters' | 'pagination' | 'sort'>) {
-    if (!pagination && !filters && !sort) return url
-
-    const query = {
-      filters: filters ?? {},
-      pagination: pagination
-        ? {
-            ...pagination,
-            perPage: pagination?.perPage ? pagination.perPage : ITEMS_PER_PAGE,
-          }
-        : {},
-      sort: sort ?? {},
-    }
-
-    const parsedQuery = Object.entries(query)
-      .map(([key, value]) => {
-        if (typeof value === 'object' && Object.keys(value).length === 0) {
-          return `${encodeURIComponent(key)}=`
-        }
-        return `${encodeURIComponent(key)}=${encodeURIComponent(JSON.stringify(value))}`
-      })
-      .join('&')
-
-    return `${url}?${parsedQuery}`
   }
 }

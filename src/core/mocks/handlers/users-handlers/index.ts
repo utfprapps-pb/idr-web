@@ -1,2 +1,2 @@
 export * from './get-all-users-handler'
-export * from './me-handler'
+export * from './get-me-handler'

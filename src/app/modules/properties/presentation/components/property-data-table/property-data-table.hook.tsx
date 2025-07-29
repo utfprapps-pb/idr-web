@@ -18,9 +18,7 @@ export function usePropertyDataTable() {
 
   const [page, setPage] = useState(1)
   const [sort, setSort] = useState<PropertySort>()
-  const [filters, setFilters] = useState<PropertyFilters>({
-    name: '',
-  })
+  const [filters, setFilters] = useState<PropertyFilters>({})
   const debouncedFilters = useDebounce({ value: filters })
 
   const { isLoading, properties } = usePropertiesQuery({
@@ -58,7 +56,8 @@ export function usePropertyDataTable() {
               <DropdownMenu.Content>
                 <DropdownMenu.Item
                   className="gap-2"
-                  onClick={() => {
+                  onClick={(event) => {
+                    event.stopPropagation()
                     openEditPropertyForm(property)
                   }}
                 >
@@ -67,7 +66,8 @@ export function usePropertyDataTable() {
                 <DropdownMenu.Separator />
                 <DropdownMenu.Item
                   className="gap-2"
-                  onClick={() => {
+                  onClick={(event) => {
+                    event.stopPropagation()
                     openDeletePropertyContainer(property)
                   }}
                 >

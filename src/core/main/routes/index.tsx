@@ -24,7 +24,7 @@ const ROUTE_PAGE_MAPPER: Record<keyof typeof ROUTES, ReactNode> = {
       <PropertiesPage />
     </PrivateRouteProxy>
   ),
-  PROPERTIES_DETAILS: (
+  PROPERTY: (
     <PrivateRouteProxy>
       <PropertyPage />
     </PrivateRouteProxy>

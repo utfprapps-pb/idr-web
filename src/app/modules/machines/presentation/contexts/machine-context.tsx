@@ -29,12 +29,10 @@ type MachineContextValue = {
 
 export const MachineContext = createContext({} as MachineContextValue)
 
-export function MachineProvider({ children }: PropsWithChildren) {
-  const params = useParams<{ id: string }>()
+export function MachineProvider({ children }: Readonly<PropsWithChildren>) {
+  const params = useParams<{ propertyId: string }>()
 
-  const [filters, setFilters] = useState<MachineFilters>({
-    name: '',
-  })
+  const [filters, setFilters] = useState<MachineFilters>({})
 
   const handleChangeFilters = useCallback((newFilters: MachineFilters) => {
     setFilters((prevState) => ({
@@ -82,7 +80,7 @@ export function MachineProvider({ children }: PropsWithChildren) {
 
   const providerValues = useMemo(
     () => ({
-      propertyId: params.id as string, // Typecast allowed to avoid undefined, as it has validation below
+      propertyId: params.propertyId as string, // Typecast allowed to avoid undefined, as it has validation below
       filters,
       handleChangeFilters,
       selectedMachine,
@@ -97,7 +95,7 @@ export function MachineProvider({ children }: PropsWithChildren) {
       closeDeleteMachineContainer,
     }),
     [
-      params.id,
+      params.propertyId,
       filters,
       handleChangeFilters,
       selectedMachine,
@@ -113,7 +111,7 @@ export function MachineProvider({ children }: PropsWithChildren) {
     ]
   )
 
-  if (!params.id) {
+  if (!params.propertyId) {
     return null
   }
 

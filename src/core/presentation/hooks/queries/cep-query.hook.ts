@@ -13,7 +13,6 @@ export function useCepQuery(cep: string) {
 
   const debouncedCep = useDebounce({
     value: cep,
-    delayInMs: 1000,
   })
 
   const {
@@ -24,7 +23,7 @@ export function useCepQuery(cep: string) {
   } = useQuery({
     queryKey: ['cep', debouncedCep],
     queryFn: () => getCepUseCase.execute(debouncedCep),
-    enabled: !!cep && onlyNumbersMask(cep).length === 8,
+    enabled: !!debouncedCep && onlyNumbersMask(debouncedCep).length === 8,
   })
 
   useEffect(() => {

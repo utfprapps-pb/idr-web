@@ -9,7 +9,7 @@ import {
 import { useParams } from 'react-router-dom'
 
 import type { AnimalModel } from '../../domain/models/animals-model'
-import type { AnimalFilters } from '../types'
+import type { AnimalFilters } from '../types/animal-types'
 
 type AnimalContextValue = {
   propertyId: string
@@ -31,12 +31,10 @@ export const AnimalContext = createContext<AnimalContextValue>(
   {} as AnimalContextValue
 )
 
-export function AnimalProvider({ children }: PropsWithChildren) {
-  const params = useParams<{ id: string }>()
+export function AnimalProvider({ children }: Readonly<PropsWithChildren>) {
+  const params = useParams<{ propertyId: string }>()
 
-  const [filters, setFilters] = useState<AnimalFilters>({
-    name: '',
-  })
+  const [filters, setFilters] = useState<AnimalFilters>({})
 
   const handleChangeFilters = useCallback((newFilters: AnimalFilters) => {
     setFilters((prevState) => ({
@@ -84,7 +82,7 @@ export function AnimalProvider({ children }: PropsWithChildren) {
 
   const providerValues = useMemo(
     () => ({
-      propertyId: params.id as string, // Typecast allowed to avoid undefined, as it has validation below
+      propertyId: params.propertyId as string, // Typecast allowed to avoid undefined, as it has validation below
       filters,
       handleChangeFilters,
       selectedAnimal,
@@ -99,7 +97,7 @@ export function AnimalProvider({ children }: PropsWithChildren) {
       closeDeleteAnimalContainer,
     }),
     [
-      params.id,
+      params.propertyId,
       filters,
       handleChangeFilters,
       selectedAnimal,
@@ -115,7 +113,7 @@ export function AnimalProvider({ children }: PropsWithChildren) {
     ]
   )
 
-  if (!params.id) {
+  if (!params.propertyId) {
     return null
   }
 

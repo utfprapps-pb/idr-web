@@ -1,3 +1,5 @@
+import type { Filters, MapApiProperties, Sort } from '@/core/domain/types'
+
 export type HttpMethod = 'get' | 'post' | 'delete' | 'patch'
 
 export enum HttpStatusCode {
@@ -13,29 +15,33 @@ export enum HttpStatusCode {
   serverError = 500,
 }
 
-export type SortDirection = 'asc' | 'desc'
-
-export type HttpRequest<F = Record<string, string>> = {
+export type HttpRequest<
+  TModel = Record<string, string>,
+  TApiModel = unknown,
+> = {
   url: string
   method: HttpMethod
   body?: unknown
-  filters?: F
+  filters?: Filters<TModel>
   pagination?: {
     page: number
     perPage?: number
   }
-  sort?: {
-    direction: SortDirection
-    field: string
-  }
+  sort?: Sort<TModel>
+  mapApiProperties?: MapApiProperties<TModel, TApiModel>
 }
 
-export type HttpResponse<TBody = unknown> = {
+export type HttpResponse<TData = unknown> = {
   statusCode: HttpStatusCode
-  body?: TBody
+  body?: TData
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type HttpClient<T = any, F = Record<string, string>> = {
-  request: (data: HttpRequest<F>) => Promise<HttpResponse<T>>
+export type HttpClient<
+  TModel = unknown,
+  TApiModel = unknown,
+  TApiResponse = TApiModel,
+> = {
+  request: (
+    data: HttpRequest<TModel, TApiModel>
+  ) => Promise<HttpResponse<TApiResponse>>
 }
