@@ -6,7 +6,7 @@ import toast from 'react-hot-toast'
 import { makeRemoteGetAllBreedsUseCase } from '@/core/main/factories/use-cases/breeds-use-cases'
 
 export function useAllBreedsQuery(search: string) {
-  const getAllBreeds = makeRemoteGetAllBreedsUseCase()
+  const getAllBreedsUseCase = makeRemoteGetAllBreedsUseCase()
 
   const {
     data: allBreeds = [],
@@ -15,8 +15,9 @@ export function useAllBreedsQuery(search: string) {
     refetch: refetchAllBreeds,
   } = useQuery({
     queryKey: ['allBreeds', search],
-    queryFn: () => getAllBreeds.execute(search),
-    enabled: !!search,
+    queryFn: () => getAllBreedsUseCase.execute(search),
+    // enabled: !!search,
+    // executar a query assim que o usuário abrir o dropdown, não só quando pesquisa.
   })
 
   useEffect(() => {
