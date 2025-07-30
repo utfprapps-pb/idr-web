@@ -4,7 +4,7 @@ import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
 
-import improvementsData from '@database/improvementData.json'
+import improvementsData from '@database/improvementsData.json'
 
 export const getImprovementHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'id'>,
@@ -25,7 +25,7 @@ export const getImprovementHandler = httpWithMiddleware<
     }
 
     const improvementFound = improvementsData.find(
-      (improvement) => improvement.id === String(params.id)
+      (improvement) => improvement.id === Number(params.id)
     )
 
     if (!improvementFound) {
