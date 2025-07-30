@@ -7,8 +7,8 @@ export const improvementsData = Array.from(
       max: 100,
     }),
   },
-  () => ({
-    id: faker.string.uuid(),
+  (_, index) => ({
+    id: index + 1,
     description: faker.lorem.words(5),
     amount: faker.number.int(),
     unitPrice: faker.number.float({
