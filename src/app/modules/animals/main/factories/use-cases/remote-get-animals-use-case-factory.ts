@@ -11,6 +11,7 @@ import type { ListApiResponse } from '@/core/domain/types'
 
 export function makeRemoteGetAnimalsUseCase(): GetAnimalsUseCase {
   return new RemoteGetAnimalsUseCase(
+    // TODO: refatoração do back-end pra restrição por request mapping
     'properties/:propertyId/animals',
     makeApiHttpClient<
       AnimalModel,
