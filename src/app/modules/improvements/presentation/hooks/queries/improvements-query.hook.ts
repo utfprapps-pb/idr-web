@@ -8,7 +8,7 @@ import { makeRemoteGetImprovementsUseCase } from '../../../main/factories/use-ca
 import type { ImprovementFilters, ImprovementSort } from '../../types'
 
 type Props = {
-  propertyId: string
+  propertyId: number
   filters: ImprovementFilters
   page: number
   sort?: ImprovementSort
