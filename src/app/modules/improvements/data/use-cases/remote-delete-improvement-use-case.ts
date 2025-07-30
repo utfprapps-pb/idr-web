@@ -19,7 +19,7 @@ export class RemoteDeleteImprovementUseCase
     propertyId,
     improvementId,
   }) => {
-    const url = this.url.replace(':propertyId', propertyId)
+    const url = this.url.replace(':propertyId', String(propertyId))
 
     const { statusCode } = await this.httpClient.request({
       url: `${url}/${improvementId}`,
