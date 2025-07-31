@@ -15,7 +15,7 @@ export class RemoteGetMachineUseCase implements GetMachineUseCase {
   ) {}
 
   execute: GetMachineUseCase['execute'] = async ({ machineId, propertyId }) => {
-    const url = this.url.replace(':propertyId', propertyId)
+    const url = this.url.replace(':propertyId', String(propertyId))
 
     const { statusCode, body } = await this.httpClient.request({
       url: `${url}/${machineId}`,
