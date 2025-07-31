@@ -12,7 +12,7 @@ import type { MachineModel } from '../../domain/models/machines-model'
 import type { MachineFilters } from '../types'
 
 type MachineContextValue = {
-  propertyId: string
+  propertyId: number
   filters: MachineFilters
   handleChangeFilters: (newFilters: MachineFilters) => void
   selectedMachine?: MachineModel
@@ -80,7 +80,7 @@ export function MachineProvider({ children }: Readonly<PropsWithChildren>) {
 
   const providerValues = useMemo(
     () => ({
-      propertyId: params.propertyId as string, // Typecast allowed to avoid undefined, as it has validation below
+      propertyId: Number(params.propertyId),
       filters,
       handleChangeFilters,
       selectedMachine,
