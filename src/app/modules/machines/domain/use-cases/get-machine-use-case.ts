@@ -3,8 +3,8 @@ import type { RequestInterface } from '@/core/domain/types'
 
 export type GetMachineUseCase = RequestInterface<
   {
-    propertyId: string
-    machineId: string
+    propertyId: number
+    machineId: number
   },
   MachineDetailsModel
 >
