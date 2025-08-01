@@ -7,8 +7,8 @@ export const foragesData = Array.from(
       max: 100,
     }),
   },
-  () => ({
-    id: faker.string.uuid(),
+  (_, index) => ({
+    id: index + 1,
     cultivation: faker.food.vegetable(),
     area: String(
       faker.number.float({
