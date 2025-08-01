@@ -18,7 +18,7 @@ export class RemoteGetForageUseCase implements GetForageUseCase {
   ) {}
 
   execute: GetForageUseCase['execute'] = async ({ forageId, propertyId }) => {
-    const url = this.url.replace(':propertyId', propertyId)
+    const url = this.url.replace(':propertyId', String(propertyId))
 
     const { statusCode, body } = await this.httpClient.request({
       url: `${url}/${forageId}`,
