@@ -3,7 +3,7 @@ import type { ForageFormSchema } from '../../validations/forage-form-schema'
 export const FORAGE_INITIAL_FORM_DATA: ForageFormSchema = {
   cultivation: {
     label: '',
-    value: '',
+    value: 0,
   },
   area: '',
   averageCost: '',
