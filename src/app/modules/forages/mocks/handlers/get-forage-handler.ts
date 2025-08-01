@@ -5,7 +5,7 @@ import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
 
-import foragesData from '@database/forageData.json'
+import foragesData from '@database/foragesData.json'
 
 export const getForageHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'id'>,
@@ -26,7 +26,7 @@ export const getForageHandler = httpWithMiddleware<
     }
 
     const forageFound = foragesData.find(
-      (forage) => forage.id === String(params.id)
+      (forage) => forage.id === Number(params.id)
     )
 
     if (!forageFound) {
