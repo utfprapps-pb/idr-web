@@ -2,8 +2,8 @@ import type { RequestInterface } from '@/core/domain/types'
 
 export type DeleteForageUseCase = RequestInterface<
   {
-    propertyId: string
-    forageId: string
+    propertyId: number
+    forageId: number
   },
   void
 >

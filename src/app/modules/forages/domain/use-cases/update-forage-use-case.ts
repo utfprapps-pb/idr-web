@@ -4,7 +4,7 @@ import type { WithId } from '@/core/domain/types/with-id-type'
 
 export type UpdateForageUseCase = RequestInterface<
   {
-    propertyId: string
+    propertyId: number
     forage: WithId<ForageDetailsModel>
   },
   void

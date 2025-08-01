@@ -3,8 +3,8 @@ import type { RequestInterface } from '@/core/domain/types'
 
 export type GetForageUseCase = RequestInterface<
   {
-    propertyId: string
-    forageId: string
+    propertyId: number
+    forageId: number
   },
   ForageDetailsModel
 >
