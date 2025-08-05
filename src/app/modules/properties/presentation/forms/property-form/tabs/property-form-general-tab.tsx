@@ -207,7 +207,7 @@ export function PropertyFormGeneralTab() {
           onClick={() =>
             handleAddTechnician({
               label: '',
-              value: '',
+              value: 0,
             })
           }
         >
