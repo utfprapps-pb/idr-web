@@ -1,10 +1,12 @@
+import type { WithId } from '../types'
+
 export type UserModel = {
   name: string
 }
 
-export type UserApiResponse = {
+export type UserApiResponse = WithId<{
   displayName: string
-}
+}>
 
 export type CreateUserModel = {
   name: string
