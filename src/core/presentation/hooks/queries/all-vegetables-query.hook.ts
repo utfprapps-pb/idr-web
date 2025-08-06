@@ -3,26 +3,39 @@ import { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
-import { VegetablesDataUseCasesFactory } from '@/core/main/factories/use-cases/vegetables-use-cases'
+import { makeRemoteGetAllVegetablesUseCase } from '@/core/main/factories/use-cases/vegetables-use-cases'
 
-export function useAllVegetablesQuery(search: string) {
-  const getAllVegetables =
-    VegetablesDataUseCasesFactory.makeRemoteGetAllVegetablesUseCase()
+import type { Filters, Option } from '@/core/domain/types'
+
+type Props = {
+  filters: Filters<Option>
+}
+
+export function useAllVegetablesQuery({ filters }: Props) {
+  const getAllVegetables = makeRemoteGetAllVegetablesUseCase()
 
   const {
     data: allVegetables = [],
     isError,
+    error,
     isLoading,
     refetch: refetchAllVegetables,
   } = useQuery({
-    queryKey: ['allVegetables', search],
-    queryFn: () => getAllVegetables.execute(search),
-    enabled: !!search,
+    queryKey: ['all-vegetables', { filters }],
+    queryFn: () =>
+      getAllVegetables.execute({
+        filters,
+        pagination: {
+          page: 0,
+          perPage: 30,
+        },
+      }),
+    enabled: !!filters,
   })
 
   useEffect(() => {
-    if (isError) toast.error('Erro ao buscar vegetais')
-  }, [isError])
+    if (isError) toast.error(error?.message ?? 'Erro ao buscar vegetais')
+  }, [error, isError])
 
   return {
     allVegetables,
