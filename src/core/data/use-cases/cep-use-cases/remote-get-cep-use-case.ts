@@ -7,7 +7,7 @@ import type { GetCepUseCase } from '@/core/domain/use-cases/cep-use-cases'
 export class RemoteGetCepUseCase implements GetCepUseCase {
   constructor(
     private readonly url: string,
-    private readonly httpClient: HttpClient<CepModel>
+    private readonly httpClient: HttpClient<CepModel, CepModel>
   ) {}
 
   execute: GetCepUseCase['execute'] = async (cep) => {
