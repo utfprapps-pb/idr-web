@@ -90,8 +90,15 @@ export class ApiHttpClient<
             : {}),
         },
       })
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Request error:', error.message)
+      }
+
+      if (!axios.isAxiosError(error) || !error.response) {
+        throw error
+      }
+
       axiosResponse = error.response
     }
 
