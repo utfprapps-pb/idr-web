@@ -6,32 +6,61 @@ import allUsersData from '@database/allUsersData.json'
 
 import { httpWithMiddleware } from '../../lib'
 import { withDelay, withAuth } from '../../middleware'
-import { normalizeQueryFilters, filterData } from '../../utils'
+import { filterData } from '../../utils'
 
-type Response = {
-  id: string
-  name: string
-}
+import type { MockParams } from '../../types/mock-params-type'
+import type { MockResponse } from '../../types/mock-response-type'
+import type { UserApiResponse } from '@/core/domain/models/users-model'
 
-export const getAllUsersHandler = httpWithMiddleware<never, never, Response[]>({
-  routePath: '/api/users/all',
-  method: 'get',
+export const getAllUsersHandler = httpWithMiddleware<
+  never,
+  MockParams<UserApiResponse>,
+  MockResponse<UserApiResponse[]>
+>({
+  routePath: '/api/users/search',
+  method: 'post',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ request }) => {
-    if (!allUsersData.length) {
-      return HttpResponse.json([], {
-        status: 404,
-      })
-    }
+    const { filters, rows } = await request.json()
 
-    const url = new URL(request.url)
-    const { filters } = normalizeQueryFilters(url)
+    if (!allUsersData.length) {
+      return HttpResponse.json(
+        {
+          content: [],
+          numberOfElements: 0,
+          pageable: {
+            pageSize: 0,
+          },
+        },
+        {
+          status: 404,
+        }
+      )
+    }
 
     if (filters) {
-      const filteredData = filterData<Response>(filters, allUsersData)
-      return HttpResponse.json(filteredData, { status: HttpStatusCode.ok })
+      const users = filterData<UserApiResponse>(filters, allUsersData)
+      return HttpResponse.json(
+        {
+          content: users,
+          numberOfElements: users.length,
+          pageable: {
+            pageSize: rows,
+          },
+        },
+        { status: HttpStatusCode.ok }
+      )
     }
 
-    return HttpResponse.json(allUsersData, { status: HttpStatusCode.ok })
+    return HttpResponse.json(
+      {
+        content: allUsersData,
+        numberOfElements: allUsersData.length,
+        pageable: {
+          pageSize: rows,
+        },
+      },
+      { status: HttpStatusCode.ok }
+    )
   },
 })
