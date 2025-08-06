@@ -1,3 +1,11 @@
-import type { RequestInterface, Option } from '@/core/domain/types'
+import type {
+  RequestInterface,
+  ListParams,
+  ListResponse,
+  Option,
+} from '@/core/domain/types'
 
-export type GetAllVegetablesUseCase = RequestInterface<string, Option[]>
+export type GetAllVegetablesUseCase = RequestInterface<
+  ListParams<Option>,
+  ListResponse<Option>
+>
