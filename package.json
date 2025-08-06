@@ -16,6 +16,7 @@
     "lint:fix": "pnpm lint --fix",
     "lint:check": "pnpm lint",
     "type:check": "tsc --noEmit",
+    "type:check:strict": "tsc --noEmit --strict --noUnusedLocals --noUnusedParameters",
     "lint:staged": "lint-staged",
     "storybook:dev": "storybook dev -p 6006",
     "storybook:build": "storybook build -o docs-build",

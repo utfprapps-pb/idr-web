@@ -1,2 +1,2 @@
-pnpm type:check
+pnpm type:check:strict
 pnpm build
