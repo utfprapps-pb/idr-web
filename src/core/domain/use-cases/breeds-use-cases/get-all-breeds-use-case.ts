@@ -1,11 +1,11 @@
+import type { BreedModel } from '../../models/breeds-model'
 import type {
   RequestInterface,
   ListParams,
   ListResponse,
-  Option,
 } from '@/core/domain/types'
 
 export type GetAllBreedsUseCase = RequestInterface<
-  ListParams<Option>,
-  ListResponse<Option>
+  ListParams<BreedModel>,
+  ListResponse<BreedModel>
 >

@@ -4,18 +4,20 @@ import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
 import { makeRemoteGetAllBreedsUseCase } from '@/core/main/factories/use-cases/breeds-use-cases'
+import { toOption } from '@/core/utils/object/to-option'
 
-import type { Filters, Option } from '@/core/domain/types'
+import type { BreedModel } from '@/core/domain/models/breeds-model'
+import type { Filters } from '@/core/domain/types'
 
 type Props = {
-  filters: Filters<Option>
+  filters: Filters<BreedModel>
 }
 
 export function useAllBreedsQuery({ filters }: Props) {
   const getAllBreeds = makeRemoteGetAllBreedsUseCase()
 
   const {
-    data: allBreeds = [],
+    data,
     isError,
     error,
     isLoading,
@@ -38,7 +40,8 @@ export function useAllBreedsQuery({ filters }: Props) {
   }, [error, isError])
 
   return {
-    allBreeds,
+    allBreeds:
+      data?.resources.map((resource) => toOption(resource, 'name')) ?? [],
     isLoading,
     refetchAllBreeds,
   }

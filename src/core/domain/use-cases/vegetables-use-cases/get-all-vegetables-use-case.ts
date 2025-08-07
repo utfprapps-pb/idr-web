@@ -1,11 +1,11 @@
+import type { VegetableModel } from '../../models/vegetables-model'
 import type {
   RequestInterface,
   ListParams,
   ListResponse,
-  Option,
 } from '@/core/domain/types'
 
 export type GetAllVegetablesUseCase = RequestInterface<
-  ListParams<Option>,
-  ListResponse<Option>
+  ListParams<VegetableModel>,
+  ListResponse<VegetableModel>
 >

@@ -6,28 +6,30 @@ import {
   UnexpectedError,
 } from '@/core/domain/errors'
 
-import type { VegetableApiResponse } from '@/core/domain/models/vegetables-model'
 import type {
-  ListApiResponse,
-  MapApiProperties,
-  Option,
-} from '@/core/domain/types'
+  VegetableApiResponse,
+  VegetableModel,
+} from '@/core/domain/models/vegetables-model'
+import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
 import type { GetAllVegetablesUseCase } from '@/core/domain/use-cases/vegetables-use-cases'
 
 export class RemoteGetAllVegetablesUseCase implements GetAllVegetablesUseCase {
   constructor(
     private readonly url: string,
     private readonly httpClient: HttpClient<
-      Option,
+      VegetableModel,
       VegetableApiResponse,
       ListApiResponse<VegetableApiResponse[]>
     >
   ) {}
 
   execute: GetAllVegetablesUseCase['execute'] = async ({ filters }) => {
-    const mapApiProperties: MapApiProperties<Option, VegetableApiResponse> = {
-      value: 'id',
-      label: 'cultureName',
+    const mapApiProperties: MapApiProperties<
+      VegetableModel,
+      VegetableApiResponse
+    > = {
+      id: 'id',
+      name: 'cultureName',
     }
 
     const { statusCode, body } = await this.httpClient.request({
@@ -40,8 +42,8 @@ export class RemoteGetAllVegetablesUseCase implements GetAllVegetablesUseCase {
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
         resources: body.content.map((item) => ({
-          value: item.id,
-          label: item.cultureName,
+          id: item.id,
+          name: item.cultureName,
         })),
         totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
       }

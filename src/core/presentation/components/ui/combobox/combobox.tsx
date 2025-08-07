@@ -35,7 +35,7 @@ export function Combobox({
   emptyMessage,
   loading = false,
   isError = false,
-}: ComboboxProps) {
+}: Readonly<ComboboxProps>) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -43,7 +43,6 @@ export function Combobox({
       <Popover.Trigger asChild>
         <Button
           variant="outline"
-          role="combobox"
           aria-expanded={open}
           className={cn(
             'w-full justify-between',
@@ -80,11 +79,11 @@ export function Combobox({
                 {items.map((item) => (
                   <Command.Item
                     key={item.value}
-                    value={item.value}
-                    onSelect={(currentValue: string) => {
+                    value={String(item.value)}
+                    onSelect={(currentValue) => {
                       const selectedItem = items.find(
-                        (it) => it.value === currentValue
-                      ) ?? { label: '', value: '' }
+                        (it) => String(it.value) === currentValue
+                      ) ?? { label: '', value: 0 }
 
                       handleSelect(selectedItem)
                       setOpen(false)

@@ -6,28 +6,27 @@ import {
   UnexpectedError,
 } from '@/core/domain/errors'
 
-import type { UserApiResponse } from '@/core/domain/models/users-model'
 import type {
-  ListApiResponse,
-  MapApiProperties,
-  Option,
-} from '@/core/domain/types'
+  UserApiResponse,
+  UserModel,
+} from '@/core/domain/models/users-model'
+import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
 import type { GetAllUsersUseCase } from '@/core/domain/use-cases/users-use-cases'
 
 export class RemoteGetAllUsersUseCase implements GetAllUsersUseCase {
   constructor(
     private readonly url: string,
     private readonly httpClient: HttpClient<
-      Option,
+      UserModel,
       UserApiResponse,
       ListApiResponse<UserApiResponse[]>
     >
   ) {}
 
   execute: GetAllUsersUseCase['execute'] = async ({ filters }) => {
-    const mapApiProperties: MapApiProperties<Option, UserApiResponse> = {
-      value: 'id',
-      label: 'displayName',
+    const mapApiProperties: MapApiProperties<UserModel, UserApiResponse> = {
+      id: 'id',
+      name: 'displayName',
     }
 
     const { statusCode, body } = await this.httpClient.request({
@@ -40,8 +39,8 @@ export class RemoteGetAllUsersUseCase implements GetAllUsersUseCase {
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
         resources: body.content.map((item) => ({
-          value: item.id,
-          label: item.displayName,
+          id: item.id,
+          name: item.displayName,
         })),
         totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
       }

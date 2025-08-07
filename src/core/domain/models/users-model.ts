@@ -1,8 +1,8 @@
 import type { WithId } from '../types'
 
-export type UserModel = {
+export type UserModel = WithId<{
   name: string
-}
+}>
 
 export type UserApiResponse = WithId<{
   displayName: string

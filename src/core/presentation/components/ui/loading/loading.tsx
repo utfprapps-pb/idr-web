@@ -26,7 +26,7 @@ export type LoadingProps = SVGAttributes<HTMLOrSVGElement> &
 
 export function Loading({ size = 'default', className }: LoadingProps) {
   return (
-    <div role="status" className="flex justify-center">
+    <output className="flex justify-center">
       <svg
         aria-hidden="true"
         className={cn(loadingVariants({ size, className }))}
@@ -44,7 +44,7 @@ export function Loading({ size = 'default', className }: LoadingProps) {
         />
       </svg>
       <span className="sr-only">Loading...</span>
-    </div>
+    </output>
   )
 }
 

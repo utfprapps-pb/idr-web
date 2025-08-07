@@ -4,18 +4,20 @@ import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
 import { makeRemoteGetAllUsersUseCase } from '@/core/main/factories/use-cases/users-use-cases'
+import { toOption } from '@/core/utils/object/to-option'
 
-import type { Filters, Option } from '@/core/domain/types'
+import type { UserModel } from '@/core/domain/models/users-model'
+import type { Filters } from '@/core/domain/types'
 
 type Props = {
-  filters: Filters<Option>
+  filters: Filters<UserModel>
 }
 
 export function useAllUsersQuery({ filters }: Props) {
   const getAllUsersUseCase = makeRemoteGetAllUsersUseCase()
 
   const {
-    data: allUsers = [],
+    data,
     isError,
     error,
     isLoading,
@@ -35,7 +37,8 @@ export function useAllUsersQuery({ filters }: Props) {
   }, [error, isError])
 
   return {
-    allUsers,
+    allUsers:
+      data?.resources.map((resource) => toOption(resource, 'name')) ?? [],
     isLoading,
     refetchAllUsers,
   }

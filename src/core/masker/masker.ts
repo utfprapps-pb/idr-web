@@ -31,11 +31,11 @@ export class Masker {
         }
         break
       } else if (
-        (output[i] === Masker.DIGIT && values[index].match(/\d/)) ||
-        (output[i] === Masker.ALPHA && values[index].match(/[a-zA-Z]/)) ||
-        (output[i] === Masker.ALPHA_NUM && values[index].match(/[0-9a-zA-Z]/))
+        (output[i] === Masker.DIGIT && values[index]?.match(/\d/)) ||
+        (output[i] === Masker.ALPHA && values[index]?.match(/[a-zA-Z]/)) ||
+        (output[i] === Masker.ALPHA_NUM && values[index]?.match(/[0-9a-zA-Z]/))
       ) {
-        output[i] = values[index]
+        output[i] = values[index] || ''
         index += 1
       } else if (
         output[i] === Masker.DIGIT ||
