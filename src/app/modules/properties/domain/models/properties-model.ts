@@ -43,3 +43,31 @@ export type PropertyDetailsModel = {
     images: FileType[]
   }
 }
+
+export type PropertyDetailsApiResponse = {
+  general: {
+    name: string
+    city: string
+    state: string
+    producer: string
+    nakedAveragePricePerHectare: string
+    leaseAveragePricePerHectare: string
+    responsibleTechnicians: Option[]
+  }
+  collaborators: {
+    id?: string
+    name: string
+    hoursPerDay: string
+  }[]
+  totalArea: {
+    dairyCattleFarming: string
+    perennialPasture: string
+    summerPlowing: string
+    winterPlowing: string
+  }
+  localization: {
+    latitude: string
+    longitude: string
+    images: string[]
+  }
+}

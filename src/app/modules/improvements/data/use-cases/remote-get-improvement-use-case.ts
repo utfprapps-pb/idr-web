@@ -5,13 +5,19 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
-import type { ImprovementDetailsModel } from '../../domain/models/improvements-model'
+import type {
+  ImprovementDetailsApiResponse,
+  ImprovementDetailsModel,
+} from '../../domain/models/improvements-model'
 import type { GetImprovementUseCase } from '../../domain/use-cases'
 
 export class RemoteGetImprovementUseCase implements GetImprovementUseCase {
   constructor(
     private readonly url: string,
-    private readonly httpClient: HttpClient
+    private readonly httpClient: HttpClient<
+      ImprovementDetailsModel,
+      ImprovementDetailsApiResponse
+    >
   ) {}
 
   execute: GetImprovementUseCase['execute'] = async ({

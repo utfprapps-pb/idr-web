@@ -41,14 +41,7 @@ export function useAnimalDiseasesQuery({
         animalId,
         pagination: { page },
         sort,
-        filters: {
-          ...filters,
-          diagnosticDate:
-            filters.diagnosticDate?.value &&
-            !Number.isNaN(new Date(filters.diagnosticDate.value).getTime())
-              ? new Date(filters.diagnosticDate.value).toISOString()
-              : undefined,
-        },
+        filters,
       }),
   })
 

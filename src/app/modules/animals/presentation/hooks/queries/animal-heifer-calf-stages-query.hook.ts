@@ -42,14 +42,7 @@ export function useAnimalHeiferCalfStagesQuery({
         animalId,
         pagination: { page },
         sort,
-        filters: {
-          ...filters,
-          weighingDate:
-            filters.weighingDate?.value &&
-            !Number.isNaN(new Date(filters.weighingDate.value).getTime())
-              ? new Date(filters.weighingDate.value).toISOString()
-              : undefined,
-        },
+        filters,
       }),
   })
 

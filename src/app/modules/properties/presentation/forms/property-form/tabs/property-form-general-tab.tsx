@@ -33,7 +33,14 @@ export function PropertyFormGeneralTab() {
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce({ value: search, delayInMs: 1000 })
 
-  const { allUsers, isLoading } = useAllUsersQuery(debouncedSearch)
+  const { allUsers, isLoading } = useAllUsersQuery({
+    filters: {
+      name: {
+        value: debouncedSearch,
+        type: 'LIKE',
+      },
+    },
+  })
 
   const usersToAdd: Option[] = useMemo(
     () =>
