@@ -6,19 +6,19 @@ import { withDelay, withAuth } from '@/core/mocks/middleware'
 
 import animalDiseasesData from '@database/animalDiseasesData.json'
 
-import type { AnimalDiseasesDetailsApiResponse } from '../../../domain/models/animal-diseases-model'
+import type { AnimalDiseaseDetailsApiResponse } from '../../../domain/models/animal-diseases-model'
 
 export const getAnimalDiseaseHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId' | 'id'>,
   never,
-  AnimalDiseasesDetailsApiResponse
+  AnimalDiseaseDetailsApiResponse
 >({
   routePath: '/api/properties/:propertyId/animals/:animalId/diseases/:id',
   method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ params }) => {
     if (!animalDiseasesData.length) {
-      return HttpResponse.json({} as AnimalDiseasesDetailsApiResponse, {
+      return HttpResponse.json({} as AnimalDiseaseDetailsApiResponse, {
         status: 404,
       })
     }
@@ -28,7 +28,7 @@ export const getAnimalDiseaseHandler = httpWithMiddleware<
     )
 
     if (!animalDiseaseFound) {
-      return HttpResponse.json({} as AnimalDiseasesDetailsApiResponse, {
+      return HttpResponse.json({} as AnimalDiseaseDetailsApiResponse, {
         status: 404,
       })
     }

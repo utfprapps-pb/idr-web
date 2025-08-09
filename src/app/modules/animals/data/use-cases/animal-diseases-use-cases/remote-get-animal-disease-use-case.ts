@@ -7,7 +7,7 @@ import {
 
 import type {
   AnimalDiseaseDetailsModel,
-  AnimalDiseasesDetailsApiResponse,
+  AnimalDiseaseDetailsApiResponse,
 } from '../../../domain/models/animal-diseases-model'
 import type { GetAnimalDiseaseUseCase } from '../../../domain/use-cases/animal-diseases-use-cases'
 
@@ -16,7 +16,7 @@ export class RemoteGetAnimalDiseaseUseCase implements GetAnimalDiseaseUseCase {
     private readonly url: string,
     private readonly httpClient: HttpClient<
       AnimalDiseaseDetailsModel,
-      AnimalDiseasesDetailsApiResponse
+      AnimalDiseaseDetailsApiResponse
     >
   ) {}
 

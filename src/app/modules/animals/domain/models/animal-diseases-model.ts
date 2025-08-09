@@ -5,7 +5,7 @@ export type AnimalDiseaseDetailsModel = {
   diagnostic: string
 }
 
-export type AnimalDiseasesDetailsApiResponse = {
+export type AnimalDiseaseDetailsApiResponse = {
   diagnosticDate: string
   diagnostic: string
 }
