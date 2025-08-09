@@ -40,7 +40,7 @@ export class RemoteGetImprovementUseCase implements GetImprovementUseCase {
         usefulLife: String(body.usefulLife),
         acquisitionDate: new Date(body.acquisitionDate),
         moneyDairyCattle: String(body.moneyDairyCattle),
-      } as ImprovementDetailsModel
+      }
     }
 
     if (statusCode === HttpStatusCode.notFound)

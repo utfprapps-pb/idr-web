@@ -40,7 +40,7 @@ export class RemoteGetAnimalPregnancyDiagnosisUseCase
       return {
         date: new Date(body.date),
         lastInseminationDate: new Date(body.lastInseminationDate),
-      } as AnimalPregnancyDiagnosisDetailsModel
+      }
     }
 
     if (statusCode === HttpStatusCode.notFound)
