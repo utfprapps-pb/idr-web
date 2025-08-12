@@ -65,3 +65,5 @@ export function AnimalDiseasesScreen({ animalId }: AnimalDiseasesScreenProps) {
     </AnimalDiseaseProvider>
   )
 }
+
+AnimalDiseasesScreen.displayName = 'AnimalDiseasesScreen'

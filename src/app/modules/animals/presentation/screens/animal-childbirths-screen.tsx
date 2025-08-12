@@ -68,3 +68,5 @@ export function AnimalChildbirthsScreen({
     </AnimalChildbirthProvider>
   )
 }
+
+AnimalChildbirthsScreen.displayName = 'AnimalChildbirthsScreen'

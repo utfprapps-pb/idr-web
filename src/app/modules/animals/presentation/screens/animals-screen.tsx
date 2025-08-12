@@ -149,3 +149,5 @@ export function AnimalsScreen() {
     </AnimalProvider>
   )
 }
+
+AnimalsScreen.displayName = 'AnimalsScreen'

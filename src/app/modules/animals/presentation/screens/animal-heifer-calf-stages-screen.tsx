@@ -72,3 +72,5 @@ export function AnimalHeiferCalfStagesScreen({
     </AnimalHeiferCalfStageProvider>
   )
 }
+
+AnimalHeiferCalfStagesScreen.displayName = 'AnimalHeiferCalfStagesScreen'
