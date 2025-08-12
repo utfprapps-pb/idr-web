@@ -87,10 +87,10 @@ export function EditAnimalHeiferCalfStageForm() {
           propertyId,
         })
         queryClient.invalidateQueries({
-          queryKey: ['animals'],
+          queryKey: ['animal-heifer-calf-stages'],
           exact: false,
         })
-        toast.success('Animal foi editado com sucesso')
+        toast.success('Fase bezerra novilha foi editada com sucesso')
         form.reset(ANIMAL_HEIFER_CALF_STAGE_INITIAL_FORM_DATA)
         closeEditAnimalHeiferCalfStageForm()
       } catch {
