@@ -15,6 +15,7 @@ import { AnimalForm } from '../forms/animal-form'
 import { AnimalChildbirthsScreen } from './animal-childbirths-screen'
 import { AnimalDiseasesScreen } from './animal-diseases-screen'
 import { AnimalHeiferCalfStagesScreen } from './animal-heifer-calf-stages-screen'
+import { AnimalPregnancyDiagnosesScreen } from './animal-pregnancy-diagnoses-screen'
 
 type Tab = {
   key: string
@@ -43,6 +44,13 @@ export function AnimalsScreen() {
         key: 'animal-diseases',
         name: 'Doenças',
         component: animalId && <AnimalDiseasesScreen animalId={animalId} />,
+      },
+      {
+        key: 'animal-pregnancy-diagnoses',
+        name: 'Diagnóstico de Gestação',
+        component: animalId && (
+          <AnimalPregnancyDiagnosesScreen animalId={animalId} />
+        ),
       },
     ],
     [animalId]
