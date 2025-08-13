@@ -10,7 +10,7 @@ import type { GetAllBreedsUseCase } from '@/core/domain/use-cases/breeds-use-cas
 
 export function makeRemoteGetAllBreedsUseCase(): GetAllBreedsUseCase {
   return new RemoteGetAllBreedsUseCase(
-    'breeds/all',
+    'breeds',
     makeApiHttpClient<
       BreedModel,
       BreedApiResponse,

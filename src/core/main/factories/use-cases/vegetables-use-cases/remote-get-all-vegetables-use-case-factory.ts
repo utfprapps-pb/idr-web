@@ -10,7 +10,7 @@ import type { GetAllVegetablesUseCase } from '@/core/domain/use-cases/vegetables
 
 export function makeRemoteGetAllVegetablesUseCase(): GetAllVegetablesUseCase {
   return new RemoteGetAllVegetablesUseCase(
-    'vegetables/all',
+    'vegetables',
     makeApiHttpClient<
       VegetableModel,
       VegetableApiResponse,

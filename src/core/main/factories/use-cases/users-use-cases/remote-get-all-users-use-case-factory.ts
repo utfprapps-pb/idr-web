@@ -10,7 +10,7 @@ import type { GetAllUsersUseCase } from '@/core/domain/use-cases/users-use-cases
 
 export function makeRemoteGetAllUsersUseCase(): GetAllUsersUseCase {
   return new RemoteGetAllUsersUseCase(
-    'users/all',
+    'users',
     makeApiHttpClient<
       UserModel,
       UserApiResponse,
