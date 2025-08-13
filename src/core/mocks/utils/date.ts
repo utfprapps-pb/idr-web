@@ -1,5 +1,14 @@
 export function isValidDate(value: unknown): value is Date {
-  return value instanceof Date && !Number.isNaN(value.getTime())
+  if (value instanceof Date) {
+    return !Number.isNaN(value.getTime())
+  }
+
+  if (typeof value === 'string') {
+    const date = new Date(value)
+    return !Number.isNaN(date.getTime())
+  }
+
+  return false
 }
 
 export function isSameDay(firstDate: Date, secondDate: Date): boolean {

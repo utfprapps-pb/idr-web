@@ -43,10 +43,7 @@ export function filterData<TData extends object>(
 
       if (isValidDate(itemValue)) {
         const valueDate = new Date(String(value))
-        if (isValidDate(valueDate)) {
-          return isSameDay(itemValue, valueDate)
-        }
-        return false
+        return isSameDay(itemValue, valueDate)
       }
 
       if (Array.isArray(itemValue)) {

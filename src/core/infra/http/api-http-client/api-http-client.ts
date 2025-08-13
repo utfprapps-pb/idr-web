@@ -9,7 +9,7 @@ import { env } from '@/core/env'
 
 import { authInterceptorRequest } from './interceptors/auth-interceptor'
 
-import type { ApiSort, FilterValue } from '@/core/domain/types'
+import type { ApiSort } from '@/core/domain/types'
 
 export const ITEMS_PER_PAGE = 10
 
@@ -37,24 +37,41 @@ export class ApiHttpClient<
     const { url, pagination, filters, sort, mapApiProperties } = data
 
     const filtersArray = filters
-      ? Object.entries(filters)
-          .filter(([, filter]) => {
-            const { value } = filter as FilterValue
+      ? (Object.keys(filters) as Array<keyof TModel>)
+          .filter((field) => {
+            const filter = filters[field]
+            if (!filter) return false
+
+            const { value } = filter
             return value !== undefined && value !== null && value !== ''
           })
           .reduce<Array<{ field: string; value: string; type: string }>>(
-            (acc, [field, filter]) => {
-              const { value, type } = filter as FilterValue
-              if (mapApiProperties && field in mapApiProperties) {
-                const mappedField = mapApiProperties[
-                  field as keyof TModel
-                ] as string
+            (acc, field) => {
+              const filter = filters[field]
+              if (!filter) return acc
+
+              const { value, type = 'EQUALS' } = filter
+
+              if (!mapApiProperties || !(field in mapApiProperties)) {
+                return acc
+              }
+
+              const mappedField = mapApiProperties[field] as string
+
+              if (value instanceof Date) {
                 acc.push({
                   field: mappedField,
-                  value: String(value),
+                  value: value.toISOString(),
                   type,
                 })
+                return acc
               }
+
+              acc.push({
+                field: mappedField,
+                value: String(value),
+                type,
+              })
 
               return acc
             },

@@ -13,14 +13,11 @@ export type FilterType =
   | 'IS_NOT_NULL'
   | 'BETWEEN'
 
-export type FilterValue = {
-  value: string
+export type FilterValue<T> = {
+  value: T
   type: FilterType
 }
 
 export type Filters<TModel> = {
-  [key in keyof TModel]?: {
-    value: TModel[key]
-    type: FilterType
-  }
+  [key in keyof TModel]?: FilterValue<TModel[key]>
 }
