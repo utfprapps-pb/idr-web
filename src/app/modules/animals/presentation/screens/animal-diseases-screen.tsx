@@ -35,11 +35,11 @@ export function AnimalDiseasesScreen({ animalId }: AnimalDiseasesScreenProps) {
                   handleChangeFilters({
                     diagnosticDate: {
                       value: date,
-                      type: 'LIKE',
+                      type: 'EQUALS',
                     },
                   })
                 }}
-                label="Filtrar por Data do diagnóstico"
+                label="Filtrar por data do diagnóstico"
               />
 
               <Button

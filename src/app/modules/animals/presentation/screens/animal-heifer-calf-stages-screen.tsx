@@ -31,7 +31,7 @@ export function AnimalHeiferCalfStagesScreen({
             <div className="flex justify-between gap-2">
               <DatePicker
                 className="w-fit"
-                label="Filtrar por data de pesagem"
+                label="Filtrar por data da pesagem"
                 date={filters.weighingDate?.value}
                 onSelect={(date) => {
                   if (!date) return
@@ -39,7 +39,7 @@ export function AnimalHeiferCalfStagesScreen({
                     ...filters,
                     weighingDate: {
                       value: date,
-                      type: 'LIKE',
+                      type: 'EQUALS',
                     },
                   })
                 }}
