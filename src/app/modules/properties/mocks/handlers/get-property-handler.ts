@@ -52,13 +52,13 @@ export const getPropertyHandler = httpWithMiddleware<
               length: 3,
             },
             () => ({
-              value: faker.string.uuid(),
+              value: faker.number.int({ min: 1, max: 100 }),
               label: faker.person.fullName(),
             })
           ),
         },
         collaborators: Array.from({ length: 5 }, () => ({
-          id: faker.string.uuid(),
+          id: faker.number.int({ min: 1, max: 100 }),
           name: faker.person.fullName(),
           hoursPerDay: String(faker.number.int({ min: 1, max: 8 })),
         })),

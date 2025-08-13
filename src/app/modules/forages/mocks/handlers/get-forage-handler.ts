@@ -42,7 +42,7 @@ export const getForageHandler = httpWithMiddleware<
       {
         cultivation: {
           label: forageFound.cultivation,
-          value: faker.string.uuid(),
+          value: faker.number.int({ min: 1, max: 100 }),
         },
         area: forageFound.area,
         averageCost: forageFound.averageCost,
