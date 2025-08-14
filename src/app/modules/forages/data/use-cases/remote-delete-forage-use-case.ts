@@ -17,7 +17,7 @@ export class RemoteDeleteForageUseCase implements DeleteForageUseCase {
     propertyId,
     forageId,
   }) => {
-    const url = this.url.replace(':propertyId', propertyId)
+    const url = this.url.replace(':propertyId', String(propertyId))
 
     const { statusCode } = await this.httpClient.request({
       url: `${url}/${forageId}`,

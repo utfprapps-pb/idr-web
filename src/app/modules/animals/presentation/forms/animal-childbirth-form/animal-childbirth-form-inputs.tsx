@@ -21,7 +21,14 @@ export function AnimalChildbirthFormInputs() {
 
   const debouncedBreed = useDebounce({ value: searchBreed })
 
-  const { allBreeds, isLoading } = useAllBreedsQuery(debouncedBreed)
+  const { allBreeds, isLoading } = useAllBreedsQuery({
+    filters: {
+      name: {
+        value: debouncedBreed,
+        type: 'LIKE',
+      },
+    },
+  })
 
   return (
     <>

@@ -11,8 +11,8 @@ import type {
 } from '../../types/animal-heifer-calf-stage-types'
 
 type Props = {
-  propertyId: string
-  animalId: string
+  propertyId: number
+  animalId: number
   filters: AnimalHeiferCalfStageFilters
   page: number
   sort?: AnimalHeiferCalfStageSort
@@ -42,14 +42,7 @@ export function useAnimalHeiferCalfStagesQuery({
         animalId,
         pagination: { page },
         sort,
-        filters: {
-          ...filters,
-          weighingDate:
-            filters.weighingDate?.value &&
-            !Number.isNaN(new Date(filters.weighingDate.value).getTime())
-              ? new Date(filters.weighingDate.value).toISOString()
-              : undefined,
-        },
+        filters,
       }),
   })
 

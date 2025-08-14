@@ -1,14 +1,14 @@
 import { faker } from '@faker-js/faker/locale/pt_BR'
 
-export const improvementData = Array.from(
+export const improvementsData = Array.from(
   {
     length: faker.number.int({
       min: 1,
       max: 100,
     }),
   },
-  () => ({
-    id: faker.string.uuid(),
+  (_, index) => ({
+    id: index + 1,
     description: faker.lorem.words(5),
     amount: faker.number.int(),
     unitPrice: faker.number.float({

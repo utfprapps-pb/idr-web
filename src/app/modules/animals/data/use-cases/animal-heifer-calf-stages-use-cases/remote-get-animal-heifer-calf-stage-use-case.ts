@@ -5,7 +5,12 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
-import type { AnimalHeiferCalfStageDetailsModel } from '../../../domain/models/animal-heifer-calf-stages-model'
+import type {
+  AnimalHeiferCalfStageDetailsApiResponse,
+  AnimalHeiferCalfStageDetailsModel,
+  GMDStatus,
+  ReproductionStatus,
+} from '../../../domain/models/animal-heifer-calf-stages-model'
 import type { GetAnimalHeiferCalfStageUseCase } from '../../../domain/use-cases/animal-heifer-calf-stages-use-cases'
 
 export class RemoteGetAnimalHeiferCalfStageUseCase
@@ -13,7 +18,10 @@ export class RemoteGetAnimalHeiferCalfStageUseCase
 {
   constructor(
     private readonly url: string,
-    private readonly httpClient: HttpClient
+    private readonly httpClient: HttpClient<
+      AnimalHeiferCalfStageDetailsModel,
+      AnimalHeiferCalfStageDetailsApiResponse
+    >
   ) {}
 
   execute: GetAnimalHeiferCalfStageUseCase['execute'] = async ({
@@ -22,8 +30,8 @@ export class RemoteGetAnimalHeiferCalfStageUseCase
     propertyId,
   }) => {
     const url = this.url
-      .replace(':propertyId', propertyId)
-      .replace(':animalId', animalId)
+      .replace(':propertyId', String(propertyId))
+      .replace(':animalId', String(animalId))
 
     const { statusCode, body } = await this.httpClient.request({
       url: `${url}/${id}`,
@@ -37,7 +45,10 @@ export class RemoteGetAnimalHeiferCalfStageUseCase
         age: body.age,
         weighing: body.weighing,
         ageWeightEstimate: body.ageWeightEstimate,
-        gmd: body.gmd,
+        gmd: {
+          ...body.gmd,
+          status: body.gmd.status as GMDStatus,
+        },
         amountOfMilk: body.amountOfMilk,
         weaningDate: {
           first: new Date(body.weaningDate.first),
@@ -49,10 +60,11 @@ export class RemoteGetAnimalHeiferCalfStageUseCase
         dateToProvideSilage: new Date(body.dateToProvideSilage),
         reproduction: {
           ...body.reproduction,
+          status: body.reproduction.status as ReproductionStatus,
           carriedOut: new Date(body.reproduction.carriedOut),
           fromDate: new Date(body.reproduction.fromDate),
         },
-      } as AnimalHeiferCalfStageDetailsModel
+      }
     }
 
     if (statusCode === HttpStatusCode.notFound)

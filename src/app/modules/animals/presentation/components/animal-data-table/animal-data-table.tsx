@@ -5,7 +5,7 @@ import { useAnimalDataTable } from './animal-data-table.hook'
 import type { AnimalModel } from '../../../domain/models/animals-model'
 
 type AnimalDataTableProps = {
-  onClickRow: (animalId: string) => void
+  onClickRow: (animalId: number) => void
 }
 
 export function AnimalDataTable({

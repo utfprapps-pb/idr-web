@@ -1,14 +1,14 @@
 import { faker } from '@faker-js/faker/locale/pt_BR'
 
-export const forageData = Array.from(
+export const foragesData = Array.from(
   {
     length: faker.number.int({
       min: 1,
       max: 100,
     }),
   },
-  () => ({
-    id: faker.string.uuid(),
+  (_, index) => ({
+    id: index + 1,
     cultivation: faker.food.vegetable(),
     area: String(
       faker.number.float({

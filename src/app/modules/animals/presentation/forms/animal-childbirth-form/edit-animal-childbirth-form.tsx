@@ -75,10 +75,10 @@ export function EditAnimalChildbirthForm() {
           propertyId,
         })
         queryClient.invalidateQueries({
-          queryKey: ['animals'],
+          queryKey: ['animal-childbirths'],
           exact: false,
         })
-        toast.success('Animal foi editado com sucesso')
+        toast.success('Parto de animal foi editado com sucesso')
         form.reset(ANIMAL_CHILDBIRTH_INITIAL_FORM_DATA)
         closeEditAnimalChildbirthForm()
       } catch {

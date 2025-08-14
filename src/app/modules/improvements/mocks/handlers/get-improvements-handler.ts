@@ -5,7 +5,7 @@ import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
 import { filterData, sortData, paginateData } from '@/core/mocks/utils'
 
-import improvementsData from '@database/improvementData.json'
+import improvementsData from '@database/improvementsData.json'
 
 import type { ImprovementApiResponse } from '../../domain/models/improvements-model'
 import type { MockParams } from '@/core/mocks/types/mock-params-type'

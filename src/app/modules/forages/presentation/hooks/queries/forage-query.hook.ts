@@ -6,8 +6,8 @@ import toast from 'react-hot-toast'
 import { makeRemoteGetForageUseCase } from '../../../main/factories/use-cases'
 
 type Props = {
-  id: string
-  propertyId: string
+  id: number
+  propertyId: number
 }
 
 export function useForageQuery({ id, propertyId }: Props) {

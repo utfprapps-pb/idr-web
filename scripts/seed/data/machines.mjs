@@ -1,14 +1,14 @@
 import { faker } from '@faker-js/faker/locale/pt_BR'
 
-export const machineData = Array.from(
+export const machinesData = Array.from(
   {
     length: faker.number.int({
       min: 1,
       max: 100,
     }),
   },
-  () => ({
-    id: faker.string.uuid(),
+  (_, index) => ({
+    id: index + 1,
     name: faker.lorem.words(5),
     amount: faker.number.int(),
     unitPrice: faker.number.float({

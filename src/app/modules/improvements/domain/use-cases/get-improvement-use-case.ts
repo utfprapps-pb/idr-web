@@ -3,8 +3,8 @@ import type { RequestInterface } from '@/core/domain/types'
 
 export type GetImprovementUseCase = RequestInterface<
   {
-    propertyId: string
-    improvementId: string
+    propertyId: number
+    improvementId: number
   },
   ImprovementDetailsModel
 >

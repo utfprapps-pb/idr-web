@@ -38,5 +38,12 @@ export const ANIMAL_HEIFER_CALF_STAGE_INITIAL_FORM_DATA: AnimalHeiferCalfStageFo
       artificialInseminationNumber: '',
       carriedOut: new Date(),
       status: 'fit',
+      fromDate: new Date(),
     },
+    weaningDate: {
+      first: new Date(),
+      second: new Date(),
+    },
+    removeLittleHouseDate: new Date(),
+    dateToProvideSilage: new Date(),
   }

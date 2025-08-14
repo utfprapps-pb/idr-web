@@ -33,7 +33,14 @@ export function PropertyFormGeneralTab() {
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce({ value: search, delayInMs: 1000 })
 
-  const { allUsers, isLoading } = useAllUsersQuery(debouncedSearch)
+  const { allUsers, isLoading } = useAllUsersQuery({
+    filters: {
+      name: {
+        value: debouncedSearch,
+        type: 'LIKE',
+      },
+    },
+  })
 
   const usersToAdd: Option[] = useMemo(
     () =>
@@ -74,6 +81,23 @@ export function PropertyFormGeneralTab() {
           return (
             <Form.Item>
               <Form.Label>Município</Form.Label>
+              <Form.Control>
+                <Input {...field} isError={!!error?.message} />
+              </Form.Control>
+              <Form.Message />
+            </Form.Item>
+          )
+        }}
+      />
+      <Form.Field
+        name="general.state"
+        control={form.control}
+        render={({ field, fieldState }) => {
+          const { error } = fieldState
+
+          return (
+            <Form.Item>
+              <Form.Label>Estado</Form.Label>
               <Form.Control>
                 <Input {...field} isError={!!error?.message} />
               </Form.Control>
@@ -153,7 +177,7 @@ export function PropertyFormGeneralTab() {
 
                   return (
                     <Form.Item>
-                      <Form.Label>Técnicos responsáveis </Form.Label>
+                      <Form.Label>Técnicos responsáveis</Form.Label>
 
                       <Form.Control>
                         <div className="flex gap-2">
@@ -207,7 +231,7 @@ export function PropertyFormGeneralTab() {
           onClick={() =>
             handleAddTechnician({
               label: '',
-              value: '',
+              value: 0,
             })
           }
         >

@@ -8,7 +8,7 @@ import { makeRemoteGetAnimalsUseCase } from '../../../main/factories/use-cases'
 import type { AnimalFilters, AnimalSort } from '../../types/animal-types'
 
 type Props = {
-  propertyId: string
+  propertyId: number
   filters: AnimalFilters
   page: number
   sort?: AnimalSort

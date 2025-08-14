@@ -21,8 +21,14 @@ export function ForageFormInputs() {
 
   const form = useFormContext<ForageFormSchema>()
 
-  const { allVegetables, isLoading } =
-    useAllVegetablesQuery(debouncedCultivation)
+  const { allVegetables, isLoading } = useAllVegetablesQuery({
+    filters: {
+      name: {
+        value: debouncedCultivation,
+        type: 'LIKE',
+      },
+    },
+  })
 
   return (
     <>

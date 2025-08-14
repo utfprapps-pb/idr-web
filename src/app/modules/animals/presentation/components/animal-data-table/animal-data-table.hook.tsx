@@ -6,7 +6,7 @@ import { DropdownMenu } from '@/core/presentation/components/ui'
 import { useDebounce } from '@/core/presentation/hooks'
 
 import { useAnimalContext } from '../../hooks/animal-context.hook'
-import { useAnimalsQuery } from '../../hooks/queries'
+import { useAnimalsQuery } from '../../hooks/queries/animals-query.hook'
 
 import type { AnimalModel } from '../../../domain/models/animals-model'
 import type { AnimalSort } from '../../types/animal-types'

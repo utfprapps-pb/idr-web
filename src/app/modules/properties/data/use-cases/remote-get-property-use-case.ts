@@ -5,12 +5,19 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
+import type {
+  PropertyDetailsApiResponse,
+  PropertyDetailsModel,
+} from '../../domain/models/properties-model'
 import type { GetPropertyUseCase } from '../../domain/use-cases'
 
 export class RemoteGetPropertyUseCase implements GetPropertyUseCase {
   constructor(
     private readonly url: string,
-    private readonly httpClient: HttpClient
+    private readonly httpClient: HttpClient<
+      PropertyDetailsModel,
+      PropertyDetailsApiResponse
+    >
   ) {}
 
   execute: GetPropertyUseCase['execute'] = async (id) => {

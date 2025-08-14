@@ -1,5 +1,8 @@
 import { BrasilApiHttpClient } from '@/core/infra/http'
 
 export const makeBrasilApiHttpClient = <
-  T = unknown,
->(): BrasilApiHttpClient<T> => new BrasilApiHttpClient<T>()
+  TModel = unknown,
+  TApiModel = unknown,
+  TApiResponse = TApiModel,
+>(): BrasilApiHttpClient<TModel, TApiModel, TApiResponse> =>
+  new BrasilApiHttpClient<TModel, TApiModel, TApiResponse>()

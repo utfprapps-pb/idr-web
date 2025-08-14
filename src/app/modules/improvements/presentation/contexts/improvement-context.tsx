@@ -12,7 +12,7 @@ import type { ImprovementModel } from '../../domain/models/improvements-model'
 import type { ImprovementFilters } from '../types'
 
 type ImprovementContextValue = {
-  propertyId: string
+  propertyId: number
   filters: ImprovementFilters
   handleChangeFilters: (newFilters: ImprovementFilters) => void
   selectedImprovement?: ImprovementModel
@@ -91,7 +91,7 @@ export function ImprovementProvider({ children }: Readonly<PropsWithChildren>) {
 
   const providerValues = useMemo(
     () => ({
-      propertyId: params.propertyId as string, // Typecast allowed to avoid undefined, as it has validation below
+      propertyId: Number(params.propertyId),
       filters,
       handleChangeFilters,
       selectedImprovement,

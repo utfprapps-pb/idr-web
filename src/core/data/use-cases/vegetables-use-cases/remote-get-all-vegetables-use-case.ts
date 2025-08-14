@@ -6,28 +6,47 @@ import {
   UnexpectedError,
 } from '@/core/domain/errors'
 
+import type {
+  VegetableApiResponse,
+  VegetableModel,
+} from '@/core/domain/models/vegetables-model'
+import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
 import type { GetAllVegetablesUseCase } from '@/core/domain/use-cases/vegetables-use-cases'
 
 export class RemoteGetAllVegetablesUseCase implements GetAllVegetablesUseCase {
   constructor(
     private readonly url: string,
-    private readonly httpClient: HttpClient
+    private readonly httpClient: HttpClient<
+      VegetableModel,
+      VegetableApiResponse,
+      ListApiResponse<VegetableApiResponse[]>
+    >
   ) {}
 
-  execute: GetAllVegetablesUseCase['execute'] = async (search) => {
+  execute: GetAllVegetablesUseCase['execute'] = async ({ filters }) => {
+    const mapApiProperties: MapApiProperties<
+      VegetableModel,
+      VegetableApiResponse
+    > = {
+      id: 'id',
+      name: 'cultureName',
+    }
+
     const { statusCode, body } = await this.httpClient.request({
-      url: this.url,
-      method: 'get',
-      filters: {
-        name: search,
-      },
+      url: `${this.url}/search`,
+      method: 'post',
+      filters,
+      mapApiProperties,
     })
 
-    if (statusCode === HttpStatusCode.ok) {
-      return body.map((item: { id: string; name: string }) => ({
-        value: item.id,
-        label: item.name,
-      }))
+    if (statusCode === HttpStatusCode.ok && !!body) {
+      return {
+        resources: body.content.map((item) => ({
+          id: item.id,
+          name: item.cultureName,
+        })),
+        totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
+      }
     }
 
     if (statusCode === HttpStatusCode.forbidden) {

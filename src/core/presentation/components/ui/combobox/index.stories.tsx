@@ -16,20 +16,20 @@ export const Default = Template.bind({})
 Default.args = {
   handleSelect: (value: Option) => {
     // eslint-disable-next-line no-alert
-    alert(`value ${value}`)
+    alert(`value ${JSON.stringify(value)}`)
   },
 
   items: [
     {
-      value: '1',
+      value: 1,
       label: 'Um',
     },
     {
-      value: '2',
+      value: 2,
       label: 'Dois',
     },
     {
-      value: '3',
+      value: 3,
       label: 'Três',
     },
   ],

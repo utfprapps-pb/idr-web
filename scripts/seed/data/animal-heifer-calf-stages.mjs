@@ -7,7 +7,7 @@ export const animalHeiferCalfStagesData = Array.from(
       max: 100,
     }),
   },
-  () => {
+  (_, index) => {
     const years = faker.number.int({
       min: 0,
       max: 6,
@@ -22,7 +22,7 @@ export const animalHeiferCalfStagesData = Array.from(
       years === 0 ? `${months} meses` : `${years} anos e ${months} meses`
 
     return {
-      id: faker.string.uuid(),
+      id: index + 1,
       weighingDate: faker.date.past(),
       weight: faker.number
         .float({

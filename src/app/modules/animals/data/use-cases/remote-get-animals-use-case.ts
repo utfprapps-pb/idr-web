@@ -33,7 +33,7 @@ export class RemoteGetAnimalsUseCase implements GetAnimalsUseCase {
       breed: 'breed',
     }
 
-    const url = this.url.replace(':propertyId', propertyId)
+    const url = this.url.replace(':propertyId', String(propertyId))
 
     const { statusCode, body } = await this.httpClient.request({
       url: `${url}/search`,

@@ -12,8 +12,8 @@ import type { AnimalChildbirthModel } from '../../domain/models/animal-childbirt
 import type { AnimalChildbirthFilters } from '../types/animal-childbirth-types'
 
 type AnimalChildbirthContextValue = {
-  propertyId: string
-  animalId: string
+  propertyId: number
+  animalId: number
   selectedAnimalChildbirth?: AnimalChildbirthModel
   filters: AnimalChildbirthFilters
   handleChangeFilters: (newFilters: AnimalChildbirthFilters) => void
@@ -38,7 +38,7 @@ export const AnimalChildbirthContext =
   )
 
 type AnimalChildbirthProviderProps = PropsWithChildren<{
-  animalId: string
+  animalId: number
 }>
 
 export function AnimalChildbirthProvider({
@@ -47,9 +47,7 @@ export function AnimalChildbirthProvider({
 }: AnimalChildbirthProviderProps) {
   const params = useParams<{ propertyId: string }>()
 
-  const [filters, setFilters] = useState<AnimalChildbirthFilters>({
-    condition: '',
-  })
+  const [filters, setFilters] = useState<AnimalChildbirthFilters>({})
 
   const handleChangeFilters = useCallback(
     (newFilters: AnimalChildbirthFilters) => {
@@ -111,7 +109,7 @@ export function AnimalChildbirthProvider({
 
   const providerValues = useMemo(
     () => ({
-      propertyId: params.propertyId as string, // Typecast allowed to avoid undefined, as it has validation below
+      propertyId: Number(params.propertyId),
       animalId,
       filters,
       handleChangeFilters,

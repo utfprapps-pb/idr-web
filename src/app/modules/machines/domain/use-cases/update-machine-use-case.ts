@@ -3,7 +3,7 @@ import type { RequestInterface, WithId } from '@/core/domain/types'
 
 export type UpdateMachineUseCase = RequestInterface<
   {
-    propertyId: string
+    propertyId: number
     machine: WithId<MachineDetailsModel>
   },
   void

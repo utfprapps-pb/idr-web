@@ -25,7 +25,7 @@ export function Dropzone({
   mimeType,
   error,
   description = 'Arraste ou clique aqui para inserir arquivos',
-}: DropzoneProps) {
+}: Readonly<DropzoneProps>) {
   const fileInputRef = useRef<HTMLInputElement | null>(null)
 
   const handleFiles = useCallback(
@@ -41,6 +41,7 @@ export function Dropzone({
         const isValidMimeType = mimeType?.some((type) => {
           if (type.endsWith('/*')) {
             const [baseType] = type.split('/')
+            if (!baseType) return false
             return uploadedMimeType.startsWith(baseType)
           }
 
@@ -123,7 +124,7 @@ export function Dropzone({
             <input
               ref={fileInputRef}
               type="file"
-              accept={mimeType && mimeType.join(', ')}
+              accept={mimeType?.join(', ')}
               onChange={handleFileInputChange}
               className="hidden"
               multiple

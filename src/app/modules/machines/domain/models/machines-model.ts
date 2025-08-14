@@ -10,6 +10,16 @@ export type MachineDetailsModel = {
   moneyDairyCattle: string
 }
 
+export type MachineDetailsApiResponse = {
+  name: string
+  amount: string
+  unitPrice: string
+  percentDairyCattle: string
+  usefulLife: string
+  acquisitionDate: string
+  moneyDairyCattle: string
+}
+
 export type MachineModel = WithId<{
   name: string
   amount: string
