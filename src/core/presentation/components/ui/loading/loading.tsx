@@ -44,7 +44,7 @@ export function Loading({ size = 'default', className }: LoadingProps) {
         />
       </svg>
       <span className="sr-only">Loading...</span>
-    </output>
+    </div>
   )
 }
 
