@@ -10,6 +10,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL}
+        VITE_API_MOCKED: ${VITE_API_MOCKED}
     container_name: idr-app
     environment:
       - VITE_API_BASE_URL=${VITE_API_BASE_URL}
