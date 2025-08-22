@@ -1,9 +1,26 @@
-FROM node:18.14.0-alpine AS build-step
-RUN mkdir /app
+FROM node:22.18-alpine AS build-step
+
 WORKDIR /app
-COPY . /app
-RUN npm install -g pnpm
-RUN pnpm install
+
+# Copiar apenas os manifests
+COPY package.json pnpm-lock.yaml ./
+
+# Instalar dependências
+RUN npm install -g pnpm \
+    && pnpm install --frozen-lockfile
+
+# Copiar código
+COPY . .
+
+ARG VITE_API_BASE_URL
+ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
+ARG VITE_API_MOCKED
+ENV VITE_API_MOCKED=${VITE_API_MOCKED}
+
+# Seed mock
+RUN pnpm seed:mock
+
+# Gerar build
 RUN pnpm build
 
 FROM nginx:stable-alpine
