@@ -12,6 +12,11 @@ RUN npm install -g pnpm \
 # Copiar código
 COPY . .
 
+ARG VITE_API_BASE_URL
+ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
+ARG VITE_API_MOCKED
+ENV VITE_API_MOCKED=${VITE_API_MOCKED}
+
 # Seed mock
 RUN pnpm seed:mock
 
