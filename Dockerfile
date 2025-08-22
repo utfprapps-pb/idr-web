@@ -1,9 +1,21 @@
-FROM node:18.14.0-alpine AS build-step
-RUN mkdir /app
+FROM node:22.18-alpine AS build-step
+
 WORKDIR /app
-COPY . /app
-RUN npm install -g pnpm
-RUN pnpm install
+
+# Copiar apenas os manifests
+COPY package.json pnpm-lock.yaml ./
+
+# Instalar dependências
+RUN npm install -g pnpm \
+    && pnpm install --frozen-lockfile
+
+# Copiar código
+COPY . .
+
+# Seed mock
+RUN pnpm seed:mock
+
+# Gerar build
 RUN pnpm build
 
 FROM nginx:stable-alpine
