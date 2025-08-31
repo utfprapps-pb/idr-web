@@ -46,8 +46,6 @@ export class RemoteGetAnimalsUseCase implements GetAnimalsUseCase {
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
-      // console.log(body)
-
       return {
         resources: body.content.map((item) => ({
           id: item.id,
