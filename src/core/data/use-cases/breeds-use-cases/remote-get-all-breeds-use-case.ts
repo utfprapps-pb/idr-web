@@ -27,12 +27,10 @@ export class RemoteGetAllBreedsUseCase implements GetAllBreedsUseCase {
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
-      console.log(body); // TODO: Remover 
       let response: Option[] = [];
       body.forEach((item) => {
         response.push({label: item.breedName, value: item.id.toString()} as Option);
       });
-      console.log(response);
       return response;
     }
 
