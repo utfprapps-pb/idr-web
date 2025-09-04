@@ -36,7 +36,7 @@ export class RemoteCreateAnimalDeathUseCase
 
     if (statusCode === HttpStatusCode.forbidden) {
       throw new ForbiddenError(
-        'Você não tem permissão para criar registro de morte deste animal'
+        'Você não tem permissão para criar óbito para este animal.'
       )
     }
 

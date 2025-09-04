@@ -32,12 +32,12 @@ export class RemoteDeleteAnimalDeathUseCase
     if (statusCode === HttpStatusCode.noContent) return
 
     if (statusCode === HttpStatusCode.notFound) {
-      throw new NotFoundError('Morte do Animal')
+      throw new NotFoundError('Óbito do Animal')
     }
 
     if (statusCode === HttpStatusCode.forbidden) {
       throw new ForbiddenError(
-        'Você não tem permissão para excluir o registro de morte deste animal'
+        'Você não tem permissão para excluir este óbito do animal.'
       )
     }
 

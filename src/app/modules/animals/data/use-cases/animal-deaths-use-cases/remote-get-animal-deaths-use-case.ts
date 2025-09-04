@@ -65,12 +65,12 @@ export class RemoteGetAnimalDeathsUseCase implements GetAnimalDeathsUseCase {
     }
 
     if (statusCode === HttpStatusCode.notFound) {
-      throw new NotFoundError('Mortes do Animal')
+      throw new NotFoundError('Óbitos do Animal')
     }
 
     if (statusCode === HttpStatusCode.forbidden) {
       throw new ForbiddenError(
-        'Você não tem permissão para buscar os registros de mortes do animal'
+        'Você não tem permissão para buscar óbitos deste animal.'
       )
     }
 

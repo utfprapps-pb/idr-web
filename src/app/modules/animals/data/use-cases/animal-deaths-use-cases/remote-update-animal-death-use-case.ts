@@ -36,7 +36,7 @@ export class RemoteUpdateAnimalDeathUseCase
 
     if (statusCode === HttpStatusCode.forbidden) {
       throw new ForbiddenError(
-        'Você não tem permissão para editar um registro de morte do animal'
+        'Você não tem permissão para editar este óbito do animal.'
       )
     }
 
