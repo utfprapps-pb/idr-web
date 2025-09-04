@@ -39,7 +39,7 @@ export function AnimalDeathFormInputs() {
 
           return (
             <Form.Item>
-              <Form.Label>Causa da morte*</Form.Label>
+              <Form.Label>Causa do óbito*</Form.Label>
               <Form.Control>
                 <Textarea {...field} isError={!!error?.message} />
               </Form.Control>

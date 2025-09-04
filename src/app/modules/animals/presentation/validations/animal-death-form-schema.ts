@@ -7,7 +7,7 @@ export const animalDeathFormSchema = z.object({
     })
     .max(new Date(), { message: 'Data inválida' }),
   reason: z.string().min(1, {
-    message: 'Razão é da morte é obrigatória',
+    message: 'Causa do óbito é obrigatória',
   }),
 })
 
