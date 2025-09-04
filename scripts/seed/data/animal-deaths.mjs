@@ -4,7 +4,7 @@ export const animalDeathsData = Array.from(
   {
     length: faker.number.int({
       min: 1,
-      max: 100,
+      max: 1,
     }),
   },
   (_, index) => ({
