@@ -1,0 +1,5 @@
+export * from './create-animal-death-use-case'
+export * from './delete-animal-death-use-case'
+export * from './get-animal-deaths-use-case'
+export * from './get-animal-death-use-case'
+export * from './update-animal-death-use-case'
