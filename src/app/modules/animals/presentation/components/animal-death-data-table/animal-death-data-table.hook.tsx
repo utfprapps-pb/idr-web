@@ -39,7 +39,7 @@ export function useAnimalDeathDataTable() {
     () => [
       {
         accessorKey: 'date',
-        header: 'Data do óbito',
+        header: 'Data do Óbito',
         cell: ({ row }) => {
           const { original: animalDeath } = row
 
@@ -50,7 +50,7 @@ export function useAnimalDeathDataTable() {
       },
       {
         accessorKey: 'reason',
-        header: 'Causa da morte',
+        header: 'Causa do Óbito',
       },
 
       {
