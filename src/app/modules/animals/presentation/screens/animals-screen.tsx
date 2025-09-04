@@ -13,6 +13,7 @@ import { AnimalContext, AnimalProvider } from '../contexts/animal-context'
 import { AnimalForm } from '../forms/animal-form'
 
 import { AnimalChildbirthsScreen } from './animal-childbirths-screen'
+import { AnimalDeathsScreen } from './animal-deaths-screen'
 import { AnimalDiseasesScreen } from './animal-diseases-screen'
 import { AnimalHeiferCalfStagesScreen } from './animal-heifer-calf-stages-screen'
 import { AnimalPregnancyDiagnosesScreen } from './animal-pregnancy-diagnoses-screen'
@@ -51,6 +52,11 @@ export function AnimalsScreen() {
         component: animalId && (
           <AnimalPregnancyDiagnosesScreen animalId={animalId} />
         ),
+      },
+      {
+        key: 'animal-deaths',
+        name: 'Óbitos',
+        component: animalId && <AnimalDeathsScreen animalId={animalId} />,
       },
     ],
     [animalId]
