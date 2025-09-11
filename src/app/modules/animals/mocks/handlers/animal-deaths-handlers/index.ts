@@ -1,0 +1,5 @@
+export * from './create-animal-death-handler'
+export * from './delete-animal-death-handler'
+export * from './get-animal-death-handler'
+export * from './get-animal-deaths-handler'
+export * from './update-animal-death-handler'

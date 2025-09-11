@@ -1,0 +1,55 @@
+import { useEffect } from 'react'
+
+import { useQuery } from '@tanstack/react-query'
+import toast from 'react-hot-toast'
+
+import { makeRemoteGetCepUseCase } from '@/core/main/factories/use-cases/cep-use-cases'
+import { onlyNumbersMask } from '@/core/masker'
+
+import { useDebounce } from '../debounce.hook'
+
+export function useCepQuery(cep: string) {
+  const getCepUseCase = makeRemoteGetCepUseCase()
+
+  const debouncedCep = useDebounce({
+    value: cep,
+  })
+
+  const {
+    data,
+    isError,
+    error,
+    isLoading,
+    refetch: refetchCep,
+  } = useQuery({
+    queryKey: ['cep', debouncedCep],
+    queryFn: () => getCepUseCase.execute(debouncedCep),
+    enabled: !!debouncedCep && onlyNumbersMask(debouncedCep).length === 8,
+  })
+
+  useEffect(() => {
+    if (isError) toast.error(error?.message ?? 'Erro ao buscar dados do CEP')
+  }, [error, isError])
+
+  if (data) {
+    const { cep, city, neighborhood, state, street } = data
+
+    return {
+      address: {
+        cep,
+        city,
+        neighborhood,
+        state,
+        street,
+      },
+      isLoading,
+      refetchCep,
+    }
+  }
+
+  return {
+    address: null,
+    isLoading,
+    refetchCep,
+  }
+}

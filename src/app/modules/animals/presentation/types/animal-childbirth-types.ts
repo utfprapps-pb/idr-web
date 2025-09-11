@@ -1,0 +1,5 @@
+import type { AnimalChildbirthModel } from '../../domain/models/animal-childbirths-model'
+import type { Filters, Sort } from '@/core/domain/types'
+
+export type AnimalChildbirthFilters = Filters<AnimalChildbirthModel>
+export type AnimalChildbirthSort = Sort<AnimalChildbirthModel>
