@@ -47,7 +47,7 @@ export class RemoteGetPropertiesUseCase implements GetPropertiesUseCase {
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
         resources: body.content.map((item) => ({
-          id: String(item.id),
+          id: item.id,
           name: 'MOCKADO - SEM RETORNO DA API', // todo: remove mock
           producer: item.user.displayName,
           county: {

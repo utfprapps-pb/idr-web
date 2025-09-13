@@ -6,9 +6,9 @@ import toast from 'react-hot-toast'
 import { makeRemoteGetAnimalDiseaseUseCase } from '../../../main/factories/use-cases/animal-diseases-use-cases'
 
 type Props = {
-  id: string
-  propertyId: string
-  animalId: string
+  id: number
+  propertyId: number
+  animalId: number
 }
 
 export function useAnimalDiseaseQuery({ id, propertyId, animalId }: Props) {
@@ -17,6 +17,7 @@ export function useAnimalDiseaseQuery({ id, propertyId, animalId }: Props) {
   const {
     data: animalDisease,
     isError,
+    error,
     isLoading,
     refetch: refetchAnimalDisease,
   } = useQuery({
@@ -30,8 +31,9 @@ export function useAnimalDiseaseQuery({ id, propertyId, animalId }: Props) {
   })
 
   useEffect(() => {
-    if (isError) toast.error('Erro ao buscar doença do animal')
-  }, [isError])
+    if (isError)
+      toast.error(error?.message ?? 'Erro ao buscar doença do animal')
+  }, [error, isError])
 
   return {
     animalDisease,

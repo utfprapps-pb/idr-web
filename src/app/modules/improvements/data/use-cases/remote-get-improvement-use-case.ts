@@ -5,20 +5,26 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
-import type { ImprovementDetailsModel } from '../../domain/models/improvements-model'
+import type {
+  ImprovementDetailsApiResponse,
+  ImprovementDetailsModel,
+} from '../../domain/models/improvements-model'
 import type { GetImprovementUseCase } from '../../domain/use-cases'
 
 export class RemoteGetImprovementUseCase implements GetImprovementUseCase {
   constructor(
     private readonly url: string,
-    private readonly httpClient: HttpClient
+    private readonly httpClient: HttpClient<
+      ImprovementDetailsModel,
+      ImprovementDetailsApiResponse
+    >
   ) {}
 
   execute: GetImprovementUseCase['execute'] = async ({
     improvementId,
     propertyId,
   }) => {
-    const url = this.url.replace(':propertyId', propertyId)
+    const url = this.url.replace(':propertyId', String(propertyId))
 
     const { statusCode, body } = await this.httpClient.request({
       url: `${url}/${improvementId}`,
@@ -34,7 +40,7 @@ export class RemoteGetImprovementUseCase implements GetImprovementUseCase {
         usefulLife: String(body.usefulLife),
         acquisitionDate: new Date(body.acquisitionDate),
         moneyDairyCattle: String(body.moneyDairyCattle),
-      } as ImprovementDetailsModel
+      }
     }
 
     if (statusCode === HttpStatusCode.notFound)

@@ -2,10 +2,12 @@ import { CreateAnimalChildbirthForm } from './create-animal-childbirth-form'
 import { EditAnimalChildbirthForm } from './edit-animal-childbirth-form'
 
 type AnimalChildbirthFormProps = {
-  id?: string
+  id?: number
 }
 
-export function AnimalChildbirthForm({ id }: AnimalChildbirthFormProps) {
+export function AnimalChildbirthForm({
+  id,
+}: Readonly<AnimalChildbirthFormProps>) {
   if (id) {
     return <EditAnimalChildbirthForm />
   }

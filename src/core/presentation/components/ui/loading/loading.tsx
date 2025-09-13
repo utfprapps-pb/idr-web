@@ -26,7 +26,7 @@ export type LoadingProps = SVGAttributes<HTMLOrSVGElement> &
 
 export function Loading({ size = 'default', className }: LoadingProps) {
   return (
-    <div role="status" className="flex justify-center">
+    <div className="flex justify-center" role="status" aria-live="polite">
       <svg
         aria-hidden="true"
         className={cn(loadingVariants({ size, className }))}

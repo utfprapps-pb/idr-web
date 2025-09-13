@@ -6,36 +6,64 @@ import allVegetablesData from '@database/allVegetablesData.json'
 
 import { httpWithMiddleware } from '../../lib'
 import { withDelay, withAuth } from '../../middleware'
-import { normalizeQueryFilters, filterData } from '../../utils'
+import { filterData } from '../../utils'
 
-type Response = {
-  id: string
-  name: string
-}
+import type { MockParams } from '../../types/mock-params-type'
+import type { MockResponse } from '../../types/mock-response-type'
+import type { VegetableApiResponse } from '@/core/domain/models/vegetables-model'
 
 export const getAllVegetablesHandler = httpWithMiddleware<
   never,
-  never,
-  Response[]
+  MockParams<VegetableApiResponse>,
+  MockResponse<VegetableApiResponse[]>
 >({
-  routePath: '/api/vegetables/all',
-  method: 'get',
+  routePath: '/api/vegetables/search',
+  method: 'post',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ request }) => {
-    if (!allVegetablesData.length) {
-      return HttpResponse.json([], {
-        status: 404,
-      })
-    }
+    const { filters, rows } = await request.json()
 
-    const url = new URL(request.url)
-    const { filters } = normalizeQueryFilters(url)
+    if (!allVegetablesData.length) {
+      return HttpResponse.json(
+        {
+          content: [],
+          numberOfElements: 0,
+          pageable: {
+            pageSize: 0,
+          },
+        },
+        {
+          status: 404,
+        }
+      )
+    }
 
     if (filters) {
-      const filteredData = filterData<Response>(filters, allVegetablesData)
-      return HttpResponse.json(filteredData, { status: HttpStatusCode.ok })
+      const vegetables = filterData<VegetableApiResponse>(
+        filters,
+        allVegetablesData
+      )
+      return HttpResponse.json(
+        {
+          content: vegetables,
+          numberOfElements: vegetables.length,
+          pageable: {
+            pageSize: rows,
+          },
+        },
+        { status: HttpStatusCode.ok }
+      )
     }
 
-    return HttpResponse.json(allVegetablesData, { status: HttpStatusCode.ok })
+    return HttpResponse.json(
+      {
+        content: allVegetablesData,
+        numberOfElements: allVegetablesData.length,
+        pageable: {
+          pageSize: rows,
+        },
+      },
+      { status: HttpStatusCode.ok }
+    )
   },
 })

@@ -9,7 +9,7 @@ import {
 import { AnimalDiseaseForm } from '../forms/animal-disease-form'
 
 type AnimalDiseasesScreenProps = {
-  readonly animalId: string
+  readonly animalId: number
 }
 
 export function AnimalDiseasesScreen({ animalId }: AnimalDiseasesScreenProps) {
@@ -35,11 +35,11 @@ export function AnimalDiseasesScreen({ animalId }: AnimalDiseasesScreenProps) {
                   handleChangeFilters({
                     diagnosticDate: {
                       value: date,
-                      type: 'LIKE',
+                      type: 'EQUALS',
                     },
                   })
                 }}
-                label="Filtrar por Data do diagnóstico"
+                label="Filtrar por data do diagnóstico"
               />
 
               <Button
@@ -65,3 +65,5 @@ export function AnimalDiseasesScreen({ animalId }: AnimalDiseasesScreenProps) {
     </AnimalDiseaseProvider>
   )
 }
+
+AnimalDiseasesScreen.displayName = 'AnimalDiseasesScreen'

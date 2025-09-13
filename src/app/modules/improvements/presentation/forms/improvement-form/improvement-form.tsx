@@ -2,7 +2,7 @@ import { CreateImprovementForm } from './create-improvement-form'
 import { EditImprovementForm } from './edit-improvement-form'
 
 type ImprovementFormProps = {
-  id?: string
+  readonly id?: number
 }
 
 export function ImprovementForm({ id }: ImprovementFormProps) {

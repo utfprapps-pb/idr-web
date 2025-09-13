@@ -9,7 +9,7 @@ import { Root } from '@radix-ui/react-label'
 import { cn } from '@/core/utils'
 
 type LabelElement = ElementRef<typeof Root>
-type LabelProps = ComponentPropsWithoutRef<typeof Root>
+export type LabelProps = ComponentPropsWithoutRef<typeof Root>
 
 export const Label = forwardRef<LabelElement, LabelProps>(
   ({ className, ...props }, ref) => (

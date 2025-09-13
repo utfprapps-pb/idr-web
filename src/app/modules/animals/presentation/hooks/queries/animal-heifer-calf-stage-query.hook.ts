@@ -6,9 +6,9 @@ import toast from 'react-hot-toast'
 import { makeRemoteGetAnimalHeiferCalfStageUseCase } from '../../../main/factories/use-cases/animal-heifer-calf-stages-use-cases'
 
 type Props = {
-  id: string
-  propertyId: string
-  animalId: string
+  id: number
+  propertyId: number
+  animalId: number
 }
 
 export function useAnimalHeiferCalfStageQuery({
@@ -22,6 +22,7 @@ export function useAnimalHeiferCalfStageQuery({
   const {
     data: animalHeiferCalfStage,
     isError,
+    error,
     isLoading,
     refetch: refetchAnimalHeiferCalfStage,
   } = useQuery({
@@ -35,8 +36,9 @@ export function useAnimalHeiferCalfStageQuery({
   })
 
   useEffect(() => {
-    if (isError) toast.error('Erro ao buscar fase bezerra novilha')
-  }, [isError])
+    if (isError)
+      toast.error(error?.message ?? 'Erro ao buscar fase bezerra novilha')
+  }, [error, isError])
 
   return {
     animalHeiferCalfStage,

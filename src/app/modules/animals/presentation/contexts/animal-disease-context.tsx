@@ -12,8 +12,8 @@ import type { AnimalDiseaseModel } from '../../domain/models/animal-diseases-mod
 import type { AnimalDiseaseFilters } from '../types/animal-disease-types'
 
 type AnimalDiseaseValue = {
-  propertyId: string
-  animalId: string
+  propertyId: number
+  animalId: number
   selectedAnimalDisease?: AnimalDiseaseModel
   filters: AnimalDiseaseFilters
   handleChangeFilters: (newFilters: AnimalDiseaseFilters) => void
@@ -33,7 +33,7 @@ export const AnimalDiseaseContext = createContext<AnimalDiseaseValue>(
 )
 
 type AnimalDiseaseProviderProps = PropsWithChildren<{
-  animalId: string
+  animalId: number
 }>
 
 export function AnimalDiseaseProvider({
@@ -104,7 +104,7 @@ export function AnimalDiseaseProvider({
 
   const providerValues = useMemo(
     () => ({
-      propertyId: params.propertyId as string, // Typecast allowed to avoid undefined, as it has validation below
+      propertyId: Number(params.propertyId),
       animalId,
       filters,
       handleChangeFilters,

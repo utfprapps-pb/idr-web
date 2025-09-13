@@ -1,10 +1,10 @@
 import { Button, Dialog } from '@/core/presentation/components/ui'
 
-type Props = {
+type Props = Readonly<{
   observation: string
   open: boolean
   onClose: () => void
-}
+}>
 
 export function ForageObservationDialog({ observation, open, onClose }: Props) {
   return (

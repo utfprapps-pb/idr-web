@@ -8,7 +8,7 @@ import { makeRemoteGetMachinesUseCase } from '../../../main/factories/use-cases'
 import type { MachineFilters, MachineSort } from '../../types'
 
 type Props = {
-  propertyId: string
+  propertyId: number
   filters: MachineFilters
   page: number
   sort?: MachineSort

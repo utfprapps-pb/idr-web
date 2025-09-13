@@ -5,6 +5,11 @@ export type AnimalDetailsModel = {
   breed: Option
 }
 
+export type AnimalDetailsApiResponse = {
+  name: string
+  breed: Option
+}
+
 export type AnimalModel = WithId<{
   name: string
   breed: string

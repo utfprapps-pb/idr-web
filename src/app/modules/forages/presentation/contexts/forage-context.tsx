@@ -12,7 +12,7 @@ import type { ForageModel } from '../../domain/models/forages-model'
 import type { ForageFilters } from '../types'
 
 type ForageContextValue = {
-  propertyId: string
+  propertyId: number
   filters: ForageFilters
   handleChangeFilters: (newFilters: ForageFilters) => void
   selectedForage?: ForageModel
@@ -80,7 +80,7 @@ export function ForageProvider({ children }: Readonly<PropsWithChildren>) {
 
   const providerValues = useMemo(
     () => ({
-      propertyId: params.propertyId as string, // Typecast allowed to avoid undefined, as it has validation below
+      propertyId: Number(params.propertyId),
       filters,
       handleChangeFilters,
       selectedForage,

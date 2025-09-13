@@ -7,8 +7,8 @@ export const allUsersData = Array.from(
       max: 150,
     }),
   },
-  () => ({
-    id: faker.string.uuid(),
-    name: faker.person.fullName(),
+  (_, index) => ({
+    id: index + 1,
+    displayName: faker.person.fullName(),
   })
 )

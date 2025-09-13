@@ -5,7 +5,7 @@ import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
 import { filterData, sortData, paginateData } from '@/core/mocks/utils'
 
-import machinesData from '@database/machineData.json'
+import machinesData from '@database/machinesData.json'
 
 import type { MachineApiResponse } from '../../domain/models/machines-model'
 import type { MockParams } from '@/core/mocks/types/mock-params-type'

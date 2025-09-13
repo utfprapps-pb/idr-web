@@ -14,7 +14,7 @@ export class RemoteCreateForageUseCase implements CreateForageUseCase {
   ) {}
 
   execute: CreateForageUseCase['execute'] = async ({ propertyId, forage }) => {
-    const url = this.url.replace(':propertyId', propertyId)
+    const url = this.url.replace(':propertyId', String(propertyId))
 
     const { statusCode } = await this.httpClient.request({
       url,

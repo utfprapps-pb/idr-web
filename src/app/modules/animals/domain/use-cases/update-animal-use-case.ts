@@ -3,7 +3,7 @@ import type { RequestInterface, WithId } from '@/core/domain/types'
 
 export type UpdateAnimalUseCase = RequestInterface<
   {
-    propertyId: string
+    propertyId: number
     animal: WithId<AnimalDetailsModel>
   },
   void

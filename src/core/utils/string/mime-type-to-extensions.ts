@@ -13,8 +13,9 @@ export function mimeTypeToExtensions(
     }
 
     const [, extension] = type.split('/')
-    acc.push(extension)
+    if (!extension) return acc
 
+    acc.push(extension)
     return acc
   }, [])
 }

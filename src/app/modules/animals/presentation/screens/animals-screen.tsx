@@ -13,8 +13,10 @@ import { AnimalContext, AnimalProvider } from '../contexts/animal-context'
 import { AnimalForm } from '../forms/animal-form'
 
 import { AnimalChildbirthsScreen } from './animal-childbirths-screen'
+import { AnimalDeathsScreen } from './animal-deaths-screen'
 import { AnimalDiseasesScreen } from './animal-diseases-screen'
 import { AnimalHeiferCalfStagesScreen } from './animal-heifer-calf-stages-screen'
+import { AnimalPregnancyDiagnosesScreen } from './animal-pregnancy-diagnoses-screen'
 
 type Tab = {
   key: string
@@ -23,7 +25,7 @@ type Tab = {
 }
 
 export function AnimalsScreen() {
-  const [animalId, setAnimalId] = useState<string | null>(null)
+  const [animalId, setAnimalId] = useState<number | null>(null)
 
   const tabs = useMemo<Tab[]>(
     () => [
@@ -44,6 +46,18 @@ export function AnimalsScreen() {
         name: 'Doenças',
         component: animalId && <AnimalDiseasesScreen animalId={animalId} />,
       },
+      {
+        key: 'animal-pregnancy-diagnoses',
+        name: 'Diagnóstico de Gestação',
+        component: animalId && (
+          <AnimalPregnancyDiagnosesScreen animalId={animalId} />
+        ),
+      },
+      {
+        key: 'animal-deaths',
+        name: 'Óbitos',
+        component: animalId && <AnimalDeathsScreen animalId={animalId} />,
+      },
     ],
     [animalId]
   )
@@ -58,7 +72,7 @@ export function AnimalsScreen() {
     setActiveTab(tab)
   }, [])
 
-  const handleSelectAnimalId = useCallback((animalId: string | null) => {
+  const handleSelectAnimalId = useCallback((animalId: number | null) => {
     setAnimalId(animalId)
   }, [])
 
@@ -149,3 +163,5 @@ export function AnimalsScreen() {
     </AnimalProvider>
   )
 }
+
+AnimalsScreen.displayName = 'AnimalsScreen'

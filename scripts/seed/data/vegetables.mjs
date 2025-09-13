@@ -7,8 +7,8 @@ export const allVegetablesData = Array.from(
       max: 150,
     }),
   },
-  () => ({
-    id: faker.string.uuid(),
-    name: faker.food.vegetable(),
+  (_, index) => ({
+    id: index + 1,
+    cultureName: faker.food.vegetable(),
   })
 )

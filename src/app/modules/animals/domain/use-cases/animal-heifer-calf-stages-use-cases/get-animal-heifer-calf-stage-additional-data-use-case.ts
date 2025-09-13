@@ -3,8 +3,8 @@ import type { RequestInterface } from '@/core/domain/types'
 
 export type GetAnimalHeiferCalfStageAdditionalDataUseCase = RequestInterface<
   {
-    propertyId: string
-    animalId: string
+    propertyId: number
+    animalId: number
   },
   AnimalHeiferCalfStageAdditionalDataModel
 >

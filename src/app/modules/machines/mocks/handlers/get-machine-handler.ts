@@ -4,7 +4,7 @@ import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
 
-import machinesData from '@database/machineData.json'
+import machinesData from '@database/machinesData.json'
 
 export const getMachineHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'id'>,
@@ -25,7 +25,7 @@ export const getMachineHandler = httpWithMiddleware<
     }
 
     const machineFound = machinesData.find(
-      (machine) => machine.id === String(params.id)
+      (machine) => machine.id === Number(params.id)
     )
 
     if (!machineFound) {

@@ -7,8 +7,8 @@ export const animalChildbirthsData = Array.from(
       max: 100,
     }),
   },
-  () => ({
-    id: faker.string.uuid(),
+  (_, index) => ({
+    id: index + 1,
     breed: faker.animal.cow(),
     gender: faker.helpers.arrayElement(['MALE', 'FEMALE']),
     weight: faker.number

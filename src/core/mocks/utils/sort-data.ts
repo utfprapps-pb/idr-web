@@ -19,7 +19,7 @@ export function sortData<TData extends object>(
 
     const nextValue = getNestedValue(nextItem, fieldPath)
 
-    const direction = (sort.direction || 'asc').toLowerCase()
+    const direction = (sort.type || 'asc').toLowerCase()
 
     const directionMultiplier = direction === 'asc' ? 1 : -1
 

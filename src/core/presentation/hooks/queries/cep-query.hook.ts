@@ -18,6 +18,7 @@ export function useCepQuery(cep: string) {
   const {
     data,
     isError,
+    error,
     isLoading,
     refetch: refetchCep,
   } = useQuery({
@@ -27,8 +28,8 @@ export function useCepQuery(cep: string) {
   })
 
   useEffect(() => {
-    if (isError) toast.error('Erro ao buscar dados do CEP')
-  }, [isError])
+    if (isError) toast.error(error?.message ?? 'Erro ao buscar dados do CEP')
+  }, [error, isError])
 
   if (data) {
     const { cep, city, neighborhood, state, street } = data

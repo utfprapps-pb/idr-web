@@ -3,28 +3,29 @@ import { ROUTES } from './routes'
 import type { Route, TransformRouteParams } from './types'
 import type { WithRequired } from '@/core/domain/types'
 
-type RecordStringOrUndefined = Record<string, string | undefined>
+type GenericRecord<V> = Record<string, V | undefined>
 
 type GenerateRoutePathOptions<
-  P extends RecordStringOrUndefined = RecordStringOrUndefined,
+  V,
+  P extends GenericRecord<V> = GenericRecord<V>,
 > = {
   locale?: string
   params?: P
   query?: Record<string, string>
 }
 
-export function generateRoutePath<T extends Route>(
+export function generateRoutePath<T extends Route, V>(
   key: T,
   ...rest: (typeof ROUTES)[T] extends {
     params: infer P extends Record<string, boolean>
   }
     ? [
         options: WithRequired<
-          GenerateRoutePathOptions<TransformRouteParams<P>>,
+          GenerateRoutePathOptions<V, TransformRouteParams<V, P>>,
           'params'
         >,
       ]
-    : [options?: GenerateRoutePathOptions]
+    : [options?: GenerateRoutePathOptions<V>]
 ): string {
   const [options = {}] = rest
   const route = ROUTES[key]

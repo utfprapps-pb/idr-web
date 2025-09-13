@@ -4,28 +4,29 @@ import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
 import { makeRemoteGetAllBreedsUseCase } from '@/core/main/factories/use-cases/breeds-use-cases'
+import { toOption } from '@/core/utils/object/to-option'
 
 export function useAllBreedsQuery(search: string) {
   const getAllBreedsUseCase = makeRemoteGetAllBreedsUseCase()
 
   const {
-    data: allBreeds = [],
+    data,
     isError,
+    error,
     isLoading,
     refetch: refetchAllBreeds,
   } = useQuery({
     queryKey: ['allBreeds', search],
     queryFn: () => getAllBreedsUseCase.execute(search),
-    // enabled: !!search,
-    // executar a query assim que o usuário abrir o dropdown, não só quando pesquisa.
   })
 
   useEffect(() => {
-    if (isError) toast.error('Erro ao buscar raças')
-  }, [isError])
+    if (isError) toast.error(error?.message ?? 'Erro ao buscar raças')
+  }, [error, isError])
 
   return {
-    allBreeds,
+    allBreeds:
+      data?.resources.map((resource) => toOption(resource, 'name')) ?? [],
     isLoading,
     refetchAllBreeds,
   }

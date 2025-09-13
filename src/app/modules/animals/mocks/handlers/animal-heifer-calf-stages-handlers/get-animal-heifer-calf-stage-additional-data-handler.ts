@@ -5,10 +5,12 @@ import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
 
+import type { AnimalHeiferCalfStageAdditionalDataApiResponse } from '../../../domain/models/animal-heifer-calf-stages-model'
+
 export const getAnimalHeiferCalfStageAdditionalDataHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId'>,
   never,
-  never
+  AnimalHeiferCalfStageAdditionalDataApiResponse
 >({
   routePath:
     '/api/properties/:propertyId/animals/:animalId/heifer-calf-stages/additional-data',

@@ -17,7 +17,7 @@ export class RemoteUpdateMachineUseCase implements UpdateMachineUseCase {
     propertyId,
     machine: { id, ...machine },
   }) => {
-    const url = this.url.replace(':propertyId', propertyId)
+    const url = this.url.replace(':propertyId', String(propertyId))
 
     const { statusCode } = await this.httpClient.request({
       url: `${url}/${id}`,

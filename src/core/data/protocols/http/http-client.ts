@@ -15,21 +15,32 @@ export enum HttpStatusCode {
   serverError = 500,
 }
 
-export type HttpRequest<
-  TModel = Record<string, string>,
-  TApiModel = unknown,
-> = {
+type BaseHttpRequest = {
   url: string
   method: HttpMethod
   body?: unknown
-  filters?: Filters<TModel>
   pagination?: {
     page: number
     perPage?: number
   }
-  sort?: Sort<TModel>
-  mapApiProperties?: MapApiProperties<TModel, TApiModel>
 }
+
+export type HttpRequest<
+  TModel = Record<string, string>,
+  TApiModel = unknown,
+> = BaseHttpRequest &
+  (
+    | {
+        filters?: never
+        sort?: never
+        mapApiProperties?: MapApiProperties<TModel, TApiModel>
+      }
+    | {
+        filters?: Filters<TModel>
+        sort?: Sort<TModel>
+        mapApiProperties: MapApiProperties<TModel, TApiModel>
+      }
+  )
 
 export type HttpResponse<TData = unknown> = {
   statusCode: HttpStatusCode

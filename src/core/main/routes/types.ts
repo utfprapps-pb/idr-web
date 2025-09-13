@@ -6,12 +6,12 @@ export type Route = keyof typeof ROUTES
 
 type BooleanMap = Record<string, boolean>
 
-type Tmp<O extends BooleanMap> = {
+type Tmp<V, O extends BooleanMap> = {
   [K in keyof O]: O[K] extends true
-    ? { _: { [key in K]: string } }
-    : { _: { [key in K]?: string } }
+    ? { _: { [key in K]: V } }
+    : { _: { [key in K]?: V } }
 }
 
-export type TransformRouteParams<O extends BooleanMap> = MergeUnionTypes<
-  Tmp<O>[keyof O]['_']
+export type TransformRouteParams<V, O extends BooleanMap> = MergeUnionTypes<
+  Tmp<V, O>[keyof O]['_']
 >

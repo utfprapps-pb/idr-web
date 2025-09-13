@@ -8,7 +8,7 @@ import { makeRemoteGetForagesUseCase } from '../../../main/factories/use-cases'
 import type { ForageFilters, ForageSort } from '../../types'
 
 type Props = {
-  propertyId: string
+  propertyId: number
   filters: ForageFilters
   page: number
   sort?: ForageSort

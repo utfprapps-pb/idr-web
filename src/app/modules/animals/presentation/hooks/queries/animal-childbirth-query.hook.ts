@@ -6,9 +6,9 @@ import toast from 'react-hot-toast'
 import { makeRemoteGetAnimalChildbirthUseCase } from '../../../main/factories/use-cases/animal-childbirths-use-cases'
 
 type Props = {
-  id: string
-  propertyId: string
-  animalId: string
+  id: number
+  propertyId: number
+  animalId: number
 }
 
 export function useAnimalChildbirthQuery({ id, propertyId, animalId }: Props) {
@@ -17,6 +17,7 @@ export function useAnimalChildbirthQuery({ id, propertyId, animalId }: Props) {
   const {
     data: animalChildbirth,
     isError,
+    error,
     isLoading,
     refetch: refetchAnimalChildbirth,
   } = useQuery({
@@ -30,8 +31,8 @@ export function useAnimalChildbirthQuery({ id, propertyId, animalId }: Props) {
   })
 
   useEffect(() => {
-    if (isError) toast.error('Erro ao buscar parto do animal')
-  }, [isError])
+    if (isError) toast.error(error?.message ?? 'Erro ao buscar parto do animal')
+  }, [error, isError])
 
   return {
     animalChildbirth,

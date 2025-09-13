@@ -5,7 +5,7 @@ import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
 import { filterData, sortData, paginateData } from '@/core/mocks/utils'
 
-import foragesData from '@database/forageData.json'
+import foragesData from '@database/foragesData.json'
 
 import type { ForageApiResponse } from '../../domain/models/forages-model'
 import type { MockParams } from '@/core/mocks/types/mock-params-type'

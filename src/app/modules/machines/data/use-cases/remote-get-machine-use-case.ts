@@ -5,17 +5,23 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
-import type { MachineDetailsModel } from '../../domain/models/machines-model'
+import type {
+  MachineDetailsApiResponse,
+  MachineDetailsModel,
+} from '../../domain/models/machines-model'
 import type { GetMachineUseCase } from '../../domain/use-cases'
 
 export class RemoteGetMachineUseCase implements GetMachineUseCase {
   constructor(
     private readonly url: string,
-    private readonly httpClient: HttpClient
+    private readonly httpClient: HttpClient<
+      MachineDetailsModel,
+      MachineDetailsApiResponse
+    >
   ) {}
 
   execute: GetMachineUseCase['execute'] = async ({ machineId, propertyId }) => {
-    const url = this.url.replace(':propertyId', propertyId)
+    const url = this.url.replace(':propertyId', String(propertyId))
 
     const { statusCode, body } = await this.httpClient.request({
       url: `${url}/${machineId}`,
@@ -31,7 +37,7 @@ export class RemoteGetMachineUseCase implements GetMachineUseCase {
         usefulLife: String(body.usefulLife),
         acquisitionDate: new Date(body.acquisitionDate),
         moneyDairyCattle: String(body.moneyDairyCattle),
-      } as MachineDetailsModel
+      }
     }
 
     if (statusCode === HttpStatusCode.notFound)

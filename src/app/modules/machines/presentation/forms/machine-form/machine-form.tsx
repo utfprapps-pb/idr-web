@@ -2,7 +2,7 @@ import { CreateMachineForm } from './create-machine-form'
 import { EditMachineForm } from './edit-machine-form'
 
 type MachineFormProps = {
-  id?: string
+  readonly id?: number
 }
 
 export function MachineForm({ id }: MachineFormProps) {

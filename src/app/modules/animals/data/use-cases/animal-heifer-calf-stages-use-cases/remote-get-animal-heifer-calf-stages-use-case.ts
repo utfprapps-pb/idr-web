@@ -43,8 +43,8 @@ export class RemoteGetAnimalHeiferCalfStagesUseCase
     }
 
     const url = this.url
-      .replace(':propertyId', propertyId)
-      .replace(':animalId', animalId)
+      .replace(':propertyId', String(propertyId))
+      .replace(':animalId', String(animalId))
 
     const { statusCode, body } = await this.httpClient.request({
       url: `${url}/search`,

@@ -11,12 +11,9 @@ export const animalChildbirthFormSchema = z.object({
   condition: z.enum(['ALIVE', 'DEAD'], {
     message: 'Campo obrigatório',
   }),
-  breed: optionSchema.refine(
-    ({ label, value }) => label !== '' && value !== '',
-    {
-      message: 'Raça é obrigatória',
-    }
-  ),
+  breed: optionSchema.refine(({ label, value }) => label !== '' && value > 0, {
+    message: 'Raça é obrigatória',
+  }),
 })
 
 export type AnimalChildbirthFormSchema = z.infer<

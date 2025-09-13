@@ -8,6 +8,11 @@ import {
 import { BreedApiModel, BreedModel } from '@/core/domain/models/breed-model'
 import { Option } from '@/core/domain/types'
 
+import type {
+  BreedApiResponse,
+  BreedModel,
+} from '@/core/domain/models/breeds-model'
+import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
 import type { GetAllBreedsUseCase } from '@/core/domain/use-cases/breeds-use-cases'
 
 export class RemoteGetAllBreedsUseCase implements GetAllBreedsUseCase {

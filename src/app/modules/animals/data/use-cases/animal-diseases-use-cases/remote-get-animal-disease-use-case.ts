@@ -5,13 +5,19 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
-import type { AnimalDiseaseDetailsModel } from '../../../domain/models/animal-diseases-model'
+import type {
+  AnimalDiseaseDetailsModel,
+  AnimalDiseaseDetailsApiResponse,
+} from '../../../domain/models/animal-diseases-model'
 import type { GetAnimalDiseaseUseCase } from '../../../domain/use-cases/animal-diseases-use-cases'
 
 export class RemoteGetAnimalDiseaseUseCase implements GetAnimalDiseaseUseCase {
   constructor(
     private readonly url: string,
-    private readonly httpClient: HttpClient
+    private readonly httpClient: HttpClient<
+      AnimalDiseaseDetailsModel,
+      AnimalDiseaseDetailsApiResponse
+    >
   ) {}
 
   execute: GetAnimalDiseaseUseCase['execute'] = async ({
@@ -20,8 +26,8 @@ export class RemoteGetAnimalDiseaseUseCase implements GetAnimalDiseaseUseCase {
     propertyId,
   }) => {
     const url = this.url
-      .replace(':propertyId', propertyId)
-      .replace(':animalId', animalId)
+      .replace(':propertyId', String(propertyId))
+      .replace(':animalId', String(animalId))
 
     const { statusCode, body } = await this.httpClient.request({
       url: `${url}/${id}`,
@@ -32,7 +38,7 @@ export class RemoteGetAnimalDiseaseUseCase implements GetAnimalDiseaseUseCase {
       return {
         diagnosticDate: new Date(body.diagnosticDate),
         diagnostic: body.diagnostic,
-      } as AnimalDiseaseDetailsModel
+      }
     }
 
     if (statusCode === HttpStatusCode.notFound)

@@ -6,12 +6,9 @@ export const animalFormSchema = z.object({
   name: z.string().min(1, {
     message: 'Nome é obrigatório',
   }),
-  breed: optionSchema.refine(
-    ({ label, value }) => label !== '' && value !== '',
-    {
-      message: 'Raça é obrigatória',
-    }
-  ),
+  breed: optionSchema.refine(({ label, value }) => label !== '' && value > 0, {
+    message: 'Raça é obrigatória',
+  }),
 })
 
 export type AnimalFormSchema = z.infer<typeof animalFormSchema>

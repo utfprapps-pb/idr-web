@@ -2,12 +2,12 @@ import { CreateAnimalHeiferCalfStageForm } from './create-animal-heifer-calf-sta
 import { EditAnimalHeiferCalfStageForm } from './edit-animal-heifer-calf-stage-form'
 
 type AnimalHeiferCalfStageFormProps = {
-  id?: string
+  id?: number
 }
 
 export function AnimalHeiferCalfStageForm({
   id,
-}: AnimalHeiferCalfStageFormProps) {
+}: Readonly<AnimalHeiferCalfStageFormProps>) {
   if (id) {
     return <EditAnimalHeiferCalfStageForm />
   }

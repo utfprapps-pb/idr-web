@@ -15,16 +15,30 @@ export const brasilApi = axios.create({
   validateStatus: (status: number) => status >= 200 && status < 300,
 })
 
-export class BrasilApiHttpClient<T = unknown> implements HttpClient<T> {
-  async request(data: HttpRequest): Promise<HttpResponse<T>> {
+export class BrasilApiHttpClient<
+  TModel = unknown,
+  TApiModel = unknown,
+  TApiResponse = unknown,
+> implements HttpClient<TModel, TApiModel, TApiResponse>
+{
+  async request(
+    data: HttpRequest<TModel, TApiModel>
+  ): Promise<HttpResponse<TApiResponse>> {
     let axiosResponse: AxiosResponse
 
     try {
       axiosResponse = await brasilApi.request({
         ...data,
       })
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Request error:', error.message)
+      }
+
+      if (!axios.isAxiosError(error) || !error.response) {
+        throw error
+      }
+
       axiosResponse = error.response
     }
 

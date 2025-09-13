@@ -6,19 +6,22 @@ import {
 } from '@/core/domain/errors'
 
 import type {
-  ForageOwnershipType,
   ForageDetailsModel,
+  ForageDetailsApiResponse,
 } from '../../domain/models/forages-model'
 import type { GetForageUseCase } from '../../domain/use-cases'
 
 export class RemoteGetForageUseCase implements GetForageUseCase {
   constructor(
     private readonly url: string,
-    private readonly httpClient: HttpClient
+    private readonly httpClient: HttpClient<
+      ForageDetailsModel,
+      ForageDetailsApiResponse
+    >
   ) {}
 
   execute: GetForageUseCase['execute'] = async ({ forageId, propertyId }) => {
-    const url = this.url.replace(':propertyId', propertyId)
+    const url = this.url.replace(':propertyId', String(propertyId))
 
     const { statusCode, body } = await this.httpClient.request({
       url: `${url}/${forageId}`,
@@ -27,16 +30,15 @@ export class RemoteGetForageUseCase implements GetForageUseCase {
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        id: body.id,
         area: body.area,
         averageCost: body.averageCost,
         cultivation: body.cultivation,
         formation: new Date(body.formation),
         observation: body.observation,
-        ownershipType: body.type as ForageOwnershipType,
+        ownershipType: body.ownershipType,
         growthCycle: body.growthCycle,
         usefulLife: body.usefulLife,
-      } as ForageDetailsModel
+      }
     }
 
     if (statusCode === HttpStatusCode.notFound)

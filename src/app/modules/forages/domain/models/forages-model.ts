@@ -15,6 +15,17 @@ export type ForageDetailsModel = {
   observation?: string
 }
 
+export type ForageDetailsApiResponse = {
+  cultivation: Option
+  area: string
+  averageCost: string
+  usefulLife: string
+  formation: Date
+  ownershipType: ForageOwnershipType
+  growthCycle: ForageGrowthCycle
+  observation?: string
+}
+
 export type ForageModel = WithId<{
   cultivation: string
   area: string

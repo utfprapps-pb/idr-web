@@ -6,8 +6,8 @@ import toast from 'react-hot-toast'
 import { makeRemoteGetAnimalHeiferCalfStageAdditionalDataUseCase } from '../../../main/factories/use-cases/animal-heifer-calf-stages-use-cases/remote-get-animal-heifer-calf-stage-additional-data-use-case-factory'
 
 type Props = {
-  propertyId: string
-  animalId: string
+  propertyId: number
+  animalId: number
 }
 
 export function useAnimalHeiferCalfStageAdditionalDataQuery({
@@ -20,6 +20,7 @@ export function useAnimalHeiferCalfStageAdditionalDataQuery({
   const {
     data: animalHeiferCalfStageAdditionalData,
     isError,
+    error,
     isLoading,
     refetch: refetchAnimalHeiferCalfStageAdditionalData,
   } = useQuery({
@@ -37,8 +38,11 @@ export function useAnimalHeiferCalfStageAdditionalDataQuery({
 
   useEffect(() => {
     if (isError)
-      toast.error('Erro ao buscar dados adicionais da fase bezerra novilha')
-  }, [isError])
+      toast.error(
+        error?.message ??
+          'Erro ao buscar dados adicionais da fase bezerra novilha'
+      )
+  }, [error, isError])
 
   return {
     animalHeiferCalfStageAdditionalData,

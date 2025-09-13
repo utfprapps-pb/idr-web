@@ -5,17 +5,23 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
-import type { AnimalDetailsModel } from '../../domain/models/animals-model'
+import type {
+  AnimalDetailsApiResponse,
+  AnimalDetailsModel,
+} from '../../domain/models/animals-model'
 import type { GetAnimalUseCase } from '../../domain/use-cases'
 
 export class RemoteGetAnimalUseCase implements GetAnimalUseCase {
   constructor(
     private readonly url: string,
-    private readonly httpClient: HttpClient
+    private readonly httpClient: HttpClient<
+      AnimalDetailsModel,
+      AnimalDetailsApiResponse
+    >
   ) {}
 
   execute: GetAnimalUseCase['execute'] = async ({ animalId, propertyId }) => {
-    const url = this.url.replace(':propertyId', propertyId)
+    const url = this.url.replace(':propertyId', String(propertyId))
 
     const { statusCode, body } = await this.httpClient.request({
       url: `${url}/${animalId}`,
@@ -26,7 +32,7 @@ export class RemoteGetAnimalUseCase implements GetAnimalUseCase {
       return {
         name: body.name,
         breed: body.breed,
-      } as AnimalDetailsModel
+      }
     }
 
     if (statusCode === HttpStatusCode.notFound)

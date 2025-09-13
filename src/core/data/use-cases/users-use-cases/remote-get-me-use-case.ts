@@ -26,6 +26,7 @@ export class RemoteGetMeUseCase implements GetMeUseCase {
 
     if (statusCode === HttpStatusCode.ok && body) {
       return {
+        id: body.id,
         name: body.displayName,
       }
     }

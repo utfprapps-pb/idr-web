@@ -5,7 +5,7 @@ import { moneyValidation } from '@/core/validation/validators'
 
 export const forageFormSchema = z.object({
   cultivation: optionSchema.refine(
-    ({ label, value }) => label !== '' && value !== '',
+    ({ label, value }) => label !== '' && value > 0,
     {
       message: 'Campo obrigatório',
     }

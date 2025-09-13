@@ -10,6 +10,16 @@ export type ImprovementDetailsModel = {
   moneyDairyCattle: string
 }
 
+export type ImprovementDetailsApiResponse = {
+  description: string
+  amount: string
+  unitPrice: string
+  percentDairyCattle: string
+  usefulLife: string
+  acquisitionDate: string
+  moneyDairyCattle: string
+}
+
 export type ImprovementModel = WithId<{
   description: string
   amount: string

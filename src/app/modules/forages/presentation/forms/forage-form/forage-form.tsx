@@ -2,7 +2,7 @@ import { CreateForageForm } from './create-forage-form'
 import { EditForageForm } from './edit-forage-form'
 
 type ForageFormProps = {
-  id?: string
+  readonly id?: number
 }
 
 export function ForageForm({ id }: ForageFormProps) {
