@@ -16,6 +16,7 @@ import { AnimalChildbirthsScreen } from './animal-childbirths-screen'
 import { AnimalDeathsScreen } from './animal-deaths-screen'
 import { AnimalDiseasesScreen } from './animal-diseases-screen'
 import { AnimalHeiferCalfStagesScreen } from './animal-heifer-calf-stages-screen'
+import { AnimalInseminationsScreen } from './animal-inseminations-screen'
 import { AnimalPregnancyDiagnosesScreen } from './animal-pregnancy-diagnoses-screen'
 
 type Tab = {
@@ -57,6 +58,13 @@ export function AnimalsScreen() {
         key: 'animal-deaths',
         name: 'Óbitos',
         component: animalId && <AnimalDeathsScreen animalId={animalId} />,
+      },
+      {
+        key: 'animal-inseminations',
+        name: 'Inseminações',
+        component: animalId && (
+          <AnimalInseminationsScreen animalId={animalId} />
+        ),
       },
     ],
     [animalId]
