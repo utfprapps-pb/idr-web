@@ -59,7 +59,7 @@ export function AnimalInseminationFormInputs() {
 
           return (
             <Form.Item>
-              <Form.Label>Identificação do Animal Reprodutor*</Form.Label>
+              <Form.Label>Animal Reprodutor*</Form.Label>
               <Form.Control>
                 <Combobox
                   search={searchAnimal}
