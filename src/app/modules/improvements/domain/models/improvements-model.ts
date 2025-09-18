@@ -1,41 +1,45 @@
 import type { WithId } from '@/core/domain/types'
 
 export type ImprovementDetailsModel = {
-  description: string
+  type: string
+  name: string
   amount: string
   unitPrice: string
   percentDairyCattle: string
-  usefulLife: string
+  lifespan: string
   acquisitionDate: Date
   moneyDairyCattle: string
 }
 
 export type ImprovementDetailsApiResponse = {
-  description: string
+  type: string
+  name: string
   amount: string
   unitPrice: string
   percentDairyCattle: string
-  usefulLife: string
+  lifespan: string
   acquisitionDate: string
   moneyDairyCattle: string
 }
 
 export type ImprovementModel = WithId<{
-  description: string
+  type: string
+  name: string
   amount: string
   unitPrice: string
   percentDairyCattle: string
-  usefulLife: string
+  lifespan: string
   acquisitionDate: string
   moneyDairyCattle: string
 }>
 
 export type ImprovementApiResponse = WithId<{
-  description: string
+  type: string
+  name: string
   amount: number
   unitPrice: number
   percentDairyCattle: number
-  usefulLife: number
+  lifespan: number
   acquisitionDate: string
   moneyDairyCattle: number
 }>

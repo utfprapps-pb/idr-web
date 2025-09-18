@@ -35,11 +35,12 @@ export class RemoteGetImprovementsUseCase implements GetImprovementsUseCase {
       ImprovementApiResponse
     > = {
       id: 'id',
-      description: 'description',
+      type: 'type',
+      name: 'name',
       amount: 'amount',
       unitPrice: 'unitPrice',
       percentDairyCattle: 'percentDairyCattle',
-      usefulLife: 'usefulLife',
+      lifespan: 'lifespan',
       acquisitionDate: 'acquisitionDate',
       moneyDairyCattle: 'moneyDairyCattle',
     }
@@ -59,11 +60,12 @@ export class RemoteGetImprovementsUseCase implements GetImprovementsUseCase {
       return {
         resources: body.content.map((item) => ({
           id: item.id,
-          description: item.description,
+          type: item.type,
+          name: item.name,
           amount: String(item.amount),
           unitPrice: `R$ ${item.unitPrice}`,
           percentDairyCattle: `${item.percentDairyCattle}%`,
-          usefulLife: String(item.usefulLife),
+          lifespan: String(item.lifespan),
           acquisitionDate: format(new Date(item.acquisitionDate), 'dd/MM/yyyy'),
           moneyDairyCattle: `R$ ${item.moneyDairyCattle}`,
         })),

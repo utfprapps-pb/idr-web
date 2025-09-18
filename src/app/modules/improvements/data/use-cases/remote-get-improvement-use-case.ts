@@ -33,11 +33,12 @@ export class RemoteGetImprovementUseCase implements GetImprovementUseCase {
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        description: body.description,
+        type: body.type,
+        name: body.name,
         amount: String(body.amount),
         unitPrice: String(body.unitPrice),
         percentDairyCattle: String(body.percentDairyCattle),
-        usefulLife: String(body.usefulLife),
+        lifespan: String(body.lifespan),
         acquisitionDate: new Date(body.acquisitionDate),
         moneyDairyCattle: String(body.moneyDairyCattle),
       }
