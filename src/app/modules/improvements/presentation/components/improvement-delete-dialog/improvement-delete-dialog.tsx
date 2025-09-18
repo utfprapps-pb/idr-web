@@ -63,7 +63,7 @@ export function ImprovementDeleteDialog() {
       <AlertDialog.Content>
         <AlertDialog.Header>
           <AlertDialog.Title>
-            {`Deseja remover a benfeitoria ${selectedImprovement?.description}`}
+            {`Deseja remover a benfeitoria ${selectedImprovement?.name}`}
           </AlertDialog.Title>
           <AlertDialog.Description>
             Não será possível desfazer essa ação!

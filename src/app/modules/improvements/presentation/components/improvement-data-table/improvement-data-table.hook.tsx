@@ -35,7 +35,11 @@ export function useImprovementDataTable() {
   const columns = useMemo<ColumnDef<ImprovementModel>[]>(
     () => [
       {
-        accessorKey: 'description',
+        accessorKey: 'type',
+        header: 'Tipo',
+      },
+      {
+        accessorKey: 'name',
         header: 'Benfeitoria',
       },
       {
@@ -51,7 +55,7 @@ export function useImprovementDataTable() {
         header: '% Gado de Leite',
       },
       {
-        accessorKey: 'usefulLife',
+        accessorKey: 'lifespan',
         header: 'Vida Útil',
       },
       {
