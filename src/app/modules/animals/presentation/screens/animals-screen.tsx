@@ -4,6 +4,7 @@ import {
   Breadcrumb,
   Button,
   Input,
+  ScrollArea,
   Tabs,
 } from '@/core/presentation/components/ui'
 
@@ -98,13 +99,16 @@ export function AnimalsScreen() {
         }) => (
           <Tabs.Root value={activeTab} onValueChange={handleTabChange}>
             {animalId && (
-              <Tabs.List>
-                {tabs.map((tab) => (
-                  <Tabs.Trigger key={tab.key} value={tab.key}>
-                    {tab.name}
-                  </Tabs.Trigger>
-                ))}
-              </Tabs.List>
+              <ScrollArea.Root className="w-full">
+                <Tabs.List className="flex w-max">
+                  {tabs.map((tab) => (
+                    <Tabs.Trigger key={tab.key} value={tab.key}>
+                      {tab.name}
+                    </Tabs.Trigger>
+                  ))}
+                </Tabs.List>
+                <ScrollArea.ScrollBar orientation="horizontal" />
+              </ScrollArea.Root>
             )}
 
             <Tabs.Content value={activeTab} className="mt-4 space-y-8">
