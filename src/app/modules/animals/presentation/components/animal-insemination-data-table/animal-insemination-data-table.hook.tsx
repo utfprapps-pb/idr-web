@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 
+import { format } from 'date-fns'
 import { MoreHorizontalIcon, PencilIcon, Trash2Icon } from 'lucide-react'
 
 import { DropdownMenu } from '@/core/presentation/components/ui'
@@ -39,6 +40,13 @@ export function useAnimalInseminationDataTable() {
       {
         accessorKey: 'date',
         header: 'Data',
+        cell: ({ row }) => {
+          const { original: animalDeath } = row
+
+          return animalDeath.date
+            ? format(new Date(animalDeath.date), 'dd/MM/yyyy')
+            : '-'
+        },
       },
       {
         accessorKey: 'sire',
