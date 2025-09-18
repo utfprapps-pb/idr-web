@@ -104,7 +104,7 @@ export function EditImprovementForm() {
     >
       <Sheet.Content side="right">
         <Sheet.Header>
-          <Sheet.Title>{`Editar Benfeitoria ${selectedImprovement?.description}`}</Sheet.Title>
+          <Sheet.Title>{`Editar Benfeitoria ${selectedImprovement?.name}`}</Sheet.Title>
           <Sheet.Description>
             Preencha o formulário para editar a benfeitoria
           </Sheet.Description>

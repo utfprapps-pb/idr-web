@@ -1,11 +1,12 @@
 import type { ImprovementFormSchema } from '../../validation/improvement-form-schema'
 
 export const IMPROVEMENT_INITIAL_FORM_DATA: ImprovementFormSchema = {
-  description: '',
+  type: '',
+  name: '',
   amount: '',
   unitPrice: '',
   percentDairyCattle: '',
-  usefulLife: '',
+  lifespan: '',
   acquisitionDate: new Date(),
   moneyDairyCattle: '',
 }
