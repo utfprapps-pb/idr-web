@@ -58,7 +58,7 @@ export function CreateAnimalInseminationForm() {
           exact: false,
         })
 
-        toast.success('Inseminação Artificial foi cadastrado com sucesso')
+        toast.success('Inseminação Artificial foi cadastrada com sucesso')
 
         form.reset(ANIMAL_INSEMINATION_INITIAL_FORM_DATA)
 
