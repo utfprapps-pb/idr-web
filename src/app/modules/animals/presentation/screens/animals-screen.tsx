@@ -4,6 +4,7 @@ import {
   Breadcrumb,
   Button,
   Input,
+  ScrollArea,
   Tabs,
 } from '@/core/presentation/components/ui'
 
@@ -16,6 +17,7 @@ import { AnimalChildbirthsScreen } from './animal-childbirths-screen'
 import { AnimalDeathsScreen } from './animal-deaths-screen'
 import { AnimalDiseasesScreen } from './animal-diseases-screen'
 import { AnimalHeiferCalfStagesScreen } from './animal-heifer-calf-stages-screen'
+import { AnimalInseminationsScreen } from './animal-inseminations-screen'
 import { AnimalPregnancyDiagnosesScreen } from './animal-pregnancy-diagnoses-screen'
 
 type Tab = {
@@ -58,6 +60,13 @@ export function AnimalsScreen() {
         name: 'Óbitos',
         component: animalId && <AnimalDeathsScreen animalId={animalId} />,
       },
+      {
+        key: 'animal-inseminations',
+        name: 'Inseminações',
+        component: animalId && (
+          <AnimalInseminationsScreen animalId={animalId} />
+        ),
+      },
     ],
     [animalId]
   )
@@ -90,13 +99,16 @@ export function AnimalsScreen() {
         }) => (
           <Tabs.Root value={activeTab} onValueChange={handleTabChange}>
             {animalId && (
-              <Tabs.List>
-                {tabs.map((tab) => (
-                  <Tabs.Trigger key={tab.key} value={tab.key}>
-                    {tab.name}
-                  </Tabs.Trigger>
-                ))}
-              </Tabs.List>
+              <ScrollArea.Root className="w-full">
+                <Tabs.List className="flex w-max">
+                  {tabs.map((tab) => (
+                    <Tabs.Trigger key={tab.key} value={tab.key}>
+                      {tab.name}
+                    </Tabs.Trigger>
+                  ))}
+                </Tabs.List>
+                <ScrollArea.ScrollBar orientation="horizontal" />
+              </ScrollArea.Root>
             )}
 
             <Tabs.Content value={activeTab} className="mt-4 space-y-8">

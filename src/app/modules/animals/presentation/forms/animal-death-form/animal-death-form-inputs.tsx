@@ -17,7 +17,7 @@ export function AnimalDeathFormInputs() {
 
           return (
             <Form.Item>
-              <Form.Label>Data do óbito*</Form.Label>
+              <Form.Label>Data do Óbito*</Form.Label>
               <Form.Control>
                 <DatePicker
                   date={field.value}
@@ -39,7 +39,7 @@ export function AnimalDeathFormInputs() {
 
           return (
             <Form.Item>
-              <Form.Label>Causa do óbito*</Form.Label>
+              <Form.Label>Causa do Óbito*</Form.Label>
               <Form.Control>
                 <Textarea {...field} isError={!!error?.message} />
               </Form.Control>
