@@ -3,15 +3,18 @@ import { faker } from '@faker-js/faker/locale/pt_BR'
 export const improvementsData = Array.from(
   {
     length: faker.number.int({
-      min: 1,
+      min: 20,
       max: 100,
     }),
   },
   (_, index) => ({
     id: index + 1,
-    description: faker.lorem.words(5),
-    amount: faker.number.int(),
+    type: faker.lorem.words(4),
+    name: faker.lorem.words(4),
+    amount: faker.number.int({ min: 10, max: 100 }),
     unitPrice: faker.number.float({
+      min: 1,
+      max: 1000,
       fractionDigits: 2,
     }),
     percentDairyCattle: faker.number.float({
@@ -19,7 +22,7 @@ export const improvementsData = Array.from(
       max: 100,
       fractionDigits: 2,
     }),
-    usefulLife: faker.number.int({
+    lifespan: faker.number.int({
       min: 1,
       max: 100,
     }),
