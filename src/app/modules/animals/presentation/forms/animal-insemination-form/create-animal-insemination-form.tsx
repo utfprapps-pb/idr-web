@@ -84,7 +84,7 @@ export function CreateAnimalInseminationForm() {
     >
       <Sheet.Content side="right">
         <Sheet.Header>
-          <Sheet.Title>Novo Inseminação Artificial</Sheet.Title>
+          <Sheet.Title>Nova Inseminação Artificial</Sheet.Title>
           <Sheet.Description>
             Preencha o formulário para criar uma nova inseminação artificial
           </Sheet.Description>
