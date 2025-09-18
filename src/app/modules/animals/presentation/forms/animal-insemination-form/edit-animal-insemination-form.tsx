@@ -110,7 +110,7 @@ export function EditAnimalInseminationForm() {
               : '-'
           }`}</Sheet.Title>
           <Sheet.Description>
-            Preencha o formulário para editar o parto do animal
+            Preencha o formulário para editar a inseminação artificial
           </Sheet.Description>
         </Sheet.Header>
         <Form.Provider {...form}>

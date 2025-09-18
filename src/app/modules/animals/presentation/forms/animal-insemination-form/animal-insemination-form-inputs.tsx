@@ -70,7 +70,7 @@ export function AnimalInseminationFormInputs() {
                   handleSelect={field.onChange}
                   isError={!!error}
                   placeholder="Selecione o animal reprodutor"
-                  emptyMessage="Nenhuma animal encontrado"
+                  emptyMessage="Nenhum animal encontrado"
                   searchPlaceholder="Buscar animal reprodutor"
                 />
               </Form.Control>
