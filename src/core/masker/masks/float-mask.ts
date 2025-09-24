@@ -19,6 +19,10 @@ export function floatMask(value: string, suffix?: string) {
     }
   }
 
+  if (Number(sanitizedValue) === 0) {
+    sanitizedValue = ''
+  }
+
   if (!sanitizedValue) {
     return ''
   }
