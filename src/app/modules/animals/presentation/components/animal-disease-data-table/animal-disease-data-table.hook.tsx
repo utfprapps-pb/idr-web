@@ -25,7 +25,7 @@ export function useAnimalDiseaseDataTable() {
   const [page, setPage] = useState(1)
   const [sort, setSort] = useState<AnimalDiseaseSort>()
 
-  const debouncedFilters = useDebounce({ value: filters, delayInMs: 1000 })
+  const debouncedFilters = useDebounce({ value: filters })
 
   const { isLoading, animalDiseases } = useAnimalDiseasesQuery({
     propertyId,

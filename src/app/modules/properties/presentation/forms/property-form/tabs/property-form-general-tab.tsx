@@ -31,7 +31,7 @@ export function PropertyFormGeneralTab() {
   })
 
   const [search, setSearch] = useState('')
-  const debouncedSearch = useDebounce({ value: search, delayInMs: 1000 })
+  const debouncedSearch = useDebounce({ value: search })
 
   const { allUsers, isLoading } = useAllUsersQuery({
     filters: {

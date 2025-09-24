@@ -25,7 +25,7 @@ export function useAnimalChildbirthDataTable() {
   const [page, setPage] = useState(1)
   const [sort, setSort] = useState<AnimalChildbirthSort>()
 
-  const debouncedFilters = useDebounce({ value: filters, delayInMs: 1000 })
+  const debouncedFilters = useDebounce({ value: filters })
 
   const { isLoading, animalChildbirths } = useAnimalChildbirthsQuery({
     propertyId,

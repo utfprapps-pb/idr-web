@@ -25,7 +25,7 @@ export function useAnimalInseminationDataTable() {
   const [page, setPage] = useState(1)
   const [sort, setSort] = useState<AnimalInseminationSort>()
 
-  const debouncedFilters = useDebounce({ value: filters, delayInMs: 1000 })
+  const debouncedFilters = useDebounce({ value: filters })
 
   const { isLoading, animalInseminations } = useAnimalInseminationsQuery({
     propertyId,
