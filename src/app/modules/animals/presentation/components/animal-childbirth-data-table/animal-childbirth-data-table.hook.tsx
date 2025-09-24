@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 
 import { MoreHorizontalIcon, PencilIcon, Trash2Icon } from 'lucide-react'
 
+import { floatMask } from '@/core/masker'
 import { DropdownMenu } from '@/core/presentation/components/ui'
 import { useDebounce } from '@/core/presentation/hooks'
 
@@ -50,7 +51,9 @@ export function useAnimalChildbirthDataTable() {
         cell: ({ row }) => {
           const { original: animalChildbirth } = row
 
-          return animalChildbirth.weight ? `${animalChildbirth.weight} kg` : '-'
+          return animalChildbirth.weight
+            ? `${floatMask(animalChildbirth.weight, 'kg')}`
+            : '-'
         },
       },
       {

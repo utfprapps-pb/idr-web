@@ -24,11 +24,11 @@ export function AnimalHeiferCalfStageFormInputs() {
     if (amountOfMilkCorrection) {
       form.setValue(
         'amountOfMilk.morning',
-        floatMask((amountOfMilkCorrection / 2).toFixed(2))
+        floatMask((amountOfMilkCorrection / 2).toFixed(2), 'l')
       )
       form.setValue(
         'amountOfMilk.afternoon',
-        floatMask((amountOfMilkCorrection / 2).toFixed(2))
+        floatMask((amountOfMilkCorrection / 2).toFixed(2), 'l')
       )
     }
   }, [amountOfMilkCorrection, form])
@@ -71,7 +71,7 @@ export function AnimalHeiferCalfStageFormInputs() {
                   {...field}
                   placeholder="2,4"
                   isError={!!error?.message}
-                  mask={floatMask}
+                  mask={(value) => floatMask(value, 'kg')}
                 />
               </Form.Control>
               <Form.Message />
@@ -157,7 +157,7 @@ export function AnimalHeiferCalfStageFormInputs() {
                     <Input
                       {...field}
                       isError={!!error?.message}
-                      mask={floatMask}
+                      mask={(value) => floatMask(value, 'kg')}
                       placeholder="80,3"
                     />
                   </Form.Control>
@@ -315,7 +315,7 @@ export function AnimalHeiferCalfStageFormInputs() {
                     <Input
                       {...field}
                       isError={!!error?.message}
-                      mask={floatMask}
+                      mask={(value) => floatMask(value, 'kg')}
                       placeholder="100,00"
                     />
                   </Form.Control>
@@ -455,7 +455,7 @@ export function AnimalHeiferCalfStageFormInputs() {
                     <Input
                       {...field}
                       isError={!!error?.message}
-                      mask={floatMask}
+                      mask={(value) => floatMask(value, 'kg')}
                       placeholder="100,00"
                     />
                   </Form.Control>
