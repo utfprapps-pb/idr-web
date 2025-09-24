@@ -51,12 +51,10 @@ export const getAnimalChildbirthsHandler = httpWithMiddleware<
         animalChildbirths
       )
     const numberOfElements = animalChildbirths.length
-
-    if (page)
-      animalChildbirths = paginateData<AnimalChildbirthApiResponse>(
-        { page, perPage: rows },
-        animalChildbirths
-      )
+    animalChildbirths = paginateData<AnimalChildbirthApiResponse>(
+      { page, perPage: rows },
+      animalChildbirths
+    )
 
     return HttpResponse.json(
       {

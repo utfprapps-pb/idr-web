@@ -42,12 +42,7 @@ export const getForagesHandler = httpWithMiddleware<
     if (filters) forages = filterData<ForageApiResponse>(filters, forages)
     if (sort) forages = sortData<ForageApiResponse>(sort, forages)
     const numberOfElements = forages.length
-
-    if (page)
-      forages = paginateData<ForageApiResponse>(
-        { page, perPage: rows },
-        forages
-      )
+    forages = paginateData<ForageApiResponse>({ page, perPage: rows }, forages)
 
     return HttpResponse.json(
       {

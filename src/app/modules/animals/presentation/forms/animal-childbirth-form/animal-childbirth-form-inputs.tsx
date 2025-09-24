@@ -92,9 +92,9 @@ export function AnimalChildbirthFormInputs() {
               <Form.Control>
                 <Input
                   {...field}
-                  placeholder="80,3"
+                  placeholder="80,3 kg"
                   isError={!!error?.message}
-                  mask={floatMask}
+                  mask={(value) => floatMask(value, 'kg')}
                 />
               </Form.Control>
               <Form.Message />

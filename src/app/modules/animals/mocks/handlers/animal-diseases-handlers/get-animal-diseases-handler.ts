@@ -48,12 +48,10 @@ export const getAnimalDiseasesHandler = httpWithMiddleware<
       animalDiseases = sortData<AnimalDiseaseApiResponse>(sort, animalDiseases)
 
     const numberOfElements = animalDiseases.length
-
-    if (page)
-      animalDiseases = paginateData<AnimalDiseaseApiResponse>(
-        { page, perPage: rows },
-        animalDiseases
-      )
+    animalDiseases = paginateData<AnimalDiseaseApiResponse>(
+      { page, perPage: rows },
+      animalDiseases
+    )
 
     return HttpResponse.json(
       {

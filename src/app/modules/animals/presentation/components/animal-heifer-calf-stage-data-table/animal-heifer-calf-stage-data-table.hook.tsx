@@ -25,7 +25,7 @@ export function useAnimalHeiferCalfStageDataTable() {
   const [page, setPage] = useState(1)
   const [sort, setSort] = useState<AnimalHeiferCalfStageSort>()
 
-  const debouncedFilters = useDebounce({ value: filters, delayInMs: 1000 })
+  const debouncedFilters = useDebounce({ value: filters })
 
   const { isLoading, animalHeiferCalfStages } = useAnimalHeiferCalfStagesQuery({
     propertyId,

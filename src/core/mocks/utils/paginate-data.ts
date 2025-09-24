@@ -7,5 +7,8 @@ export function paginateData<TData extends object>(
 ) {
   const { page, perPage = 10 } = pagination
 
-  return data.slice((page - 1) * perPage, page * perPage)
+  const start = page * perPage
+  const end = start + perPage
+
+  return data.slice(start, end)
 }
