@@ -45,12 +45,10 @@ export const getAnimalDeathsHandler = httpWithMiddleware<
       animalDeaths = sortData<AnimalDeathApiResponse>(sort, animalDeaths)
 
     const numberOfElements = animalDeaths.length
-
-    if (page)
-      animalDeaths = paginateData<AnimalDeathApiResponse>(
-        { page, perPage: rows },
-        animalDeaths
-      )
+    animalDeaths = paginateData<AnimalDeathApiResponse>(
+      { page, perPage: rows },
+      animalDeaths
+    )
 
     return HttpResponse.json(
       {

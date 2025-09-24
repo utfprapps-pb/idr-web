@@ -43,15 +43,13 @@ export const getPropertiesHandler = httpWithMiddleware<
       properties = filterData<PropertyApiResponse>(filters, properties)
     if (sort) properties = sortData<PropertyApiResponse>(sort, properties)
     const numberOfElements = properties.length
-
-    if (page)
-      properties = paginateData<PropertyApiResponse>(
-        {
-          page,
-          perPage: rows,
-        },
-        properties
-      )
+    properties = paginateData<PropertyApiResponse>(
+      {
+        page,
+        perPage: rows,
+      },
+      properties
+    )
 
     return HttpResponse.json(
       {

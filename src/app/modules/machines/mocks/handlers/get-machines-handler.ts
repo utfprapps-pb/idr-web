@@ -42,12 +42,10 @@ export const getMachinesHandler = httpWithMiddleware<
     if (filters) machines = filterData<MachineApiResponse>(filters, machines)
     if (sort) machines = sortData<MachineApiResponse>(sort, machines)
     const numberOfElements = machines.length
-
-    if (page)
-      machines = paginateData<MachineApiResponse>(
-        { page, perPage: rows },
-        machines
-      )
+    machines = paginateData<MachineApiResponse>(
+      { page, perPage: rows },
+      machines
+    )
 
     return HttpResponse.json(
       {

@@ -42,12 +42,7 @@ export const getAnimalsHandler = httpWithMiddleware<
     if (filters) animals = filterData<AnimalApiResponse>(filters, animals)
     if (sort) animals = sortData<AnimalApiResponse>(sort, animals)
     const numberOfElements = animals.length
-
-    if (page)
-      animals = paginateData<AnimalApiResponse>(
-        { page, perPage: rows },
-        animals
-      )
+    animals = paginateData<AnimalApiResponse>({ page, perPage: rows }, animals)
 
     return HttpResponse.json(
       {

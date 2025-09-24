@@ -52,12 +52,10 @@ export const getAnimalInseminationsHandler = httpWithMiddleware<
       )
 
     const numberOfElements = animalInseminations.length
-
-    if (page)
-      animalInseminations = paginateData<AnimalInseminationApiResponse>(
-        { page, perPage: rows },
-        animalInseminations
-      )
+    animalInseminations = paginateData<AnimalInseminationApiResponse>(
+      { page, perPage: rows },
+      animalInseminations
+    )
 
     return HttpResponse.json(
       {

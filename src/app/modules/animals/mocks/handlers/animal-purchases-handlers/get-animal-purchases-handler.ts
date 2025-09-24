@@ -51,12 +51,10 @@ export const getAnimalPurchasesHandler = httpWithMiddleware<
       )
 
     const numberOfElements = animalPurchases.length
-
-    if (page)
-      animalPurchases = paginateData<AnimalPurchaseApiResponse>(
-        { page, perPage: rows },
-        animalPurchases
-      )
+    animalPurchases = paginateData<AnimalPurchaseApiResponse>(
+      { page, perPage: rows },
+      animalPurchases
+    )
 
     return HttpResponse.json(
       {

@@ -44,12 +44,10 @@ export const getImprovementsHandler = httpWithMiddleware<
     if (sort)
       improvements = sortData<ImprovementApiResponse>(sort, improvements)
     const totalRegisters = improvements.length
-
-    if (page)
-      improvements = paginateData<ImprovementApiResponse>(
-        { page, perPage: rows },
-        improvements
-      )
+    improvements = paginateData<ImprovementApiResponse>(
+      { page, perPage: rows },
+      improvements
+    )
 
     return HttpResponse.json(
       {
