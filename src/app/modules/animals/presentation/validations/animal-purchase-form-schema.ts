@@ -16,7 +16,7 @@ export const animalPurchaseFormSchema = z.object({
   price: z.string().refine((value) => moneyValidation(value, 0.01), {
     message: 'O valor mínimo é R$0,01',
   }),
-  weight: z.string().min(1, { message: 'Campo obrigatório' }),
+  weight: z.string().min(1, { message: 'Peso obrigatório' }),
 })
 
 export type AnimalPurchaseFormSchema = z.infer<typeof animalPurchaseFormSchema>
