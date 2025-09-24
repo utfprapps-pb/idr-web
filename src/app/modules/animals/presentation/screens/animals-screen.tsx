@@ -19,6 +19,7 @@ import { AnimalDiseasesScreen } from './animal-diseases-screen'
 import { AnimalHeiferCalfStagesScreen } from './animal-heifer-calf-stages-screen'
 import { AnimalInseminationsScreen } from './animal-inseminations-screen'
 import { AnimalPregnancyDiagnosesScreen } from './animal-pregnancy-diagnoses-screen'
+import { AnimalPurchasesScreen } from './animal-purchases-screen'
 
 type Tab = {
   key: string
@@ -66,6 +67,11 @@ export function AnimalsScreen() {
         component: animalId && (
           <AnimalInseminationsScreen animalId={animalId} />
         ),
+      },
+      {
+        key: 'animal-purchases',
+        name: 'Compra de Animal',
+        component: animalId && <AnimalPurchasesScreen animalId={animalId} />,
       },
     ],
     [animalId]
