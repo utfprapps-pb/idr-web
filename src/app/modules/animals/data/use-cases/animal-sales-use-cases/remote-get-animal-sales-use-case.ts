@@ -7,7 +7,9 @@ import {
 
 import type {
   AnimalSaleApiResponse,
+  AnimalSaleDestination,
   AnimalSaleModel,
+  AnimalSaleReason,
 } from '../../../domain/models/animal-sales-model'
 import type { GetAnimalSalesUseCase } from '../../../domain/use-cases/animal-sales-use-cases'
 import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
@@ -55,13 +57,25 @@ export class RemoteGetAnimalSalesUseCase implements GetAnimalSalesUseCase {
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
+      const reasonMapper: Record<AnimalSaleReason, string> = {
+        VOLUNTARY: 'Voluntário',
+        DISCARD: 'Descarte',
+        EMERGENCY: 'Emergência',
+      }
+
+      const destinationMapper: Record<AnimalSaleDestination, string> = {
+        SLAUGHTER: 'Abate',
+        PRODUCTION: 'Produção',
+      }
+
       return {
         resources: body.content.map((item) => {
           return {
             id: item.id,
             date: new Date(item.date),
-            destination: item.destination,
-            reason: item.reason,
+            destination:
+              destinationMapper[item.destination as AnimalSaleDestination],
+            reason: reasonMapper[item.reason as AnimalSaleReason],
             price: item.price,
             weight: item.weight,
           }

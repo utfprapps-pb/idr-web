@@ -40,7 +40,7 @@ export function useAnimalSaleDataTable() {
     () => [
       {
         accessorKey: 'date',
-        header: 'Data da Compra',
+        header: 'Data da Venda',
         cell: ({ row }) => {
           const { original: animalSale } = row
 
