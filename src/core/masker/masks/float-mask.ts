@@ -42,6 +42,5 @@ export function floatMask(value: string, suffix?: string) {
 
   const finalValue = `${integerPart || '0'},${decimalPart}`
 
-  // 5. Adicionamos o sufixo de volta, se ele existir.
   return suffix ? `${finalValue} ${suffix.trim()}` : finalValue
 }
