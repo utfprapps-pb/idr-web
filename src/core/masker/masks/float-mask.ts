@@ -5,10 +5,13 @@ export function floatMask(value: string, suffix?: string) {
 
   if (shouldCheckForBackspace) {
     const tempPadded = sanitizedValue.padStart(3, '0')
-    let tempIntPart = tempPadded.slice(0, -2).replace(/^0+/, '')
+    let tempIntPart = tempPadded.slice(0, -2)
+    if (tempIntPart.length > 1) {
+      tempIntPart = tempIntPart.replace(/^0+/, '')
+    }
     tempIntPart = tempIntPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
     const tempDecPart = tempPadded.slice(-2)
-    const hypotheticalNumeric = `${tempIntPart ?? '0'},${tempDecPart}`
+    const hypotheticalNumeric = `${tempIntPart || '0'},${tempDecPart}`
     const hypotheticalFull = `${hypotheticalNumeric} ${suffix.trim()}`
 
     const isUserDeletingSuffix =
