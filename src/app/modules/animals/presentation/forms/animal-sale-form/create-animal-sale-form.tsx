@@ -57,7 +57,7 @@ export function CreateAnimalSaleForm() {
           exact: false,
         })
 
-        toast.success('Venda de animal foi cadastrado com sucesso')
+        toast.success('Venda de animal foi cadastrada com sucesso')
 
         form.reset(ANIMAL_SALE_INITIAL_FORM_DATA)
 
