@@ -102,6 +102,7 @@ import {
   updatePropertyHandler,
 } from '@/app/modules/properties/mocks/handlers'
 
+import { getAllActiveIngredientsHandler } from './handlers/active-ingredients-handlers'
 import { getAllBreedsHandler } from './handlers/breeds-handlers'
 import { getAllUsersHandler, getMeHandler } from './handlers/users-handlers'
 import { getAllVegetablesHandler } from './handlers/vegetables-handlers'
@@ -112,6 +113,8 @@ const handlers: HttpHandler[] = [
   getAllBreedsHandler,
 
   getAllVegetablesHandler,
+
+  getAllActiveIngredientsHandler,
 
   getAllUsersHandler,
   getMeHandler,
