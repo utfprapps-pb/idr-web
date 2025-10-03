@@ -12,12 +12,12 @@ export const allProductsData = Array.from(
     name: faker.commerce.productName(),
     description: faker.commerce.productDescription(),
     category: {
-      id: faker.number.int({ min: 1, max: 150 }),
-      description: faker.commerce.department(),
+      value: faker.number.int({ min: 1, max: 150 }),
+      label: faker.commerce.department(),
     },
     activeIngredient: {
-      id: faker.number.int({ min: 1, max: 150 }),
-      name: faker.science.chemicalElement().name,
+      value: faker.number.int({ min: 1, max: 150 }),
+      label: faker.science.chemicalElement().name,
     },
   })
 )
