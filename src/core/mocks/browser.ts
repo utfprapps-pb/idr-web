@@ -105,6 +105,7 @@ import {
 import { getAllActiveIngredientsHandler } from './handlers/active-ingredients-handlers'
 import { getAllBreedsHandler } from './handlers/breeds-handlers'
 import { getAllProductCategoriesHandler } from './handlers/product-categories-handlers'
+import { getAllProductsHandler } from './handlers/products-handlers'
 import { getAllUsersHandler, getMeHandler } from './handlers/users-handlers'
 import { getAllVegetablesHandler } from './handlers/vegetables-handlers'
 
@@ -118,6 +119,8 @@ const handlers: HttpHandler[] = [
   getAllActiveIngredientsHandler,
 
   getAllProductCategoriesHandler,
+
+  getAllProductsHandler,
 
   getAllUsersHandler,
   getMeHandler,
