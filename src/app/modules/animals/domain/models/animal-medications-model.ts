@@ -24,7 +24,7 @@ export type AnimalMedicationDetailsApiResponse = {
 }
 
 export type AnimalMedicationModel = WithId<{
-  date: Date
+  date: string
   product: string
   activeIngredient: string
   appliedDose: string
