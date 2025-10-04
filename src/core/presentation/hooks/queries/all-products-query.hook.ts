@@ -41,7 +41,11 @@ export function useAllProductsQuery({ filters }: Props) {
 
   return {
     allProducts:
-      data?.resources.map((resource) => toOption(resource, 'name')) ?? [],
+      data?.resources.map((resource) =>
+        toOption(resource, 'name', {
+          activeIngredient: resource.activeIngredient,
+        })
+      ) ?? [],
     isLoading,
     refetchAllProducts,
   }
