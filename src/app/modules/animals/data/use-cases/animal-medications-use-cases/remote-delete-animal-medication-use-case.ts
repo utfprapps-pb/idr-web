@@ -32,7 +32,7 @@ export class RemoteDeleteAnimalMedicationUseCase
     if (statusCode === HttpStatusCode.noContent) return
 
     if (statusCode === HttpStatusCode.notFound) {
-      throw new NotFoundError('Parto do Animal')
+      throw new NotFoundError('Medicação do Animal')
     }
 
     if (statusCode === HttpStatusCode.forbidden) {

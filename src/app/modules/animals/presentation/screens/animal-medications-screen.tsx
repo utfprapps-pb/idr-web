@@ -49,7 +49,7 @@ export function AnimalMedicationsScreen({
                 variant="default"
                 onClick={openNewAnimalMedicationForm}
               >
-                Adicionar Parto do Animal
+                Adicionar Medicação do Animal
               </Button>
             </div>
 
