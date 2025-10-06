@@ -1,5 +1,3 @@
-import { format } from 'date-fns'
-
 import { type HttpClient, HttpStatusCode } from '@/core/data/protocols/http'
 import {
   UnexpectedError,
@@ -76,7 +74,7 @@ export class RemoteGetAnimalMedicationsUseCase
 
           return {
             id: item.id,
-            date: format(new Date(item.date), 'dd/MM/yyyy'),
+            date: new Date(item.date),
             product: item.product,
             appliedDose: floatMask(item.appliedDose, 'mg/ml'),
             activeIngredient: item.activeIngredient,

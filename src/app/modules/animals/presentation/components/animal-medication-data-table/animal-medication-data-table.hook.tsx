@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 
+import { format } from 'date-fns'
 import { MoreHorizontalIcon, PencilIcon, Trash2Icon } from 'lucide-react'
 
 import { DropdownMenu } from '@/core/presentation/components/ui'
@@ -39,6 +40,13 @@ export function useAnimalMedicationDataTable() {
       {
         accessorKey: 'date',
         header: 'Data da Aplicação',
+        cell: ({ row }) => {
+          const { original: animalMedication } = row
+
+          return animalMedication.date
+            ? format(new Date(animalMedication.date), 'dd/MM/yyyy')
+            : '-'
+        },
       },
       {
         accessorKey: 'activeIngredient',
