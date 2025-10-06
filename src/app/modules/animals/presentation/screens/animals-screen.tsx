@@ -18,6 +18,7 @@ import { AnimalDeathsScreen } from './animal-deaths-screen'
 import { AnimalDiseasesScreen } from './animal-diseases-screen'
 import { AnimalHeiferCalfStagesScreen } from './animal-heifer-calf-stages-screen'
 import { AnimalInseminationsScreen } from './animal-inseminations-screen'
+import { AnimalMedicationsScreen } from './animal-medications-screen'
 import { AnimalPregnancyDiagnosesScreen } from './animal-pregnancy-diagnoses-screen'
 import { AnimalPurchasesScreen } from './animal-purchases-screen'
 import { AnimalSalesScreen } from './animal-sales-screen'
@@ -78,6 +79,11 @@ export function AnimalsScreen() {
         key: 'animal-sales',
         name: 'Venda de Animal',
         component: animalId && <AnimalSalesScreen animalId={animalId} />,
+      },
+      {
+        key: 'animal-medications',
+        name: 'Medicações',
+        component: animalId && <AnimalMedicationsScreen animalId={animalId} />,
       },
     ],
     [animalId]

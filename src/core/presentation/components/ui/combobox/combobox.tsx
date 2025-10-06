@@ -11,20 +11,31 @@ import { Popover } from '../popover'
 
 import type { Option } from '@/core/domain/types'
 
-export type ComboboxProps = {
+export type ComboboxProps<
+  TExtraData extends Record<PropertyKey, unknown> = Record<
+    PropertyKey,
+    unknown
+  >,
+> = {
   search: string
   handleSearch: (search: string) => void
-  items: Option[]
-  selected: Option
-  handleSelect: (item: Option) => void
+  items: Option<number, TExtraData>[]
+  selected: Option<number, TExtraData>
+  handleSelect: (item: Option<number, TExtraData>) => void
   placeholder?: string
   searchPlaceholder?: string
   emptyMessage?: string
   loading?: boolean
   isError?: boolean
+  disabled?: boolean
 }
 
-export function Combobox({
+export function Combobox<
+  TExtraData extends Record<PropertyKey, unknown> = Record<
+    PropertyKey,
+    unknown
+  >,
+>({
   search,
   handleSearch,
   items,
@@ -35,7 +46,8 @@ export function Combobox({
   emptyMessage,
   loading = false,
   isError = false,
-}: Readonly<ComboboxProps>) {
+  disabled = false,
+}: Readonly<ComboboxProps<TExtraData>>) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -44,6 +56,7 @@ export function Combobox({
         <Button
           variant="outline"
           aria-expanded={open}
+          disabled={disabled}
           className={cn(
             'w-full justify-between',
             isError && 'border border-red-500',
@@ -83,10 +96,12 @@ export function Combobox({
                     onSelect={(currentValue) => {
                       const selectedItem = items.find(
                         (it) => String(it.value) === currentValue
-                      ) ?? { label: '', value: 0 }
+                      )
 
-                      handleSelect(selectedItem)
-                      setOpen(false)
+                      if (selectedItem) {
+                        handleSelect(selectedItem)
+                        setOpen(false)
+                      }
                     }}
                   >
                     <Check

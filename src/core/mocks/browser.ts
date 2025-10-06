@@ -45,6 +45,13 @@ import {
   updateAnimalInseminationHandler,
 } from '@/app/modules/animals/mocks/handlers/animal-inseminations-handlers'
 import {
+  createAnimalMedicationHandler,
+  deleteAnimalMedicationHandler,
+  getAnimalMedicationHandler,
+  getAnimalMedicationsHandler,
+  updateAnimalMedicationHandler,
+} from '@/app/modules/animals/mocks/handlers/animal-medications-handlers'
+import {
   createAnimalPregnancyDiagnosisHandler,
   deleteAnimalPregnancyDiagnosisHandler,
   getAnimalPregnancyDiagnosesHandler,
@@ -95,7 +102,10 @@ import {
   updatePropertyHandler,
 } from '@/app/modules/properties/mocks/handlers'
 
+import { getAllActiveIngredientsHandler } from './handlers/active-ingredients-handlers'
 import { getAllBreedsHandler } from './handlers/breeds-handlers'
+import { getAllProductCategoriesHandler } from './handlers/product-categories-handlers'
+import { getAllProductsHandler } from './handlers/products-handlers'
 import { getAllUsersHandler, getMeHandler } from './handlers/users-handlers'
 import { getAllVegetablesHandler } from './handlers/vegetables-handlers'
 
@@ -105,6 +115,12 @@ const handlers: HttpHandler[] = [
   getAllBreedsHandler,
 
   getAllVegetablesHandler,
+
+  getAllActiveIngredientsHandler,
+
+  getAllProductCategoriesHandler,
+
+  getAllProductsHandler,
 
   getAllUsersHandler,
   getMeHandler,
@@ -187,6 +203,12 @@ const handlers: HttpHandler[] = [
   getAnimalSaleHandler,
   getAnimalSalesHandler,
   updateAnimalSaleHandler,
+
+  createAnimalMedicationHandler,
+  deleteAnimalMedicationHandler,
+  getAnimalMedicationHandler,
+  getAnimalMedicationsHandler,
+  updateAnimalMedicationHandler,
 ]
 
 export const worker = setupWorker(...handlers)
