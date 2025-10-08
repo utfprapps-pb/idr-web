@@ -45,6 +45,13 @@ import {
   updateAnimalInseminationHandler,
 } from '@/app/modules/animals/mocks/handlers/animal-inseminations-handlers'
 import {
+  createAnimalMastitisHandler,
+  deleteAnimalMastitisHandler,
+  getAnimalMastitidesHandler,
+  getAnimalMastitisHandler,
+  updateAnimalMastitisHandler,
+} from '@/app/modules/animals/mocks/handlers/animal-mastitides-handlers'
+import {
   createAnimalMedicationHandler,
   deleteAnimalMedicationHandler,
   getAnimalMedicationHandler,
@@ -209,6 +216,12 @@ const handlers: HttpHandler[] = [
   getAnimalMedicationHandler,
   getAnimalMedicationsHandler,
   updateAnimalMedicationHandler,
+
+  createAnimalMastitisHandler,
+  deleteAnimalMastitisHandler,
+  getAnimalMastitisHandler,
+  getAnimalMastitidesHandler,
+  updateAnimalMastitisHandler,
 ]
 
 export const worker = setupWorker(...handlers)
