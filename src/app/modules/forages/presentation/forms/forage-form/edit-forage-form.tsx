@@ -25,6 +25,7 @@ import {
 import { ForageFormInputs } from './forage-form-inputs'
 import { FORAGE_INITIAL_FORM_DATA } from './forage-initial-form-data'
 
+
 export function EditForageForm() {
   const {
     propertyId,
@@ -42,16 +43,27 @@ export function EditForageForm() {
 
   const queryClient = useQueryClient()
 
-  const form = useHookForm<ForageFormSchema>({
-    defaultValues: FORAGE_INITIAL_FORM_DATA,
-    ...(forage && {
-      values: {
-        ...forage,
-        averageCost: moneyMask(forage.averageCost),
-      },
-    }),
-    resolver: zodResolver(forageFormSchema),
-  })
+const form = useHookForm<ForageFormSchema>({
+  defaultValues: FORAGE_INITIAL_FORM_DATA,
+  ...(forage && {
+    values: {
+      cultivation: forage.cultivation
+        ? {
+            label: forage.cultivation.label ?? String(forage.cultivation),
+            value: forage.cultivation.value ?? forage.cultivation,
+          }
+        : null,
+      area: String(forage.area ?? ''),
+      averageCost: moneyMask(forage.averageCost),
+      usefulLife: String(forage.usefulLife ?? ''),
+      formation: forage.formation ? new Date(forage.formation) : new Date(),
+      ownershipType: forage.ownershipType ?? 'OWNED_LAND',
+      growthCycle: forage.growthCycle ?? 'PERENNIAL',
+      observation: forage.observation ?? '',
+    },
+  }),
+  resolver: zodResolver(forageFormSchema),
+})
 
   const { mutateAsync: mutateHandleUpdateForage } = useMutation({
     mutationFn: updateForageUseCase.execute,
@@ -66,12 +78,16 @@ export function EditForageForm() {
         }
 
         await mutateHandleUpdateForage({
-          forage: {
-            ...data,
-            id: selectedForage.id,
-          },
-          propertyId,
-        })
+        forage: {
+          ...data,
+          id: selectedForage.id,
+          // Adapte cultivation para o formato esperado pela API
+          cultivation: data.cultivation
+          ? { label: data.cultivation.label, value: data.cultivation.value }
+          : { label: '', value: 0 },
+        },
+        propertyId,
+      })
 
         queryClient.invalidateQueries({
           queryKey: ['forages'],

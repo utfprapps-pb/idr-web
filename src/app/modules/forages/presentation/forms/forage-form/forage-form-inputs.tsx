@@ -11,8 +11,9 @@ import {
   Select,
 } from '@/core/presentation/components/ui'
 import { useAllVegetablesQuery, useDebounce } from '@/core/presentation/hooks'
-
+import type { Option } from '@/core/domain/types'
 import type { ForageFormSchema } from '../../validations/forage-form-schema'
+
 
 export function ForageFormInputs() {
   const [searchCultivation, setSearchCultivation] = useState('')
@@ -37,20 +38,21 @@ export function ForageFormInputs() {
         control={form.control}
         render={({ field, fieldState }) => {
           const { error } = fieldState
+          
 
           return (
             <Form.Item>
               <Form.Label>Cultivo*</Form.Label>
               <Form.Control>
                 <Combobox
-                  search={searchCultivation}
-                  items={allVegetables}
-                  loading={isLoading}
-                  selected={field.value}
-                  handleSearch={(value) => setSearchCultivation(value)}
-                  handleSelect={field.onChange}
-                  isError={!!error}
-                />
+                    search={searchCultivation}
+                    items={allVegetables}
+                    loading={isLoading}
+                    selected={(field.value??null) as Option || null} // <- nunca undefined
+                    handleSearch={(value) => setSearchCultivation(value)}
+                    handleSelect={field.onChange}
+                    isError={!!error}
+                  />
               </Form.Control>
               <Form.Message />
             </Form.Item>

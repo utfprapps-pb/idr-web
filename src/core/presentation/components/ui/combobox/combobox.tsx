@@ -15,7 +15,7 @@ export type ComboboxProps = {
   search: string
   handleSearch: (search: string) => void
   items: Option[]
-  selected: Option
+  selected: Option|null
   handleSelect: (item: Option) => void
   placeholder?: string
   searchPlaceholder?: string
@@ -82,17 +82,18 @@ export function Combobox({
                     value={String(item.value)}
                     onSelect={(currentValue) => {
                       const selectedItem = items.find(
-                        (it) => String(it.value) === currentValue
-                      ) ?? { label: '', value: 0 }
-
+                      (it) => String(it.value) === currentValue
+                    )
+                    if (selectedItem) {
                       handleSelect(selectedItem)
+                    }
                       setOpen(false)
                     }}
                   >
                     <Check
                       className={cn(
                         'mr-2 h-4 w-4',
-                        selected.value === item.value
+                        selected?.value === item.value
                           ? 'opacity-100'
                           : 'opacity-0'
                       )}

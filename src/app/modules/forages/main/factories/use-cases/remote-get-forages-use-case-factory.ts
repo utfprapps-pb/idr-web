@@ -16,6 +16,6 @@ export function makeRemoteGetForagesUseCase(): GetForagesUseCase {
       ForageModel,
       ForageApiResponse,
       ListApiResponse<ForageApiResponse[]>
-    >()
+    >({method:'get'})
   )
 }

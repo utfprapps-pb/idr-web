@@ -7,6 +7,6 @@ import type { UpdateForageUseCase } from '../../../domain/use-cases'
 export function makeRemoteUpdateForageUseCase(): UpdateForageUseCase {
   return new RemoteUpdateForageUseCase(
     'properties/:propertyId/forages',
-    makeApiHttpClient()
+    makeApiHttpClient({ method:'patch' })
   )
 }

@@ -16,10 +16,35 @@ export class RemoteCreateForageUseCase implements CreateForageUseCase {
   execute: CreateForageUseCase['execute'] = async ({ propertyId, forage }) => {
     const url = this.url.replace(':propertyId', String(propertyId))
 
+    const body = {
+      ...forage,
+
+      cultivation:
+        typeof forage.cultivation === 'object'
+          ? forage.cultivation.label
+          : forage.cultivation,
+
+      area: forage.area ? Number(forage.area) : undefined,
+
+      averageCost: forage.averageCost
+        ? Number(
+            String(forage.averageCost)
+              .replace('R$', '') // remove símbolo
+              .replace(/\./g, '') // remove separador de milhar (se houver)
+              .replace(',', '.') // troca vírgula por ponto
+              .trim()
+          )
+        : undefined,
+        
+
+      usefulLife: forage.usefulLife ? Number(forage.usefulLife) : undefined,
+    }
+    console.log('Payload enviado para API:', body)
+
     const { statusCode } = await this.httpClient.request({
       url,
       method: 'post',
-      body: forage,
+      body,
     })
 
     if (statusCode === HttpStatusCode.created) return

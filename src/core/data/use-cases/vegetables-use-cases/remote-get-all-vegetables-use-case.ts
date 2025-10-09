@@ -33,7 +33,7 @@ export class RemoteGetAllVegetablesUseCase implements GetAllVegetablesUseCase {
     }
 
     const { statusCode, body } = await this.httpClient.request({
-      url: `${this.url}/search`,
+      url: `${this.url}/advanced-search`,
       method: 'post',
       filters,
       mapApiProperties,

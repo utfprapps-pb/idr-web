@@ -4,18 +4,18 @@ import { optionSchema } from '@/core/validation/schemas'
 import { moneyValidation } from '@/core/validation/validators'
 
 export const forageFormSchema = z.object({
-  cultivation: optionSchema.refine(
-    ({ label, value }) => label !== '' && value > 0,
-    {
-      message: 'Campo obrigatório',
-    }
-  ),
+  cultivation: optionSchema
+    .nullable()
+    .refine(
+      (opt) => !!opt && opt.label !== '' && opt.value > 0,
+      { message: 'Campo obrigatório' }
+    ),
   area: z.string().min(1, { message: 'Campo obrigatório' }),
   averageCost: z.string().refine((value) => moneyValidation(value, 0.01), {
     message: 'O valor mínimo é R$0,01',
   }),
   usefulLife: z.string().min(1, { message: 'Campo obrigatório' }),
-  formation: z.date().min(new Date(), { message: 'Data inválida' }),
+  formation: z.date({ required_error: 'Campo obrigatório' }),
   ownershipType: z.enum(['OWNED_LAND', 'LEASED_LAND'], {
     message: 'Campo obrigatório',
   }),

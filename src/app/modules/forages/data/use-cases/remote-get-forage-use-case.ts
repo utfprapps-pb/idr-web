@@ -24,16 +24,17 @@ export class RemoteGetForageUseCase implements GetForageUseCase {
     const url = this.url.replace(':propertyId', String(propertyId))
 
     const { statusCode, body } = await this.httpClient.request({
-      url: `${url}/Seach`,
-      method: 'post',
+      url: `${url}/${forageId}/details`,
+      method: 'get',
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
+        type: body.type, // Ensure this property exists in the API response
         area: body.area,
         averageCost: body.averageCost,
-        cultivation: body.cultivation,
-        formation: new Date(body.formation),
+        formation: body.formation ? new Date(body.formation) : null, // <--- RETORNA Date OU null
+        cultivation: body.cultivation || '', // <--- RETORNA string OU string vazia
         observation: body.observation,
         ownershipType: body.ownershipType,
         growthCycle: body.growthCycle,

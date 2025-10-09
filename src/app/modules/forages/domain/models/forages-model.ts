@@ -5,17 +5,19 @@ export type ForageOwnershipType = 'OWNED_LAND' | 'LEASED_LAND'
 export type ForageGrowthCycle = 'ANNUAL' | 'PERENNIAL'
 
 export type ForageDetailsModel = {
-  cultivation: Option
+  type: any
+  cultivation: Option | ''
   area: string
   averageCost: string
   usefulLife: string
-  formation: Date
+  formation: Date | null
   ownershipType: ForageOwnershipType
   growthCycle: ForageGrowthCycle
   observation?: string
 }
 
 export type ForageDetailsApiResponse = {
+  type: any
   cultivation: Option
   area: string
   averageCost: string

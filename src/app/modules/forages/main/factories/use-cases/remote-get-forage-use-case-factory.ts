@@ -11,6 +11,8 @@ import type { GetForageUseCase } from '../../../domain/use-cases'
 export function makeRemoteGetForageUseCase(): GetForageUseCase {
   return new RemoteGetForageUseCase(
     'properties/:propertyId/forages',
-    makeApiHttpClient<ForageDetailsModel, ForageDetailsApiResponse>()
+    makeApiHttpClient<ForageDetailsModel, ForageDetailsApiResponse>({
+      method:'get'
+    })
   )
 }

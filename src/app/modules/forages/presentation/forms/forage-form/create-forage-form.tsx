@@ -21,6 +21,17 @@ import {
 
 import { ForageFormInputs } from './forage-form-inputs'
 import { FORAGE_INITIAL_FORM_DATA } from './forage-initial-form-data'
+import { CreateForageUseCase } from '../../../domain/use-cases' // Certifique-se de que este import existe!
+
+// ----------------------------------------------------------------------
+// FUNÇÃO AUXILIAR PARA REMOVER CAMPOS VAZIOS OU NULOS
+const removeEmptyOrNull = (obj: Record<string, any>) => {
+  return Object.fromEntries(
+    Object.entries(obj).filter(([_, v]) => v != null && v !== '')
+  )
+}
+// ----------------------------------------------------------------------
+
 
 export function CreateForageForm() {
   const { propertyId, isOpenNewForageForm, closeNewForageForm } =
@@ -35,16 +46,27 @@ export function CreateForageForm() {
     resolver: zodResolver(forageFormSchema),
   })
 
+  // O tipo do 'mutateHandleCreateForage' é inferido
   const { mutateAsync: mutateHandleCreateForage } = useMutation({
     mutationFn: createForageUseCase.execute,
   })
 
+  // Define o tipo exato que o UseCase espera para o campo forage
+  type ForagePayload = Parameters<CreateForageUseCase['execute']>[0]['forage']
+
   const handleCreateForage = useCallback(
     async (data: ForageFormSchema) => {
       try {
+        // 1. Limpa o objeto de dados (retorna Record<string, any>)
+        const cleanedForageData = removeEmptyOrNull(data)
+
+        // 2. Aplica o Type Assertion para forçar o tipo correto (ForagePayload)
+        // Isso remove o sublinhado!
+        const finalForagePayload = cleanedForageData as ForagePayload
+
         await mutateHandleCreateForage({
           propertyId,
-          forage: data,
+          forage: finalForagePayload, // <--- APLICAÇÃO DO TYPE ASSERTION
         })
 
         queryClient.invalidateQueries({
