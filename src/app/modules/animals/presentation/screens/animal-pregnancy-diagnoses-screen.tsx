@@ -28,7 +28,16 @@ export function AnimalPregnancyDiagnosesScreen({
           openNewAnimalPregnancyDiagnosisForm,
         }) => (
           <section className="flex flex-col gap-4 w-full">
-            <div className="flex justify-between gap-2">
+            <div className="flex flex-col gap-2">
+              <Button
+                type="button"
+                variant="default"
+                className="self-end"
+                onClick={openNewAnimalPregnancyDiagnosisForm}
+              >
+                Adicionar Diagnóstico de Gestação
+              </Button>
+
               <DatePicker
                 className="w-fit"
                 date={filters.date?.value}
@@ -43,14 +52,6 @@ export function AnimalPregnancyDiagnosesScreen({
                 }}
                 label="Filtrar por data do diagnóstico"
               />
-
-              <Button
-                type="button"
-                variant="default"
-                onClick={openNewAnimalPregnancyDiagnosisForm}
-              >
-                Adicionar Diagnóstico de Gestação
-              </Button>
             </div>
 
             <AnimalPregnancyDiagnosisDataTable />

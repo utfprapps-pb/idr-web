@@ -19,6 +19,7 @@ import { ITEMS_PER_PAGE } from '@/core/infra/http'
 
 import { Loading } from '../loading'
 import { Pagination } from '../pagination'
+import { ScrollArea } from '../scroll-area'
 import { Table } from '../table'
 import { Tooltip } from '../tooltip'
 
@@ -81,7 +82,7 @@ export function TableBody<TData extends RowData>({
       onClick={(event) => handleOnClickRow(event, row.original)}
     >
       {row.getVisibleCells().map((cell) => (
-        <Table.Cell key={cell.id}>
+        <Table.Cell key={cell.id} className="whitespace-nowrap min-w-fit px-2">
           {flexRender(cell.column.columnDef.cell, cell.getContext())}
         </Table.Cell>
       ))}
@@ -191,60 +192,66 @@ export function DataTable<TData extends RowData>({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="rounded-md border">
-        <Table.Root>
-          <Table.Header>
-            {getHeaderGroups().map((headerGroup) => (
-              <Table.Row key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <Table.Head
-                    key={header.id}
-                    colSpan={header.colSpan}
-                    onClick={header.column.getToggleSortingHandler()}
-                    className={
-                      header.column.getCanSort()
-                        ? 'cursor-pointer select-none'
-                        : ''
-                    }
-                  >
-                    {header.isPlaceholder ? null : (
-                      <Tooltip.Provider>
-                        <Tooltip.Root>
-                          <Tooltip.Trigger>
-                            <div className="inline-flex items-center gap-2">
-                              {flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
-                              {{
-                                asc: <ArrowDownNarrowWide size={20} />,
-                                desc: <ArrowUpNarrowWide size={20} />,
-                              }[header.column.getIsSorted() as string] ?? null}
-                            </div>
-                          </Tooltip.Trigger>
-                          <Tooltip.Content>
-                            <p>
-                              {tooltipText(header.column.getNextSortingOrder())}
-                            </p>
-                          </Tooltip.Content>
-                        </Tooltip.Root>
-                      </Tooltip.Provider>
-                    )}
-                  </Table.Head>
-                ))}
-              </Table.Row>
-            ))}
-          </Table.Header>
-          <Table.Body>
-            <TableBody
-              columns={columns}
-              rowModel={getRowModel()}
-              loading={loading}
-              onClickRow={onClickRow}
-            />
-          </Table.Body>
-        </Table.Root>
-      </div>
+      <ScrollArea.Root className="w-full">
+        <div className="rounded-md border">
+          <Table.Root className="min-w-full table-auto">
+            <Table.Header>
+              {getHeaderGroups().map((headerGroup) => (
+                <Table.Row key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <Table.Head
+                      key={header.id}
+                      colSpan={header.colSpan}
+                      onClick={header.column.getToggleSortingHandler()}
+                      className={
+                        header.column.getCanSort()
+                          ? 'cursor-pointer select-none whitespace-nowrap min-w-fit'
+                          : 'whitespace-nowrap min-w-fit'
+                      }
+                    >
+                      {header.isPlaceholder ? null : (
+                        <Tooltip.Provider>
+                          <Tooltip.Root>
+                            <Tooltip.Trigger>
+                              <div className="inline-flex items-center gap-2">
+                                {flexRender(
+                                  header.column.columnDef.header,
+                                  header.getContext()
+                                )}
+                                {{
+                                  asc: <ArrowDownNarrowWide size={20} />,
+                                  desc: <ArrowUpNarrowWide size={20} />,
+                                }[header.column.getIsSorted() as string] ??
+                                  null}
+                              </div>
+                            </Tooltip.Trigger>
+                            <Tooltip.Content>
+                              <p>
+                                {tooltipText(
+                                  header.column.getNextSortingOrder()
+                                )}
+                              </p>
+                            </Tooltip.Content>
+                          </Tooltip.Root>
+                        </Tooltip.Provider>
+                      )}
+                    </Table.Head>
+                  ))}
+                </Table.Row>
+              ))}
+            </Table.Header>
+            <Table.Body>
+              <TableBody
+                columns={columns}
+                rowModel={getRowModel()}
+                loading={loading}
+                onClickRow={onClickRow}
+              />
+            </Table.Body>
+          </Table.Root>
+        </div>
+        <ScrollArea.ScrollBar orientation="horizontal" />
+      </ScrollArea.Root>
       <Pagination.Root>
         <Pagination.Content>
           <Pagination.Item

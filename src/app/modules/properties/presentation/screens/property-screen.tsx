@@ -6,7 +6,7 @@ import { AnimalsScreen } from '@/app/modules/animals/presentation/screens/animal
 import { ForagesScreen } from '@/app/modules/forages/presentation/screens/forages-screen'
 import { ImprovementsScreen } from '@/app/modules/improvements/presentation/screens/improvements-screen'
 import { MachinesScreen } from '@/app/modules/machines/presentation/screens/machines-screen'
-import { Tabs } from '@/core/presentation/components/ui'
+import { Breadcrumb, ScrollArea, Tabs } from '@/core/presentation/components/ui'
 
 type Tab =
   | {
@@ -109,21 +109,51 @@ export function PropertyScreen() {
           {tab?.component ? (
             tab.component
           ) : (
-            <Tabs.Root
-              defaultValue={activeSubTab}
-              onValueChange={handleSubTabChange}
-            >
-              <Tabs.List>
-                {subTabs.map((subTab) => (
-                  <Tabs.Trigger key={subTab.key} value={subTab.key}>
-                    {subTab.name}
-                  </Tabs.Trigger>
-                ))}
-              </Tabs.List>
+            <Tabs.Root value={activeSubTab} onValueChange={handleSubTabChange}>
+              <div className="flex gap-4">
+                <ScrollArea.Root className="h-[calc(100vh-300px)] w-48 flex-shrink-0">
+                  <Tabs.List className="flex flex-col h-auto w-full space-y-1 p-0">
+                    {subTabs.map((subTab) => (
+                      <Tabs.Trigger
+                        key={subTab.key}
+                        value={subTab.key}
+                        className="w-full justify-start text-left px-3 py-2 rounded-md"
+                      >
+                        {subTab.name}
+                      </Tabs.Trigger>
+                    ))}
+                  </Tabs.List>
+                  <ScrollArea.ScrollBar orientation="vertical" />
+                </ScrollArea.Root>
 
-              <Tabs.Content className="mt-0 w-full" value={activeSubTab}>
-                {subTab?.component}
-              </Tabs.Content>
+                <div className="flex-1 min-w-0">
+                  <Tabs.Content
+                    className="mt-0 w-full space-y-8"
+                    value={activeSubTab}
+                  >
+                    {subTab?.component && (
+                      <>
+                        <Breadcrumb.Root>
+                          <Breadcrumb.List>
+                            <Breadcrumb.Link
+                              asChild
+                              onClick={() => setActiveTab('soil-data')}
+                            >
+                              <span>Dados da Terra</span>
+                            </Breadcrumb.Link>
+                            <Breadcrumb.Separator />
+                            <Breadcrumb.Item>
+                              <Breadcrumb.Page>{subTab.name}</Breadcrumb.Page>
+                            </Breadcrumb.Item>
+                          </Breadcrumb.List>
+                        </Breadcrumb.Root>
+
+                        {subTab.component}
+                      </>
+                    )}
+                  </Tabs.Content>
+                </div>
+              </div>
             </Tabs.Root>
           )}
         </Tabs.Content>

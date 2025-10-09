@@ -28,7 +28,16 @@ export function AnimalMastitidesScreen({
           openNewAnimalMastitisForm,
         }) => (
           <section className="flex flex-col gap-4 w-full">
-            <div className="flex justify-between gap-2">
+            <div className="flex flex-col gap-2">
+              <Button
+                type="button"
+                variant="default"
+                className="self-end"
+                onClick={openNewAnimalMastitisForm}
+              >
+                Adicionar Mastite do Animal
+              </Button>
+
               <DatePicker
                 className="w-fit"
                 date={filters.date?.value}
@@ -43,14 +52,6 @@ export function AnimalMastitidesScreen({
                 }}
                 label="Filtrar por data de mastite"
               />
-
-              <Button
-                type="button"
-                variant="default"
-                onClick={openNewAnimalMastitisForm}
-              >
-                Adicionar Mastite do Animal
-              </Button>
             </div>
 
             <AnimalMastitisDataTable />

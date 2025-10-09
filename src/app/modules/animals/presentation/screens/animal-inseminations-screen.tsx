@@ -28,7 +28,16 @@ export function AnimalInseminationsScreen({
           openNewAnimalInseminationForm,
         }) => (
           <section className="flex flex-col gap-4 w-full">
-            <div className="flex justify-between gap-2">
+            <div className="flex flex-col gap-2">
+              <Button
+                type="button"
+                variant="default"
+                className="self-end"
+                onClick={openNewAnimalInseminationForm}
+              >
+                Adicionar Inseminação Artificial
+              </Button>
+
               <DatePicker
                 className="w-fit"
                 date={filters.date?.value}
@@ -43,14 +52,6 @@ export function AnimalInseminationsScreen({
                 }}
                 label="Filtrar por data de inseminação artificial"
               />
-
-              <Button
-                type="button"
-                variant="default"
-                onClick={openNewAnimalInseminationForm}
-              >
-                Adicionar Inseminação Artificial
-              </Button>
             </div>
 
             <AnimalInseminationDataTable />

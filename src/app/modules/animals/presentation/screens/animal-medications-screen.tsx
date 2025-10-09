@@ -28,7 +28,16 @@ export function AnimalMedicationsScreen({
           openNewAnimalMedicationForm,
         }) => (
           <section className="flex flex-col gap-4 w-full">
-            <div className="flex justify-between gap-2">
+            <div className="flex flex-col gap-2">
+              <Button
+                type="button"
+                variant="default"
+                className="self-end"
+                onClick={openNewAnimalMedicationForm}
+              >
+                Adicionar Medicação do Animal
+              </Button>
+
               <DatePicker
                 className="w-fit"
                 date={filters.date?.value}
@@ -43,14 +52,6 @@ export function AnimalMedicationsScreen({
                 }}
                 label="Filtrar por data da medicação"
               />
-
-              <Button
-                type="button"
-                variant="default"
-                onClick={openNewAnimalMedicationForm}
-              >
-                Adicionar Medicação do Animal
-              </Button>
             </div>
 
             <AnimalMedicationDataTable />

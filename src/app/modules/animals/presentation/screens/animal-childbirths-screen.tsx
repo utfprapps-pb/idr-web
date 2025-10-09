@@ -28,7 +28,16 @@ export function AnimalChildbirthsScreen({
           openNewAnimalChildbirthForm,
         }) => (
           <section className="flex flex-col gap-4 w-full">
-            <div className="flex justify-between gap-2">
+            <div className="flex flex-col gap-2">
+              <Button
+                type="button"
+                variant="default"
+                className="self-end"
+                onClick={openNewAnimalChildbirthForm}
+              >
+                Adicionar Parto do Animal
+              </Button>
+
               <Input
                 className="w-fit"
                 value={filters.breed?.value}
@@ -42,14 +51,6 @@ export function AnimalChildbirthsScreen({
                 }}
                 placeholder="Procurar animal por raça"
               />
-
-              <Button
-                type="button"
-                variant="default"
-                onClick={openNewAnimalChildbirthForm}
-              >
-                Adicionar Parto do Animal
-              </Button>
             </div>
 
             <AnimalChildbirthDataTable />

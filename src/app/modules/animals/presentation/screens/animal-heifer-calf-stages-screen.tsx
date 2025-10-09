@@ -28,7 +28,16 @@ export function AnimalHeiferCalfStagesScreen({
           openNewAnimalHeiferCalfStageForm,
         }) => (
           <section className="flex flex-col gap-4 w-full">
-            <div className="flex justify-between gap-2">
+            <div className="flex flex-col gap-2">
+              <Button
+                type="button"
+                variant="default"
+                className="self-end"
+                onClick={openNewAnimalHeiferCalfStageForm}
+              >
+                Adicionar Parto do Animal
+              </Button>
+
               <DatePicker
                 className="w-fit"
                 label="Filtrar por data da pesagem"
@@ -44,14 +53,6 @@ export function AnimalHeiferCalfStagesScreen({
                   })
                 }}
               />
-
-              <Button
-                type="button"
-                variant="default"
-                onClick={openNewAnimalHeiferCalfStageForm}
-              >
-                Adicionar Parto do Animal
-              </Button>
             </div>
 
             <AnimalHeiferCalfStageDataTable />

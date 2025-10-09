@@ -122,40 +122,50 @@ export function AnimalsScreen() {
           openNewAnimalForm,
         }) => (
           <Tabs.Root value={activeTab} onValueChange={handleTabChange}>
-            {animalId && (
-              <ScrollArea.Root className="w-full">
-                <Tabs.List className="flex w-max">
-                  {tabs.map((tab) => (
-                    <Tabs.Trigger key={tab.key} value={tab.key}>
-                      {tab.name}
-                    </Tabs.Trigger>
-                  ))}
-                </Tabs.List>
-                <ScrollArea.ScrollBar orientation="horizontal" />
-              </ScrollArea.Root>
-            )}
-
-            <Tabs.Content value={activeTab} className="mt-4 space-y-8">
-              {tab?.component && animalId ? (
-                <>
-                  <Breadcrumb.Root>
-                    <Breadcrumb.List>
-                      <Breadcrumb.Link
-                        asChild
-                        onClick={() => handleSelectAnimalId(null)}
+            {animalId ? (
+              <div className="flex gap-4">
+                <ScrollArea.Root className="h-[calc(100vh-200px)] w-48 flex-shrink-0">
+                  <Tabs.List className="flex flex-col h-auto w-full space-y-1 p-0">
+                    {tabs.map((tab) => (
+                      <Tabs.Trigger
+                        key={tab.key}
+                        value={tab.key}
+                        className="w-full justify-start text-left px-3 py-2 rounded-md"
                       >
-                        <span>Dados dos animais</span>
-                      </Breadcrumb.Link>
-                      <Breadcrumb.Separator />
-                      <Breadcrumb.Item>
-                        <Breadcrumb.Page>{tab.name}</Breadcrumb.Page>
-                      </Breadcrumb.Item>
-                    </Breadcrumb.List>
-                  </Breadcrumb.Root>
+                        {tab.name}
+                      </Tabs.Trigger>
+                    ))}
+                  </Tabs.List>
+                  <ScrollArea.ScrollBar orientation="vertical" />
+                </ScrollArea.Root>
 
-                  {tab.component}
-                </>
-              ) : (
+                <div className="flex-1 min-w-0">
+                  <Tabs.Content value={activeTab} className="space-y-8 mt-0">
+                    {tab?.component && animalId ? (
+                      <>
+                        <Breadcrumb.Root>
+                          <Breadcrumb.List>
+                            <Breadcrumb.Link
+                              asChild
+                              onClick={() => handleSelectAnimalId(null)}
+                            >
+                              <span>Dados dos animais</span>
+                            </Breadcrumb.Link>
+                            <Breadcrumb.Separator />
+                            <Breadcrumb.Item>
+                              <Breadcrumb.Page>{tab.name}</Breadcrumb.Page>
+                            </Breadcrumb.Item>
+                          </Breadcrumb.List>
+                        </Breadcrumb.Root>
+
+                        {tab.component}
+                      </>
+                    ) : null}
+                  </Tabs.Content>
+                </div>
+              </div>
+            ) : (
+              <Tabs.Content value={activeTab} className="mt-4 space-y-8">
                 <section className="flex flex-col gap-4 w-full">
                   <div className="flex flex-col gap-2">
                     <Button
@@ -191,8 +201,8 @@ export function AnimalsScreen() {
                     <AnimalForm id={selectedAnimal?.id} />
                   )}
                 </section>
-              )}
-            </Tabs.Content>
+              </Tabs.Content>
+            )}
           </Tabs.Root>
         )}
       </AnimalContext.Consumer>

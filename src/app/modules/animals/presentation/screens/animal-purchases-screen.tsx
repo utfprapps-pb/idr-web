@@ -28,7 +28,16 @@ export function AnimalPurchasesScreen({
           openNewAnimalPurchaseForm,
         }) => (
           <section className="flex flex-col gap-4 w-full">
-            <div className="flex justify-between gap-2">
+            <div className="flex flex-col gap-2">
+              <Button
+                type="button"
+                variant="default"
+                className="self-end"
+                onClick={openNewAnimalPurchaseForm}
+              >
+                Adicionar Compra do Animal
+              </Button>
+
               <DatePicker
                 className="w-fit"
                 date={filters.date?.value}
@@ -43,14 +52,6 @@ export function AnimalPurchasesScreen({
                 }}
                 label="Filtrar por data de compra"
               />
-
-              <Button
-                type="button"
-                variant="default"
-                onClick={openNewAnimalPurchaseForm}
-              >
-                Adicionar Compra do Animal
-              </Button>
             </div>
 
             <AnimalPurchaseDataTable />

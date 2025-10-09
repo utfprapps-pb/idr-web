@@ -26,7 +26,16 @@ export function AnimalDiseasesScreen({ animalId }: AnimalDiseasesScreenProps) {
           openNewAnimalDiseaseForm,
         }) => (
           <section className="flex flex-col gap-4 w-full">
-            <div className="flex justify-between gap-2">
+            <div className="flex flex-col gap-2">
+              <Button
+                type="button"
+                variant="default"
+                className="self-end"
+                onClick={openNewAnimalDiseaseForm}
+              >
+                Adicionar Doença do Animal
+              </Button>
+
               <DatePicker
                 className="w-fit"
                 date={filters.diagnosticDate?.value}
@@ -41,14 +50,6 @@ export function AnimalDiseasesScreen({ animalId }: AnimalDiseasesScreenProps) {
                 }}
                 label="Filtrar por data do diagnóstico"
               />
-
-              <Button
-                type="button"
-                variant="default"
-                onClick={openNewAnimalDiseaseForm}
-              >
-                Adicionar Doença do Animal
-              </Button>
             </div>
 
             <AnimalDiseaseDataTable />
