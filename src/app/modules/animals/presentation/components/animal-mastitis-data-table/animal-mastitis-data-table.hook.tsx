@@ -39,7 +39,7 @@ export function useAnimalMastitisDataTable() {
     () => [
       {
         accessorKey: 'date',
-        header: 'Data do parto',
+        header: 'Data do Diagnóstico',
         cell: ({ row }) => {
           const { original: animalMastitis } = row
 
