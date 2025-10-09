@@ -7,7 +7,7 @@ const cmtResultsEnum = z.enum(
   }
 )
 
-export const animalChildbirthFormSchema = z.object({
+export const animalMastitisFormSchema = z.object({
   date: z.date().max(new Date(), { message: 'Data inválida' }),
   type: z.enum(['CLINICAL', 'SUBCLINICAL'], {
     message: 'Campo obrigatório',
@@ -18,6 +18,4 @@ export const animalChildbirthFormSchema = z.object({
   pe: cmtResultsEnum,
 })
 
-export type AnimalChildbirthFormSchema = z.infer<
-  typeof animalChildbirthFormSchema
->
+export type AnimalMastitisFormSchema = z.infer<typeof animalMastitisFormSchema>
