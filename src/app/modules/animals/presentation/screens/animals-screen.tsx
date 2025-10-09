@@ -18,6 +18,7 @@ import { AnimalDeathsScreen } from './animal-deaths-screen'
 import { AnimalDiseasesScreen } from './animal-diseases-screen'
 import { AnimalHeiferCalfStagesScreen } from './animal-heifer-calf-stages-screen'
 import { AnimalInseminationsScreen } from './animal-inseminations-screen'
+import { AnimalMastitidesScreen } from './animal-mastitides-screen'
 import { AnimalMedicationsScreen } from './animal-medications-screen'
 import { AnimalPregnancyDiagnosesScreen } from './animal-pregnancy-diagnoses-screen'
 import { AnimalPurchasesScreen } from './animal-purchases-screen'
@@ -84,6 +85,11 @@ export function AnimalsScreen() {
         key: 'animal-medications',
         name: 'Medicações',
         component: animalId && <AnimalMedicationsScreen animalId={animalId} />,
+      },
+      {
+        key: 'animal-mastitides',
+        name: 'Mastites',
+        component: animalId && <AnimalMastitidesScreen animalId={animalId} />,
       },
     ],
     [animalId]
