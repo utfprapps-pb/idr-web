@@ -6,15 +6,8 @@ import toast from 'react-hot-toast'
 import { makeRemoteGetAllBreedsUseCase } from '@/core/main/factories/use-cases/breeds-use-cases'
 import { toOption } from '@/core/utils/object/to-option'
 
-import type { BreedModel } from '@/core/domain/models/breeds-model'
-import type { Filters } from '@/core/domain/types'
-
-type Props = {
-  filters: Filters<BreedModel>
-}
-
-export function useAllBreedsQuery({ filters }: Props) {
-  const getAllBreeds = makeRemoteGetAllBreedsUseCase()
+export function useAllBreedsQuery(search: string) {
+  const getAllBreedsUseCase = makeRemoteGetAllBreedsUseCase()
 
   const {
     data,
@@ -23,16 +16,8 @@ export function useAllBreedsQuery({ filters }: Props) {
     isLoading,
     refetch: refetchAllBreeds,
   } = useQuery({
-    queryKey: ['all-breeds', { filters }],
-    queryFn: () =>
-      getAllBreeds.execute({
-        filters,
-        pagination: {
-          page: 0,
-          perPage: 30,
-        },
-      }),
-    enabled: !!filters,
+    queryKey: ['allBreeds', search],
+    queryFn: () => getAllBreedsUseCase.execute(search),
   })
 
   useEffect(() => {

@@ -5,6 +5,8 @@ import {
   NotFoundError,
   UnexpectedError,
 } from '@/core/domain/errors'
+import { BreedApiModel, BreedModel } from '@/core/domain/models/breed-model'
+import { Option } from '@/core/domain/types'
 
 import type {
   BreedApiResponse,
@@ -18,32 +20,23 @@ export class RemoteGetAllBreedsUseCase implements GetAllBreedsUseCase {
     private readonly url: string,
     private readonly httpClient: HttpClient<
       BreedModel,
-      BreedApiResponse,
-      ListApiResponse<BreedApiResponse[]>
+      BreedApiModel,
+      BreedApiModel[]
     >
   ) {}
 
-  execute: GetAllBreedsUseCase['execute'] = async ({ filters }) => {
-    const mapApiProperties: MapApiProperties<BreedModel, BreedApiResponse> = {
-      id: 'id',
-      name: 'breedName',
-    }
-
+  execute: GetAllBreedsUseCase['execute'] = async () => {
     const { statusCode, body } = await this.httpClient.request({
-      url: `${this.url}/search`,
-      method: 'post',
-      filters,
-      mapApiProperties,
+      url: this.url,
+      method: 'get',
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
-      return {
-        resources: body.content.map((item) => ({
-          id: item.id,
-          name: item.breedName,
-        })),
-        totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
-      }
+      let response: Option[] = [];
+      body.forEach((item) => {
+        response.push({label: item.breedName, value: item.id.toString()} as Option);
+      });
+      return response;
     }
 
     if (statusCode === HttpStatusCode.forbidden) {
