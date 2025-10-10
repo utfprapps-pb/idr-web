@@ -52,12 +52,10 @@ export const getAnimalHeiferCalfStagesHandler = httpWithMiddleware<
         animalHeiferCalfStages
       )
     const numberOfElements = animalHeiferCalfStages.length
-
-    if (page)
-      animalHeiferCalfStages = paginateData<AnimalHeiferCalfStageApiResponse>(
-        { page, perPage: rows },
-        animalHeiferCalfStages
-      )
+    animalHeiferCalfStages = paginateData<AnimalHeiferCalfStageApiResponse>(
+      { page, perPage: rows },
+      animalHeiferCalfStages
+    )
 
     return HttpResponse.json(
       {

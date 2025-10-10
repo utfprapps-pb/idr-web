@@ -1,4 +1,4 @@
-/*import { type HttpHandler } from 'msw'
+import { type HttpHandler } from 'msw'
 import { setupWorker } from 'msw/browser'
 
 import {
@@ -38,12 +38,40 @@ import {
   updateAnimalHeiferCalfStageHandler,
 } from '@/app/modules/animals/mocks/handlers/animal-heifer-calf-stages-handlers'
 import {
+  createAnimalInseminationHandler,
+  deleteAnimalInseminationHandler,
+  getAnimalInseminationHandler,
+  getAnimalInseminationsHandler,
+  updateAnimalInseminationHandler,
+} from '@/app/modules/animals/mocks/handlers/animal-inseminations-handlers'
+import {
+  createAnimalMedicationHandler,
+  deleteAnimalMedicationHandler,
+  getAnimalMedicationHandler,
+  getAnimalMedicationsHandler,
+  updateAnimalMedicationHandler,
+} from '@/app/modules/animals/mocks/handlers/animal-medications-handlers'
+import {
   createAnimalPregnancyDiagnosisHandler,
   deleteAnimalPregnancyDiagnosisHandler,
   getAnimalPregnancyDiagnosesHandler,
   getAnimalPregnancyDiagnosisHandler,
   updateAnimalPregnancyDiagnosisHandler,
 } from '@/app/modules/animals/mocks/handlers/animal-pregnancy-diagnoses-handlers'
+import {
+  createAnimalPurchaseHandler,
+  deleteAnimalPurchaseHandler,
+  getAnimalPurchaseHandler,
+  getAnimalPurchasesHandler,
+  updateAnimalPurchaseHandler,
+} from '@/app/modules/animals/mocks/handlers/animal-purchases-handlers'
+import {
+  createAnimalSaleHandler,
+  deleteAnimalSaleHandler,
+  getAnimalSaleHandler,
+  getAnimalSalesHandler,
+  updateAnimalSaleHandler,
+} from '@/app/modules/animals/mocks/handlers/animal-sales-handlers'
 import { loginHandler } from '@/app/modules/auth/mocks/handlers'
 import {
   createForageHandler,
@@ -74,7 +102,10 @@ import {
   updatePropertyHandler,
 } from '@/app/modules/properties/mocks/handlers'
 
+import { getAllActiveIngredientsHandler } from './handlers/active-ingredients-handlers'
 import { getAllBreedsHandler } from './handlers/breeds-handlers'
+import { getAllProductCategoriesHandler } from './handlers/product-categories-handlers'
+import { getAllProductsHandler } from './handlers/products-handlers'
 import { getAllUsersHandler, getMeHandler } from './handlers/users-handlers'
 import { getAllVegetablesHandler } from './handlers/vegetables-handlers'
 
@@ -84,6 +115,12 @@ const handlers: HttpHandler[] = [
   getAllBreedsHandler,
 
   getAllVegetablesHandler,
+
+  getAllActiveIngredientsHandler,
+
+  getAllProductCategoriesHandler,
+
+  getAllProductsHandler,
 
   getAllUsersHandler,
   getMeHandler,
@@ -148,7 +185,30 @@ const handlers: HttpHandler[] = [
   getAnimalDeathHandler,
   getAnimalDeathsHandler,
   updateAnimalDeathHandler,
+
+  createAnimalInseminationHandler,
+  deleteAnimalInseminationHandler,
+  getAnimalInseminationHandler,
+  getAnimalInseminationsHandler,
+  updateAnimalInseminationHandler,
+
+  createAnimalPurchaseHandler,
+  deleteAnimalPurchaseHandler,
+  getAnimalPurchaseHandler,
+  getAnimalPurchasesHandler,
+  updateAnimalPurchaseHandler,
+
+  createAnimalSaleHandler,
+  deleteAnimalSaleHandler,
+  getAnimalSaleHandler,
+  getAnimalSalesHandler,
+  updateAnimalSaleHandler,
+
+  createAnimalMedicationHandler,
+  deleteAnimalMedicationHandler,
+  getAnimalMedicationHandler,
+  getAnimalMedicationsHandler,
+  updateAnimalMedicationHandler,
 ]
 
 export const worker = setupWorker(...handlers)
-*/

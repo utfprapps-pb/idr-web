@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { format } from 'date-fns'
 import toast from 'react-hot-toast'
 
 import {
@@ -102,7 +103,12 @@ export function EditAnimalDeathForm() {
     >
       <Sheet.Content side="right">
         <Sheet.Header>
-          <Sheet.Title>Editar Óbito</Sheet.Title>
+          <Sheet.Title>
+            Editar Óbito do animal do dia{' '}
+            {selectedAnimalDeath?.date
+              ? format(selectedAnimalDeath.date, 'dd/MM/yyyy')
+              : '-'}
+          </Sheet.Title>
           <Sheet.Description>
             Preencha o formulário para editar o óbito do animal
           </Sheet.Description>

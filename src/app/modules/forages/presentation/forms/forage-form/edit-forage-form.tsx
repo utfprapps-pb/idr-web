@@ -25,7 +25,6 @@ import {
 import { ForageFormInputs } from './forage-form-inputs'
 import { FORAGE_INITIAL_FORM_DATA } from './forage-initial-form-data'
 
-
 export function EditForageForm() {
   const {
     propertyId,

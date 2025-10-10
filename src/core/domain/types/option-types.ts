@@ -1,6 +1,11 @@
-export type Option<TValue = number> = {
-  id: { value: number; label: string }
-  name: any
+export type Option<
+  TValue = number,
+  TExtraData extends Record<PropertyKey, unknown> = Record<
+    PropertyKey,
+    unknown
+  >,
+> = {
   label: string
   value: TValue
+  extraData?: TExtraData
 }

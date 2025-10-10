@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 
 import { MoreHorizontalIcon, PencilIcon, Trash2Icon } from 'lucide-react'
 
+import { floatMask } from '@/core/masker'
 import { DropdownMenu } from '@/core/presentation/components/ui'
 import { useDebounce } from '@/core/presentation/hooks'
 
@@ -24,7 +25,7 @@ export function useAnimalChildbirthDataTable() {
   const [page, setPage] = useState(1)
   const [sort, setSort] = useState<AnimalChildbirthSort>()
 
-  const debouncedFilters = useDebounce({ value: filters, delayInMs: 1000 })
+  const debouncedFilters = useDebounce({ value: filters })
 
   const { isLoading, animalChildbirths } = useAnimalChildbirthsQuery({
     propertyId,
@@ -50,7 +51,9 @@ export function useAnimalChildbirthDataTable() {
         cell: ({ row }) => {
           const { original: animalChildbirth } = row
 
-          return animalChildbirth.weight ? `${animalChildbirth.weight} kg` : '-'
+          return animalChildbirth.weight
+            ? `${floatMask(animalChildbirth.weight, 'kg')}`
+            : '-'
         },
       },
       {

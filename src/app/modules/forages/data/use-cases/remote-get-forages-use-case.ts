@@ -7,11 +7,7 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors';
 
-import type {
   ForageApiResponse,
-  ForageGrowthCycle,
-  ForageModel,
-  ForageOwnershipType,
 } from '../../domain/models/forages-model';
 import type { GetForagesUseCase } from '../../domain/use-cases';
 import type { ListApiResponse, MapApiProperties } from '@/core/domain/types';
@@ -66,10 +62,6 @@ export class RemoteGetForagesUseCase implements GetForagesUseCase {
         PERENNIAL: 'Perene',
       };
 
-      // ALTERAÇÃO CRUCIAL: A lógica para obter os dados agora é a mais segura possível.
-      // Se 'body' for um array, ele é usado diretamente.
-      // Se 'body.content' for um array, ele é usado.
-      // Caso contrário, um array vazio é usado para evitar o erro de 'map'.
       const rawResources = Array.isArray(body)
         ? body
         : Array.isArray(body.content)
@@ -90,8 +82,7 @@ export class RemoteGetForagesUseCase implements GetForagesUseCase {
         usefulLife: item.usefulLife ?? 'Não informado',
       }));
 
-      // ALTERAÇÃO CRUCIAL: A lógica de paginação é separada e robusta.
-      // Ela só tenta ler as propriedades da API se elas existirem.
+      
       const totalPages =
         body && body.pageable && body.pageable.pageSize && body.numberOfElements
           ? Math.ceil(body.numberOfElements / body.pageable.pageSize)

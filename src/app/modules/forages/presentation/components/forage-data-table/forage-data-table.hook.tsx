@@ -50,9 +50,7 @@ export function useForageDataTable() {
     sort,
   });
 
-  // ALTERAÇÃO: Define um valor padrão para `forages` se ele for null ou undefined.
-  // Isso previne erros de "cannot read properties of null".
-  // A estrutura padrão é a mesma que sua API retorna.
+ 
   const forageData = useMemo(() => {
     return forages || {
       resources: [],

@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { format } from 'date-fns'
 import toast from 'react-hot-toast'
 
 import {
@@ -102,7 +103,12 @@ export function EditAnimalDiseaseForm() {
     >
       <Sheet.Content side="right">
         <Sheet.Header>
-          <Sheet.Title>Editar Doença</Sheet.Title>
+          <Sheet.Title>
+            Editar Doença do animal do dia{' '}
+            {selectedAnimalDisease?.diagnosticDate
+              ? format(selectedAnimalDisease.diagnosticDate, 'dd/MM/yyyy')
+              : '-'}
+          </Sheet.Title>
           <Sheet.Description>
             Preencha o formulário para editar a doença do animal
           </Sheet.Description>

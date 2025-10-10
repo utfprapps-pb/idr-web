@@ -53,13 +53,11 @@ export const getAnimalPregnancyDiagnosesHandler = httpWithMiddleware<
       )
 
     const numberOfElements = animalPregnancyDiagnoses.length
-
-    if (page)
-      animalPregnancyDiagnoses =
-        paginateData<AnimalPregnancyDiagnosisApiResponse>(
-          { page, perPage: rows },
-          animalPregnancyDiagnoses
-        )
+    animalPregnancyDiagnoses =
+      paginateData<AnimalPregnancyDiagnosisApiResponse>(
+        { page, perPage: rows },
+        animalPregnancyDiagnoses
+      )
 
     return HttpResponse.json(
       {
