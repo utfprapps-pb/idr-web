@@ -26,7 +26,16 @@ export function AnimalDeathsScreen({ animalId }: AnimalDeathsScreenProps) {
           openNewAnimalDeathForm,
         }) => (
           <section className="flex flex-col gap-4 w-full">
-            <div className="flex justify-between gap-2">
+            <div className="flex flex-col gap-2">
+              <Button
+                type="button"
+                variant="default"
+                className="self-end"
+                onClick={openNewAnimalDeathForm}
+              >
+                Adicionar Óbito do Animal
+              </Button>
+
               <DatePicker
                 className="w-fit"
                 date={filters.date?.value}
@@ -41,14 +50,6 @@ export function AnimalDeathsScreen({ animalId }: AnimalDeathsScreenProps) {
                 }}
                 label="Filtrar por data do óbito"
               />
-
-              <Button
-                type="button"
-                variant="default"
-                onClick={openNewAnimalDeathForm}
-              >
-                Adicionar Óbito do Animal
-              </Button>
             </div>
 
             <AnimalDeathDataTable />

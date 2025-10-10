@@ -26,7 +26,16 @@ export function AnimalSalesScreen({ animalId }: AnimalSalesScreenProps) {
           openNewAnimalSaleForm,
         }) => (
           <section className="flex flex-col gap-4 w-full">
-            <div className="flex justify-between gap-2">
+            <div className="flex flex-col gap-2">
+              <Button
+                type="button"
+                variant="default"
+                className="self-end"
+                onClick={openNewAnimalSaleForm}
+              >
+                Adicionar Venda do Animal
+              </Button>
+
               <DatePicker
                 className="w-fit"
                 date={filters.date?.value}
@@ -41,14 +50,6 @@ export function AnimalSalesScreen({ animalId }: AnimalSalesScreenProps) {
                 }}
                 label="Filtrar por data de venda"
               />
-
-              <Button
-                type="button"
-                variant="default"
-                onClick={openNewAnimalSaleForm}
-              >
-                Adicionar Venda do Animal
-              </Button>
             </div>
 
             <AnimalSaleDataTable />

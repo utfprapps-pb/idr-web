@@ -31,7 +31,7 @@ export function LoggedContainer({
       style={{
         gridTemplateAreas: `'Header Header'
                             'Sidebar Content'`,
-        gridTemplateColumns: '325px 1fr',
+        gridTemplateColumns: '224px 1fr',
         gridTemplateRows: '82px 1fr',
       }}
       className={cn('w-screen h-screen grid', className)}
@@ -72,12 +72,12 @@ export function LoggedContainer({
       </Sidebar.Root>
 
       <div
-        className="overflow-y-auto p-10"
+        className="overflow-y-auto overflow-x-hidden"
         style={{
           gridArea: 'Content',
         }}
       >
-        {children}
+        <div className="p-8 w-full">{children}</div>
       </div>
     </main>
   )
