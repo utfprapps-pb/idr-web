@@ -64,7 +64,7 @@ export class RemoteGetAnimalMastitidesUseCase
         resources: body.content.map((item) => {
           const typeMapper: Record<AnimalMastitisType, string> = {
             CLINICAL: 'Clínica',
-            SUBCLINICAL: 'Sub-clínica',
+            SUBCLINICAL: 'Subclínica',
           }
 
           const conditionMapper: Record<AnimalMastitisCmtResults, string> = {
