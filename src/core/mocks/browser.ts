@@ -1,4 +1,4 @@
-import { type HttpHandler } from 'msw'
+/*import { type HttpHandler } from 'msw'
 import { setupWorker } from 'msw/browser'
 
 import {
@@ -212,3 +212,4 @@ const handlers: HttpHandler[] = [
 ]
 
 export const worker = setupWorker(...handlers)
+*/

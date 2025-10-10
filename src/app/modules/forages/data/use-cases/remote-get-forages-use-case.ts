@@ -7,8 +7,14 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors';
 
+// CORREÇÃO APLICADA AQUI: Importação de ForageModel, ForageApiResponse e as enums
+import {
+  ForageModel,
   ForageApiResponse,
+  ForageGrowthCycle,
+  ForageOwnershipType,
 } from '../../domain/models/forages-model';
+
 import type { GetForagesUseCase } from '../../domain/use-cases';
 import type { ListApiResponse, MapApiProperties } from '@/core/domain/types';
 
@@ -65,8 +71,8 @@ export class RemoteGetForagesUseCase implements GetForagesUseCase {
       const rawResources = Array.isArray(body)
         ? body
         : Array.isArray(body.content)
-        ? body.content
-        : [];
+          ? body.content
+          : [];
 
       const resources = rawResources.map((item) => ({
         id: item.id,
@@ -78,11 +84,9 @@ export class RemoteGetForagesUseCase implements GetForagesUseCase {
         ownershipType: ownershipType[item.ownershipType as ForageOwnershipType] ?? 'Não informado',
         growthCycle: growthCycle[item.growthCycle as ForageGrowthCycle] ?? 'Não informado',
 
-        
         usefulLife: item.usefulLife ?? 'Não informado',
       }));
 
-      
       const totalPages =
         body && body.pageable && body.pageable.pageSize && body.numberOfElements
           ? Math.ceil(body.numberOfElements / body.pageable.pageSize)

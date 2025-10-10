@@ -2,7 +2,7 @@ import { HttpResponse } from 'msw'
 
 import { HttpStatusCode } from '@/core/data/protocols/http'
 
-import allActiveIngredientsData from '@database/allActiveIngredientsData.json'
+//import allActiveIngredientsData from '@database/allActiveIngredientsData.json'
 
 import { httpWithMiddleware } from '../../lib'
 import { withDelay, withAuth } from '../../middleware'
