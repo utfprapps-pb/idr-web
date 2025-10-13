@@ -1,4 +1,4 @@
-import type { FileType, Option, WithId } from '@/core/domain/types'
+import type { FileType, Nullable, Option, WithId } from '@/core/domain/types'
 
 export type PropertyApiResponse = WithId<{
   name: string
@@ -27,7 +27,7 @@ export type PropertyDetailsModel = {
     responsibleTechnicians: Option[]
   }
   collaborators: {
-    id?: string
+    id?: number
     name: string
     hoursPerDay: string
   }[]
@@ -40,34 +40,38 @@ export type PropertyDetailsModel = {
   localization: {
     latitude: string
     longitude: string
-    images: FileType[]
+    images: Nullable<FileType[]>
   }
 }
 
-export type PropertyDetailsApiResponse = {
-  general: {
-    name: string
-    city: string
-    state: string
-    producer: string
-    nakedAveragePricePerHectare: string
-    leaseAveragePricePerHectare: string
-    responsibleTechnicians: Option[]
+export type PropertyDetailsApiResponse = WithId<{
+  name: string
+  city: string
+  state: string
+  farmer: string
+  nakedAveragePrice: number
+  leaseAveragePrice: number
+  technicians: WithId<{
+    user: {
+      displayName: string
+    }
+  }>[]
+
+  collaborators: WithId<{
+    collaboratorName: string
+    workDays: number
+    workHours: number
+  }>[]
+  area: {
+    dairyCattleFarming: number
+    perennialPasture: number
+    summerPlowing: number
+    winterPlowing: number
   }
-  collaborators: {
-    id?: string
-    name: string
-    hoursPerDay: string
-  }[]
-  totalArea: {
-    dairyCattleFarming: string
-    perennialPasture: string
-    summerPlowing: string
-    winterPlowing: string
-  }
-  localization: {
-    latitude: string
-    longitude: string
-    images: string[]
-  }
-}
+
+  latitude: number
+  longitude: number
+
+  // falta validar o type
+  attachment: string[] | null
+}>

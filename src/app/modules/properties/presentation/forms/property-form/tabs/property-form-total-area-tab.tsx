@@ -20,7 +20,11 @@ export function PropertyFormTotalAreaTab() {
             <Form.Item>
               <Form.Label>Área destinada a Bovinocultura Leiteira</Form.Label>
               <Form.Control>
-                <Input {...field} isError={!!error?.message} mask={floatMask} />
+                <Input
+                  {...field}
+                  isError={!!error?.message}
+                  mask={(value) => floatMask(value, 'ha')}
+                />
               </Form.Control>
               <Form.Message />
             </Form.Item>
@@ -37,7 +41,11 @@ export function PropertyFormTotalAreaTab() {
             <Form.Item>
               <Form.Label>Área de pasto perene</Form.Label>
               <Form.Control>
-                <Input {...field} isError={!!error?.message} mask={floatMask} />
+                <Input
+                  {...field}
+                  isError={!!error?.message}
+                  mask={(value) => floatMask(value, 'ha')}
+                />
               </Form.Control>
               <Form.Message />
             </Form.Item>
@@ -54,7 +62,11 @@ export function PropertyFormTotalAreaTab() {
             <Form.Item>
               <Form.Label>Área de lavoura de verão</Form.Label>
               <Form.Control>
-                <Input {...field} isError={!!error?.message} mask={floatMask} />
+                <Input
+                  {...field}
+                  isError={!!error?.message}
+                  mask={(value) => floatMask(value, 'ha')}
+                />
               </Form.Control>
               <Form.Message />
             </Form.Item>
@@ -71,7 +83,11 @@ export function PropertyFormTotalAreaTab() {
             <Form.Item>
               <Form.Label>Área de lavoura de inverno</Form.Label>
               <Form.Control>
-                <Input {...field} isError={!!error?.message} mask={floatMask} />
+                <Input
+                  {...field}
+                  isError={!!error?.message}
+                  mask={(value) => floatMask(value, 'ha')}
+                />
               </Form.Control>
               <Form.Message />
             </Form.Item>

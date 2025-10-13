@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
+import { floatMask, moneyMask } from '@/core/masker'
 import {
   Button,
   Form,
@@ -42,7 +43,32 @@ export function EditPropertyForm() {
 
   const form = useHookForm<PropertyFormSchema>({
     defaultValues: PROPERTY_INITIAL_FORM_DATA,
-    values: property,
+    ...(property && {
+      values: {
+        ...property,
+        general: {
+          ...property.general,
+          leaseAveragePricePerHectare: moneyMask(
+            property.general.leaseAveragePricePerHectare
+          ),
+          nakedAveragePricePerHectare: moneyMask(
+            property.general.nakedAveragePricePerHectare
+          ),
+        },
+        totalArea: {
+          dairyCattleFarming: floatMask(
+            property.totalArea.dairyCattleFarming,
+            'ha'
+          ),
+          perennialPasture: floatMask(
+            property.totalArea.perennialPasture,
+            'ha'
+          ),
+          summerPlowing: floatMask(property.totalArea.summerPlowing, 'ha'),
+          winterPlowing: floatMask(property.totalArea.winterPlowing, 'ha'),
+        },
+      },
+    }),
     resolver: zodResolver(propertyFormSchema),
   })
 

@@ -28,12 +28,38 @@ export class RemoteGetPropertyUseCase implements GetPropertyUseCase {
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        ...body,
-        localization: {
-          ...body.localization,
-          images: body.localization.images.map((image: string) => ({
-            preview: image,
+        id: body.id,
+        general: {
+          name: body.name,
+          producer: body.farmer,
+          city: body.city,
+          state: body.state,
+          nakedAveragePricePerHectare: String(body.nakedAveragePrice),
+          leaseAveragePricePerHectare: String(body.leaseAveragePrice),
+          responsibleTechnicians: body.technicians.map((technician) => ({
+            value: technician.id,
+            label: technician.user.displayName,
           })),
+        },
+        collaborators: body.collaborators.map((collaborator) => ({
+          id: collaborator.id,
+          name: collaborator.collaboratorName,
+          hoursPerDay: String(collaborator.workHours),
+        })),
+        totalArea: {
+          dairyCattleFarming: String(body.area.dairyCattleFarming),
+          perennialPasture: String(body.area.perennialPasture),
+          summerPlowing: String(body.area.summerPlowing),
+          winterPlowing: String(body.area.winterPlowing),
+        },
+
+        localization: {
+          latitude: String(body.latitude),
+          longitude: String(body.longitude),
+          images:
+            body.attachment?.map((image: string) => ({
+              preview: image,
+            })) ?? null,
         },
       }
     }

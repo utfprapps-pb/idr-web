@@ -64,7 +64,7 @@ const totalArea = z.object({
 const localization = z.object({
   latitude: z.string(),
   longitude: z.string(),
-  images: z.array(fileTypeSchema),
+  images: z.array(fileTypeSchema).nullable(),
 })
 
 export const propertyFormSchema = z.object({
