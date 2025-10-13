@@ -2,9 +2,9 @@ import type { FileType, Option, WithId } from '@/core/domain/types'
 
 export type PropertyApiResponse = WithId<{
   name: string
-  user: {
-    displayName: string
-  }
+  city: string
+  state: string
+  farmer: string
 }>
 
 export type PropertyModel = WithId<{

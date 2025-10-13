@@ -31,8 +31,7 @@ export class RemoteGetPropertiesUseCase implements GetPropertiesUseCase {
       PropertyModel,
       PropertyApiResponse
     > = {
-      producer: 'user.displayName',
-      name: 'name',
+      producer: 'farmer',
     }
 
     const { statusCode, body } = await this.httpClient.request({
@@ -48,11 +47,11 @@ export class RemoteGetPropertiesUseCase implements GetPropertiesUseCase {
       return {
         resources: body.content.map((item) => ({
           id: item.id,
-          name: 'MOCKADO - SEM RETORNO DA API', // todo: remove mock
-          producer: item.user.displayName,
+          name: item.name,
+          producer: item.farmer,
           county: {
-            city: 'MOCKADO - SEM RETORNO DA API', // todo: remove mock
-            state: 'MOCKADO - SEM RETORNO DA API', // todo: remove mock
+            city: item.city,
+            state: item.state,
           },
         })),
         totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),

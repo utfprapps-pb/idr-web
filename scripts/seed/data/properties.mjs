@@ -10,8 +10,8 @@ export const propertiesData = Array.from(
   (_, index) => ({
     id: index + 1,
     name: faker.company.name(),
-    user: {
-      displayName: faker.person.fullName(),
-    },
+    city: faker.location.city(),
+    state: faker.location.state({ abbreviated: true }),
+    farmer: faker.person.fullName(),
   })
 )
