@@ -15,10 +15,10 @@ export enum HttpStatusCode {
   serverError = 500,
 }
 
-type BaseHttpRequest = {
+type BaseHttpRequest<TBody = unknown> = {
   url: string
   method: HttpMethod
-  body?: unknown
+  body?: TBody
   pagination?: {
     page: number
     perPage?: number
@@ -28,7 +28,7 @@ type BaseHttpRequest = {
 export type HttpRequest<
   TModel = Record<string, string>,
   TApiModel = unknown,
-> = BaseHttpRequest &
+> = BaseHttpRequest<TApiModel> &
   (
     | {
         filters?: never
