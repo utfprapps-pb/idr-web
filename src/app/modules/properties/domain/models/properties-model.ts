@@ -44,7 +44,7 @@ export type PropertyDetailsModel = {
   }
 }
 
-export type PropertyDetailsApiResponse = WithId<{
+export type PropertyDetailsApiResponse = {
   name: string
   city: string
   state: string
@@ -57,11 +57,12 @@ export type PropertyDetailsApiResponse = WithId<{
     }
   }>[]
 
-  collaborators: WithId<{
+  collaborators: {
+    id?: number
     collaboratorName: string
     workDays: number
     workHours: number
-  }>[]
+  }[]
   area: {
     dairyCattleFarming: number
     perennialPasture: number
@@ -72,6 +73,6 @@ export type PropertyDetailsApiResponse = WithId<{
   latitude: number
   longitude: number
 
-  // falta validar o type
+  // todo: falta validar o type
   attachment: string[] | null
-}>
+}

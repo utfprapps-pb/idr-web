@@ -18,7 +18,9 @@ export function PropertyFormLocalizationTab() {
   const form = useFormContext<PropertyFormSchema>()
 
   const handleRemoveFile = useCallback(
-    (index: number, files: FileType[]) => {
+    (index: number, files: FileType[] | null) => {
+      if (!files) return
+
       const updatedFiles = [...files.slice(0, index), ...files.slice(index + 1)]
 
       form.setValue('localization.images', updatedFiles)
@@ -32,11 +34,13 @@ export function PropertyFormLocalizationTab() {
         control={form.control}
         name="localization.images"
         render={({ field, fieldState }) => {
+          const value = field.value || []
+
           const { error } = fieldState
-          const onlyPreviews = field.value
+          const onlyPreviews = value
             .filter((item): item is { preview: string } => !!item.preview)
             .map((item) => item.preview)
-          const onlyFiles = field.value
+          const onlyFiles = value
             .filter((item): item is { file: File } => !!item.file)
             .map((item) => item.file)
 
@@ -45,10 +49,8 @@ export function PropertyFormLocalizationTab() {
               <div className="flex flex-col gap-2">
                 <Label>Mapas de uso de solo</Label>
                 <Dropzone
-                  files={field.value}
-                  onChange={(files) =>
-                    field.onChange([...field.value, ...files])
-                  }
+                  files={value}
+                  onChange={(files) => field.onChange([...value, ...files])}
                   mimeType={['image/*']}
                   error={error?.message}
                 />
@@ -74,7 +76,7 @@ export function PropertyFormLocalizationTab() {
                       type="button"
                       size="icon"
                       variant="outline"
-                      onClick={() => handleRemoveFile(index, field.value)}
+                      onClick={() => handleRemoveFile(index, value)}
                     >
                       <Trash2Icon className="text-destructive" />
                     </Button>
@@ -100,7 +102,7 @@ export function PropertyFormLocalizationTab() {
                       type="button"
                       size="icon"
                       variant="outline"
-                      onClick={() => handleRemoveFile(index, field.value)}
+                      onClick={() => handleRemoveFile(index, value)}
                     >
                       <Trash2Icon className="text-destructive" />
                     </Button>
