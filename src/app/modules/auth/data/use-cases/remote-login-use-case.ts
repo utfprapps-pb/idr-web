@@ -1,13 +1,21 @@
 import { type HttpClient, HttpStatusCode } from '@/core/data/protocols/http'
 import { InvalidCredentialsError, UnexpectedError } from '@/core/domain/errors'
 
-import type { AuthApiResponse, AuthModel } from '../../domain/models/auth-model'
-import type { LoginUseCase } from '../../domain/use-cases'
+import type { AuthApiResponse } from '../../domain/models/auth-model'
+import type {
+  LoginApiParams,
+  LoginParams,
+  LoginUseCase,
+} from '../../domain/use-cases'
 
 export class RemoteLoginUseCase implements LoginUseCase {
   constructor(
     private readonly url: string,
-    private readonly httpClient: HttpClient<AuthModel, AuthApiResponse>
+    private readonly httpClient: HttpClient<
+      LoginParams,
+      LoginApiParams,
+      AuthApiResponse
+    >
   ) {}
 
   execute: LoginUseCase['execute'] = async (params) => {

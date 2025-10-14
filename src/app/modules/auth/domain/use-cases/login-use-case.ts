@@ -6,4 +6,9 @@ export type LoginParams = {
   password: string
 }
 
+export type LoginApiParams = {
+  username: string
+  password: string
+}
+
 export type LoginUseCase = RequestInterface<LoginParams, AuthModel>
