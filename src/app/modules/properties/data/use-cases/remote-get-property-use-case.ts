@@ -28,14 +28,13 @@ export class RemoteGetPropertyUseCase implements GetPropertyUseCase {
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        id: body.id,
         general: {
           name: body.name,
           producer: body.farmer,
           city: body.city,
           state: body.state,
-          nakedAveragePricePerHectare: String(body.nakedAveragePrice),
-          leaseAveragePricePerHectare: String(body.leaseAveragePrice),
+          nakedAveragePricePerHectare: body.nakedAveragePrice.toFixed(2),
+          leaseAveragePricePerHectare: body.leaseAveragePrice.toFixed(2),
           responsibleTechnicians: body.technicians.map((technician) => ({
             value: technician.id,
             label: technician.user.displayName,
@@ -47,10 +46,10 @@ export class RemoteGetPropertyUseCase implements GetPropertyUseCase {
           hoursPerDay: String(collaborator.workHours),
         })),
         totalArea: {
-          dairyCattleFarming: String(body.area.dairyCattleFarming),
-          perennialPasture: String(body.area.perennialPasture),
-          summerPlowing: String(body.area.summerPlowing),
-          winterPlowing: String(body.area.winterPlowing),
+          dairyCattleFarming: body.area.dairyCattleFarming.toFixed(2),
+          perennialPasture: body.area.perennialPasture.toFixed(2),
+          summerPlowing: body.area.summerPlowing.toFixed(2),
+          winterPlowing: body.area.winterPlowing.toFixed(2),
         },
 
         localization: {
