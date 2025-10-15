@@ -108,6 +108,13 @@ import {
   getPropertyHandler,
   updatePropertyHandler,
 } from '@/app/modules/properties/mocks/handlers'
+import {
+  createVegetableDiseaseHandler,
+  deleteVegetableDiseaseHandler,
+  getVegetableDiseaseHandler,
+  getVegetableDiseasesHandler,
+  updateVegetableDiseaseHandler,
+} from '@/app/modules/vegetables/mocks/handlers/vegetable-diseases-handlers'
 
 import { getAllActiveIngredientsHandler } from './handlers/active-ingredients-handlers'
 import { getAllBreedsHandler } from './handlers/breeds-handlers'
@@ -222,6 +229,12 @@ const handlers: HttpHandler[] = [
   getAnimalMastitisHandler,
   getAnimalMastitidesHandler,
   updateAnimalMastitisHandler,
+
+  createVegetableDiseaseHandler,
+  deleteVegetableDiseaseHandler,
+  getVegetableDiseaseHandler,
+  getVegetableDiseasesHandler,
+  updateVegetableDiseaseHandler,
 ]
 
 export const worker = setupWorker(...handlers)

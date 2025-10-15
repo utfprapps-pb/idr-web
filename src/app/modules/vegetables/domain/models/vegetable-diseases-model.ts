@@ -9,9 +9,15 @@ export type VegetableDiseaseDetailsModel = {
 }
 
 export type VegetableDiseaseDetailsApiResponse = {
-  vegetable: Option
-  disease: Option
-  infestationType: VegetableDiseaseInfestationType
+  vegetable: {
+    id: number
+    name: string
+  }
+  disease: {
+    id: number
+    name: string
+  }
+  infestationType: string
 }
 
 export type VegetableDiseaseModel = WithId<{
@@ -24,5 +30,5 @@ export type VegetableDiseaseModel = WithId<{
 export type VegetableDiseaseApiResponse = WithId<{
   vegetable: string
   disease: string
-  infestationType: VegetableDiseaseInfestationType
+  infestationType: string
 }>
