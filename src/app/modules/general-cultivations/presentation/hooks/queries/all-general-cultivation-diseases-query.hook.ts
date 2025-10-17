@@ -7,10 +7,10 @@ import { toOption } from '@/core/utils/object/to-option'
 
 import { makeRemoteGetGeneralCultivationDiseasesUseCase } from '../../../main/factories/use-cases/general-cultivation-diseases-use-cases'
 
-import type { GeneralCultivationFilters } from '../../types/general-cultivation-types'
+import type { GeneralCultivationDiseaseFilters } from '../../types/general-cultivation-disease-types'
 
 type Props = {
-  filters: GeneralCultivationFilters
+  filters: GeneralCultivationDiseaseFilters
 }
 
 export function useAllGeneralCultivationDiseasesQuery({ filters }: Props) {
