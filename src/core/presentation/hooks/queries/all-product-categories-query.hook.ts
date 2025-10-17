@@ -28,7 +28,7 @@ export function useAllProductCategoriesQuery({ filters }: Props) {
       getAllProductCategories.execute({
         filters,
         pagination: {
-          page: 0,
+          page: 1,
           perPage: 30,
         },
       }),

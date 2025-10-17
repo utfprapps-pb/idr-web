@@ -27,7 +27,7 @@ export function CultivationDiseaseDeleteDialog() {
 
   const handleDeleteCultivationDisease = useCallback(async () => {
     if (!selectedCultivationDisease?.id) {
-      toast.error('Erro ao remover doença do vegetal')
+      toast.error('Erro ao remover doença do cultivo')
       return
     }
 
@@ -42,9 +42,9 @@ export function CultivationDiseaseDeleteDialog() {
         exact: false,
       })
 
-      toast.success('Doença do vegetal removido com sucesso')
+      toast.success('Doença do cultivo removido com sucesso')
     } catch {
-      toast.error('Erro ao remover doença do vegetal')
+      toast.error('Erro ao remover doença do cultivo')
     } finally {
       closeDeleteCultivationDiseaseContainer()
     }

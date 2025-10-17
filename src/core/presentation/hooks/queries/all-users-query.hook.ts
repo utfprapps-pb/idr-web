@@ -27,7 +27,7 @@ export function useAllUsersQuery({ filters }: Props) {
     queryFn: () =>
       getAllUsersUseCase.execute({
         filters,
-        pagination: { page: 0, perPage: 30 },
+        pagination: { page: 1, perPage: 30 },
       }),
     enabled: !!filters,
   })

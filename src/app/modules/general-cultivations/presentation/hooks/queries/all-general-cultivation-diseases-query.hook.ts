@@ -28,7 +28,7 @@ export function useAllGeneralCultivationDiseasesQuery({ filters }: Props) {
     queryFn: () =>
       getGeneralCultivationDiseasesUseCase.execute({
         filters,
-        pagination: { page: 0, perPage: 30 },
+        pagination: { page: 1, perPage: 30 },
       }),
   })
 

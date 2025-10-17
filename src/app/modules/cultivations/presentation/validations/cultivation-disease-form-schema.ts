@@ -6,7 +6,7 @@ export const cultivationDiseaseFormSchema = z.object({
   cultivation: optionSchema.refine(
     ({ label, value }) => label !== '' && value > 0,
     {
-      message: 'Vegetal é obrigatório',
+      message: 'Cultivo é obrigatório',
     }
   ),
   disease: optionSchema.refine(

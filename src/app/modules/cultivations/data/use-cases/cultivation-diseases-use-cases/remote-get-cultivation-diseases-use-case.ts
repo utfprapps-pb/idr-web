@@ -37,6 +37,8 @@ export class RemoteGetCultivationDiseasesUseCase
     > = {
       id: 'id',
       cultivation: 'cultivation',
+      disease: 'disease',
+      infestationType: 'infestationType',
     }
 
     const url = this.url.replace(':propertyId', String(propertyId))
