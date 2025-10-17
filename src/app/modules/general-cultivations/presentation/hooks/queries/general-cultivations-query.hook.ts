@@ -6,14 +6,14 @@ import toast from 'react-hot-toast'
 import { makeRemoteGetGeneralCultivationsUseCase } from '../../../main/factories/use-cases/general-cultivations-use-cases'
 
 import type {
-  GeneralCultivationDiseaseFilters,
-  GeneralCultivationDiseaseSort,
-} from '../../types/general-cultivation-disease-types'
+  GeneralCultivationFilters,
+  GeneralCultivationSort,
+} from '../../types/general-cultivation-types'
 
 type Props = {
-  filters: GeneralCultivationDiseaseFilters
+  filters: GeneralCultivationFilters
   page: number
-  sort?: GeneralCultivationDiseaseSort
+  sort?: GeneralCultivationSort
 }
 
 export function useGeneralCultivationsQuery({ filters, page, sort }: Props) {

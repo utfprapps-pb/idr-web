@@ -10,7 +10,7 @@ import type { GetGeneralCultivationDiseaseUseCase } from '../../../../domain/use
 
 export function makeRemoteGetGeneralCultivationDiseaseUseCase(): GetGeneralCultivationDiseaseUseCase {
   return new RemoteGetGeneralCultivationDiseaseUseCase(
-    'general-cultivation/diseases',
+    'general-cultivations/diseases',
     makeApiHttpClient<
       GeneralCultivationDiseaseDetailsModel,
       GeneralCultivationDiseaseDetailsApiResponse
