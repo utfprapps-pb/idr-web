@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker/locale/pt_BR'
 
-export const allVegetablesData = Array.from(
+export const generalCultivationsData = Array.from(
   {
     length: faker.number.int({
       min: 50,
@@ -9,6 +9,6 @@ export const allVegetablesData = Array.from(
   },
   (_, index) => ({
     id: index + 1,
-    cultureName: faker.food.vegetable(),
+    name: faker.food.vegetable(),
   })
 )

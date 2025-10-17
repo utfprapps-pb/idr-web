@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker/locale/pt_BR'
 
-export const vegetableDiseasesData = Array.from(
+export const cultivationDiseasesData = Array.from(
   {
     length: faker.number.int({
       min: 1,
@@ -9,7 +9,7 @@ export const vegetableDiseasesData = Array.from(
   },
   (_, index) => ({
     id: index + 1,
-    vegetable: {
+    cultivation: {
       id: faker.number.int({ min: 1, max: 100 }),
       name: faker.lorem.words(2),
     },
