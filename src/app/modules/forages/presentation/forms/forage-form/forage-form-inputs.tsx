@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import { useFormContext } from 'react-hook-form'
 
+import { useAllGeneralCultivationsQuery } from '@/app/modules/general-cultivations/presentation/hooks/queries/all-general-cultivations-query.hook'
 import { moneyMask, onlyNumbersMask } from '@/core/masker'
 import {
   Combobox,
@@ -10,7 +11,7 @@ import {
   Input,
   Select,
 } from '@/core/presentation/components/ui'
-import { useAllVegetablesQuery, useDebounce } from '@/core/presentation/hooks'
+import { useDebounce } from '@/core/presentation/hooks'
 
 import type { ForageFormSchema } from '../../validations/forage-form-schema'
 
@@ -21,7 +22,7 @@ export function ForageFormInputs() {
 
   const form = useFormContext<ForageFormSchema>()
 
-  const { allVegetables, isLoading } = useAllVegetablesQuery({
+  const { allGeneralCultivations, isLoading } = useAllGeneralCultivationsQuery({
     filters: {
       name: {
         value: debouncedCultivation,
@@ -44,7 +45,7 @@ export function ForageFormInputs() {
               <Form.Control>
                 <Combobox
                   search={searchCultivation}
-                  items={allVegetables}
+                  items={allGeneralCultivations}
                   loading={isLoading}
                   selected={field.value}
                   handleSearch={(value) => setSearchCultivation(value)}

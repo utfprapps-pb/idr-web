@@ -81,12 +81,33 @@ import {
 } from '@/app/modules/animals/mocks/handlers/animal-sales-handlers'
 import { loginHandler } from '@/app/modules/auth/mocks/handlers'
 import {
+  createCultivationDiseaseHandler,
+  deleteCultivationDiseaseHandler,
+  getCultivationDiseaseHandler,
+  getCultivationDiseasesHandler,
+  updateCultivationDiseaseHandler,
+} from '@/app/modules/cultivations/mocks/handlers/cultivation-diseases-handlers'
+import {
   createForageHandler,
   deleteForageHandler,
   getForageHandler,
   getForagesHandler,
   updateForageHandler,
 } from '@/app/modules/forages/mocks/handlers'
+import {
+  createGeneralCultivationDiseaseHandler,
+  deleteGeneralCultivationDiseaseHandler,
+  getGeneralCultivationDiseaseHandler,
+  getGeneralCultivationDiseasesHandler,
+  updateGeneralCultivationDiseaseHandler,
+} from '@/app/modules/general-cultivations/mocks/handlers/general-cultivation-diseases-handlers'
+import {
+  createGeneralCultivationHandler,
+  deleteGeneralCultivationHandler,
+  getGeneralCultivationHandler,
+  getGeneralCultivationsHandler,
+  updateGeneralCultivationHandler,
+} from '@/app/modules/general-cultivations/mocks/handlers/general-cultivations-handlers'
 import {
   createImprovementHandler,
   deleteImprovementHandler,
@@ -114,14 +135,11 @@ import { getAllBreedsHandler } from './handlers/breeds-handlers'
 import { getAllProductCategoriesHandler } from './handlers/product-categories-handlers'
 import { getAllProductsHandler } from './handlers/products-handlers'
 import { getAllUsersHandler, getMeHandler } from './handlers/users-handlers'
-import { getAllVegetablesHandler } from './handlers/vegetables-handlers'
 
 const handlers: HttpHandler[] = [
   loginHandler,
 
   getAllBreedsHandler,
-
-  getAllVegetablesHandler,
 
   getAllActiveIngredientsHandler,
 
@@ -222,6 +240,24 @@ const handlers: HttpHandler[] = [
   getAnimalMastitisHandler,
   getAnimalMastitidesHandler,
   updateAnimalMastitisHandler,
+
+  createGeneralCultivationHandler,
+  deleteGeneralCultivationHandler,
+  getGeneralCultivationHandler,
+  getGeneralCultivationsHandler,
+  updateGeneralCultivationHandler,
+
+  createGeneralCultivationDiseaseHandler,
+  deleteGeneralCultivationDiseaseHandler,
+  getGeneralCultivationDiseaseHandler,
+  getGeneralCultivationDiseasesHandler,
+  updateGeneralCultivationDiseaseHandler,
+
+  createCultivationDiseaseHandler,
+  deleteCultivationDiseaseHandler,
+  getCultivationDiseaseHandler,
+  getCultivationDiseasesHandler,
+  updateCultivationDiseaseHandler,
 ]
 
 export const worker = setupWorker(...handlers)

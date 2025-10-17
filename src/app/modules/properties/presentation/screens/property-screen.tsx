@@ -3,6 +3,7 @@ import { useCallback, useMemo, useState, type ReactNode } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import { AnimalsScreen } from '@/app/modules/animals/presentation/screens/animals-screen'
+import { CultivationsScreen } from '@/app/modules/cultivations/presentation/screens/cultivations-screen'
 import { ForagesScreen } from '@/app/modules/forages/presentation/screens/forages-screen'
 import { ImprovementsScreen } from '@/app/modules/improvements/presentation/screens/improvements-screen'
 import { MachinesScreen } from '@/app/modules/machines/presentation/screens/machines-screen'
@@ -56,8 +57,13 @@ export function PropertyScreen() {
       },
       {
         key: 'animals-data',
-        name: 'Dados dos Animais',
+        name: 'Animais',
         component: <AnimalsScreen />,
+      },
+      {
+        key: 'cultivations-data',
+        name: 'Cultivos',
+        component: <CultivationsScreen />,
       },
     ],
     []
