@@ -100,8 +100,7 @@ export function EditCultivationDiseaseForm() {
       <Sheet.Content side="right">
         <Sheet.Header>
           <Sheet.Title>
-            Editar Doença do cultivo
-            {cultivationDisease?.cultivation.label}?
+            Editar Doença do cultivo {cultivationDisease?.cultivation.label}?
           </Sheet.Title>
           <Sheet.Description>
             Preencha o formulário para editar a doença do cultivo
