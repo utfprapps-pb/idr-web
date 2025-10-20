@@ -88,6 +88,13 @@ import {
   updateCultivationDiseaseHandler,
 } from '@/app/modules/cultivations/mocks/handlers/cultivation-diseases-handlers'
 import {
+  createCultivationPestHandler,
+  deleteCultivationPestHandler,
+  getCultivationPestHandler,
+  getCultivationPestsHandler,
+  updateCultivationPestHandler,
+} from '@/app/modules/cultivations/mocks/handlers/cultivation-pests-handlers'
+import {
   createForageHandler,
   deleteForageHandler,
   getForageHandler,
@@ -258,6 +265,12 @@ const handlers: HttpHandler[] = [
   getCultivationDiseaseHandler,
   getCultivationDiseasesHandler,
   updateCultivationDiseaseHandler,
+
+  createCultivationPestHandler,
+  deleteCultivationPestHandler,
+  getCultivationPestHandler,
+  getCultivationPestsHandler,
+  updateCultivationPestHandler,
 ]
 
 export const worker = setupWorker(...handlers)
