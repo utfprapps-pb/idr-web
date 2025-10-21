@@ -88,6 +88,13 @@ import {
   updateCultivationDiseaseHandler,
 } from '@/app/modules/cultivations/mocks/handlers/cultivation-diseases-handlers'
 import {
+  createCultivationPestHandler,
+  deleteCultivationPestHandler,
+  getCultivationPestHandler,
+  getCultivationPestsHandler,
+  updateCultivationPestHandler,
+} from '@/app/modules/cultivations/mocks/handlers/cultivation-pests-handlers'
+import {
   createForageHandler,
   deleteForageHandler,
   getForageHandler,
@@ -101,6 +108,13 @@ import {
   getGeneralCultivationDiseasesHandler,
   updateGeneralCultivationDiseaseHandler,
 } from '@/app/modules/general-cultivations/mocks/handlers/general-cultivation-diseases-handlers'
+import {
+  createGeneralCultivationPestHandler,
+  deleteGeneralCultivationPestHandler,
+  getGeneralCultivationPestHandler,
+  getGeneralCultivationPestsHandler,
+  updateGeneralCultivationPestHandler,
+} from '@/app/modules/general-cultivations/mocks/handlers/general-cultivation-pests-handlers'
 import {
   createGeneralCultivationHandler,
   deleteGeneralCultivationHandler,
@@ -253,11 +267,23 @@ const handlers: HttpHandler[] = [
   getGeneralCultivationDiseasesHandler,
   updateGeneralCultivationDiseaseHandler,
 
+  createGeneralCultivationPestHandler,
+  deleteGeneralCultivationPestHandler,
+  getGeneralCultivationPestHandler,
+  getGeneralCultivationPestsHandler,
+  updateGeneralCultivationPestHandler,
+
   createCultivationDiseaseHandler,
   deleteCultivationDiseaseHandler,
   getCultivationDiseaseHandler,
   getCultivationDiseasesHandler,
   updateCultivationDiseaseHandler,
+
+  createCultivationPestHandler,
+  deleteCultivationPestHandler,
+  getCultivationPestHandler,
+  getCultivationPestsHandler,
+  updateCultivationPestHandler,
 ]
 
 export const worker = setupWorker(...handlers)

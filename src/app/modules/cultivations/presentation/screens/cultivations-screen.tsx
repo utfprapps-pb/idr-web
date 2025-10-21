@@ -3,6 +3,7 @@ import { useCallback, useMemo, useState, type ReactNode } from 'react'
 import { Breadcrumb, ScrollArea, Tabs } from '@/core/presentation/components/ui'
 
 import { CultivationDiseasesScreen } from './cultivation-diseases-screen'
+import { CultivationPestsScreen } from './cultivation-pests-screen'
 
 type Tab = {
   key: string
@@ -17,6 +18,11 @@ export function CultivationsScreen() {
         key: 'cultivation-diseases',
         name: 'Doenças',
         component: <CultivationDiseasesScreen />,
+      },
+      {
+        key: 'cultivation-pests',
+        name: 'Pragas',
+        component: <CultivationPestsScreen />,
       },
     ],
     []
