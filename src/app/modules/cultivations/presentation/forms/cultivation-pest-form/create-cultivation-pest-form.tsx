@@ -55,7 +55,7 @@ export function CreateCultivationPestForm() {
           exact: false,
         })
 
-        toast.success('Praga do cultivo foi cadastrado com sucesso')
+        toast.success('Praga do cultivo foi cadastrada com sucesso')
 
         form.reset(CULTIVATION_PEST_INITIAL_FORM_DATA)
 

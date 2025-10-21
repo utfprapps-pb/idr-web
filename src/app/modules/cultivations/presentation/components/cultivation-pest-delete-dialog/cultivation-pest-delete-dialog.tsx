@@ -41,7 +41,7 @@ export function CultivationPestDeleteDialog() {
         exact: false,
       })
 
-      toast.success('Praga do cultivo removido com sucesso')
+      toast.success('Praga do cultivo removida com sucesso')
     } catch {
       toast.error('Erro ao remover praga do cultivo')
     } finally {
