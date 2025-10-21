@@ -109,6 +109,13 @@ import {
   updateGeneralCultivationDiseaseHandler,
 } from '@/app/modules/general-cultivations/mocks/handlers/general-cultivation-diseases-handlers'
 import {
+  createGeneralCultivationPestHandler,
+  deleteGeneralCultivationPestHandler,
+  getGeneralCultivationPestHandler,
+  getGeneralCultivationPestsHandler,
+  updateGeneralCultivationPestHandler,
+} from '@/app/modules/general-cultivations/mocks/handlers/general-cultivation-pests-handlers'
+import {
   createGeneralCultivationHandler,
   deleteGeneralCultivationHandler,
   getGeneralCultivationHandler,
@@ -259,6 +266,12 @@ const handlers: HttpHandler[] = [
   getGeneralCultivationDiseaseHandler,
   getGeneralCultivationDiseasesHandler,
   updateGeneralCultivationDiseaseHandler,
+
+  createGeneralCultivationPestHandler,
+  deleteGeneralCultivationPestHandler,
+  getGeneralCultivationPestHandler,
+  getGeneralCultivationPestsHandler,
+  updateGeneralCultivationPestHandler,
 
   createCultivationDiseaseHandler,
   deleteCultivationDiseaseHandler,
