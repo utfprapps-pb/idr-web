@@ -27,14 +27,14 @@ type NutritionalBalancingSummary = {
 
 type NutritionalEvaluation = {
   nutrientName: string
-  requiredValue: number
-  providedValue: number
+  requiredValue: string
+  providedValue: string
   evaluationStatus: NutritionalBalancingEvaluationStatus
 }
 
 type IngredientItem = {
   name: string
-  quantity: number
+  quantity: string
 }
 
 type IngredientGroup = {
