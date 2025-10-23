@@ -137,6 +137,13 @@ import {
   updateMachineHandler,
 } from '@/app/modules/machines/mocks/handlers'
 import {
+  createNutritionalBalancingHandler,
+  deleteNutritionalBalancingHandler,
+  getNutritionalBalancingHandler,
+  getNutritionalBalancingsHandler,
+  updateNutritionalBalancingHandler,
+} from '@/app/modules/nutritional-balancings/mocks/handlers'
+import {
   createPropertyHandler,
   deletePropertyHandler,
   getPropertiesHandler,
@@ -284,6 +291,12 @@ const handlers: HttpHandler[] = [
   getCultivationPestHandler,
   getCultivationPestsHandler,
   updateCultivationPestHandler,
+
+  createNutritionalBalancingHandler,
+  deleteNutritionalBalancingHandler,
+  getNutritionalBalancingHandler,
+  getNutritionalBalancingsHandler,
+  updateNutritionalBalancingHandler,
 ]
 
 export const worker = setupWorker(...handlers)
