@@ -1,6 +1,6 @@
 import { withThemeByClassName } from '@storybook/addon-themes'
 
-import '../src/styles/globals.css'
+import '../src/core/styles/globals.css'
 import { withRouter } from './decorators'
 
 export const parameters = {
