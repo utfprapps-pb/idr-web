@@ -29,8 +29,12 @@ export class RemoteGetAnimalsUseCase implements GetAnimalsUseCase {
     sort,
   }) => {
     const mapApiProperties: MapApiProperties<AnimalModel, AnimalApiResponse> = {
+      id: 'id',
       name: 'name',
       breed: 'breed',
+      ecc: 'ecc',
+      weight: 'weight',
+      milkProduction: 'milkProduction',
     }
 
     const url = this.url.replace(':propertyId', String(propertyId))
@@ -50,6 +54,9 @@ export class RemoteGetAnimalsUseCase implements GetAnimalsUseCase {
           id: item.id,
           name: item.name,
           breed: item.breed,
+          weight: item.weight,
+          ecc: item.ecc,
+          milkProduction: item.milkProduction,
         })),
         totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
       }

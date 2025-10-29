@@ -38,7 +38,14 @@ export function useAllAnimalsQuery({ propertyId, filters }: Props) {
 
   return {
     allAnimals:
-      data?.resources.map((resource) => toOption(resource, 'name')) ?? [],
+      data?.resources.map((resource) =>
+        toOption(resource, 'name', {
+          breed: resource.breed,
+          weight: resource.weight,
+          ecc: resource.ecc,
+          milkProduction: resource.milkProduction,
+        })
+      ) ?? [],
     isLoading,
     refetchAllAnimals,
   }
