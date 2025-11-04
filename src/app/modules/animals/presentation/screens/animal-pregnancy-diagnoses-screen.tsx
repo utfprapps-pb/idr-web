@@ -40,7 +40,11 @@ export function AnimalPregnancyDiagnosesScreen({
 
               <DatePicker
                 className="w-fit"
-                date={filters.date?.value}
+                date={
+                  filters.date?.value instanceof Date
+                    ? filters.date.value
+                    : undefined
+                }
                 onSelect={(date) => {
                   if (!date) return
                   handleChangeFilters({

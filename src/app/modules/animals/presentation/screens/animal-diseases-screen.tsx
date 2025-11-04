@@ -38,7 +38,11 @@ export function AnimalDiseasesScreen({ animalId }: AnimalDiseasesScreenProps) {
 
               <DatePicker
                 className="w-fit"
-                date={filters.diagnosticDate?.value}
+                date={
+                  filters.diagnosticDate?.value instanceof Date
+                    ? filters.diagnosticDate.value
+                    : undefined
+                }
                 onSelect={(date) => {
                   if (!date) return
                   handleChangeFilters({
