@@ -1,19 +1,17 @@
-import { useState, useMemo } from 'react'
-
 import { useFormContext } from 'react-hook-form'
 
-import { useAllAnimalsQuery } from '@/app/modules/animals/presentation/hooks/queries/all-animals-query.hook'
 import {
   Breadcrumb,
   Button,
   Combobox,
   Form,
 } from '@/core/presentation/components/ui'
-import { useDebounce } from '@/core/presentation/hooks'
 
 import { useNutritionalBalancingContext } from '../../hooks/nutritional-balancing-context.hook'
 import { createEmptyNutritionalBalancingEntry } from '../../utils/create-empty-nutritional-balancing-entry'
 import { type NutritionalBalancingFormSchema } from '../../validations/nutritional-balancing-form-schema'
+
+import { useNewNutritionalBalancingHeader } from './new-nutritional-balancing-header.hook'
 
 type NewNutritionalBalancingHeaderProps = {
   buttonDisabled: boolean
@@ -32,33 +30,11 @@ export function NewNutritionalBalancingHeader({
   const { propertyId, closeNewNutritionalBalancingScreen } =
     useNutritionalBalancingContext()
 
-  const [searchAnimal, setSearchAnimal] = useState('')
-  const debouncedAnimal = useDebounce({ value: searchAnimal })
-  const selectedIds = useMemo(
-    () =>
-      nutritionalBalancings
-        .map((field) => field?.animal?.id)
-        .filter((id): id is number => typeof id === 'number' && id > 0),
-    [nutritionalBalancings]
-  )
-
-  const { allAnimals, isLoading } = useAllAnimalsQuery({
-    propertyId,
-    filters: {
-      name: {
-        value: debouncedAnimal,
-        type: 'LIKE',
-      },
-      ...(selectedIds.length
-        ? {
-            id: {
-              value: selectedIds,
-              type: 'NOT_IN',
-            },
-          }
-        : {}),
-    },
-  })
+  const { searchAnimal, setSearchAnimal, allAnimals, isLoading } =
+    useNewNutritionalBalancingHeader({
+      propertyId,
+      nutritionalBalancings,
+    })
 
   return (
     <div className="flex justify-between">
