@@ -1,4 +1,4 @@
-import { floatMask } from '@/core/masker'
+import { formatNumber } from '@/core/masker'
 
 import type { NutritionalBalancingFormSchema } from '../validations/nutritional-balancing-form-schema'
 import type { UseFormReturn } from 'react-hook-form'
@@ -22,7 +22,7 @@ export function makeAnimalInformationItems(
     },
     {
       label: 'ECC',
-      value: floatMask(
+      value: formatNumber(
         form.getValues(
           `nutritionalBalancings.${currentNutritionalBalancingIndex}.animal.ecc`
         )
@@ -30,29 +30,35 @@ export function makeAnimalInformationItems(
     },
     {
       label: 'Peso Vivo',
-      value: floatMask(
+      value: formatNumber(
         form.getValues(
           `nutritionalBalancings.${currentNutritionalBalancingIndex}.animal.weight`
         ),
-        'kg'
+        {
+          suffix: 'kg',
+        }
       ),
     },
     {
       label: 'Produção de Leite',
-      value: floatMask(
+      value: formatNumber(
         form.getValues(
           `nutritionalBalancings.${currentNutritionalBalancingIndex}.animal.milkProduction`
         ),
-        'kg'
+        {
+          suffix: 'kg',
+        }
       ),
     },
     {
       label: 'Produção de Leite Projetada',
-      value: floatMask(
+      value: formatNumber(
         form.getValues(
           `nutritionalBalancings.${currentNutritionalBalancingIndex}.animal.estimatedMilkProduction`
         ),
-        'kg/dia'
+        {
+          suffix: 'kg/dia',
+        }
       ),
     },
   ]

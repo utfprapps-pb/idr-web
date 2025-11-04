@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react'
 import { format } from 'date-fns'
 import { MoreHorizontalIcon, PencilIcon, Trash2Icon } from 'lucide-react'
 
-import { floatMask } from '@/core/masker'
+import { formatNumber } from '@/core/masker'
 import { DropdownMenu } from '@/core/presentation/components/ui'
 import { useDebounce } from '@/core/presentation/hooks'
 
@@ -61,7 +61,7 @@ export function useNutritionalBalancingDataTable() {
         cell: ({ row }) => {
           const { original: nutritionalBalancing } = row
 
-          return floatMask(nutritionalBalancing.weight, 'kg')
+          return formatNumber(nutritionalBalancing.weight, { suffix: 'kg' })
         },
       },
       {
@@ -70,7 +70,9 @@ export function useNutritionalBalancingDataTable() {
         cell: ({ row }) => {
           const { original: nutritionalBalancing } = row
 
-          return floatMask(nutritionalBalancing.milkProduction, 'kg/dia')
+          return formatNumber(nutritionalBalancing.milkProduction, {
+            suffix: 'kg/dia',
+          })
         },
       },
       {
@@ -79,10 +81,9 @@ export function useNutritionalBalancingDataTable() {
         cell: ({ row }) => {
           const { original: nutritionalBalancing } = row
 
-          return floatMask(
-            nutritionalBalancing.estimatedMilkProduction,
-            'kg/dia'
-          )
+          return formatNumber(nutritionalBalancing.estimatedMilkProduction, {
+            suffix: 'kg/dia',
+          })
         },
       },
       {

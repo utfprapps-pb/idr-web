@@ -1,4 +1,4 @@
-import { percentMask, floatMask } from '@/core/masker'
+import { formatNumber } from '@/core/masker'
 
 import type { NutritionalBalancingFormSchema } from '../validations/nutritional-balancing-form-schema'
 import type { UseFormReturn } from 'react-hook-form'
@@ -10,52 +10,68 @@ export function makeNutritionalSummaryItems(
   return [
     {
       label: 'EE da ração (%)',
-      value: percentMask(
+      value: formatNumber(
         form.getValues(
           `nutritionalBalancings.${currentNutritionalBalancingIndex}.summary.etherExtractPercent`
-        )
+        ),
+        {
+          suffix: '%',
+        }
       ),
     },
     {
       label: 'Total de Matéria Seca',
-      value: floatMask(
+      value: formatNumber(
         form.getValues(
           `nutritionalBalancings.${currentNutritionalBalancingIndex}.summary.totalDryMatter`
         ),
-        'kg'
+        {
+          suffix: 'kg',
+        }
       ),
     },
     {
       label: 'Relação MS: Volumoso',
-      value: percentMask(
+      value: formatNumber(
         form.getValues(
           `nutritionalBalancings.${currentNutritionalBalancingIndex}.summary.forageDryMatterPercent`
-        )
+        ),
+        {
+          suffix: '%',
+        }
       ),
     },
     {
       label: 'Relação MS: Concentrado',
-      value: percentMask(
+      value: formatNumber(
         form.getValues(
           `nutritionalBalancings.${currentNutritionalBalancingIndex}.summary.concentrateDryMatterPercent`
-        )
+        ),
+        {
+          suffix: '%',
+        }
       ),
     },
     {
       label: 'Carboidratos Não Fibrosos (CNF em % MS)',
-      value: percentMask(
+      value: formatNumber(
         form.getValues(
           `nutritionalBalancings.${currentNutritionalBalancingIndex}.summary.nonFibrousCarbohydratesPercent`
-        )
+        ),
+        {
+          suffix: '%',
+        }
       ),
     },
     {
       label: 'Relação PDR/NDT (g/kg)',
-      value: floatMask(
+      value: formatNumber(
         form.getValues(
           `nutritionalBalancings.${currentNutritionalBalancingIndex}.summary.rdpTdnRatio`
         ),
-        'g/kg'
+        {
+          suffix: 'g/kg',
+        }
       ),
     },
   ]
