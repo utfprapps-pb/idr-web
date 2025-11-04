@@ -32,6 +32,9 @@ export class RemoteGetAnimalUseCase implements GetAnimalUseCase {
       return {
         name: body.name,
         breed: body.breed,
+        ecc: body.ecc,
+        weight: body.weight,
+        milkProduction: body.milkProduction,
       }
     }
 

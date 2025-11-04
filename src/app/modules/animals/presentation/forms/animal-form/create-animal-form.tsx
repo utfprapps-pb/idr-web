@@ -46,7 +46,13 @@ export function CreateAnimalForm() {
       try {
         await mutateHandleCreateAnimal({
           propertyId,
-          animal: data,
+          animal: {
+            name: data.name,
+            breed: data.breed,
+            ecc: '',
+            weight: '',
+            milkProduction: '',
+          },
         })
         queryClient.invalidateQueries({
           queryKey: ['animals'],
