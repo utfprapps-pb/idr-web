@@ -67,7 +67,7 @@ export function TableBody<TData extends RowData>({
     return (
       <Table.Row>
         <Table.Cell colSpan={columns.length} className="h-24 text-center">
-          No results.
+          Sem dados para exibir
         </Table.Cell>
       </Table.Row>
     )
