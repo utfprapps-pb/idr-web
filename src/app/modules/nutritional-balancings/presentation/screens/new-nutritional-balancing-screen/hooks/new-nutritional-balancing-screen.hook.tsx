@@ -181,17 +181,26 @@ export function useNewNutritionalBalancingScreen() {
         (balancing) => balancing?.ingredientGroups
       )
 
+    // Find the first animal without ingredients
+    let firstAnimalWithoutIngredientsIndex = -1
     const hasBalancingWithoutIngredients =
       formValues.nutritionalBalancings &&
-      formValues.nutritionalBalancings.some((balancing) => {
+      formValues.nutritionalBalancings.some((balancing, index) => {
         const totalIngredients = balancing.ingredientGroups?.reduce(
           (total, group) => total + (group.ingredients?.length || 0),
           0
         )
-        return totalIngredients === 0
+        const hasNoIngredients = totalIngredients === 0
+        if (hasNoIngredients && firstAnimalWithoutIngredientsIndex === -1) {
+          firstAnimalWithoutIngredientsIndex = index
+        }
+        return hasNoIngredients
       })
 
     if (hasIngredientError || hasBalancingWithoutIngredients) {
+      if (firstAnimalWithoutIngredientsIndex !== -1) {
+        setCurrentNutritionalBalancingIndex(firstAnimalWithoutIngredientsIndex)
+      }
       setActiveTab('ingredients')
       toast.error('Adicione ao menos um ingrediente')
       return true

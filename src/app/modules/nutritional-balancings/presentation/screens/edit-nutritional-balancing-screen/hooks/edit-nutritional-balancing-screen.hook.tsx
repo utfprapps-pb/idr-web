@@ -171,14 +171,19 @@ export function useEditNutritionalBalancingScreen() {
         (balancing) => balancing?.ingredientGroups
       )
 
+    let firstAnimalWithoutIngredientsIndex = -1
     const hasBalancingWithoutIngredients =
       formValues.nutritionalBalancings &&
-      formValues.nutritionalBalancings.some((balancing) => {
+      formValues.nutritionalBalancings.some((balancing, index) => {
         const totalIngredients = balancing.ingredientGroups?.reduce(
           (total, group) => total + (group.ingredients?.length || 0),
           0
         )
-        return totalIngredients === 0
+        const hasNoIngredients = totalIngredients === 0
+        if (hasNoIngredients && firstAnimalWithoutIngredientsIndex === -1) {
+          firstAnimalWithoutIngredientsIndex = index
+        }
+        return hasNoIngredients
       })
 
     if (hasIngredientError || hasBalancingWithoutIngredients) {

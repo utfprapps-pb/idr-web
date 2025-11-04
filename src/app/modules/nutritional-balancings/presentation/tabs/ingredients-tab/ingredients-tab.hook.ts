@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { useFormContext } from 'react-hook-form'
 
@@ -24,6 +24,12 @@ export function useIngredientsTab({
   const [searchAnimal, setSearchAnimal] = useState('')
   const [selectedAnimalToCopy, setSelectedAnimalToCopy] =
     useState<Option<number> | null>(null)
+
+  // Reset selected animal when changing animals
+  useEffect(() => {
+    setSelectedAnimalToCopy(null)
+    setSearchAnimal('')
+  }, [currentAnimalIndex])
 
   const animalsAddedWithIngredients = useMemo(() => {
     const animalsAdded = form.getValues('nutritionalBalancings')
