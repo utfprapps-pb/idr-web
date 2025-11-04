@@ -9,6 +9,7 @@ type NutritionalBalancingAnimalNavigationProps = {
   animalName: string
   handleSelectNutritionalBalancing: (index: number) => void
   handleRemoveNutritionalBalancing: (index: number) => void
+  hideRemoveButton?: boolean
 }
 
 export function NutritionalBalancingAnimalNavigation({
@@ -17,6 +18,7 @@ export function NutritionalBalancingAnimalNavigation({
   animalName,
   handleSelectNutritionalBalancing,
   handleRemoveNutritionalBalancing,
+  hideRemoveButton = false,
 }: Readonly<NutritionalBalancingAnimalNavigationProps>) {
   const hasPrevious =
     currentNutritionalBalancingIndex !== null &&
@@ -47,19 +49,21 @@ export function NutritionalBalancingAnimalNavigation({
             <h2 className="text-2xl font-semibold text-primary-500">
               {animalName}
             </h2>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              onClick={() =>
-                handleRemoveNutritionalBalancing(
-                  currentNutritionalBalancingIndex
-                )
-              }
-              className="text-destructive hover:text-destructive hover:bg-destructive/10"
-            >
-              <Trash2Icon className="h-5 w-5" />
-            </Button>
+            {!hideRemoveButton && (
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={() =>
+                  handleRemoveNutritionalBalancing(
+                    currentNutritionalBalancingIndex
+                  )
+                }
+                className="text-destructive hover:text-destructive hover:bg-destructive/10"
+              >
+                <Trash2Icon className="h-5 w-5" />
+              </Button>
+            )}
           </div>
 
           <Badge variant="secondary">

@@ -45,6 +45,9 @@ export function useIngredientsTable({
       {
         id: 'actions',
         header: '',
+        meta: {
+          align: 'right',
+        },
         cell: ({ row }) => (
           <Button
             type="button"
