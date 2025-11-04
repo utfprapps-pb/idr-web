@@ -38,7 +38,11 @@ export function useAllGeneralCultivationsQuery({ filters }: Props) {
 
   return {
     allGeneralCultivations:
-      data?.resources.map((resource) => toOption(resource, 'name')) ?? [],
+      data?.resources.map((resource) =>
+        toOption(resource, 'name', {
+          type: resource.type,
+        })
+      ) ?? [],
     isLoading,
     refetchAllGeneralCultivations,
   }

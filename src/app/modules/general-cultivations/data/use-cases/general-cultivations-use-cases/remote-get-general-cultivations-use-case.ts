@@ -8,6 +8,7 @@ import {
 import type {
   GeneralCultivationApiResponse,
   GeneralCultivationModel,
+  GeneralCultivationType,
 } from '../../../domain/models/general-cultivations-model'
 import type { GetGeneralCultivationsUseCase } from '../../../domain/use-cases/general-cultivations-use-cases'
 import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
@@ -53,7 +54,7 @@ export class RemoteGetGeneralCultivationsUseCase
           return {
             id: item.id,
             name: item.name,
-            type: item.type,
+            type: item.type as GeneralCultivationType,
           }
         }),
         totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),

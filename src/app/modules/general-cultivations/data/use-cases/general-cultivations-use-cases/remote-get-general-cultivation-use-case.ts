@@ -8,6 +8,7 @@ import {
 import type {
   GeneralCultivationDetailsModel,
   GeneralCultivationDetailsApiResponse,
+  GeneralCultivationType,
 } from '../../../domain/models/general-cultivations-model'
 import type { GetGeneralCultivationUseCase } from '../../../domain/use-cases/general-cultivations-use-cases'
 
@@ -31,7 +32,7 @@ export class RemoteGetGeneralCultivationUseCase
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
         name: body.name,
-        type: body.type,
+        type: body.type as GeneralCultivationType,
       }
     }
 

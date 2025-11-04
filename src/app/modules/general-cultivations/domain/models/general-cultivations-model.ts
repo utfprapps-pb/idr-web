@@ -1,21 +1,23 @@
 import type { WithId } from '../../../../../core/domain/types'
 
+export type GeneralCultivationType = 'FORAGE' | 'CONCENTRATE' | 'MINERAL'
+
 export type GeneralCultivationDetailsModel = {
   name: string
-  type: 'FORAGE' | 'CONCENTRATE' | 'MINERAL'
+  type: GeneralCultivationType
 }
 
 export type GeneralCultivationDetailsApiResponse = {
   name: string
-  type: 'FORAGE' | 'CONCENTRATE' | 'MINERAL'
+  type: string
 }
 
 export type GeneralCultivationModel = WithId<{
   name: string
-  type: 'FORAGE' | 'CONCENTRATE' | 'MINERAL'
+  type: GeneralCultivationType
 }>
 
 export type GeneralCultivationApiResponse = WithId<{
   name: string
-  type: 'FORAGE' | 'CONCENTRATE' | 'MINERAL'
+  type: string
 }>

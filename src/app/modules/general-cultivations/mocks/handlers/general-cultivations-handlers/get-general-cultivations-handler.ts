@@ -37,10 +37,7 @@ export const getGeneralCultivationsHandler = httpWithMiddleware<
       )
     }
 
-    let generalCultivations = generalCultivationsData.map((disease) => ({
-      id: disease.id,
-      name: disease.name,
-    }))
+    let generalCultivations = generalCultivationsData
 
     if (filters)
       generalCultivations = filterData<GeneralCultivationApiResponse>(
