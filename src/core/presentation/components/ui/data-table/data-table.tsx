@@ -16,6 +16,7 @@ import {
 import { ArrowDownNarrowWide, ArrowUpNarrowWide } from 'lucide-react'
 
 import { ITEMS_PER_PAGE } from '@/core/infra/http'
+import { cn } from '@/core/utils'
 
 import { Loading } from '../loading'
 import { Pagination } from '../pagination'
@@ -24,6 +25,8 @@ import { Table } from '../table'
 import { Tooltip } from '../tooltip'
 
 import type { Sort } from '@/core/domain/types'
+
+export type CellAlignment = 'left' | 'center' | 'right'
 
 export type DataTableProps<TData extends RowData> = {
   data: TData[]
@@ -39,6 +42,7 @@ export type DataTableProps<TData extends RowData> = {
   }
   loading?: boolean
   onClickRow?: (row: TData) => void
+  noBorder?: boolean
 }
 
 export function TableBody<TData extends RowData>({
@@ -81,11 +85,27 @@ export function TableBody<TData extends RowData>({
       className={onClickRow ? 'cursor-pointer' : ''}
       onClick={(event) => handleOnClickRow(event, row.original)}
     >
-      {row.getVisibleCells().map((cell) => (
-        <Table.Cell key={cell.id} className="whitespace-nowrap min-w-fit px-4">
-          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-        </Table.Cell>
-      ))}
+      {row.getVisibleCells().map((cell) => {
+        const alignment =
+          (cell.column.columnDef.meta as { align?: CellAlignment })?.align ||
+          'left'
+
+        const alignmentMap = {
+          left: 'text-left',
+          center: 'text-center',
+          right: 'text-right',
+        }
+        const alignmentClass = alignmentMap[alignment]
+
+        return (
+          <Table.Cell
+            key={cell.id}
+            className={cn('whitespace-nowrap min-w-fit px-4', alignmentClass)}
+          >
+            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+          </Table.Cell>
+        )
+      })}
     </Table.Row>
   ))
 }
@@ -98,6 +118,7 @@ export function DataTable<TData extends RowData>({
   totalPages = 1,
   loading = false,
   onClickRow,
+  noBorder = false,
 }: Readonly<DataTableProps<TData>>) {
   const currentSorting = sorting?.currentSorting
   const onSorting = sorting?.onSorting
@@ -205,69 +226,87 @@ export function DataTable<TData extends RowData>({
   return (
     <div className="flex flex-col gap-4">
       <ScrollArea.Root className="w-full">
-        <div className="rounded-md border">
+        <div className={noBorder ? 'rounded-md' : 'rounded-md border'}>
           <Table.Root className="min-w-full table-auto">
             <Table.Header>
               {getHeaderGroups().map((headerGroup) => (
                 <Table.Row key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <Table.Head
-                      key={header.id}
-                      colSpan={header.colSpan}
-                      className={
-                        hasSorting && header.column.getCanSort()
-                          ? 'cursor-pointer select-none whitespace-nowrap min-w-fit'
-                          : 'whitespace-nowrap min-w-fit'
-                      }
-                    >
-                      {header.isPlaceholder
-                        ? null
-                        : hasSorting && (
-                            <Tooltip.Provider>
-                              <Tooltip.Root>
-                                <Tooltip.Trigger asChild>
-                                  <button
-                                    type="button"
-                                    onClick={header.column.getToggleSortingHandler()}
-                                    className="inline-flex items-center gap-2"
-                                  >
-                                    {flexRender(
-                                      header.column.columnDef.header,
-                                      header.getContext()
-                                    )}
-                                    {{
-                                      asc: <ArrowDownNarrowWide size={20} />,
-                                      desc: <ArrowUpNarrowWide size={20} />,
-                                    }[header.column.getIsSorted() as string] ??
-                                      null}
-                                  </button>
-                                </Tooltip.Trigger>
-                                <Tooltip.Content>
-                                  <p>
-                                    {tooltipText(
-                                      header.column.getNextSortingOrder()
-                                    )}
-                                  </p>
-                                </Tooltip.Content>
-                              </Tooltip.Root>
-                            </Tooltip.Provider>
-                          )}
-                      {header.isPlaceholder
-                        ? null
-                        : !hasSorting && (
-                            <div className="inline-flex items-center gap-2">
-                              {flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
-                            </div>
-                          )}
-                    </Table.Head>
-                  ))}
+                  {headerGroup.headers.map((header) => {
+                    const alignment =
+                      (
+                        header.column.columnDef.meta as {
+                          align?: CellAlignment
+                        }
+                      )?.align || 'left'
+
+                    const alignmentMap = {
+                      left: 'text-left',
+                      center: 'text-center',
+                      right: 'text-right',
+                    }
+                    const alignmentClass = alignmentMap[alignment]
+
+                    const baseClassName =
+                      hasSorting && header.column.getCanSort()
+                        ? 'cursor-pointer select-none whitespace-nowrap min-w-fit'
+                        : 'whitespace-nowrap min-w-fit'
+
+                    return (
+                      <Table.Head
+                        key={header.id}
+                        colSpan={header.colSpan}
+                        className={cn(baseClassName, alignmentClass)}
+                      >
+                        {header.isPlaceholder
+                          ? null
+                          : hasSorting && (
+                              <Tooltip.Provider>
+                                <Tooltip.Root>
+                                  <Tooltip.Trigger asChild>
+                                    <button
+                                      type="button"
+                                      onClick={header.column.getToggleSortingHandler()}
+                                      className="inline-flex items-center gap-2"
+                                    >
+                                      {flexRender(
+                                        header.column.columnDef.header,
+                                        header.getContext()
+                                      )}
+                                      {{
+                                        asc: <ArrowDownNarrowWide size={20} />,
+                                        desc: <ArrowUpNarrowWide size={20} />,
+                                      }[
+                                        header.column.getIsSorted() as string
+                                      ] ?? null}
+                                    </button>
+                                  </Tooltip.Trigger>
+                                  <Tooltip.Content>
+                                    <p>
+                                      {tooltipText(
+                                        header.column.getNextSortingOrder()
+                                      )}
+                                    </p>
+                                  </Tooltip.Content>
+                                </Tooltip.Root>
+                              </Tooltip.Provider>
+                            )}
+                        {header.isPlaceholder
+                          ? null
+                          : !hasSorting && (
+                              <div className="inline-flex items-center gap-2">
+                                {flexRender(
+                                  header.column.columnDef.header,
+                                  header.getContext()
+                                )}
+                              </div>
+                            )}
+                      </Table.Head>
+                    )
+                  })}
                 </Table.Row>
               ))}
             </Table.Header>
-            <Table.Body>
+            <Table.Body showLastRowBorder={noBorder}>
               <TableBody
                 columns={columns}
                 rowModel={getRowModel()}
