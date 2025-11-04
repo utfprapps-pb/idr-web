@@ -10,5 +10,6 @@ export const generalCultivationsData = Array.from(
   (_, index) => ({
     id: index + 1,
     name: faker.food.vegetable(),
+    type: faker.helpers.arrayElement(['FORAGE', 'CONCENTRATE', 'MINERAL']),
   })
 )

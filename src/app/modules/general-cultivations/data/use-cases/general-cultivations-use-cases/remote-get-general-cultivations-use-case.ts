@@ -35,6 +35,7 @@ export class RemoteGetGeneralCultivationsUseCase
     > = {
       id: 'id',
       name: 'name',
+      type: 'type',
     }
 
     const { statusCode, body } = await this.httpClient.request({
@@ -52,6 +53,7 @@ export class RemoteGetGeneralCultivationsUseCase
           return {
             id: item.id,
             name: item.name,
+            type: item.type,
           }
         }),
         totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),

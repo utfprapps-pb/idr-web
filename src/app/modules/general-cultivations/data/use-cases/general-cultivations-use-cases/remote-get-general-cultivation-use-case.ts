@@ -31,6 +31,7 @@ export class RemoteGetGeneralCultivationUseCase
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
         name: body.name,
+        type: body.type,
       }
     }
 
