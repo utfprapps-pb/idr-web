@@ -12,8 +12,8 @@ export function createEmptyNutritionalBalancingEntry(
       ecc: '',
       weight: '',
       milkProduction: '',
-      estimatedMilkProduction: '',
       ...nutritionalBalancing.animal,
+      estimatedMilkProduction: '10',
     },
     summary: {
       totalDryMatter: '10',
@@ -55,6 +55,19 @@ export function createEmptyNutritionalBalancingEntry(
         evaluationStatus: 'NORMAL' as const,
       },
     ],
-    ingredientGroups: [],
+    ingredientGroups: [
+      {
+        category: 'FORAGE' as const,
+        ingredients: [],
+      },
+      {
+        category: 'CONCENTRATE' as const,
+        ingredients: [],
+      },
+      {
+        category: 'MINERAL' as const,
+        ingredients: [],
+      },
+    ],
   }
 }

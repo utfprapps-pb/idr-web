@@ -113,43 +113,56 @@ export function useIngredientsTab({
         `nutritionalBalancings.${currentAnimalIndex}.ingredientGroups` as const
 
       const ingredientGroups = form.getValues(ingredientGroupsPath) || []
+      const groupIndex = ingredientGroups.findIndex(
+        (group) => group.category === data.type
+      )
 
-      const category = data.type
+      const ingredientsPath =
+        `${ingredientGroupsPath}.${groupIndex}.ingredients` as const
+      const existingIngredients = form.getValues(ingredientsPath) || []
+      const updatedIngredients = [...existingIngredients, data]
 
+      form.setValue(ingredientsPath, updatedIngredients, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true,
+      })
+
+      form.trigger(ingredientGroupsPath)
+      setOpenAddIngredientDialog(false)
+    },
+    [currentAnimalIndex, form]
+  )
+
+  const handleRemoveIngredient = useCallback(
+    (
+      category: 'FORAGE' | 'CONCENTRATE' | 'MINERAL',
+      ingredientIndex: number
+    ) => {
+      const ingredientGroupsPath =
+        `nutritionalBalancings.${currentAnimalIndex}.ingredientGroups` as const
+
+      const ingredientGroups = form.getValues(ingredientGroupsPath) || []
       const groupIndex = ingredientGroups.findIndex(
         (group) => group.category === category
       )
 
-      if (groupIndex >= 0) {
-        const ingredientsPath =
-          `${ingredientGroupsPath}.${groupIndex}.ingredients` as const
+      if (groupIndex < 0) return
 
-        const existingIngredients = form.getValues(ingredientsPath) || []
-        const updatedIngredients = [...existingIngredients, data]
+      const ingredientsPath =
+        `${ingredientGroupsPath}.${groupIndex}.ingredients` as const
+      const existingIngredients = form.getValues(ingredientsPath) || []
+      const updatedIngredients = existingIngredients.filter(
+        (_, index) => index !== ingredientIndex
+      )
 
-        form.setValue(ingredientsPath, updatedIngredients, {
-          shouldValidate: true,
-          shouldDirty: true,
-          shouldTouch: true,
-        })
-      } else {
-        const updatedGroups = [
-          ...ingredientGroups,
-          {
-            category,
-            ingredients: [data],
-          },
-        ]
-
-        form.setValue(ingredientGroupsPath, updatedGroups, {
-          shouldValidate: true,
-          shouldDirty: true,
-          shouldTouch: true,
-        })
-      }
+      form.setValue(ingredientsPath, updatedIngredients, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true,
+      })
 
       form.trigger(ingredientGroupsPath)
-      setOpenAddIngredientDialog(false)
     },
     [currentAnimalIndex, form]
   )
@@ -165,5 +178,6 @@ export function useIngredientsTab({
     openAddIngredientDialog,
     setOpenAddIngredientDialog,
     handleAddIngredient,
+    handleRemoveIngredient,
   }
 }

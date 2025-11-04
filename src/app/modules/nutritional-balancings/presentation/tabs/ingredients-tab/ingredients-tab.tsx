@@ -19,6 +19,7 @@ export function IngredientsTab({
     openAddIngredientDialog,
     setOpenAddIngredientDialog,
     handleAddIngredient,
+    handleRemoveIngredient,
     ingredients,
     searchAnimal,
     setSearchAnimal,
@@ -72,23 +73,29 @@ export function IngredientsTab({
 
           <IngredientsTable
             category="VOLUMOSO"
+            categoryType="FORAGE"
             categoryClassName="text-amber-700"
             pointerClassName="text-amber-500"
             rows={ingredients.forage}
+            onRemove={handleRemoveIngredient}
           />
 
           <IngredientsTable
             category="CONCENTRADO"
+            categoryType="CONCENTRATE"
             categoryClassName="text-orange-700"
             pointerClassName="text-orange-500"
             rows={ingredients.concentrate}
+            onRemove={handleRemoveIngredient}
           />
 
           <IngredientsTable
             category="MINERAL"
+            categoryType="MINERAL"
             categoryClassName="text-blue-700"
             pointerClassName="text-blue-500"
             rows={ingredients.mineral}
+            onRemove={handleRemoveIngredient}
           />
 
           <div className="gap-4 flex w-full justify-between p-4 bg-slate-50 border rounded-md items-center">

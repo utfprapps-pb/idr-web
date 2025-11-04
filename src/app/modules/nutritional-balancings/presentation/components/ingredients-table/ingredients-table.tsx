@@ -9,18 +9,25 @@ import type { IngredientItemSchema } from '../../validations/nutritional-balanci
 
 type IngredientsTableProps = {
   category: string
+  categoryType: 'FORAGE' | 'CONCENTRATE' | 'MINERAL'
   rows: IngredientItemSchema[]
   categoryClassName?: string
   pointerClassName?: string
+  onRemove: (
+    category: 'FORAGE' | 'CONCENTRATE' | 'MINERAL',
+    index: number
+  ) => void
 }
 
 export function IngredientsTable({
   category,
+  categoryType,
   rows,
   categoryClassName,
   pointerClassName,
+  onRemove,
 }: Readonly<IngredientsTableProps>) {
-  const { columns } = useIngredientsTable()
+  const { columns } = useIngredientsTable({ categoryType, onRemove })
 
   return (
     <section className="flex flex-col gap-2">
