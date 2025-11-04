@@ -55,34 +55,6 @@ export function createEmptyNutritionalBalancingEntry(
         evaluationStatus: 'NORMAL' as const,
       },
     ],
-    ingredientGroups: [
-      {
-        category: 'FORAGE' as const,
-        ingredients: [
-          {
-            name: 'Silagem de milho',
-            quantity: '1000',
-          },
-        ],
-      },
-      {
-        category: 'CONCENTRATE' as const,
-        ingredients: [
-          {
-            name: 'Silagem de milho',
-            quantity: '1000',
-          },
-        ],
-      },
-      {
-        category: 'MINERAL' as const,
-        ingredients: [
-          {
-            name: 'Silagem de milho',
-            quantity: '1000',
-          },
-        ],
-      },
-    ],
+    ingredientGroups: [],
   }
 }

@@ -1,5 +1,8 @@
 import { array, z } from 'zod'
 
+import { onlyNumbersMask } from '@/core/masker'
+import { optionSchema } from '@/core/validation/schemas'
+
 const nutritionalBalancingAnimalSchema = z.object({
   id: z.number().min(1, { message: 'Animal é obrigatório' }),
   name: z.string().min(1, { message: 'Nome do animal é obrigatório' }),
@@ -48,11 +51,19 @@ const nutritionalEvaluationSchema = z.object({
   }),
 })
 
-const ingredientItemSchema = z.object({
-  name: z.string().min(1, { message: 'Nome do ingrediente é obrigatório' }),
+export const ingredientItemSchema = z.object({
+  ingredient: optionSchema.refine((val) => val.value > 0, {
+    message: 'Ingrediente é obrigatório',
+  }),
   quantity: z
     .string()
-    .min(1, { message: 'Quantidade do ingrediente é obrigatória' }),
+    .min(1, { message: 'Quantidade do ingrediente é obrigatória' })
+    .refine((val) => Number(onlyNumbersMask(val)) > 0, {
+      message: 'Quantidade deve ser maior que zero',
+    }),
+  type: z.enum(['FORAGE', 'CONCENTRATE', 'MINERAL'], {
+    errorMap: () => ({ message: 'Categoria inválida' }),
+  }),
 })
 
 const ingredientGroupSchema = z.object({
@@ -103,3 +114,9 @@ export type NutritionalBalancingFormSchema = z.infer<
 export type NutritionalBalancingSchema = z.infer<
   typeof nutritionalBalancingSchema
 >
+
+export type NutritionalBalancingEvaluationSchema = z.infer<
+  typeof nutritionalEvaluationSchema
+>
+
+export type IngredientItemSchema = z.infer<typeof ingredientItemSchema>

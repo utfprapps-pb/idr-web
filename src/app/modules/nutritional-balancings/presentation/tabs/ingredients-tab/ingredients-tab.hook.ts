@@ -1,10 +1,13 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import { useFormContext } from 'react-hook-form'
 
-import { onlyNumbersMask } from '@/core/masker'
+import { onlyNumbersAndDecimalMask } from '@/core/masker'
 
-import type { NutritionalBalancingFormSchema } from '../../validations/nutritional-balancing-form-schema'
+import type {
+  IngredientItemSchema,
+  NutritionalBalancingFormSchema,
+} from '../../validations/nutritional-balancing-form-schema'
 import type { Option } from '@/core/domain/types'
 
 type UseIngredientsTabProps = {
@@ -15,6 +18,8 @@ export function useIngredientsTab({
   currentAnimalIndex,
 }: Readonly<UseIngredientsTabProps>) {
   const form = useFormContext<NutritionalBalancingFormSchema>()
+
+  const [openAddIngredientDialog, setOpenAddIngredientDialog] = useState(false)
 
   const [searchAnimal, setSearchAnimal] = useState('')
   const [selectedAnimalToCopy, setSelectedAnimalToCopy] =
@@ -38,21 +43,29 @@ export function useIngredientsTab({
     }))
   }, [animalsAddedWithIngredients])
 
-  const ingredients = useMemo(() => {
-    const ingredientGroups =
-      form.getValues(
-        `nutritionalBalancings.${currentAnimalIndex}.ingredientGroups`
-      ) ?? []
+  const ingredientGroups = form.watch(
+    `nutritionalBalancings.${currentAnimalIndex}.ingredientGroups`
+  )
 
-    const forageGroup = ingredientGroups?.find(
+  const getIngredients = () => {
+    if (!ingredientGroups || ingredientGroups.length === 0) {
+      return {
+        forage: [],
+        concentrate: [],
+        mineral: [],
+        total: 0,
+      }
+    }
+
+    const forageGroup = ingredientGroups.find(
       (group) => group.category === 'FORAGE'
     )
 
-    const concentrateGroup = ingredientGroups?.find(
+    const concentrateGroup = ingredientGroups.find(
       (group) => group.category === 'CONCENTRATE'
     )
 
-    const mineralGroup = ingredientGroups?.find(
+    const mineralGroup = ingredientGroups.find(
       (group) => group.category === 'MINERAL'
     )
 
@@ -60,7 +73,9 @@ export function useIngredientsTab({
       return (
         acc +
         group.ingredients.reduce((groupAcc, ingredient) => {
-          return groupAcc + Number(onlyNumbersMask(ingredient.quantity))
+          const cleanValue = onlyNumbersAndDecimalMask(ingredient.quantity)
+
+          return groupAcc + (parseFloat(cleanValue) || 0)
         }, 0)
       )
     }, 0)
@@ -71,7 +86,9 @@ export function useIngredientsTab({
       mineral: mineralGroup?.ingredients ?? [],
       total,
     }
-  }, [form, currentAnimalIndex])
+  }
+
+  const ingredients = getIngredients()
 
   const handleCopyIngredients = () => {
     if (!selectedAnimalToCopy) return
@@ -90,6 +107,53 @@ export function useIngredientsTab({
     }
   }
 
+  const handleAddIngredient = useCallback(
+    (data: IngredientItemSchema) => {
+      const ingredientGroupsPath =
+        `nutritionalBalancings.${currentAnimalIndex}.ingredientGroups` as const
+
+      const ingredientGroups = form.getValues(ingredientGroupsPath) || []
+
+      const category = data.type
+
+      const groupIndex = ingredientGroups.findIndex(
+        (group) => group.category === category
+      )
+
+      if (groupIndex >= 0) {
+        const ingredientsPath =
+          `${ingredientGroupsPath}.${groupIndex}.ingredients` as const
+
+        const existingIngredients = form.getValues(ingredientsPath) || []
+        const updatedIngredients = [...existingIngredients, data]
+
+        form.setValue(ingredientsPath, updatedIngredients, {
+          shouldValidate: true,
+          shouldDirty: true,
+          shouldTouch: true,
+        })
+      } else {
+        const updatedGroups = [
+          ...ingredientGroups,
+          {
+            category,
+            ingredients: [data],
+          },
+        ]
+
+        form.setValue(ingredientGroupsPath, updatedGroups, {
+          shouldValidate: true,
+          shouldDirty: true,
+          shouldTouch: true,
+        })
+      }
+
+      form.trigger(ingredientGroupsPath)
+      setOpenAddIngredientDialog(false)
+    },
+    [currentAnimalIndex, form]
+  )
+
   return {
     ingredients,
     searchAnimal,
@@ -98,5 +162,8 @@ export function useIngredientsTab({
     setSelectedAnimalToCopy,
     animalOptions,
     handleCopyIngredients,
+    openAddIngredientDialog,
+    setOpenAddIngredientDialog,
+    handleAddIngredient,
   }
 }

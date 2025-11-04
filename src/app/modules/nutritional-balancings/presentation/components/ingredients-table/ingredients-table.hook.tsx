@@ -2,18 +2,22 @@ import { useMemo } from 'react'
 
 import { type ColumnDef } from '@tanstack/react-table'
 
-import { formatNumber } from '@/core/masker'
-
 import type { IngredientItemSchema } from '../../validations/nutritional-balancing-form-schema'
+import type { Option } from '@/core/domain/types'
 
 export function useIngredientsTable() {
   const columns = useMemo<ColumnDef<IngredientItemSchema>[]>(
     () => [
       {
-        accessorKey: 'name',
+        accessorKey: 'ingredient',
         header: 'Ingrediente',
         meta: {
           align: 'left',
+        },
+        cell: ({ getValue }) => {
+          const { label: ingredientName } = getValue<Option>()
+
+          return ingredientName
         },
       },
       {
@@ -22,10 +26,7 @@ export function useIngredientsTable() {
         meta: {
           align: 'right',
         },
-        cell: ({ getValue }) =>
-          formatNumber(getValue<number>(), {
-            suffix: ' kg',
-          }),
+        cell: ({ getValue }) => getValue<string>(),
       },
     ],
     []
