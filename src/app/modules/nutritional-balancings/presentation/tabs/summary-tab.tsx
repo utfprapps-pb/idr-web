@@ -20,3 +20,5 @@ export function SummaryTab({
     </section>
   )
 }
+
+SummaryTab.displayName = 'SummaryTab'
