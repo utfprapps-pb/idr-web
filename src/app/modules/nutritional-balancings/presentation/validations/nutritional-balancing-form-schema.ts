@@ -6,46 +6,26 @@ import { optionSchema } from '@/core/validation/schemas'
 const nutritionalBalancingAnimalSchema = z.object({
   id: z.number().min(1, { message: 'Animal é obrigatório' }),
   name: z.string().min(1, { message: 'Nome do animal é obrigatório' }),
-  breed: z.string().min(1, { message: 'Raça é obrigatória' }),
-  ecc: z.string().min(1, { message: 'ECC é obrigatório' }),
-  weight: z.string().min(1, { message: 'Peso é obrigatório' }),
-  milkProduction: z
-    .string()
-    .min(1, { message: 'Produção de leite é obrigatória' }),
-  estimatedMilkProduction: z
-    .string()
-    .min(1, { message: 'Produção de leite estimada é obrigatória' }),
+  breed: z.string(),
+  ecc: z.string(),
+  weight: z.string(),
+  milkProduction: z.string(),
+  estimatedMilkProduction: z.string(),
 })
 
 const nutritionalBalancingSummarySchema = z.object({
-  totalDryMatter: z
-    .string()
-    .min(1, { message: 'Matéria seca total é obrigatória' }),
-  etherExtractPercent: z
-    .string()
-    .min(1, { message: 'Extrato etéreo é obrigatório' }),
-  forageDryMatterPercent: z
-    .string()
-    .min(1, { message: 'Matéria seca de forragem é obrigatória' }),
-  concentrateDryMatterPercent: z
-    .string()
-    .min(1, { message: 'Matéria seca de concentrado é obrigatória' }),
-  nonFibrousCarbohydratesPercent: z
-    .string()
-    .min(1, { message: 'Carboidratos não fibrosos são obrigatórios' }),
-  rdpTdnRatio: z.string().min(1, { message: 'RDP/TDN é obrigatório' }),
+  totalDryMatter: z.string(),
+  etherExtractPercent: z.string(),
+  forageDryMatterPercent: z.string(),
+  concentrateDryMatterPercent: z.string(),
+  nonFibrousCarbohydratesPercent: z.string(),
+  rdpTdnRatio: z.string(),
 })
 
 const nutritionalEvaluationSchema = z.object({
-  nutrientName: z
-    .string()
-    .min(1, { message: 'Nome do nutriente é obrigatório' }),
-  requiredValue: z
-    .string()
-    .min(1, { message: 'Valor requerido é obrigatório' }),
-  providedValue: z
-    .string()
-    .min(1, { message: 'Valor fornecido é obrigatório' }),
+  nutrientName: z.string(),
+  requiredValue: z.string(),
+  providedValue: z.string(),
   evaluationStatus: z.enum(['ABOVE', 'BELOW', 'NORMAL'], {
     errorMap: () => ({ message: 'Status inválido' }),
   }),
@@ -70,9 +50,7 @@ const ingredientGroupSchema = z.object({
   category: z.enum(['FORAGE', 'CONCENTRATE', 'MINERAL'], {
     errorMap: () => ({ message: 'Categoria inválida' }),
   }),
-  ingredients: array(ingredientItemSchema).min(1, {
-    message: 'Adicione ao menos um ingrediente',
-  }),
+  ingredients: array(ingredientItemSchema).default([]),
 })
 
 const nutritionalBalancingSchema = z
@@ -82,9 +60,7 @@ const nutritionalBalancingSchema = z
     evaluations: z
       .array(nutritionalEvaluationSchema)
       .min(1, { message: 'Adicione ao menos uma avaliação' }),
-    ingredientGroups: z
-      .array(ingredientGroupSchema)
-      .min(1, { message: 'Adicione ao menos um grupo de ingredientes' }),
+    ingredientGroups: z.array(ingredientGroupSchema).default([]),
   })
   .superRefine((value, context) => {
     if (!value?.animal || !value.animal.id || value.animal.id < 1) {
@@ -94,6 +70,19 @@ const nutritionalBalancingSchema = z
         path: ['animal'],
       })
     }
+
+    const totalIngredients = value.ingredientGroups.reduce(
+      (total, group) => total + group.ingredients.length,
+      0
+    )
+
+    if (totalIngredients === 0) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Adicione ao menos um ingrediente',
+        path: ['ingredientGroups'],
+      })
+    }
   })
 
 const nutritionalBalancingsSchema = z.array(nutritionalBalancingSchema).min(1, {
@@ -101,9 +90,14 @@ const nutritionalBalancingsSchema = z.array(nutritionalBalancingSchema).min(1, {
 })
 
 export const nutritionalBalancingFormSchema = z.object({
-  date: z
-    .date()
-    .max(new Date(), { message: 'A data deve ser menor que a data atual' }),
+  date: z.date().refine(
+    (date) => {
+      const today = new Date()
+      today.setHours(23, 59, 59, 999)
+      return date <= today
+    },
+    { message: 'A data não pode ser maior que a data atual' }
+  ),
   nutritionalBalancings: nutritionalBalancingsSchema,
 })
 
