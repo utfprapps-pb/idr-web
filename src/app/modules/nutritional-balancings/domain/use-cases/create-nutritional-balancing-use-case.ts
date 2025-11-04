@@ -4,7 +4,7 @@ import type { RequestInterface } from '@/core/domain/types'
 export type CreateNutritionalBalancingUseCase = RequestInterface<
   {
     propertyId: number
-    nutritionalBalancings: NutritionalBalancingDetailsModel
+    nutritionalBalancings: NutritionalBalancingDetailsModel[]
   },
   void
 >

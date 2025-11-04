@@ -1,4 +1,4 @@
-import type { WithId } from '@/core/domain/types'
+import type { Option, WithId } from '@/core/domain/types'
 
 type NutritionalBalancingEvaluationStatus = 'ABOVE' | 'BELOW' | 'NORMAL'
 
@@ -10,36 +10,36 @@ type NutritionalBalancingIngredientCategory =
 type NutritionalBalancingAnimal = {
   name: string
   breed: string
-  ecc: number
-  weight: number
-  milkProduction: number
-  estimatedMilkProduction: number
+  ecc: string
+  weight: string
+  milkProduction: string
+  estimatedMilkProduction: string
 }
 
 type NutritionalBalancingSummary = {
-  totalDryMatter: number
-  etherExtractPercent: number
-  forageDryMatterPercent: number
-  concentrateDryMatterPercent: number
-  nonFibrousCarbohydratesPercent: number
-  rdpTdnRatio: number
+  totalDryMatter: string
+  etherExtractPercent: string
+  forageDryMatterPercent: string
+  concentrateDryMatterPercent: string
+  nonFibrousCarbohydratesPercent: string
+  rdpTdnRatio: string
 }
 
 type NutritionalEvaluation = {
   nutrientName: string
-  requiredValue: number
-  providedValue: number
+  requiredValue: string
+  providedValue: string
   evaluationStatus: NutritionalBalancingEvaluationStatus
 }
 
 type IngredientItem = {
-  name: string
-  quantity: number
+  ingredient: Option
+  quantity: string
 }
 
 type IngredientGroup = {
   category: NutritionalBalancingIngredientCategory
-  ingredients: WithId<IngredientItem>[]
+  ingredients: IngredientItem[]
 }
 
 export type NutritionalBalancingDetailsModel = {
