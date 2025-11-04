@@ -7,20 +7,17 @@ export const nutritionalBalancingsData = Array.from(
     date: faker.date.past().toISOString(),
     animal: faker.lorem.word(),
     breed: faker.animal.cow(),
-    weight: faker.number
-      .float({ min: 200, max: 700, precision: 0.1 })
-      .toFixed(2),
-    milkProduction: faker.number
-      .float({
-        min: 5,
-        max: 50,
-      })
-      .toFixed(2),
-    estimatedMilkProduction: faker.number
-      .float({
-        min: 5,
-        max: 50,
-      })
-      .toFixed(2),
+    weight: faker.number.float({ min: 200, max: 700, fractionDigits: 2 }),
+
+    milkProduction: faker.number.float({
+      min: 5,
+      max: 50,
+      fractionDigits: 2,
+    }),
+    estimatedMilkProduction: faker.number.float({
+      min: 5,
+      max: 50,
+      fractionDigits: 2,
+    }),
   })
 )

@@ -43,25 +43,41 @@ export const getNutritionalBalancingHandler = httpWithMiddleware<
           breed: nutritionalBalancingFound.breed,
           weight: nutritionalBalancingFound.weight,
           milkProduction: nutritionalBalancingFound.milkProduction,
-          ecc: faker.number.float({ min: 1, max: 10 }).toFixed(2),
+          ecc: faker.number.float({ min: 1, max: 10, fractionDigits: 2 }),
           estimatedMilkProduction:
             nutritionalBalancingFound.estimatedMilkProduction,
         },
         summary: {
-          concentrateDryMatterPercent: faker.number
-            .float({ min: 1, max: 100 })
-            .toFixed(2),
-          etherExtractPercent: faker.number
-            .float({ min: 1, max: 100 })
-            .toFixed(2),
-          forageDryMatterPercent: faker.number
-            .float({ min: 1, max: 100 })
-            .toFixed(2),
-          nonFibrousCarbohydratesPercent: faker.number
-            .float({ min: 1, max: 100 })
-            .toFixed(2),
-          totalDryMatter: faker.number.float({ min: 1, max: 100 }).toFixed(2),
-          rdpTdnRatio: faker.number.float({ min: 0, max: 1 }).toFixed(3),
+          concentrateDryMatterPercent: faker.number.float({
+            min: 1,
+            max: 100,
+            fractionDigits: 2,
+          }),
+          etherExtractPercent: faker.number.float({
+            min: 1,
+            max: 100,
+            fractionDigits: 2,
+          }),
+          forageDryMatterPercent: faker.number.float({
+            min: 1,
+            max: 100,
+            fractionDigits: 2,
+          }),
+          nonFibrousCarbohydratesPercent: faker.number.float({
+            min: 1,
+            max: 100,
+            fractionDigits: 2,
+          }),
+          totalDryMatter: faker.number.float({
+            min: 1,
+            max: 100,
+            fractionDigits: 2,
+          }),
+          rdpTdnRatio: faker.number.float({
+            min: 0,
+            max: 1,
+            fractionDigits: 3,
+          }),
         },
         evaluations: [
           {
@@ -71,8 +87,16 @@ export const getNutritionalBalancingHandler = httpWithMiddleware<
               'BELOW',
               'NORMAL',
             ]),
-            providedValue: faker.number.float({ min: 1, max: 10 }).toFixed(2),
-            requiredValue: faker.number.float({ min: 1, max: 10 }).toFixed(2),
+            providedValue: faker.number.float({
+              min: 1,
+              max: 10,
+              fractionDigits: 2,
+            }),
+            requiredValue: faker.number.float({
+              min: 1,
+              max: 10,
+              fractionDigits: 2,
+            }),
           },
           {
             nutrientName: 'NDT (Nutrientes Digestíveis Totais)',
@@ -81,8 +105,16 @@ export const getNutritionalBalancingHandler = httpWithMiddleware<
               'BELOW',
               'NORMAL',
             ]),
-            providedValue: faker.number.float({ min: 1, max: 10 }).toFixed(2),
-            requiredValue: faker.number.float({ min: 1, max: 10 }).toFixed(2),
+            providedValue: faker.number.float({
+              min: 1,
+              max: 10,
+              fractionDigits: 2,
+            }),
+            requiredValue: faker.number.float({
+              min: 1,
+              max: 10,
+              fractionDigits: 2,
+            }),
           },
           {
             nutrientName: 'PB (Proteína Bruta)',
@@ -91,8 +123,16 @@ export const getNutritionalBalancingHandler = httpWithMiddleware<
               'BELOW',
               'NORMAL',
             ]),
-            providedValue: faker.number.float({ min: 1, max: 10 }).toFixed(2),
-            requiredValue: faker.number.float({ min: 1, max: 10 }).toFixed(2),
+            providedValue: faker.number.float({
+              min: 1,
+              max: 10,
+              fractionDigits: 2,
+            }),
+            requiredValue: faker.number.float({
+              min: 1,
+              max: 10,
+              fractionDigits: 2,
+            }),
           },
           {
             nutrientName: 'Ca (Cálcio)',
@@ -101,8 +141,16 @@ export const getNutritionalBalancingHandler = httpWithMiddleware<
               'BELOW',
               'NORMAL',
             ]),
-            providedValue: faker.number.float({ min: 1, max: 10 }).toFixed(2),
-            requiredValue: faker.number.float({ min: 1, max: 10 }).toFixed(2),
+            providedValue: faker.number.float({
+              min: 1,
+              max: 10,
+              fractionDigits: 2,
+            }),
+            requiredValue: faker.number.float({
+              min: 1,
+              max: 10,
+              fractionDigits: 2,
+            }),
           },
           {
             nutrientName: 'P (Fósforo)',
@@ -111,8 +159,16 @@ export const getNutritionalBalancingHandler = httpWithMiddleware<
               'BELOW',
               'NORMAL',
             ]),
-            providedValue: faker.number.float({ min: 1, max: 10 }).toFixed(2),
-            requiredValue: faker.number.float({ min: 1, max: 10 }).toFixed(2),
+            providedValue: faker.number.float({
+              min: 1,
+              max: 10,
+              fractionDigits: 2,
+            }),
+            requiredValue: faker.number.float({
+              min: 1,
+              max: 10,
+              fractionDigits: 2,
+            }),
           },
         ],
         ingredientGroups: [
@@ -121,7 +177,11 @@ export const getNutritionalBalancingHandler = httpWithMiddleware<
             ingredients: Array.from({ length: 3 }).map(() => ({
               id: faker.number.int({ min: 1, max: 10000 }),
               name: faker.commerce.productName(),
-              quantity: faker.number.float({ min: 1, max: 100 }).toFixed(2),
+              quantity: faker.number.float({
+                min: 1,
+                max: 100,
+                fractionDigits: 2,
+              }),
             })),
           },
           {
@@ -129,7 +189,11 @@ export const getNutritionalBalancingHandler = httpWithMiddleware<
             ingredients: Array.from({ length: 3 }).map(() => ({
               id: faker.number.int({ min: 1, max: 10000 }),
               name: faker.commerce.productName(),
-              quantity: faker.number.float({ min: 1, max: 100 }).toFixed(2),
+              quantity: faker.number.float({
+                min: 1,
+                max: 100,
+                fractionDigits: 2,
+              }),
             })),
           },
           {
@@ -137,7 +201,11 @@ export const getNutritionalBalancingHandler = httpWithMiddleware<
             ingredients: Array.from({ length: 3 }).map(() => ({
               id: faker.number.int({ min: 1, max: 10000 }),
               name: faker.commerce.productName(),
-              quantity: faker.number.float({ min: 1, max: 100 }).toFixed(2),
+              quantity: faker.number.float({
+                min: 1,
+                max: 100,
+                fractionDigits: 2,
+              }),
             })),
           },
         ],

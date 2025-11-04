@@ -10,31 +10,31 @@ type NutritionalBalancingIngredientCategory =
 type NutritionalBalancingAnimal = {
   name: string
   breed: string
-  ecc: string
-  weight: string
-  milkProduction: string
-  estimatedMilkProduction: string
+  ecc: number
+  weight: number
+  milkProduction: number
+  estimatedMilkProduction: number
 }
 
 type NutritionalBalancingSummary = {
-  totalDryMatter: string
-  etherExtractPercent: string
-  forageDryMatterPercent: string
-  concentrateDryMatterPercent: string
-  nonFibrousCarbohydratesPercent: string
-  rdpTdnRatio: string
+  totalDryMatter: number
+  etherExtractPercent: number
+  forageDryMatterPercent: number
+  concentrateDryMatterPercent: number
+  nonFibrousCarbohydratesPercent: number
+  rdpTdnRatio: number
 }
 
 type NutritionalEvaluation = {
   nutrientName: string
-  requiredValue: string
-  providedValue: string
+  requiredValue: number
+  providedValue: number
   evaluationStatus: NutritionalBalancingEvaluationStatus
 }
 
 type IngredientItem = {
   name: string
-  quantity: string
+  quantity: number
 }
 
 type IngredientGroup = {
@@ -62,16 +62,16 @@ export type NutritionalBalancingModel = WithId<{
   date: Date
   animal: string
   breed: string
-  weight: string
-  milkProduction: string
-  estimatedMilkProduction: string
+  weight: number
+  milkProduction: number
+  estimatedMilkProduction: number
 }>
 
 export type NutritionalBalancingApiResponse = WithId<{
   date: string
   animal: string
   breed: string
-  weight: string
-  milkProduction: string
-  estimatedMilkProduction: string
+  weight: number
+  milkProduction: number
+  estimatedMilkProduction: number
 }>
