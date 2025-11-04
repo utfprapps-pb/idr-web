@@ -28,12 +28,12 @@ import type { Sort } from '@/core/domain/types'
 export type DataTableProps<TData extends RowData> = {
   data: TData[]
   columns: ColumnDef<TData>[]
-  totalPages: number
-  pagination: {
+  totalPages?: number
+  pagination?: {
     currentPage: number
     onPageChange: (page: number) => void
   }
-  sorting: {
+  sorting?: {
     currentSorting?: Sort<TData>
     onSorting: (sort?: Sort<TData>) => void
   }
@@ -82,7 +82,7 @@ export function TableBody<TData extends RowData>({
       onClick={(event) => handleOnClickRow(event, row.original)}
     >
       {row.getVisibleCells().map((cell) => (
-        <Table.Cell key={cell.id} className="whitespace-nowrap min-w-fit px-2">
+        <Table.Cell key={cell.id} className="whitespace-nowrap min-w-fit px-4">
           {flexRender(cell.column.columnDef.cell, cell.getContext())}
         </Table.Cell>
       ))}
@@ -95,15 +95,21 @@ export function DataTable<TData extends RowData>({
   data,
   sorting,
   pagination,
-  totalPages,
+  totalPages = 1,
   loading = false,
   onClickRow,
 }: Readonly<DataTableProps<TData>>) {
-  const { currentSorting, onSorting } = sorting
-  const { currentPage, onPageChange } = pagination
+  const currentSorting = sorting?.currentSorting
+  const onSorting = sorting?.onSorting
+  const currentPage = pagination?.currentPage ?? 1
+  const onPageChange = pagination?.onPageChange
+  const hasPagination = !!pagination && totalPages > 1
+  const hasSorting = !!sorting
 
   const onSortingChange: OnChangeFn<SortingState> = useCallback(
     (updaterOrValue: Updater<SortingState>) => {
+      if (!onSorting) return
+
       const [sort] =
         typeof updaterOrValue === 'function'
           ? updaterOrValue([
@@ -129,6 +135,8 @@ export function DataTable<TData extends RowData>({
 
   const onPaginationChange: OnChangeFn<PaginationState> = useCallback(
     (updaterOrValue: Updater<PaginationState>) => {
+      if (!onPageChange) return
+
       const page =
         typeof updaterOrValue === 'function'
           ? updaterOrValue({
@@ -155,24 +163,28 @@ export function DataTable<TData extends RowData>({
     columns,
     data,
     state: {
-      sorting: [
-        {
-          id: String(currentSorting?.field),
-          desc: currentSorting?.direction === 'desc',
-        },
-      ],
-      pagination: {
-        pageIndex: currentPage - 1,
-        pageSize: ITEMS_PER_PAGE,
-      },
+      sorting: hasSorting
+        ? [
+            {
+              id: String(currentSorting?.field),
+              desc: currentSorting?.direction === 'desc',
+            },
+          ]
+        : [],
+      pagination: hasPagination
+        ? {
+            pageIndex: currentPage - 1,
+            pageSize: ITEMS_PER_PAGE,
+          }
+        : undefined,
     },
-    manualSorting: true,
-    manualPagination: true,
+    manualSorting: hasSorting,
+    manualPagination: hasPagination,
     pageCount: totalPages,
-    onSortingChange,
-    onPaginationChange,
+    onSortingChange: hasSorting ? onSortingChange : undefined,
+    onPaginationChange: hasPagination ? onPaginationChange : undefined,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    getPaginationRowModel: hasPagination ? getPaginationRowModel() : undefined,
   })
 
   const tooltipText = (value: 'asc' | 'desc' | false) => {
@@ -182,7 +194,7 @@ export function DataTable<TData extends RowData>({
     return 'Limpar ordenação'
   }
 
-  const page = getState().pagination.pageIndex + 1
+  const page = hasPagination ? getState().pagination.pageIndex + 1 : 1
   const showFinalEllipsis = useMemo(() => page + 2 > 3, [page])
   const isAfterFirstPage = useMemo(() => page > 1, [page])
   const isBeforeLastPage = useMemo(
@@ -202,39 +214,54 @@ export function DataTable<TData extends RowData>({
                     <Table.Head
                       key={header.id}
                       colSpan={header.colSpan}
-                      onClick={header.column.getToggleSortingHandler()}
                       className={
-                        header.column.getCanSort()
+                        hasSorting && header.column.getCanSort()
                           ? 'cursor-pointer select-none whitespace-nowrap min-w-fit'
                           : 'whitespace-nowrap min-w-fit'
                       }
                     >
-                      {header.isPlaceholder ? null : (
-                        <Tooltip.Provider>
-                          <Tooltip.Root>
-                            <Tooltip.Trigger>
-                              <div className="inline-flex items-center gap-2">
-                                {flexRender(
-                                  header.column.columnDef.header,
-                                  header.getContext()
-                                )}
-                                {{
-                                  asc: <ArrowDownNarrowWide size={20} />,
-                                  desc: <ArrowUpNarrowWide size={20} />,
-                                }[header.column.getIsSorted() as string] ??
-                                  null}
-                              </div>
-                            </Tooltip.Trigger>
-                            <Tooltip.Content>
-                              <p>
-                                {tooltipText(
-                                  header.column.getNextSortingOrder()
-                                )}
-                              </p>
-                            </Tooltip.Content>
-                          </Tooltip.Root>
-                        </Tooltip.Provider>
-                      )}
+                      {header.isPlaceholder
+                        ? null
+                        : hasSorting && (
+                            <Tooltip.Provider>
+                              <Tooltip.Root>
+                                <Tooltip.Trigger asChild>
+                                  <button
+                                    type="button"
+                                    onClick={header.column.getToggleSortingHandler()}
+                                    className="inline-flex items-center gap-2"
+                                  >
+                                    {flexRender(
+                                      header.column.columnDef.header,
+                                      header.getContext()
+                                    )}
+                                    {{
+                                      asc: <ArrowDownNarrowWide size={20} />,
+                                      desc: <ArrowUpNarrowWide size={20} />,
+                                    }[header.column.getIsSorted() as string] ??
+                                      null}
+                                  </button>
+                                </Tooltip.Trigger>
+                                <Tooltip.Content>
+                                  <p>
+                                    {tooltipText(
+                                      header.column.getNextSortingOrder()
+                                    )}
+                                  </p>
+                                </Tooltip.Content>
+                              </Tooltip.Root>
+                            </Tooltip.Provider>
+                          )}
+                      {header.isPlaceholder
+                        ? null
+                        : !hasSorting && (
+                            <div className="inline-flex items-center gap-2">
+                              {flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                              )}
+                            </div>
+                          )}
                     </Table.Head>
                   ))}
                 </Table.Row>
@@ -252,59 +279,61 @@ export function DataTable<TData extends RowData>({
         </div>
         <ScrollArea.ScrollBar orientation="horizontal" />
       </ScrollArea.Root>
-      <Pagination.Root>
-        <Pagination.Content>
-          <Pagination.Item
-            isDisabled={!getCanPreviousPage()}
-            onClick={previousPage}
-          >
-            <Pagination.Previous />
-          </Pagination.Item>
-
-          {isAfterFirstPage && (
-            <>
-              <Pagination.Item onClick={() => setPageIndex(0)}>
-                <Pagination.Link>1</Pagination.Link>
-              </Pagination.Item>
-
-              <Pagination.Item>
-                <Pagination.Ellipsis />
-              </Pagination.Item>
-            </>
-          )}
-
-          <Pagination.Item>
-            <Pagination.Link isActive>{page}</Pagination.Link>
-          </Pagination.Item>
-
-          {page === 1 && isBeforeLastPage && (
-            <Pagination.Item>
-              <Pagination.Ellipsis />
+      {hasPagination && (
+        <Pagination.Root>
+          <Pagination.Content>
+            <Pagination.Item
+              isDisabled={!getCanPreviousPage()}
+              onClick={previousPage}
+            >
+              <Pagination.Previous />
             </Pagination.Item>
-          )}
 
-          {isBeforeLastPage && (
-            <>
-              {showFinalEllipsis && (
+            {isAfterFirstPage && (
+              <>
+                <Pagination.Item onClick={() => setPageIndex(0)}>
+                  <Pagination.Link>1</Pagination.Link>
+                </Pagination.Item>
+
                 <Pagination.Item>
                   <Pagination.Ellipsis />
                 </Pagination.Item>
-              )}
+              </>
+            )}
 
-              <Pagination.Item
-                onClick={() => setPageIndex(totalPages - 1)}
-                isDisabled={!getCanNextPage()}
-              >
-                <Pagination.Link>{totalPages}</Pagination.Link>
+            <Pagination.Item>
+              <Pagination.Link isActive>{page}</Pagination.Link>
+            </Pagination.Item>
+
+            {page === 1 && isBeforeLastPage && (
+              <Pagination.Item>
+                <Pagination.Ellipsis />
               </Pagination.Item>
-            </>
-          )}
+            )}
 
-          <Pagination.Item isDisabled={!getCanNextPage()} onClick={nextPage}>
-            <Pagination.Next />
-          </Pagination.Item>
-        </Pagination.Content>
-      </Pagination.Root>
+            {isBeforeLastPage && (
+              <>
+                {showFinalEllipsis && (
+                  <Pagination.Item>
+                    <Pagination.Ellipsis />
+                  </Pagination.Item>
+                )}
+
+                <Pagination.Item
+                  onClick={() => setPageIndex(totalPages - 1)}
+                  isDisabled={!getCanNextPage()}
+                >
+                  <Pagination.Link>{totalPages}</Pagination.Link>
+                </Pagination.Item>
+              </>
+            )}
+
+            <Pagination.Item isDisabled={!getCanNextPage()} onClick={nextPage}>
+              <Pagination.Next />
+            </Pagination.Item>
+          </Pagination.Content>
+        </Pagination.Root>
+      )}
     </div>
   )
 }
