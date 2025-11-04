@@ -1,4 +1,4 @@
-import { Form, Tabs } from '@/core/presentation/components/ui'
+import { Form, Loading, Tabs } from '@/core/presentation/components/ui'
 
 import { EditNutritionalBalancingHeader } from '../../components/edit-nutritional-balancing-header'
 import { NutritionalBalancingAnimalNavigation } from '../../components/nutritional-balancing-animal-navigation'
@@ -21,7 +21,7 @@ export function EditNutritionalBalancingScreen() {
   if (isLoadingNutritionalBalancing) {
     return (
       <div className="flex items-center justify-center h-64">
-        <p className="text-muted-foreground">Carregando...</p>
+        <Loading className="size-10" />
       </div>
     )
   }
