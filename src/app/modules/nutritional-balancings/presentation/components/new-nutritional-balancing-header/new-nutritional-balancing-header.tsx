@@ -1,11 +1,6 @@
 import { useFormContext } from 'react-hook-form'
 
-import {
-  Breadcrumb,
-  Button,
-  Combobox,
-  Form,
-} from '@/core/presentation/components/ui'
+import { Breadcrumb, Button, Combobox } from '@/core/presentation/components/ui'
 
 import { useNutritionalBalancingContext } from '../../hooks/nutritional-balancing-context.hook'
 import { createEmptyNutritionalBalancingEntry } from '../../utils/create-empty-nutritional-balancing-entry'
@@ -55,50 +50,41 @@ export function NewNutritionalBalancingHeader({
           Salvar Balanceamento
         </Button>
 
-        <Form.Field
-          name="nutritionalBalancings"
-          control={form.control}
-          render={({ fieldState }) => {
-            const { error } = fieldState
-
-            return (
-              <Form.Item>
-                <Form.Control>
-                  <Combobox
-                    search={searchAnimal}
-                    items={allAnimals}
-                    loading={isLoading}
-                    selected={{
-                      label: '',
-                      value: 0,
-                    }}
-                    handleSearch={setSearchAnimal}
-                    handleSelect={(selectedAnimal) => {
-                      const nextEntry = createEmptyNutritionalBalancingEntry({
-                        animal: {
-                          id: selectedAnimal.value,
-                          name: selectedAnimal.label,
-                          breed: selectedAnimal.extraData?.breed ?? '',
-                          ecc: selectedAnimal.extraData?.ecc ?? '',
-                          weight: selectedAnimal.extraData?.weight ?? '',
-                          milkProduction:
-                            selectedAnimal.extraData?.milkProduction ?? '',
-                          estimatedMilkProduction: '',
-                        },
-                      })
-                      handleAppendNutritionalBalancing(nextEntry)
-                    }}
-                    isError={!!error}
-                    placeholder="Selecione o animal"
-                    emptyMessage="Nenhum animal encontrado"
-                    searchPlaceholder="Buscar animal"
-                  />
-                </Form.Control>
-                <Form.Message />
-              </Form.Item>
-            )
-          }}
-        />
+        <div className="space-y-2">
+          <Combobox
+            search={searchAnimal}
+            items={allAnimals}
+            loading={isLoading}
+            selected={{
+              label: '',
+              value: 0,
+            }}
+            handleSearch={setSearchAnimal}
+            handleSelect={(selectedAnimal) => {
+              const nextEntry = createEmptyNutritionalBalancingEntry({
+                animal: {
+                  id: selectedAnimal.value,
+                  name: selectedAnimal.label,
+                  breed: selectedAnimal.extraData?.breed ?? '',
+                  ecc: selectedAnimal.extraData?.ecc ?? '',
+                  weight: selectedAnimal.extraData?.weight ?? '',
+                  milkProduction:
+                    selectedAnimal.extraData?.milkProduction ?? '',
+                  estimatedMilkProduction: '',
+                },
+              })
+              handleAppendNutritionalBalancing(nextEntry)
+            }}
+            placeholder="Selecione o animal"
+            emptyMessage="Nenhum animal encontrado"
+            searchPlaceholder="Buscar animal"
+          />
+          {form.formState.errors.nutritionalBalancings && (
+            <p className="text-sm font-medium text-destructive">
+              {form.formState.errors.nutritionalBalancings.message}
+            </p>
+          )}
+        </div>
       </div>
     </div>
   )
