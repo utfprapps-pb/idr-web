@@ -52,7 +52,11 @@ export function AddIngredientDialog({
         <Form.Provider {...form}>
           <form
             id="add-ingredient-form"
-            onSubmit={form.handleSubmit(handleSubmit)}
+            onSubmit={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              form.handleSubmit(handleSubmit)(e)
+            }}
             className="space-y-4"
           >
             <Form.Field
