@@ -9,8 +9,7 @@ import { makeRemoteCreateNutritionalBalancingUseCase } from '@/app/modules/nutri
 import { useHookForm } from '@/core/presentation/hooks'
 
 import { useNutritionalBalancingContext } from '../../../hooks/nutritional-balancing-context.hook'
-import { IngredientsTab } from '../../../tabs/ingredients-tab/ingredients-tab'
-import { NutritionalEvaluationTab } from '../../../tabs/nutritional-evaluation-tab'
+import { NutritionalEvaluationWithIngredientsTab } from '../../../tabs/nutritional-evaluation-with-ingredients-tab'
 import { SummaryTab } from '../../../tabs/summary-tab'
 import { makeAnimalInformationItems } from '../../../utils/make-animal-information-items'
 import { makeNutritionalSummaryItems } from '../../../utils/make-nutritional-summary-items'
@@ -231,21 +230,13 @@ export function useNewNutritionalBalancingScreen() {
         key: 'nutritional-evaluation',
         name: 'Nutrição',
         component: currentNutritionalBalancingIndex !== null && (
-          <NutritionalEvaluationTab
+          <NutritionalEvaluationWithIngredientsTab
+            currentAnimalIndex={currentNutritionalBalancingIndex}
             rows={
               form.getValues('nutritionalBalancings')[
                 currentNutritionalBalancingIndex
               ]?.evaluations ?? []
             }
-          />
-        ),
-      },
-      {
-        key: 'ingredients',
-        name: 'Ingredientes',
-        component: currentNutritionalBalancingIndex !== null && (
-          <IngredientsTab
-            currentAnimalIndex={currentNutritionalBalancingIndex}
           />
         ),
       },

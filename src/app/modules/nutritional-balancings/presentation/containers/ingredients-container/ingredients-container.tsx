@@ -6,15 +6,15 @@ import { Button, Card, Combobox } from '@/core/presentation/components/ui'
 import { AddIngredientDialog } from '../../components/add-ingredient-dialog'
 import { IngredientsTable } from '../../components/ingredients-table'
 
-import { useIngredientsTab } from './ingredients-tab.hook'
+import { useIngredientsContainer } from './ingredients-container.hook'
 
-type IngredientsTabProps = {
+type IngredientsContainerProps = {
   currentAnimalIndex: number
 }
 
-export function IngredientsTab({
+export function IngredientsContainer({
   currentAnimalIndex,
-}: Readonly<IngredientsTabProps>) {
+}: Readonly<IngredientsContainerProps>) {
   const {
     openAddIngredientDialog,
     setOpenAddIngredientDialog,
@@ -27,7 +27,7 @@ export function IngredientsTab({
     setSelectedAnimalToCopy,
     animalOptions,
     handleCopyIngredients,
-  } = useIngredientsTab({ currentAnimalIndex })
+  } = useIngredientsContainer({ currentAnimalIndex })
 
   return (
     <>
@@ -119,4 +119,4 @@ export function IngredientsTab({
   )
 }
 
-IngredientsTab.displayName = 'IngredientsTab'
+IngredientsContainer.displayName = 'IngredientsContainer'
