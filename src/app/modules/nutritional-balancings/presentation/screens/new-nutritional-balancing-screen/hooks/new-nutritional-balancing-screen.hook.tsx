@@ -1,16 +1,24 @@
-import { useState, useMemo, type ReactNode, useCallback } from 'react'
+import {
+  useState,
+  useMemo,
+  type ReactNode,
+  useCallback,
+  useEffect,
+} from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 import { useFieldArray } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
+import { useAllAnimalsQuery } from '@/app/modules/animals/presentation/hooks/queries/all-animals-query.hook'
 import { makeRemoteCreateNutritionalBalancingUseCase } from '@/app/modules/nutritional-balancings/main/factories'
 import { useHookForm } from '@/core/presentation/hooks'
 
 import { useNutritionalBalancingContext } from '../../../hooks/nutritional-balancing-context.hook'
 import { NutritionalEvaluationWithIngredientsTab } from '../../../tabs/nutritional-evaluation-with-ingredients-tab'
 import { SummaryTab } from '../../../tabs/summary-tab'
+import { createEmptyNutritionalBalancingEntry } from '../../../utils/create-empty-nutritional-balancing-entry'
 import { makeAnimalInformationItems } from '../../../utils/make-animal-information-items'
 import { makeNutritionalSummaryItems } from '../../../utils/make-nutritional-summary-items'
 import {
@@ -50,62 +58,47 @@ export function useNewNutritionalBalancingScreen() {
   const [
     currentNutritionalBalancingIndex,
     setCurrentNutritionalBalancingIndex,
-  ] = useState<number | null>(null)
+  ] = useState<number>(0)
+  const [animalsLoaded, setAnimalsLoaded] = useState(false)
 
-  const {
-    fields: nutritionalBalancings,
-    append: appendNutritionalBalancing,
-    remove: removeNutritionalBalancing,
-  } = useFieldArray<NutritionalBalancingFormSchema, 'nutritionalBalancings'>({
-    control: form.control,
-    name: 'nutritionalBalancings',
+  const { fields: nutritionalBalancings, append: appendNutritionalBalancing } =
+    useFieldArray<NutritionalBalancingFormSchema, 'nutritionalBalancings'>({
+      control: form.control,
+      name: 'nutritionalBalancings',
+    })
+
+  const { allAnimals, isLoading: isLoadingAnimals } = useAllAnimalsQuery({
+    filters: {},
+    propertyId,
   })
+
+  useEffect(() => {
+    if (!isLoadingAnimals && allAnimals.length > 0 && !animalsLoaded) {
+      const newEntries = allAnimals.map((animal) => {
+        return createEmptyNutritionalBalancingEntry({
+          animal: {
+            id: animal.value,
+            name: animal.label,
+            breed: animal.extraData?.breed ?? '',
+            ecc: animal.extraData?.ecc ?? '',
+            weight: animal.extraData?.weight ?? '',
+            milkProduction: animal.extraData?.milkProduction ?? '',
+            estimatedMilkProduction: '',
+          },
+        })
+      })
+
+      newEntries.forEach((entry) => {
+        appendNutritionalBalancing(entry)
+      })
+
+      setAnimalsLoaded(true)
+    }
+  }, [isLoadingAnimals, allAnimals, animalsLoaded, appendNutritionalBalancing])
 
   const handleSelectNutritionalBalancing = useCallback((index: number) => {
     setCurrentNutritionalBalancingIndex(index)
   }, [])
-
-  const handleAppendNutritionalBalancingAndSelectLast = useCallback(
-    (data: NutritionalBalancingFormSchema['nutritionalBalancings'][number]) => {
-      appendNutritionalBalancing(data)
-      setCurrentNutritionalBalancingIndex(nutritionalBalancings.length)
-    },
-    [appendNutritionalBalancing, nutritionalBalancings.length]
-  )
-
-  const handleRemoveNutritionalBalancing = useCallback(
-    (index: number) => {
-      removeNutritionalBalancing(index)
-
-      const isLastItem = nutritionalBalancings.length === 1
-      const isRemovingCurrentItem = index === currentNutritionalBalancingIndex
-      const isRemovingBeforeCurrentItem =
-        currentNutritionalBalancingIndex !== null &&
-        index < currentNutritionalBalancingIndex
-
-      if (isLastItem) {
-        setCurrentNutritionalBalancingIndex(null)
-        return
-      }
-
-      if (isRemovingCurrentItem) {
-        const newIndex = index > 0 ? index - 1 : 0
-        setCurrentNutritionalBalancingIndex(newIndex)
-        return
-      }
-
-      if (isRemovingBeforeCurrentItem) {
-        setCurrentNutritionalBalancingIndex(
-          currentNutritionalBalancingIndex - 1
-        )
-      }
-    },
-    [
-      removeNutritionalBalancing,
-      nutritionalBalancings.length,
-      currentNutritionalBalancingIndex,
-    ]
-  )
 
   const handleCreateNutritionalBalancing = useCallback(
     async (data: NutritionalBalancingFormSchema) => {
@@ -169,45 +162,6 @@ export function useNewNutritionalBalancingScreen() {
     ]
   )
 
-  const handleInvalidSubmit = useCallback(() => {
-    const { errors } = form.formState
-    const formValues = form.getValues()
-
-    const hasIngredientError =
-      errors.nutritionalBalancings &&
-      Array.isArray(errors.nutritionalBalancings) &&
-      errors.nutritionalBalancings.some(
-        (balancing) => balancing?.ingredientGroups
-      )
-
-    // Find the first animal without ingredients
-    let firstAnimalWithoutIngredientsIndex = -1
-    const hasBalancingWithoutIngredients =
-      formValues.nutritionalBalancings &&
-      formValues.nutritionalBalancings.some((balancing, index) => {
-        const totalIngredients = balancing.ingredientGroups?.reduce(
-          (total, group) => total + (group.ingredients?.length || 0),
-          0
-        )
-        const hasNoIngredients = totalIngredients === 0
-        if (hasNoIngredients && firstAnimalWithoutIngredientsIndex === -1) {
-          firstAnimalWithoutIngredientsIndex = index
-        }
-        return hasNoIngredients
-      })
-
-    if (hasIngredientError || hasBalancingWithoutIngredients) {
-      if (firstAnimalWithoutIngredientsIndex !== -1) {
-        setCurrentNutritionalBalancingIndex(firstAnimalWithoutIngredientsIndex)
-      }
-      setActiveTab('ingredients')
-      toast.error('Adicione ao menos um ingrediente')
-      return true
-    }
-
-    return false
-  }, [form])
-
   const tabs = useMemo<Tab[]>(
     () => [
       {
@@ -250,7 +204,7 @@ export function useNewNutritionalBalancingScreen() {
 
   const currentNutritionalBalancing = useMemo(() => {
     if (
-      currentNutritionalBalancingIndex === null ||
+      !nutritionalBalancings.length ||
       currentNutritionalBalancingIndex < 0 ||
       currentNutritionalBalancingIndex >= nutritionalBalancings.length
     ) {
@@ -269,11 +223,9 @@ export function useNewNutritionalBalancingScreen() {
     currentNutritionalBalancing,
     currentNutritionalBalancingIndex,
     nutritionalBalancings,
+    isLoadingAnimals,
+    allAnimals,
     handleSelectNutritionalBalancing,
-    handleAppendNutritionalBalancing:
-      handleAppendNutritionalBalancingAndSelectLast,
-    handleRemoveNutritionalBalancing,
     handleCreateNutritionalBalancing,
-    handleInvalidSubmit,
   }
 }

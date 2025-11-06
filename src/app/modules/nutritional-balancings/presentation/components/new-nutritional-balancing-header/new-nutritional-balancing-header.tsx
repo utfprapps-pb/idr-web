@@ -1,38 +1,21 @@
-import { useFormContext } from 'react-hook-form'
-
-import { Breadcrumb, Button, Combobox } from '@/core/presentation/components/ui'
+import { Breadcrumb, Button } from '@/core/presentation/components/ui'
 
 import { useNutritionalBalancingContext } from '../../hooks/nutritional-balancing-context.hook'
-import { createEmptyNutritionalBalancingEntry } from '../../utils/create-empty-nutritional-balancing-entry'
 import { type NutritionalBalancingFormSchema } from '../../validations/nutritional-balancing-form-schema'
-
-import { useNewNutritionalBalancingHeader } from './new-nutritional-balancing-header.hook'
 
 type NewNutritionalBalancingHeaderProps = {
   buttonDisabled: boolean
   nutritionalBalancings: NutritionalBalancingFormSchema['nutritionalBalancings']
-  handleAppendNutritionalBalancing: (
-    data: NutritionalBalancingFormSchema['nutritionalBalancings'][number]
-  ) => void
 }
 
 export function NewNutritionalBalancingHeader({
   buttonDisabled,
-  nutritionalBalancings,
-  handleAppendNutritionalBalancing,
 }: Readonly<NewNutritionalBalancingHeaderProps>) {
-  const form = useFormContext<NutritionalBalancingFormSchema>()
-  const { propertyId, closeNewNutritionalBalancingScreen } =
+  const { closeNewNutritionalBalancingScreen } =
     useNutritionalBalancingContext()
 
-  const { searchAnimal, setSearchAnimal, allAnimals, isLoading } =
-    useNewNutritionalBalancingHeader({
-      propertyId,
-      nutritionalBalancings,
-    })
-
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between items-center">
       <Breadcrumb.Root>
         <Breadcrumb.List>
           <Breadcrumb.Link onClick={closeNewNutritionalBalancingScreen}>
@@ -45,47 +28,9 @@ export function NewNutritionalBalancingHeader({
         </Breadcrumb.List>
       </Breadcrumb.Root>
 
-      <div className="space-y-2">
-        <Button type="submit" className="w-full" disabled={buttonDisabled}>
-          Salvar Balanceamento
-        </Button>
-
-        <div className="space-y-2">
-          <Combobox
-            search={searchAnimal}
-            items={allAnimals}
-            loading={isLoading}
-            selected={{
-              label: '',
-              value: 0,
-            }}
-            handleSearch={setSearchAnimal}
-            handleSelect={(selectedAnimal) => {
-              const nextEntry = createEmptyNutritionalBalancingEntry({
-                animal: {
-                  id: selectedAnimal.value,
-                  name: selectedAnimal.label,
-                  breed: selectedAnimal.extraData?.breed ?? '',
-                  ecc: selectedAnimal.extraData?.ecc ?? '',
-                  weight: selectedAnimal.extraData?.weight ?? '',
-                  milkProduction:
-                    selectedAnimal.extraData?.milkProduction ?? '',
-                  estimatedMilkProduction: '',
-                },
-              })
-              handleAppendNutritionalBalancing(nextEntry)
-            }}
-            placeholder="Selecione o animal"
-            emptyMessage="Nenhum animal encontrado"
-            searchPlaceholder="Buscar animal"
-          />
-          {form.formState.errors.nutritionalBalancings && (
-            <p className="text-sm font-medium text-destructive">
-              {form.formState.errors.nutritionalBalancings.message}
-            </p>
-          )}
-        </div>
-      </div>
+      <Button type="submit" disabled={buttonDisabled}>
+        Salvar Balanceamento
+      </Button>
     </div>
   )
 }

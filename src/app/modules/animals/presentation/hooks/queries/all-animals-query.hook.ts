@@ -11,9 +11,14 @@ import type { AnimalFilters } from '@/app/modules/animals/presentation/types/ani
 type Props = {
   propertyId: number
   filters: AnimalFilters
+  perPage?: number
 }
 
-export function useAllAnimalsQuery({ propertyId, filters }: Props) {
+export function useAllAnimalsQuery({
+  propertyId,
+  filters,
+  perPage = 30,
+}: Props) {
   const getAnimalsUseCase = makeRemoteGetAnimalsUseCase()
 
   const {
@@ -28,7 +33,7 @@ export function useAllAnimalsQuery({ propertyId, filters }: Props) {
       getAnimalsUseCase.execute({
         propertyId,
         filters,
-        pagination: { page: 1, perPage: 30 },
+        pagination: { page: 1, perPage },
       }),
   })
 

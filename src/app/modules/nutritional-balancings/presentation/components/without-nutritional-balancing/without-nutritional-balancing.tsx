@@ -1,12 +1,16 @@
 import { Card } from '@/core/presentation/components/ui'
 
-export function WithoutNutritionalBalancing() {
+type WithoutNutritionalBalancingProps = {
+  message: string
+}
+
+export function WithoutNutritionalBalancing({
+  message,
+}: WithoutNutritionalBalancingProps) {
   return (
     <Card.Container>
       <Card.Content>
-        <p className="text-center text-sm text-gray-500">
-          Selecione um animal para iniciar o balanceamento nutricional.
-        </p>
+        <p className="text-center text-sm text-gray-500">{message}</p>
       </Card.Content>
     </Card.Container>
   )
