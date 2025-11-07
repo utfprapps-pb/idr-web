@@ -3,7 +3,7 @@ import { CopyIcon, PlusIcon } from 'lucide-react'
 import { formatNumber } from '@/core/masker'
 import { Button, Card, Combobox } from '@/core/presentation/components/ui'
 
-import { AddIngredientDialog } from '../../components/add-ingredient-dialog'
+import { IngredientDialog } from '../../components/ingredient-dialog'
 import { IngredientsTable } from '../../components/ingredients-table'
 
 import { useIngredientsContainer } from './ingredients-container.hook'
@@ -19,6 +19,8 @@ export function IngredientsContainer({
     openAddIngredientDialog,
     setOpenAddIngredientDialog,
     handleAddIngredient,
+    handleOpenEditIngredient,
+    handleUpdateIngredient,
     handleRemoveIngredient,
     ingredients,
     searchAnimal,
@@ -27,6 +29,8 @@ export function IngredientsContainer({
     setSelectedAnimalToCopy,
     animalOptions,
     handleCopyIngredients,
+    editingIngredient,
+    setEditingIngredient,
   } = useIngredientsContainer({ currentAnimalIndex })
 
   return (
@@ -78,6 +82,7 @@ export function IngredientsContainer({
             pointerClassName="text-amber-500"
             rows={ingredients.forage}
             onRemove={handleRemoveIngredient}
+            onEdit={handleOpenEditIngredient}
           />
 
           <IngredientsTable
@@ -87,6 +92,7 @@ export function IngredientsContainer({
             pointerClassName="text-orange-500"
             rows={ingredients.concentrate}
             onRemove={handleRemoveIngredient}
+            onEdit={handleOpenEditIngredient}
           />
 
           <IngredientsTable
@@ -96,6 +102,7 @@ export function IngredientsContainer({
             pointerClassName="text-blue-500"
             rows={ingredients.mineral}
             onRemove={handleRemoveIngredient}
+            onEdit={handleOpenEditIngredient}
           />
 
           <div className="gap-4 flex w-full justify-between p-4 bg-slate-50 border rounded-md items-center">
@@ -109,12 +116,25 @@ export function IngredientsContainer({
         </Card.Content>
       </Card.Container>
 
-      <AddIngredientDialog
+      <IngredientDialog
         currentAnimalIndex={currentAnimalIndex}
         open={openAddIngredientDialog}
         onOpenChange={setOpenAddIngredientDialog}
         onSubmit={handleAddIngredient}
       />
+
+      {editingIngredient && (
+        <IngredientDialog
+          currentAnimalIndex={currentAnimalIndex}
+          open={!!editingIngredient}
+          onOpenChange={(open) => {
+            if (!open) setEditingIngredient(null)
+          }}
+          onSubmit={handleUpdateIngredient}
+          editMode
+          initialData={editingIngredient.data}
+        />
+      )}
     </>
   )
 }

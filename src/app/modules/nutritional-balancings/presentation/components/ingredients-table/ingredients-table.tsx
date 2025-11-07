@@ -17,6 +17,10 @@ type IngredientsTableProps = {
     category: 'FORAGE' | 'CONCENTRATE' | 'MINERAL',
     index: number
   ) => void
+  onEdit: (
+    category: 'FORAGE' | 'CONCENTRATE' | 'MINERAL',
+    index: number
+  ) => void
 }
 
 export function IngredientsTable({
@@ -26,8 +30,9 @@ export function IngredientsTable({
   categoryClassName,
   pointerClassName,
   onRemove,
+  onEdit,
 }: Readonly<IngredientsTableProps>) {
-  const { columns } = useIngredientsTable({ categoryType, onRemove })
+  const { columns } = useIngredientsTable({ categoryType, onRemove, onEdit })
 
   return (
     <section className="flex flex-col gap-2">

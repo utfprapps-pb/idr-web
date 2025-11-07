@@ -14,12 +14,20 @@ type UseIngredientsContainerProps = {
   currentAnimalIndex: number
 }
 
+type EditingIngredient = {
+  category: 'FORAGE' | 'CONCENTRATE' | 'MINERAL'
+  index: number
+  data: IngredientItemSchema
+}
+
 export function useIngredientsContainer({
   currentAnimalIndex,
 }: Readonly<UseIngredientsContainerProps>) {
   const form = useFormContext<NutritionalBalancingFormSchema>()
 
   const [openAddIngredientDialog, setOpenAddIngredientDialog] = useState(false)
+  const [editingIngredient, setEditingIngredient] =
+    useState<EditingIngredient | null>(null)
 
   const [searchAnimal, setSearchAnimal] = useState('')
   const [selectedAnimalToCopy, setSelectedAnimalToCopy] =
@@ -112,18 +120,36 @@ export function useIngredientsContainer({
     }
   }
 
-  const handleAddIngredient = useCallback(
-    (data: IngredientItemSchema) => {
+  const getIngredientPaths = useCallback(
+    (category: 'FORAGE' | 'CONCENTRATE' | 'MINERAL') => {
       const ingredientGroupsPath =
         `nutritionalBalancings.${currentAnimalIndex}.ingredientGroups` as const
 
       const ingredientGroups = form.getValues(ingredientGroupsPath) || []
       const groupIndex = ingredientGroups.findIndex(
-        (group) => group.category === data.type
+        (group) => group.category === category
       )
+
+      if (groupIndex < 0) return null
 
       const ingredientsPath =
         `${ingredientGroupsPath}.${groupIndex}.ingredients` as const
+
+      return {
+        ingredientGroupsPath,
+        ingredientsPath,
+        groupIndex,
+      }
+    },
+    [currentAnimalIndex, form]
+  )
+
+  const handleAddIngredient = useCallback(
+    (data: IngredientItemSchema) => {
+      const paths = getIngredientPaths(data.type)
+      if (!paths) return
+
+      const { ingredientGroupsPath, ingredientsPath } = paths
       const existingIngredients = form.getValues(ingredientsPath) || []
       const updatedIngredients = [...existingIngredients, data]
 
@@ -136,7 +162,55 @@ export function useIngredientsContainer({
       form.trigger(ingredientGroupsPath)
       setOpenAddIngredientDialog(false)
     },
-    [currentAnimalIndex, form]
+    [form, getIngredientPaths]
+  )
+
+  const handleOpenEditIngredient = useCallback(
+    (
+      category: 'FORAGE' | 'CONCENTRATE' | 'MINERAL',
+      ingredientIndex: number
+    ) => {
+      const paths = getIngredientPaths(category)
+      if (!paths) return
+
+      const { ingredientsPath } = paths
+      const existingIngredients = form.getValues(ingredientsPath) || []
+      const ingredient = existingIngredients[ingredientIndex]
+
+      if (ingredient) {
+        setEditingIngredient({
+          category,
+          index: ingredientIndex,
+          data: ingredient,
+        })
+      }
+    },
+    [form, getIngredientPaths]
+  )
+
+  const handleUpdateIngredient = useCallback(
+    (data: IngredientItemSchema) => {
+      if (!editingIngredient) return
+
+      const paths = getIngredientPaths(editingIngredient.category)
+      if (!paths) return
+
+      const { ingredientGroupsPath, ingredientsPath } = paths
+      const existingIngredients = form.getValues(ingredientsPath) || []
+      const updatedIngredients = existingIngredients.map((ingredient, index) =>
+        index === editingIngredient.index ? data : ingredient
+      )
+
+      form.setValue(ingredientsPath, updatedIngredients, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true,
+      })
+
+      form.trigger(ingredientGroupsPath)
+      setEditingIngredient(null)
+    },
+    [editingIngredient, form, getIngredientPaths]
   )
 
   const handleRemoveIngredient = useCallback(
@@ -144,18 +218,10 @@ export function useIngredientsContainer({
       category: 'FORAGE' | 'CONCENTRATE' | 'MINERAL',
       ingredientIndex: number
     ) => {
-      const ingredientGroupsPath =
-        `nutritionalBalancings.${currentAnimalIndex}.ingredientGroups` as const
+      const paths = getIngredientPaths(category)
+      if (!paths) return
 
-      const ingredientGroups = form.getValues(ingredientGroupsPath) || []
-      const groupIndex = ingredientGroups.findIndex(
-        (group) => group.category === category
-      )
-
-      if (groupIndex < 0) return
-
-      const ingredientsPath =
-        `${ingredientGroupsPath}.${groupIndex}.ingredients` as const
+      const { ingredientGroupsPath, ingredientsPath } = paths
       const existingIngredients = form.getValues(ingredientsPath) || []
       const updatedIngredients = existingIngredients.filter(
         (_, index) => index !== ingredientIndex
@@ -169,7 +235,7 @@ export function useIngredientsContainer({
 
       form.trigger(ingredientGroupsPath)
     },
-    [currentAnimalIndex, form]
+    [form, getIngredientPaths]
   )
 
   return {
@@ -183,6 +249,10 @@ export function useIngredientsContainer({
     openAddIngredientDialog,
     setOpenAddIngredientDialog,
     handleAddIngredient,
+    handleOpenEditIngredient,
+    handleUpdateIngredient,
     handleRemoveIngredient,
+    editingIngredient,
+    setEditingIngredient,
   }
 }

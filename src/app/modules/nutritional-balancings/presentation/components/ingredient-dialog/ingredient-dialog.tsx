@@ -9,25 +9,29 @@ import {
 
 import {
   CATEGORY_LABELS,
-  useAddIngredientDialog,
+  useIngredientDialog,
   type IngredientExtraData,
-} from './add-ingredient-dialog.hook'
+} from './ingredient-dialog.hook'
 
 import type { IngredientItemSchema } from '../../validations/nutritional-balancing-form-schema'
 
-type AddIngredientDialogProps = {
+type IngredientDialogProps = {
   currentAnimalIndex: number
   open: boolean
   onOpenChange: (open: boolean) => void
   onSubmit: (data: IngredientItemSchema) => void
+  editMode?: boolean
+  initialData?: IngredientItemSchema
 }
 
-export function AddIngredientDialog({
+export function IngredientDialog({
   currentAnimalIndex,
   open,
   onOpenChange,
   onSubmit,
-}: Readonly<AddIngredientDialogProps>) {
+  editMode = false,
+  initialData,
+}: Readonly<IngredientDialogProps>) {
   const {
     form,
     searchIngredient,
@@ -37,21 +41,31 @@ export function AddIngredientDialog({
     handleSubmit,
     handleClose,
     handleSelectIngredient,
-  } = useAddIngredientDialog({ currentAnimalIndex, onOpenChange, onSubmit })
+  } = useIngredientDialog({
+    currentAnimalIndex,
+    onOpenChange,
+    onSubmit,
+    editMode,
+    initialData,
+  })
 
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Content>
         <Dialog.Header>
-          <Dialog.Title>Adicionar Ingrediente</Dialog.Title>
+          <Dialog.Title>
+            {editMode ? 'Editar Ingrediente' : 'Adicionar Ingrediente'}
+          </Dialog.Title>
           <Dialog.Description>
-            Selecione o ingrediente e informe a quantidade em kg.
+            {editMode
+              ? 'Atualize a quantidade do ingrediente em kg.'
+              : 'Selecione o ingrediente e informe a quantidade em kg.'}
           </Dialog.Description>
         </Dialog.Header>
 
         <Form.Provider {...form}>
           <form
-            id="add-ingredient-form"
+            id="ingredient-form"
             onSubmit={(e) => {
               e.preventDefault()
               e.stopPropagation()
@@ -82,6 +96,7 @@ export function AddIngredientDialog({
                         placeholder="Selecione um ingrediente"
                         emptyMessage="Nenhum ingrediente encontrado"
                         searchPlaceholder="Buscar ingrediente"
+                        disabled={editMode}
                       />
                     </Form.Control>
                     <Form.Message />
@@ -138,8 +153,8 @@ export function AddIngredientDialog({
           <Button variant="outline" type="button" onClick={handleClose}>
             Cancelar
           </Button>
-          <Button type="submit" form="add-ingredient-form">
-            Salvar
+          <Button type="submit" form="ingredient-form">
+            {editMode ? 'Atualizar' : 'Salvar'}
           </Button>
         </Dialog.Footer>
       </Dialog.Content>

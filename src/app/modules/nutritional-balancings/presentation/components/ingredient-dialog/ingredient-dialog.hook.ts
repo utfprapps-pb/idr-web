@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, useFormContext } from 'react-hook-form'
@@ -27,17 +27,21 @@ export type IngredientExtraData = {
   type: 'FORAGE' | 'CONCENTRATE' | 'MINERAL'
 }
 
-type UseAddIngredientDialogProps = {
+type UseIngredientDialogProps = {
   currentAnimalIndex: number
   onOpenChange: (open: boolean) => void
   onSubmit: (data: IngredientItemSchema) => void
+  editMode?: boolean
+  initialData?: IngredientItemSchema
 }
 
-export function useAddIngredientDialog({
+export function useIngredientDialog({
   currentAnimalIndex,
   onOpenChange,
   onSubmit,
-}: UseAddIngredientDialogProps) {
+  editMode = false,
+  initialData,
+}: UseIngredientDialogProps) {
   const parentForm = useFormContext<NutritionalBalancingFormSchema>()
   const [searchIngredient, setSearchIngredient] = useState('')
   const debouncedIngredient = useDebounce({ value: searchIngredient })
@@ -61,7 +65,7 @@ export function useAddIngredientDialog({
         value: debouncedIngredient,
         type: 'LIKE',
       },
-      ...(selectedIds.length
+      ...(selectedIds.length && !editMode
         ? {
             id: {
               value: selectedIds,
@@ -74,12 +78,18 @@ export function useAddIngredientDialog({
 
   const form = useForm<IngredientItemSchema>({
     resolver: zodResolver(ingredientItemSchema),
-    defaultValues: {
+    defaultValues: initialData || {
       ingredient: { label: '', value: 0 },
       quantity: '',
       type: 'FORAGE',
     },
   })
+
+  useEffect(() => {
+    if (editMode && initialData) {
+      form.reset(initialData)
+    }
+  }, [editMode, initialData, form])
 
   const handleSubmit = (data: IngredientItemSchema) => {
     onSubmit(data)

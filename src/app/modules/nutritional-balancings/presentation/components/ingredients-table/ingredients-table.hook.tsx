@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
 import { type ColumnDef } from '@tanstack/react-table'
-import { Trash2Icon } from 'lucide-react'
+import { PencilIcon, Trash2Icon } from 'lucide-react'
 
 import { Button } from '@/core/presentation/components/ui'
 
@@ -14,11 +14,16 @@ type UseIngredientsTableProps = {
     category: 'FORAGE' | 'CONCENTRATE' | 'MINERAL',
     index: number
   ) => void
+  onEdit: (
+    category: 'FORAGE' | 'CONCENTRATE' | 'MINERAL',
+    index: number
+  ) => void
 }
 
 export function useIngredientsTable({
   categoryType,
   onRemove,
+  onEdit,
 }: UseIngredientsTableProps) {
   const columns = useMemo<ColumnDef<IngredientItemSchema>[]>(
     () => [
@@ -49,19 +54,30 @@ export function useIngredientsTable({
           align: 'right',
         },
         cell: ({ row }) => (
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            onClick={() => onRemove(categoryType, row.index)}
-            className="text-destructive hover:text-destructive hover:bg-destructive/10"
-          >
-            <Trash2Icon className="h-4 w-4" />
-          </Button>
+          <div className="flex gap-1 justify-end">
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={() => onEdit(categoryType, row.index)}
+              className="text-primary hover:text-primary hover:bg-primary/10"
+            >
+              <PencilIcon className="h-4 w-4" />
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={() => onRemove(categoryType, row.index)}
+              className="text-destructive hover:text-destructive hover:bg-destructive/10"
+            >
+              <Trash2Icon className="h-4 w-4" />
+            </Button>
+          </div>
         ),
       },
     ],
-    [categoryType, onRemove]
+    [categoryType, onRemove, onEdit]
   )
 
   return {
