@@ -36,6 +36,7 @@ export class RemoteGetNutritionalBalancingUseCase
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
         date: new Date(body.date),
+        visitId: body.visitId,
         animal: body.animal,
         summary: body.summary,
         evaluations: body.evaluations,

@@ -58,6 +58,7 @@ export class RemoteGetNutritionalBalancingsUseCase
         resources: body.content.map((item) => ({
           id: item.id,
           date: new Date(item.date),
+          visitId: item.visitId,
           animal: item.animal,
           breed: item.breed,
           weight: item.weight,

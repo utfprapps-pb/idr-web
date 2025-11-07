@@ -37,6 +37,7 @@ export const getNutritionalBalancingHandler = httpWithMiddleware<
     return HttpResponse.json(
       {
         date: nutritionalBalancingFound.date,
+        visitId: nutritionalBalancingFound.visitId,
         animal: {
           id: nutritionalBalancingFound.id,
           name: nutritionalBalancingFound.animal,

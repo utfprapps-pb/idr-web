@@ -44,6 +44,7 @@ type IngredientGroup = {
 
 export type NutritionalBalancingDetailsModel = {
   date: Date
+  visitId: number
   animal: WithId<NutritionalBalancingAnimal>
   summary: NutritionalBalancingSummary
   evaluations: NutritionalEvaluation[]
@@ -52,6 +53,7 @@ export type NutritionalBalancingDetailsModel = {
 
 export type NutritionalBalancingDetailsApiResponse = {
   date: string
+  visitId: number
   animal: WithId<NutritionalBalancingAnimal>
   summary: NutritionalBalancingSummary
   evaluations: NutritionalEvaluation[]
@@ -60,6 +62,7 @@ export type NutritionalBalancingDetailsApiResponse = {
 
 export type NutritionalBalancingModel = WithId<{
   date: Date
+  visitId: number
   animal: string
   breed: string
   weight: number
@@ -69,6 +72,7 @@ export type NutritionalBalancingModel = WithId<{
 
 export type NutritionalBalancingApiResponse = WithId<{
   date: string
+  visitId: number
   animal: string
   breed: string
   weight: number
