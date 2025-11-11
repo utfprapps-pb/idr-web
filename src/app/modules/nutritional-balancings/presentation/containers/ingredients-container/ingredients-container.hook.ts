@@ -33,11 +33,6 @@ export function useIngredientsContainer({
   const [selectedAnimalToCopy, setSelectedAnimalToCopy] =
     useState<Option<number> | null>(null)
 
-  useEffect(() => {
-    setSelectedAnimalToCopy(null)
-    setSearchAnimal('')
-  }, [currentAnimalIndex])
-
   const animalsAddedWithIngredients = useMemo(() => {
     const animalsAdded = form.getValues('nutritionalBalancings')
     return animalsAdded
@@ -55,6 +50,20 @@ export function useIngredientsContainer({
       label: animal.animal.name,
     }))
   }, [animalsAddedWithIngredients])
+
+  useEffect(() => {
+    setSearchAnimal('')
+
+    if (currentAnimalIndex === 0 || animalOptions.length === 0) {
+      setSelectedAnimalToCopy(null)
+      return
+    }
+
+    const lastAnimalOption = animalOptions[animalOptions.length - 1]
+    if (!lastAnimalOption) return
+
+    setSelectedAnimalToCopy(lastAnimalOption)
+  }, [currentAnimalIndex, animalOptions])
 
   const ingredientGroups = form.watch(
     `nutritionalBalancings.${currentAnimalIndex}.ingredientGroups`
