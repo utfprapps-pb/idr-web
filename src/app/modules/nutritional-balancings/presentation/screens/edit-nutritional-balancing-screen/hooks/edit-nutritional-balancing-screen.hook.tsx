@@ -99,21 +99,6 @@ export function useEditNutritionalBalancingScreen() {
           return
         }
 
-        const { errors } = form.formState
-
-        const hasIngredientError =
-          errors.nutritionalBalancings &&
-          Array.isArray(errors.nutritionalBalancings) &&
-          errors.nutritionalBalancings.some(
-            (balancing) => balancing?.ingredientGroups
-          )
-
-        if (hasIngredientError) {
-          setActiveTab('ingredients')
-          toast.error('Adicione ao menos um ingrediente')
-          return
-        }
-
         const nutritionalBalancingData = data.nutritionalBalancings[0]
 
         if (!nutritionalBalancingData) {
@@ -151,48 +136,12 @@ export function useEditNutritionalBalancingScreen() {
     },
     [
       closeEditNutritionalBalancingScreen,
-      form,
       mutateHandleUpdateNutritionalBalancing,
       propertyId,
       queryClient,
       selectedNutritionalBalancing?.id,
     ]
   )
-
-  const handleInvalidSubmit = useCallback(() => {
-    const { errors } = form.formState
-    const formValues = form.getValues()
-
-    const hasIngredientError =
-      errors.nutritionalBalancings &&
-      Array.isArray(errors.nutritionalBalancings) &&
-      errors.nutritionalBalancings.some(
-        (balancing) => balancing?.ingredientGroups
-      )
-
-    let firstAnimalWithoutIngredientsIndex = -1
-    const hasBalancingWithoutIngredients =
-      formValues.nutritionalBalancings &&
-      formValues.nutritionalBalancings.some((balancing, index) => {
-        const totalIngredients = balancing.ingredientGroups?.reduce(
-          (total, group) => total + (group.ingredients?.length || 0),
-          0
-        )
-        const hasNoIngredients = totalIngredients === 0
-        if (hasNoIngredients && firstAnimalWithoutIngredientsIndex === -1) {
-          firstAnimalWithoutIngredientsIndex = index
-        }
-        return hasNoIngredients
-      })
-
-    if (hasIngredientError || hasBalancingWithoutIngredients) {
-      setActiveTab('ingredients')
-      toast.error('Adicione ao menos um ingrediente')
-      return true
-    }
-
-    return false
-  }, [form])
 
   const tabs = useMemo<Tab[]>(
     () => [
@@ -247,6 +196,5 @@ export function useEditNutritionalBalancingScreen() {
     currentNutritionalBalancing,
     isLoadingNutritionalBalancing,
     handleUpdateNutritionalBalancing,
-    handleInvalidSubmit,
   }
 }

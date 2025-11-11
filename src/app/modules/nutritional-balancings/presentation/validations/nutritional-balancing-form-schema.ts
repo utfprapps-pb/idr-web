@@ -53,37 +53,14 @@ const ingredientGroupSchema = z.object({
   ingredients: array(ingredientItemSchema).default([]),
 })
 
-const nutritionalBalancingSchema = z
-  .object({
-    animal: nutritionalBalancingAnimalSchema,
-    summary: nutritionalBalancingSummarySchema,
-    evaluations: z
-      .array(nutritionalEvaluationSchema)
-      .min(1, { message: 'Adicione ao menos uma avaliação' }),
-    ingredientGroups: z.array(ingredientGroupSchema).default([]),
-  })
-  .superRefine((value, context) => {
-    if (!value?.animal || !value.animal.id || value.animal.id < 1) {
-      context.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Selecione o animal',
-        path: ['animal'],
-      })
-    }
-
-    const totalIngredients = value.ingredientGroups.reduce(
-      (total, group) => total + group.ingredients.length,
-      0
-    )
-
-    if (totalIngredients === 0) {
-      context.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Adicione ao menos um ingrediente',
-        path: ['ingredientGroups'],
-      })
-    }
-  })
+const nutritionalBalancingSchema = z.object({
+  animal: nutritionalBalancingAnimalSchema,
+  summary: nutritionalBalancingSummarySchema,
+  evaluations: z
+    .array(nutritionalEvaluationSchema)
+    .min(1, { message: 'Adicione ao menos uma avaliação' }),
+  ingredientGroups: z.array(ingredientGroupSchema).default([]),
+})
 
 const nutritionalBalancingsSchema = z.array(nutritionalBalancingSchema).min(1, {
   message: 'Adicione ao menos um balanceamento nutricional para um animal',

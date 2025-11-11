@@ -103,21 +103,6 @@ export function useNewNutritionalBalancingScreen() {
   const handleCreateNutritionalBalancing = useCallback(
     async (data: NutritionalBalancingFormSchema) => {
       try {
-        const { errors } = form.formState
-
-        const hasIngredientError =
-          errors.nutritionalBalancings &&
-          Array.isArray(errors.nutritionalBalancings) &&
-          errors.nutritionalBalancings.some(
-            (balancing) => balancing?.ingredientGroups
-          )
-
-        if (hasIngredientError) {
-          setActiveTab('ingredients')
-          toast.error('Adicione ao menos um ingrediente')
-          return
-        }
-
         const nutritionalBalancings: NutritionalBalancingDetailsModel[] =
           data.nutritionalBalancings.map((nutritionalBalancing) => {
             return {
