@@ -295,9 +295,9 @@ const handlers: HttpHandler[] = [
 
   createNutritionalBalancingHandler,
   deleteNutritionalBalancingHandler,
+  getLastVisitNutritionalBalancingsHandler,
   getNutritionalBalancingHandler,
   getNutritionalBalancingsHandler,
-  getLastVisitNutritionalBalancingsHandler,
   updateNutritionalBalancingHandler,
 ]
 

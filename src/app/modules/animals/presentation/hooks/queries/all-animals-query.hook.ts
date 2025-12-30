@@ -14,11 +14,7 @@ type Props = {
   perPage?: number
 }
 
-export function useAllAnimalsQuery({
-  propertyId,
-  filters,
-  perPage = 30,
-}: Props) {
+export function useAllAnimalsQuery({ propertyId, filters, perPage }: Props) {
   const getAnimalsUseCase = makeRemoteGetAnimalsUseCase()
 
   const {

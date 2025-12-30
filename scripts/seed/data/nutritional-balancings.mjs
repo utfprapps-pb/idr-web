@@ -17,6 +17,7 @@ for (let visitIndex = 0; visitIndex < numberOfVisits; visitIndex += 1) {
       id: nutritionalBalancingsData.length + 1,
       date: visitDate,
       visitId,
+      animalId: animal.id,
       animal: animal.name,
       breed: animal.breed,
       weight: +animal.weight,
