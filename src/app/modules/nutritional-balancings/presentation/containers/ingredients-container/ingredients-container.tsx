@@ -116,12 +116,14 @@ export function IngredientsContainer({
         </Card.Content>
       </Card.Container>
 
-      <IngredientDialog
-        currentAnimalIndex={currentAnimalIndex}
-        open={openAddIngredientDialog}
-        onOpenChange={setOpenAddIngredientDialog}
-        onSubmit={handleAddIngredient}
-      />
+      {openAddIngredientDialog && (
+        <IngredientDialog
+          currentAnimalIndex={currentAnimalIndex}
+          open={openAddIngredientDialog}
+          onOpenChange={setOpenAddIngredientDialog}
+          onSubmit={handleAddIngredient}
+        />
+      )}
 
       {editingIngredient && (
         <IngredientDialog
