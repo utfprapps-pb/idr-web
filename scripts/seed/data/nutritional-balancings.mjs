@@ -19,15 +19,13 @@ for (let visitIndex = 0; visitIndex < numberOfVisits; visitIndex += 1) {
       visitId,
       animal: animal.name,
       breed: animal.breed,
-      weight: animal.weight,
-      milkProduction: animal.milkProduction,
-      estimatedMilkProduction: faker.number
-        .float({
-          min: 5,
-          max: 50,
-          fractionDigits: 2,
-        })
-        .toFixed(2),
+      weight: +animal.weight,
+      milkProduction: +animal.milkProduction,
+      estimatedMilkProduction: faker.number.float({
+        min: 5,
+        max: 50,
+        fractionDigits: 2,
+      }),
     })
   })
 }

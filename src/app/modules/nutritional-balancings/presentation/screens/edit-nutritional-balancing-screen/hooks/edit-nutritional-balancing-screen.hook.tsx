@@ -46,6 +46,7 @@ export function useEditNutritionalBalancingScreen() {
     if (nutritionalBalancing) {
       return {
         date: nutritionalBalancing.date,
+        visitId: nutritionalBalancing.visitId,
         nutritionalBalancings: [
           {
             animal: nutritionalBalancing.animal,
