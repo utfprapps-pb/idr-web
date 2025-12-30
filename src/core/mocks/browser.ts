@@ -141,6 +141,7 @@ import {
   deleteNutritionalBalancingHandler,
   getNutritionalBalancingHandler,
   getNutritionalBalancingsHandler,
+  getLastVisitNutritionalBalancingsHandler,
   updateNutritionalBalancingHandler,
 } from '@/app/modules/nutritional-balancings/mocks/handlers'
 import {
@@ -296,6 +297,7 @@ const handlers: HttpHandler[] = [
   deleteNutritionalBalancingHandler,
   getNutritionalBalancingHandler,
   getNutritionalBalancingsHandler,
+  getLastVisitNutritionalBalancingsHandler,
   updateNutritionalBalancingHandler,
 ]
 

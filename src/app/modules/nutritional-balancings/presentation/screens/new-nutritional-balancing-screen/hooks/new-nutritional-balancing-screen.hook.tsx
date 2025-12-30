@@ -16,6 +16,7 @@ import { makeRemoteCreateNutritionalBalancingUseCase } from '@/app/modules/nutri
 import { useHookForm } from '@/core/presentation/hooks'
 
 import { useNutritionalBalancingContext } from '../../../hooks/nutritional-balancing-context.hook'
+import { useLastVisitNutritionalBalancingsQuery } from '../../../hooks/queries/last-visit-nutritional-balancings-query.hook'
 import { NutritionalEvaluationWithIngredientsTab } from '../../../tabs/nutritional-evaluation-with-ingredients-tab'
 import { SummaryTab } from '../../../tabs/summary-tab'
 import { createEmptyNutritionalBalancingEntry } from '../../../utils/create-empty-nutritional-balancing-entry'
@@ -72,10 +73,19 @@ export function useNewNutritionalBalancingScreen() {
     propertyId,
   })
 
+  const { lastVisitData } = useLastVisitNutritionalBalancingsQuery({
+    propertyId,
+    enabled: !isLoadingAnimals && allAnimals.length > 0,
+  })
+
   useEffect(() => {
     if (!isLoadingAnimals && allAnimals.length > 0 && !animalsLoaded) {
       const newEntries = allAnimals.map((animal) => {
-        return createEmptyNutritionalBalancingEntry({
+        const lastVisitAnimal = lastVisitData?.nutritionalBalancings.find(
+          (nutritional) => nutritional.animal.id === animal.value
+        )
+
+        const baseEntry = createEmptyNutritionalBalancingEntry({
           animal: {
             id: animal.value,
             name: animal.label,
@@ -86,6 +96,21 @@ export function useNewNutritionalBalancingScreen() {
             estimatedMilkProduction: '',
           },
         })
+
+        if (lastVisitAnimal) {
+          baseEntry.ingredientGroups = lastVisitAnimal.ingredientGroups.map(
+            (group) => ({
+              category: group.category,
+              ingredients: group.ingredients.map((ingredient) => ({
+                ingredient: ingredient.ingredient,
+                quantity: ingredient.quantity,
+                type: group.category,
+              })),
+            })
+          ) as typeof baseEntry.ingredientGroups
+        }
+
+        return baseEntry
       })
 
       newEntries.forEach((entry) => {
@@ -94,7 +119,13 @@ export function useNewNutritionalBalancingScreen() {
 
       setAnimalsLoaded(true)
     }
-  }, [isLoadingAnimals, allAnimals, animalsLoaded, appendNutritionalBalancing])
+  }, [
+    isLoadingAnimals,
+    allAnimals,
+    animalsLoaded,
+    appendNutritionalBalancing,
+    lastVisitData,
+  ])
 
   const handleSelectNutritionalBalancing = useCallback((index: number) => {
     setCurrentNutritionalBalancingIndex(index)
@@ -107,6 +138,7 @@ export function useNewNutritionalBalancingScreen() {
           data.nutritionalBalancings.map((nutritionalBalancing) => {
             return {
               date: data.date,
+              visitId: data.visitId,
               animal: nutritionalBalancing.animal,
               summary: nutritionalBalancing.summary,
               evaluations: nutritionalBalancing.evaluations,

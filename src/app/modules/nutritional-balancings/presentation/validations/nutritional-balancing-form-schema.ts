@@ -75,6 +75,7 @@ export const nutritionalBalancingFormSchema = z.object({
     },
     { message: 'A data não pode ser maior que a data atual' }
   ),
+  visitId: z.number().min(1, { message: 'Visita é obrigatória' }).optional(),
   nutritionalBalancings: nutritionalBalancingsSchema,
 })
 

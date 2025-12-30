@@ -15,7 +15,6 @@ export function EditNutritionalBalancingScreen() {
     currentNutritionalBalancing,
     isLoadingNutritionalBalancing,
     handleUpdateNutritionalBalancing,
-    handleInvalidSubmit,
   } = useEditNutritionalBalancingScreen()
 
   if (isLoadingNutritionalBalancing) {
@@ -41,8 +40,7 @@ export function EditNutritionalBalancingScreen() {
       <form
         className="flex flex-col gap-4 w-full"
         onSubmit={form.handleSubmitWithCustomError(
-          handleUpdateNutritionalBalancing,
-          handleInvalidSubmit
+          handleUpdateNutritionalBalancing
         )}
       >
         <EditNutritionalBalancingHeader
@@ -56,7 +54,6 @@ export function EditNutritionalBalancingScreen() {
             currentNutritionalBalancingIndex={0}
             totalNutritionalBalancings={1}
             handleSelectNutritionalBalancing={() => null}
-            handleRemoveNutritionalBalancing={() => null}
             hideRemoveButton
           />
 

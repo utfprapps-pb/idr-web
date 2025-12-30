@@ -44,7 +44,7 @@ type IngredientGroup = {
 
 export type NutritionalBalancingDetailsModel = {
   date: Date
-  visitId: number
+  visitId?: number
   animal: WithId<NutritionalBalancingAnimal>
   summary: NutritionalBalancingSummary
   evaluations: NutritionalEvaluation[]

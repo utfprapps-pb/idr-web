@@ -1,24 +1,33 @@
 import { faker } from '@faker-js/faker/locale/pt_BR'
 
-export const nutritionalBalancingsData = Array.from(
-  { length: faker.number.int({ min: 1, max: 100 }) },
-  (_, index) => ({
-    id: index + 1,
-    date: faker.date.past().toISOString(),
-    visitId: faker.number.int({ min: 1, max: 1000 }),
-    animal: faker.lorem.word(),
-    breed: faker.animal.cow(),
-    weight: faker.number.float({ min: 200, max: 700, fractionDigits: 2 }),
+import { animalsData } from './animals.mjs'
 
-    milkProduction: faker.number.float({
-      min: 5,
-      max: 50,
-      fractionDigits: 2,
-    }),
-    estimatedMilkProduction: faker.number.float({
-      min: 5,
-      max: 50,
-      fractionDigits: 2,
-    }),
+export const nutritionalBalancingsDependencies = ['animals']
+
+const numberOfVisits = faker.number.int({ min: 2, max: 5 })
+
+export const nutritionalBalancingsData = []
+
+for (let visitIndex = 0; visitIndex < numberOfVisits; visitIndex += 1) {
+  const visitId = visitIndex + 1
+  const visitDate = faker.date.past().toISOString()
+
+  animalsData.forEach((animal) => {
+    nutritionalBalancingsData.push({
+      id: nutritionalBalancingsData.length + 1,
+      date: visitDate,
+      visitId,
+      animal: animal.name,
+      breed: animal.breed,
+      weight: animal.weight,
+      milkProduction: animal.milkProduction,
+      estimatedMilkProduction: faker.number
+        .float({
+          min: 5,
+          max: 50,
+          fractionDigits: 2,
+        })
+        .toFixed(2),
+    })
   })
-)
+}

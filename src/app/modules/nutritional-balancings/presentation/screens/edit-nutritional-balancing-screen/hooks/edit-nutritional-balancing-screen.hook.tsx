@@ -108,6 +108,7 @@ export function useEditNutritionalBalancingScreen() {
 
         const nutritionalBalancingToUpdate: NutritionalBalancingDetailsModel = {
           date: data.date,
+          visitId: data.visitId,
           animal: nutritionalBalancingData.animal,
           summary: nutritionalBalancingData.summary,
           evaluations: nutritionalBalancingData.evaluations,
