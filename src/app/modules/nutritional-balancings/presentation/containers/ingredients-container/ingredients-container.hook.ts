@@ -59,7 +59,7 @@ export function useIngredientsContainer({
       return
     }
 
-    const lastAnimalOption = animalOptions[animalOptions.length - 1]
+    const lastAnimalOption = animalOptions[currentAnimalIndex - 1]
     if (!lastAnimalOption) return
 
     setSelectedAnimalToCopy(lastAnimalOption)
