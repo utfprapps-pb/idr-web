@@ -3,19 +3,15 @@ import { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
-import { makeRemoteGetAnimalsUseCase } from '@/app/modules/animals/main/factories/use-cases'
+import { makeRemoteGetAllAnimalsUseCase } from '@/app/modules/animals/main/factories/use-cases'
 import { toOption } from '@/core/utils/object/to-option'
-
-import type { AnimalFilters } from '@/app/modules/animals/presentation/types/animal-types'
 
 type Props = {
   propertyId: number
-  filters: AnimalFilters
-  perPage?: number
 }
 
-export function useAllAnimalsQuery({ propertyId, filters, perPage }: Props) {
-  const getAnimalsUseCase = makeRemoteGetAnimalsUseCase()
+export function useAllAnimalsQuery({ propertyId }: Props) {
+  const getAllAnimalsUseCase = makeRemoteGetAllAnimalsUseCase()
 
   const {
     data,
@@ -24,12 +20,10 @@ export function useAllAnimalsQuery({ propertyId, filters, perPage }: Props) {
     isLoading,
     refetch: refetchAllAnimals,
   } = useQuery({
-    queryKey: ['all-animals', { filters }],
+    queryKey: ['all-animals', propertyId],
     queryFn: () =>
-      getAnimalsUseCase.execute({
+      getAllAnimalsUseCase.execute({
         propertyId,
-        filters,
-        pagination: { page: 1, perPage },
       }),
   })
 
@@ -39,7 +33,7 @@ export function useAllAnimalsQuery({ propertyId, filters, perPage }: Props) {
 
   return {
     allAnimals:
-      data?.resources.map((resource) =>
+      data?.map((resource) =>
         toOption(resource, 'name', {
           breed: resource.breed,
           weight: resource.weight,
