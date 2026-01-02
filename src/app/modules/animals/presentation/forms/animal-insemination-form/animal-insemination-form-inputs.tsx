@@ -6,7 +6,7 @@ import { DatePicker, Form, Combobox } from '@/core/presentation/components/ui'
 import { useDebounce } from '@/core/presentation/hooks'
 
 import { useAnimalInseminationContext } from '../../hooks/animal-insemination-context.hook'
-import { useAllAnimalsQuery } from '../../hooks/queries/all-animals-query.hook'
+import { useAllAnimalsWithFilterQuery } from '../../hooks/queries/all-animals-with-filter-query.hook'
 import { AnimalInseminationFormSchema } from '../../validations/animal-insemination-form-schema'
 
 export function AnimalInseminationFormInputs() {
@@ -17,7 +17,7 @@ export function AnimalInseminationFormInputs() {
 
   const debouncedAnimal = useDebounce({ value: searchAnimal })
 
-  const { allAnimals, isLoading } = useAllAnimalsQuery({
+  const { allAnimals, isLoading } = useAllAnimalsWithFilterQuery({
     propertyId,
     filters: {
       name: {
