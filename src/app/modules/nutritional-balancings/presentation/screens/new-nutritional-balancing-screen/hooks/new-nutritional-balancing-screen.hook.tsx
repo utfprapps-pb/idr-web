@@ -69,7 +69,6 @@ export function useNewNutritionalBalancingScreen() {
     })
 
   const { allAnimals, isLoading: isLoadingAnimals } = useAllAnimalsQuery({
-    filters: {},
     propertyId,
   })
 
