@@ -4,6 +4,7 @@ import { setupWorker } from 'msw/browser'
 import {
   createAnimalHandler,
   deleteAnimalHandler,
+  getAllAnimalsHandler,
   getAnimalHandler,
   getAnimalsHandler,
   updateAnimalHandler,
@@ -174,6 +175,7 @@ const handlers: HttpHandler[] = [
 
   createAnimalHandler,
   deleteAnimalHandler,
+  getAllAnimalsHandler,
   getAnimalHandler,
   getAnimalsHandler,
   updateAnimalHandler,
