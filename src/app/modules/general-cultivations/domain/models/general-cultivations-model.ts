@@ -14,7 +14,7 @@ export type GeneralCultivationDetailsApiResponse = {
 
 export type GeneralCultivationModel = WithId<{
   name: string
-  type: GeneralCultivationType
+  type: string
 }>
 
 export type GeneralCultivationApiResponse = WithId<{

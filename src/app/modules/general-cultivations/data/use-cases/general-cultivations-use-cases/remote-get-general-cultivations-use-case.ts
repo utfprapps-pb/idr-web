@@ -49,12 +49,18 @@ export class RemoteGetGeneralCultivationsUseCase
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
+      const typeMapper: Record<GeneralCultivationType, string> = {
+        FORAGE: 'Volumoso',
+        CONCENTRATE: 'Concentrado',
+        MINERAL: 'Mineral',
+      }
+
       return {
         resources: body.content.map((item) => {
           return {
             id: item.id,
             name: item.name,
-            type: item.type as GeneralCultivationType,
+            type: typeMapper[item.type as GeneralCultivationType],
           }
         }),
         totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
