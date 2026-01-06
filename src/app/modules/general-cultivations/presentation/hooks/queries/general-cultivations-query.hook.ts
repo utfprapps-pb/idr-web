@@ -41,7 +41,10 @@ export function useGeneralCultivationsQuery({ filters, page, sort }: Props) {
   }, [error, isError])
 
   return {
-    generalCultivations,
+    generalCultivations: generalCultivations ?? {
+      resources: [],
+      totalPages: 1,
+    },
     isLoading,
     refetchGeneralCultivations,
   }
