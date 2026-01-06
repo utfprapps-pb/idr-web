@@ -2,6 +2,7 @@ import { ReactNode } from 'react'
 
 import { Route, Routes } from 'react-router-dom'
 
+import { GeneralRegistrationsPage } from '@/app/pages/general-registrations-page'
 import { LoginPage } from '@/app/pages/login-page'
 import { PropertiesPage } from '@/app/pages/properties-page'
 import { PropertyPage } from '@/app/pages/property-page'
@@ -31,7 +32,7 @@ const ROUTE_PAGE_MAPPER: Record<keyof typeof ROUTES, ReactNode> = {
   ),
   GENERAL_REGISTRATIONS: (
     <PrivateRouteProxy>
-      <h1>Under construction!</h1>
+      <GeneralRegistrationsPage />
     </PrivateRouteProxy>
   ),
   REPORTS: (

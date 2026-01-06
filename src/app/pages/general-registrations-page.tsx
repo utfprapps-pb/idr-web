@@ -1,0 +1,145 @@
+import { useCallback, useMemo, useState, type ReactNode } from 'react'
+
+import { Breadcrumb, ScrollArea, Tabs } from '@/core/presentation/components/ui'
+
+import { GeneralCultivationsScreen } from '../modules/general-cultivations/presentation/screens/general-cultivations-screen'
+
+type Tab =
+  | {
+      key: string
+      name: string
+      subTabs: {
+        key: string
+        name: string
+        component: ReactNode
+      }[]
+      component?: never
+    }
+  | {
+      key: string
+      name: string
+      component: ReactNode
+      subTabs?: never
+    }
+
+export function GeneralRegistrationsPage() {
+  const tabs = useMemo<Tab[]>(
+    () => [
+      {
+        key: 'general-registrations',
+        name: 'Vegetais',
+        subTabs: [
+          {
+            key: 'general-cultivations',
+            name: 'Cultivos Gerais',
+            component: <GeneralCultivationsScreen />,
+          },
+        ],
+      },
+    ],
+    []
+  )
+
+  const [activeTab, setActiveTab] = useState('general-registrations')
+  const [activeSubTab, setActiveSubTab] = useState('general-cultivations')
+
+  const subTabs = useMemo(() => {
+    const tab = tabs.find((tab) => tab.key === activeTab)
+    return tab?.subTabs || []
+  }, [activeTab, tabs])
+
+  const tab = useMemo(() => {
+    return tabs.find((tab) => tab.key === activeTab)
+  }, [activeTab, tabs])
+
+  const subTab = useMemo(() => {
+    return subTabs.find((subTab) => subTab.key === activeSubTab)
+  }, [activeSubTab, subTabs])
+
+  const handleTabChange = useCallback((tab: string) => {
+    setActiveTab(tab)
+  }, [])
+
+  const handleSubTabChange = useCallback((subTab: string) => {
+    setActiveSubTab(subTab)
+  }, [])
+
+  return (
+    <section className="flex flex-col gap-4">
+      <header className="flex flex-col gap-3">
+        <h1 className="text-3xl text-slate-900 font-semibold">
+          Cadastros Gerais
+        </h1>
+        <p className="text-base text-slate-600">
+          Os cadastros também podem ser acessados pelos campos de utilização
+        </p>
+      </header>
+
+      <Tabs.Root defaultValue={activeTab} onValueChange={handleTabChange}>
+        <Tabs.List>
+          {tabs.map((tab) => (
+            <Tabs.Trigger key={tab.key} value={tab.key}>
+              {tab.name}
+            </Tabs.Trigger>
+          ))}
+        </Tabs.List>
+        <Tabs.Content value={activeTab}>
+          {tab?.component ? (
+            tab.component
+          ) : (
+            <Tabs.Root value={activeSubTab} onValueChange={handleSubTabChange}>
+              <div className="flex gap-4">
+                <ScrollArea.Root className="h-[calc(100vh-300px)] w-48 flex-shrink-0">
+                  <Tabs.List className="flex flex-col h-auto w-full space-y-1 p-0">
+                    {subTabs.map((subTab) => (
+                      <Tabs.Trigger
+                        key={subTab.key}
+                        value={subTab.key}
+                        className="w-full justify-start text-left px-3 py-2 rounded-md"
+                      >
+                        {subTab.name}
+                      </Tabs.Trigger>
+                    ))}
+                  </Tabs.List>
+                  <ScrollArea.ScrollBar orientation="vertical" />
+                </ScrollArea.Root>
+
+                <div className="flex-1 min-w-0">
+                  <Tabs.Content
+                    className="mt-0 w-full space-y-8"
+                    value={activeSubTab}
+                  >
+                    {subTab?.component && (
+                      <>
+                        <Breadcrumb.Root>
+                          <Breadcrumb.List>
+                            <Breadcrumb.Link
+                              asChild
+                              onClick={() =>
+                                setActiveTab('general-registrations')
+                              }
+                            >
+                              <span>Vegetais</span>
+                            </Breadcrumb.Link>
+                            <Breadcrumb.Separator />
+                            <Breadcrumb.Item>
+                              <Breadcrumb.Page>{subTab.name}</Breadcrumb.Page>
+                            </Breadcrumb.Item>
+                          </Breadcrumb.List>
+                        </Breadcrumb.Root>
+
+                        {subTab.component}
+                      </>
+                    )}
+                  </Tabs.Content>
+                </div>
+              </div>
+            </Tabs.Root>
+          )}
+        </Tabs.Content>
+      </Tabs.Root>
+    </section>
+  )
+}
+
+GeneralRegistrationsPage.displayName = 'GeneralRegistrationsPage'
