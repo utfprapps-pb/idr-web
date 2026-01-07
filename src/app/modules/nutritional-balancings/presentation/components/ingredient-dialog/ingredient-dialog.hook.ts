@@ -12,6 +12,7 @@ import {
   type NutritionalBalancingFormSchema,
 } from '../../validations/nutritional-balancing-form-schema'
 
+import type { GeneralCultivationType } from '@/app/modules/general-cultivations/domain/models/general-cultivations-model'
 import type { Option } from '@/core/domain/types'
 
 export const CATEGORY_LABELS: Record<
@@ -24,7 +25,7 @@ export const CATEGORY_LABELS: Record<
 }
 
 export type IngredientExtraData = {
-  type: 'FORAGE' | 'CONCENTRATE' | 'MINERAL'
+  type: string
 }
 
 type UseIngredientDialogProps = {
@@ -110,7 +111,7 @@ export function useIngredientDialog({
   ) => {
     onChange(item)
     if (item.extraData?.type) {
-      form.setValue('type', item.extraData.type)
+      form.setValue('type', item.extraData.type as GeneralCultivationType)
     }
   }
 
