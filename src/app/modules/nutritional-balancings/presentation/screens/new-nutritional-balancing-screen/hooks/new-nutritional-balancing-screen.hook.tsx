@@ -62,23 +62,31 @@ export function useNewNutritionalBalancingScreen() {
   ] = useState<number>(0)
   const [animalsLoaded, setAnimalsLoaded] = useState(false)
 
-  const { fields: nutritionalBalancings, append: appendNutritionalBalancing } =
-    useFieldArray<NutritionalBalancingFormSchema, 'nutritionalBalancings'>({
-      control: form.control,
-      name: 'nutritionalBalancings',
-    })
+  const {
+    fields: nutritionalBalancings,
+    replace: replaceNutritionalBalancings,
+  } = useFieldArray<NutritionalBalancingFormSchema, 'nutritionalBalancings'>({
+    control: form.control,
+    name: 'nutritionalBalancings',
+  })
 
   const { allAnimals, isLoading: isLoadingAnimals } = useAllAnimalsQuery({
     propertyId,
   })
 
-  const { lastVisitData } = useLastVisitNutritionalBalancingsQuery({
-    propertyId,
-    enabled: !isLoadingAnimals && allAnimals.length > 0,
-  })
+  const { lastVisitData, isLoading: isLoadingLastVisitData } =
+    useLastVisitNutritionalBalancingsQuery({
+      propertyId,
+      enabled: !isLoadingAnimals && allAnimals.length > 0,
+    })
 
   useEffect(() => {
-    if (!isLoadingAnimals && allAnimals.length > 0 && !animalsLoaded) {
+    if (
+      !isLoadingAnimals &&
+      !isLoadingLastVisitData &&
+      allAnimals.length > 0 &&
+      !animalsLoaded
+    ) {
       const newEntries = allAnimals.map((animal) => {
         const lastVisitAnimal = lastVisitData?.nutritionalBalancings.find(
           (nutritional) => nutritional.animal.id === animal.value
@@ -112,17 +120,16 @@ export function useNewNutritionalBalancingScreen() {
         return baseEntry
       })
 
-      newEntries.forEach((entry) => {
-        appendNutritionalBalancing(entry)
-      })
+      replaceNutritionalBalancings(newEntries)
 
       setAnimalsLoaded(true)
     }
   }, [
     isLoadingAnimals,
+    isLoadingLastVisitData,
     allAnimals,
     animalsLoaded,
-    appendNutritionalBalancing,
+    replaceNutritionalBalancings,
     lastVisitData,
   ])
 
