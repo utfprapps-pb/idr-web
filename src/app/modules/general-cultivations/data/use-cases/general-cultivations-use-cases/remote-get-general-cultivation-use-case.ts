@@ -33,6 +33,14 @@ export class RemoteGetGeneralCultivationUseCase
       return {
         name: body.name,
         type: body.type as GeneralCultivationType,
+        crudeProtein: body.crudeProtein,
+        totalDigestibleNutrients: body.totalDigestibleNutrients,
+        dryMatter: body.dryMatter,
+        calcium: body.calcium,
+        phosphorus: body.phosphorus,
+        nonFibrousCarbohydrates: body.nonFibrousCarbohydrates,
+        etherExtract: body.etherExtract,
+        rumenDegradableProtein: body.rumenDegradableProtein,
       }
     }
 

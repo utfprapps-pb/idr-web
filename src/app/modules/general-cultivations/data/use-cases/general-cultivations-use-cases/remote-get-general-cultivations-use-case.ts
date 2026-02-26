@@ -37,6 +37,14 @@ export class RemoteGetGeneralCultivationsUseCase
       id: 'id',
       name: 'name',
       type: 'type',
+      crudeProtein: 'crudeProtein',
+      totalDigestibleNutrients: 'totalDigestibleNutrients',
+      dryMatter: 'dryMatter',
+      calcium: 'calcium',
+      phosphorus: 'phosphorus',
+      nonFibrousCarbohydrates: 'nonFibrousCarbohydrates',
+      etherExtract: 'etherExtract',
+      rumenDegradableProtein: 'rumenDegradableProtein',
     }
 
     const { statusCode, body } = await this.httpClient.request({
@@ -55,6 +63,14 @@ export class RemoteGetGeneralCultivationsUseCase
             id: item.id,
             name: item.name,
             type: item.type as GeneralCultivationType,
+            crudeProtein: item.crudeProtein,
+            totalDigestibleNutrients: item.totalDigestibleNutrients,
+            dryMatter: item.dryMatter,
+            calcium: item.calcium,
+            phosphorus: item.phosphorus,
+            nonFibrousCarbohydrates: item.nonFibrousCarbohydrates,
+            etherExtract: item.etherExtract,
+            rumenDegradableProtein: item.rumenDegradableProtein,
           }
         }),
         totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
