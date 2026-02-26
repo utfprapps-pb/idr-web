@@ -4,3 +4,4 @@ docs
 dist
 public/mockServiceWorker.js
 .gemini
+gemini.md
