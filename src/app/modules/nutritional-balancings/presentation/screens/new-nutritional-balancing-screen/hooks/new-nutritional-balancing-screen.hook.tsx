@@ -8,11 +8,12 @@ import {
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
-import { useFieldArray } from 'react-hook-form'
+import { useFieldArray, useWatch } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
 import { useAllAnimalsQuery } from '@/app/modules/animals/presentation/hooks/queries/all-animals-query.hook'
 import { makeRemoteCreateNutritionalBalancingUseCase } from '@/app/modules/nutritional-balancings/main/factories'
+import { formatNumber } from '@/core/masker'
 import { useHookForm } from '@/core/presentation/hooks'
 
 import { useNutritionalBalancingContext } from '../../../hooks/nutritional-balancing-context.hook'
@@ -24,6 +25,7 @@ import { makeAnimalInformationItems } from '../../../utils/make-animal-informati
 import { makeNutritionalSummaryItems } from '../../../utils/make-nutritional-summary-items'
 import {
   nutritionalBalancingFormSchema,
+  type IngredientGroupSchema,
   type NutritionalBalancingFormSchema,
 } from '../../../validations/nutritional-balancing-form-schema'
 
@@ -70,6 +72,11 @@ export function useNewNutritionalBalancingScreen() {
     name: 'nutritionalBalancings',
   })
 
+  const watchedNutritionalBalancings = useWatch({
+    control: form.control,
+    name: 'nutritionalBalancings',
+  })
+
   const { allAnimals, isLoading: isLoadingAnimals } = useAllAnimalsQuery({
     propertyId,
   })
@@ -100,22 +107,22 @@ export function useNewNutritionalBalancingScreen() {
             ecc: animal.extraData?.ecc ?? '',
             weight: animal.extraData?.weight ?? '',
             milkProduction: animal.extraData?.milkProduction ?? '',
-            estimatedMilkProduction: '',
+            estimatedMilkProduction:
+              lastVisitAnimal?.animal.estimatedMilkProduction ?? '',
           },
+          summary: lastVisitAnimal?.summary,
+          evaluations: lastVisitAnimal?.evaluations,
+          ingredientGroups: lastVisitAnimal?.ingredientGroups.map((group) => ({
+            category: group.category,
+            ingredients: group.ingredients.map((ingredient) => ({
+              ...ingredient,
+              quantity: formatNumber(ingredient.quantity, {
+                suffix: 'kg',
+              }),
+              type: group.category,
+            })),
+          })) as IngredientGroupSchema[],
         })
-
-        if (lastVisitAnimal) {
-          baseEntry.ingredientGroups = lastVisitAnimal.ingredientGroups.map(
-            (group) => ({
-              category: group.category,
-              ingredients: group.ingredients.map((ingredient) => ({
-                ingredient: ingredient.ingredient,
-                quantity: ingredient.quantity,
-                type: group.category,
-              })),
-            })
-          ) as typeof baseEntry.ingredientGroups
-        }
 
         return baseEntry
       })
@@ -190,18 +197,19 @@ export function useNewNutritionalBalancingScreen() {
       {
         key: 'summary',
         name: 'Visão Geral',
-        component: currentNutritionalBalancingIndex !== null && (
-          <SummaryTab
-            animalInformationItems={makeAnimalInformationItems(
-              form,
-              currentNutritionalBalancingIndex
-            )}
-            nutritionalSummaryItems={makeNutritionalSummaryItems(
-              form,
-              currentNutritionalBalancingIndex
-            )}
-          />
-        ),
+        component: currentNutritionalBalancingIndex !== null &&
+          watchedNutritionalBalancings[currentNutritionalBalancingIndex] && (
+            <SummaryTab
+              animalInformationItems={makeAnimalInformationItems(
+                watchedNutritionalBalancings[currentNutritionalBalancingIndex]
+                  .animal
+              )}
+              nutritionalSummaryItems={makeNutritionalSummaryItems(
+                watchedNutritionalBalancings[currentNutritionalBalancingIndex]
+                  .summary
+              )}
+            />
+          ),
       },
       {
         key: 'nutritional-evaluation',
@@ -210,15 +218,14 @@ export function useNewNutritionalBalancingScreen() {
           <NutritionalEvaluationWithIngredientsTab
             currentAnimalIndex={currentNutritionalBalancingIndex}
             rows={
-              form.getValues('nutritionalBalancings')[
-                currentNutritionalBalancingIndex
-              ]?.evaluations ?? []
+              watchedNutritionalBalancings[currentNutritionalBalancingIndex]
+                ?.evaluations ?? []
             }
           />
         ),
       },
     ],
-    [currentNutritionalBalancingIndex, form]
+    [currentNutritionalBalancingIndex, watchedNutritionalBalancings]
   )
 
   const tab = useMemo(() => {
@@ -247,6 +254,7 @@ export function useNewNutritionalBalancingScreen() {
     currentNutritionalBalancingIndex,
     nutritionalBalancings,
     isLoadingAnimals,
+    isLoadingLastVisitData,
     allAnimals,
     handleSelectNutritionalBalancing,
     handleCreateNutritionalBalancing,

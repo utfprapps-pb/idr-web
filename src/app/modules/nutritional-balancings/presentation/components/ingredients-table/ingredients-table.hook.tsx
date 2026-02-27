@@ -45,7 +45,11 @@ export function useIngredientsTable({
         meta: {
           align: 'right',
         },
-        cell: ({ getValue }) => getValue<string>(),
+        cell: ({ getValue }) => {
+          const quantity = getValue<string>()
+
+          return quantity || '-'
+        },
       },
       {
         id: 'actions',

@@ -29,12 +29,14 @@ export function useNutritionalRequirementsTable() {
       {
         accessorKey: 'requiredValue',
         header: 'Exigência',
-        cell: ({ getValue }) => formatNumber(getValue<number>()),
+        cell: ({ getValue }) =>
+          formatNumber(getValue<number>(), { suffix: 'kg' }),
       },
       {
         accessorKey: 'providedValue',
         header: 'Oferecido',
-        cell: ({ getValue }) => formatNumber(getValue<number>()),
+        cell: ({ getValue }) =>
+          formatNumber(getValue<number>(), { suffix: 'kg' }),
       },
       {
         accessorKey: 'evaluationStatus',

@@ -2,8 +2,14 @@ import { Form, Loading, Tabs } from '@/core/presentation/components/ui'
 
 import { EditNutritionalBalancingHeader } from '../../components/edit-nutritional-balancing-header'
 import { NutritionalBalancingAnimalNavigation } from '../../components/nutritional-balancing-animal-navigation'
+import { useNutritionalCalculations } from '../../hooks/use-nutritional-calculations.hook'
 
 import { useEditNutritionalBalancingScreen } from './hooks/edit-nutritional-balancing-screen.hook'
+
+function NutritionalCalculationsUpdater({ index }: { index: number }) {
+  useNutritionalCalculations(index)
+  return null
+}
 
 export function EditNutritionalBalancingScreen() {
   const {
@@ -37,6 +43,7 @@ export function EditNutritionalBalancingScreen() {
 
   return (
     <Form.Provider {...form}>
+      <NutritionalCalculationsUpdater index={0} />
       <form
         className="flex flex-col gap-4 w-full"
         onSubmit={form.handleSubmitWithCustomError(

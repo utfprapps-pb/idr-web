@@ -62,159 +62,35 @@ export const getLastVisitNutritionalBalancingsHandler = httpWithMiddleware<
               nutritional.estimatedMilkProduction
             ),
           },
-          summary: {
-            concentrateDryMatterPercent: faker.number
-              .float({
-                min: 1,
-                max: 100,
-                fractionDigits: 2,
-              })
-              .toString(),
-            etherExtractPercent: faker.number
-              .float({
-                min: 1,
-                max: 100,
-                fractionDigits: 2,
-              })
-              .toString(),
-            forageDryMatterPercent: faker.number
-              .float({
-                min: 1,
-                max: 100,
-                fractionDigits: 2,
-              })
-              .toString(),
-            nonFibrousCarbohydratesPercent: faker.number
-              .float({
-                min: 1,
-                max: 100,
-                fractionDigits: 2,
-              })
-              .toString(),
-            totalDryMatter: faker.number
-              .float({
-                min: 1,
-                max: 100,
-                fractionDigits: 2,
-              })
-              .toString(),
-            rdpTdnRatio: faker.number
-              .float({
-                min: 0,
-                max: 1,
-                fractionDigits: 3,
-              })
-              .toString(),
-          },
           evaluations: [
             {
-              nutrientName: 'IMS',
-              evaluationStatus: faker.helpers.arrayElement([
-                'ABOVE',
-                'BELOW',
-                'NORMAL',
-              ]),
-              providedValue: faker.number
-                .float({
-                  min: 1,
-                  max: 10,
-                  fractionDigits: 2,
-                })
-                .toString(),
+              nutrientName: 'IMS (Ingestão de Matéria Seca)',
               requiredValue: faker.number
-                .float({
-                  min: 1,
-                  max: 10,
-                  fractionDigits: 2,
-                })
+                .float({ min: 15, max: 25, fractionDigits: 2 })
                 .toString(),
             },
             {
-              nutrientName: 'NDT',
-              evaluationStatus: faker.helpers.arrayElement([
-                'ABOVE',
-                'BELOW',
-                'NORMAL',
-              ]),
-              providedValue: faker.number
-                .float({
-                  min: 1,
-                  max: 10,
-                  fractionDigits: 2,
-                })
-                .toString(),
+              nutrientName: 'NDT (Nutrientes Digestíveis Totais)',
               requiredValue: faker.number
-                .float({
-                  min: 1,
-                  max: 10,
-                  fractionDigits: 2,
-                })
+                .float({ min: 10, max: 18, fractionDigits: 2 })
                 .toString(),
             },
             {
-              nutrientName: 'PB',
-              evaluationStatus: faker.helpers.arrayElement([
-                'ABOVE',
-                'BELOW',
-                'NORMAL',
-              ]),
-              providedValue: faker.number
-                .float({
-                  min: 1,
-                  max: 10,
-                  fractionDigits: 2,
-                })
-                .toString(),
+              nutrientName: 'PB (Proteína Bruta)',
               requiredValue: faker.number
-                .float({
-                  min: 1,
-                  max: 10,
-                  fractionDigits: 2,
-                })
+                .float({ min: 2, max: 4, fractionDigits: 2 })
                 .toString(),
             },
             {
-              nutrientName: 'Ca',
-              evaluationStatus: faker.helpers.arrayElement([
-                'ABOVE',
-                'BELOW',
-                'NORMAL',
-              ]),
-              providedValue: faker.number
-                .float({
-                  min: 1,
-                  max: 10,
-                  fractionDigits: 2,
-                })
-                .toString(),
+              nutrientName: 'Ca (Cálcio)',
               requiredValue: faker.number
-                .float({
-                  min: 1,
-                  max: 10,
-                  fractionDigits: 2,
-                })
+                .float({ min: 0.05, max: 0.15, fractionDigits: 2 })
                 .toString(),
             },
             {
-              nutrientName: 'P',
-              evaluationStatus: faker.helpers.arrayElement([
-                'ABOVE',
-                'BELOW',
-                'NORMAL',
-              ]),
-              providedValue: faker.number
-                .float({
-                  min: 1,
-                  max: 10,
-                  fractionDigits: 2,
-                })
-                .toString(),
+              nutrientName: 'P (Fósforo)',
               requiredValue: faker.number
-                .float({
-                  min: 1,
-                  max: 10,
-                  fractionDigits: 2,
-                })
+                .float({ min: 0.03, max: 0.08, fractionDigits: 2 })
                 .toString(),
             },
           ],
@@ -225,6 +101,49 @@ export const getLastVisitNutritionalBalancingsHandler = httpWithMiddleware<
                 ingredient: {
                   value: faker.number.int({ min: 1, max: 10000 }),
                   label: faker.commerce.productName(),
+                  extraData: {
+                    type: 'FORAGE',
+                    crudeProtein: faker.number.float({
+                      min: 5,
+                      max: 20,
+                      fractionDigits: 2,
+                    }),
+                    totalDigestibleNutrients: faker.number.float({
+                      min: 50,
+                      max: 70,
+                      fractionDigits: 2,
+                    }),
+                    dryMatter: faker.number.float({
+                      min: 20,
+                      max: 90,
+                      fractionDigits: 2,
+                    }),
+                    calcium: faker.number.float({
+                      min: 0.1,
+                      max: 1,
+                      fractionDigits: 2,
+                    }),
+                    phosphorus: faker.number.float({
+                      min: 0.1,
+                      max: 0.5,
+                      fractionDigits: 2,
+                    }),
+                    nonFibrousCarbohydrates: faker.number.float({
+                      min: 10,
+                      max: 30,
+                      fractionDigits: 2,
+                    }),
+                    etherExtract: faker.number.float({
+                      min: 1,
+                      max: 4,
+                      fractionDigits: 2,
+                    }),
+                    rumenDegradableProtein: faker.number.float({
+                      min: 5,
+                      max: 15,
+                      fractionDigits: 2,
+                    }),
+                  },
                 },
                 quantity: faker.number
                   .float({
@@ -241,6 +160,49 @@ export const getLastVisitNutritionalBalancingsHandler = httpWithMiddleware<
                 ingredient: {
                   value: faker.number.int({ min: 1, max: 10000 }),
                   label: faker.commerce.productName(),
+                  extraData: {
+                    type: 'CONCENTRATE',
+                    crudeProtein: faker.number.float({
+                      min: 15,
+                      max: 40,
+                      fractionDigits: 2,
+                    }),
+                    totalDigestibleNutrients: faker.number.float({
+                      min: 70,
+                      max: 85,
+                      fractionDigits: 2,
+                    }),
+                    dryMatter: faker.number.float({
+                      min: 85,
+                      max: 95,
+                      fractionDigits: 2,
+                    }),
+                    calcium: faker.number.float({
+                      min: 0.1,
+                      max: 0.5,
+                      fractionDigits: 2,
+                    }),
+                    phosphorus: faker.number.float({
+                      min: 0.3,
+                      max: 0.8,
+                      fractionDigits: 2,
+                    }),
+                    nonFibrousCarbohydrates: faker.number.float({
+                      min: 30,
+                      max: 60,
+                      fractionDigits: 2,
+                    }),
+                    etherExtract: faker.number.float({
+                      min: 2,
+                      max: 6,
+                      fractionDigits: 2,
+                    }),
+                    rumenDegradableProtein: faker.number.float({
+                      min: 10,
+                      max: 25,
+                      fractionDigits: 2,
+                    }),
+                  },
                 },
                 quantity: faker.number
                   .float({
@@ -257,6 +219,25 @@ export const getLastVisitNutritionalBalancingsHandler = httpWithMiddleware<
                 ingredient: {
                   value: faker.number.int({ min: 1, max: 10000 }),
                   label: faker.commerce.productName(),
+                  extraData: {
+                    type: 'MINERAL',
+                    crudeProtein: 0,
+                    totalDigestibleNutrients: 0,
+                    dryMatter: 95,
+                    calcium: faker.number.float({
+                      min: 10,
+                      max: 30,
+                      fractionDigits: 2,
+                    }),
+                    phosphorus: faker.number.float({
+                      min: 5,
+                      max: 15,
+                      fractionDigits: 2,
+                    }),
+                    nonFibrousCarbohydrates: 0,
+                    etherExtract: 0,
+                    rumenDegradableProtein: 0,
+                  },
                 },
                 quantity: faker.number
                   .float({
