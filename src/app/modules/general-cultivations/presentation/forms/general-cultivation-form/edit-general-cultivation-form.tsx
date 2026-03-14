@@ -79,7 +79,7 @@ export function EditGeneralCultivationForm() {
 
         const parsePercent = (value: string) => {
           const parsed = Number(onlyNumbersMask(value))
-          return Number.isNaN(parsed) ? 0 : parsed
+          return Number.isNaN(parsed) ? 0 : parsed / 100
         }
 
         await mutateHandleUpdateGeneralCultivation({
