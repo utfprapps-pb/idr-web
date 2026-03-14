@@ -1,4 +1,4 @@
-import type { WithId } from '../../../../../core/domain/types'
+import type { WithId } from '@/core/domain/types'
 
 export type GeneralCultivationType = 'FORAGE' | 'CONCENTRATE' | 'MINERAL'
 
