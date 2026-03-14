@@ -25,7 +25,7 @@ O projeto segue uma arquitetura modular, tipicamente dividida em:
 
 1. **Linguagem de Comunicação:** Responda em Português do Brasil (pt-BR).
 2. **Estilo de Código:** Utilize componentes funcionais, hooks customizados e TypeScript estrito.
-3. **Padrão de Nomenclatura:** Interfaces devem começar com a letra `I` maiúscula (e.g. `IAnimal`). Isso é mandatório de acordo com as regras de lint do projeto.
+3. **Padrão de Nomenclatura:** O projeto utiliza majoritariamente `type` para definições de modelos e entidades. Não é necessário utilizar o prefixo `I` (e.g. use `AnimalModel` em vez de `IAnimal`).
 4. **Gerenciamento de Estado/Dados:**
    - O projeto utiliza React Query (`@tanstack/react-query`) para chamadas e cache. Siga os padrões com hooks customizados (e.g. `useMyQuery()`).
    - Formulários são construídos utilizando `react-hook-form` associado ao `zod` e `@hookform/resolvers` para validação de esquemas.
