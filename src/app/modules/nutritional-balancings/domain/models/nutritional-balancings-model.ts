@@ -28,8 +28,8 @@ type NutritionalBalancingSummary = {
 type NutritionalEvaluation = {
   nutrientName: string
   requiredValue: string
-  providedValue: string
-  evaluationStatus: NutritionalBalancingEvaluationStatus
+  providedValue?: string
+  evaluationStatus?: NutritionalBalancingEvaluationStatus
 }
 
 type IngredientItem = {
@@ -46,7 +46,7 @@ export type NutritionalBalancingDetailsModel = {
   date: Date
   visitId?: number
   animal: WithId<NutritionalBalancingAnimal>
-  summary: NutritionalBalancingSummary
+  summary?: NutritionalBalancingSummary
   evaluations: NutritionalEvaluation[]
   ingredientGroups: IngredientGroup[]
 }
@@ -55,7 +55,7 @@ export type NutritionalBalancingDetailsApiResponse = {
   date: string
   visitId: number
   animal: WithId<NutritionalBalancingAnimal>
-  summary: NutritionalBalancingSummary
+  summary?: NutritionalBalancingSummary
   evaluations: NutritionalEvaluation[]
   ingredientGroups: IngredientGroup[]
 }

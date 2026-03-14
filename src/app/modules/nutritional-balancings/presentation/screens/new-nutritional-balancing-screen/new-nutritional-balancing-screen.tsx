@@ -3,8 +3,14 @@ import { Form, Loading, Tabs } from '@/core/presentation/components/ui'
 import { NewNutritionalBalancingHeader } from '../../components/new-nutritional-balancing-header'
 import { NutritionalBalancingAnimalNavigation } from '../../components/nutritional-balancing-animal-navigation'
 import { WithoutNutritionalBalancing } from '../../components/without-nutritional-balancing'
+import { useNutritionalCalculations } from '../../hooks/use-nutritional-calculations.hook'
 
 import { useNewNutritionalBalancingScreen } from './hooks/new-nutritional-balancing-screen.hook'
+
+function NutritionalCalculationsUpdater({ index }: { index: number }) {
+  useNutritionalCalculations(index)
+  return null
+}
 
 export function NewNutritionalBalancingScreen() {
   const {
@@ -17,13 +23,14 @@ export function NewNutritionalBalancingScreen() {
     currentNutritionalBalancingIndex,
     nutritionalBalancings,
     isLoadingAnimals,
+    isLoadingLastVisitData,
     allAnimals,
     handleSelectNutritionalBalancing,
 
     handleCreateNutritionalBalancing,
   } = useNewNutritionalBalancingScreen()
 
-  if (isLoadingAnimals) {
+  if (isLoadingAnimals || isLoadingLastVisitData) {
     return (
       <div className="flex items-center justify-center h-64">
         <Loading className="size-10" />
@@ -45,6 +52,9 @@ export function NewNutritionalBalancingScreen() {
 
   return (
     <Form.Provider {...form}>
+      <NutritionalCalculationsUpdater
+        index={currentNutritionalBalancingIndex}
+      />
       <form
         className="flex flex-col gap-4 w-full"
         onSubmit={form.handleSubmit(handleCreateNutritionalBalancing)}

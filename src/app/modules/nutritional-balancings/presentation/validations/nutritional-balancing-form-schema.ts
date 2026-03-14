@@ -25,16 +25,30 @@ const nutritionalBalancingSummarySchema = z.object({
 const nutritionalEvaluationSchema = z.object({
   nutrientName: z.string(),
   requiredValue: z.string(),
-  providedValue: z.string(),
-  evaluationStatus: z.enum(['ABOVE', 'BELOW', 'NORMAL'], {
-    errorMap: () => ({ message: 'Status inválido' }),
-  }),
+  providedValue: z.string().optional(),
+  evaluationStatus: z.enum(['ABOVE', 'BELOW', 'NORMAL']).optional(),
+})
+
+const nutritionalCompositionSchema = z.object({
+  type: z.enum(['FORAGE', 'CONCENTRATE', 'MINERAL']),
+  crudeProtein: z.number().optional(),
+  totalDigestibleNutrients: z.number().optional(),
+  dryMatter: z.number().optional(),
+  calcium: z.number().optional(),
+  phosphorus: z.number().optional(),
+  nonFibrousCarbohydrates: z.number().optional(),
+  etherExtract: z.number().optional(),
+  rumenDegradableProtein: z.number().optional(),
 })
 
 export const ingredientItemSchema = z.object({
-  ingredient: optionSchema.refine((val) => val.value > 0, {
-    message: 'Ingrediente é obrigatório',
-  }),
+  ingredient: optionSchema
+    .extend({
+      extraData: nutritionalCompositionSchema.optional(),
+    })
+    .refine((val) => val.value > 0, {
+      message: 'Ingrediente é obrigatório',
+    }),
   quantity: z
     .string()
     .min(1, { message: 'Quantidade do ingrediente é obrigatória' })
@@ -55,7 +69,7 @@ const ingredientGroupSchema = z.object({
 
 const nutritionalBalancingSchema = z.object({
   animal: nutritionalBalancingAnimalSchema,
-  summary: nutritionalBalancingSummarySchema,
+  summary: nutritionalBalancingSummarySchema.optional(),
   evaluations: z
     .array(nutritionalEvaluationSchema)
     .min(1, { message: 'Adicione ao menos uma avaliação' }),
@@ -92,3 +106,5 @@ export type NutritionalBalancingEvaluationSchema = z.infer<
 >
 
 export type IngredientItemSchema = z.infer<typeof ingredientItemSchema>
+
+export type IngredientGroupSchema = z.infer<typeof ingredientGroupSchema>

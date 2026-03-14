@@ -1,78 +1,46 @@
 import { formatNumber } from '@/core/masker'
 
-import type { NutritionalBalancingFormSchema } from '../validations/nutritional-balancing-form-schema'
-import type { UseFormReturn } from 'react-hook-form'
+import type { NutritionalBalancingSchema } from '../validations/nutritional-balancing-form-schema'
 
 export function makeNutritionalSummaryItems(
-  form: UseFormReturn<NutritionalBalancingFormSchema>,
-  currentNutritionalBalancingIndex: number
+  summary: NutritionalBalancingSchema['summary']
 ) {
   return [
     {
       label: 'EE da ração (%)',
-      value: formatNumber(
-        form.getValues(
-          `nutritionalBalancings.${currentNutritionalBalancingIndex}.summary.etherExtractPercent`
-        ),
-        {
-          suffix: '%',
-        }
-      ),
+      value: formatNumber(summary?.etherExtractPercent ?? '0.00', {
+        suffix: '%',
+      }),
     },
     {
       label: 'Total de Matéria Seca',
-      value: formatNumber(
-        form.getValues(
-          `nutritionalBalancings.${currentNutritionalBalancingIndex}.summary.totalDryMatter`
-        ),
-        {
-          suffix: 'kg',
-        }
-      ),
+      value: formatNumber(summary?.totalDryMatter ?? '0.00', {
+        suffix: 'kg',
+      }),
     },
     {
       label: 'Relação MS: Volumoso',
-      value: formatNumber(
-        form.getValues(
-          `nutritionalBalancings.${currentNutritionalBalancingIndex}.summary.forageDryMatterPercent`
-        ),
-        {
-          suffix: '%',
-        }
-      ),
+      value: formatNumber(summary?.forageDryMatterPercent ?? '0.00', {
+        suffix: '%',
+      }),
     },
     {
       label: 'Relação MS: Concentrado',
-      value: formatNumber(
-        form.getValues(
-          `nutritionalBalancings.${currentNutritionalBalancingIndex}.summary.concentrateDryMatterPercent`
-        ),
-        {
-          suffix: '%',
-        }
-      ),
+      value: formatNumber(summary?.concentrateDryMatterPercent ?? '0.00', {
+        suffix: '%',
+      }),
     },
     {
       label: 'Carboidratos Não Fibrosos (CNF em % MS)',
-      value: formatNumber(
-        form.getValues(
-          `nutritionalBalancings.${currentNutritionalBalancingIndex}.summary.nonFibrousCarbohydratesPercent`
-        ),
-        {
-          suffix: '%',
-        }
-      ),
+      value: formatNumber(summary?.nonFibrousCarbohydratesPercent ?? '0.00', {
+        suffix: '%',
+      }),
     },
     {
       label: 'Relação PDR/NDT (g/kg)',
-      value: formatNumber(
-        form.getValues(
-          `nutritionalBalancings.${currentNutritionalBalancingIndex}.summary.rdpTdnRatio`
-        ),
-        {
-          suffix: 'g/kg',
-        }
-      ),
+      value: formatNumber(summary?.rdpTdnRatio ?? '0.00', {
+        suffix: 'g/kg',
+      }),
     },
   ]
 }

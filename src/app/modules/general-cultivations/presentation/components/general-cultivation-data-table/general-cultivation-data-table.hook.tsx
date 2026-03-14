@@ -8,7 +8,10 @@ import { useDebounce } from '@/core/presentation/hooks'
 import { useGeneralCultivationContext } from '../../hooks/general-cultivation-context.hook'
 import { useGeneralCultivationsQuery } from '../../hooks/queries/general-cultivations-query.hook'
 
-import type { GeneralCultivationModel } from '../../../domain/models/general-cultivations-model'
+import type {
+  GeneralCultivationModel,
+  GeneralCultivationType,
+} from '../../../domain/models/general-cultivations-model'
 import type { GeneralCultivationSort } from '../../types/general-cultivation-types'
 import type { ColumnDef } from '@tanstack/react-table'
 
@@ -39,6 +42,16 @@ export function useGeneralCultivationDataTable() {
       {
         accessorKey: 'type',
         header: 'Tipo',
+        cell: ({ row }) => {
+          const { type } = row.original
+          const typeMapper: Record<GeneralCultivationType, string> = {
+            FORAGE: 'Volumoso',
+            CONCENTRATE: 'Concentrado',
+            MINERAL: 'Mineral',
+          }
+
+          return <span>{typeMapper[type] ?? type}</span>
+        },
       },
       {
         id: 'row-actions',

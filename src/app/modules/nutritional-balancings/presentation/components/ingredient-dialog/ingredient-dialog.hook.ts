@@ -25,7 +25,15 @@ export const CATEGORY_LABELS: Record<
 }
 
 export type IngredientExtraData = {
-  type: string
+  type: 'FORAGE' | 'CONCENTRATE' | 'MINERAL'
+  crudeProtein?: number
+  totalDigestibleNutrients?: number
+  dryMatter?: number
+  calcium?: number
+  phosphorus?: number
+  nonFibrousCarbohydrates?: number
+  etherExtract?: number
+  rumenDegradableProtein?: number
 }
 
 type UseIngredientDialogProps = {

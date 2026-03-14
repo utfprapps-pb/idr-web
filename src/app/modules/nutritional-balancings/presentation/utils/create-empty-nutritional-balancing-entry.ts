@@ -4,7 +4,6 @@ export function createEmptyNutritionalBalancingEntry(
   nutritionalBalancing: Partial<NutritionalBalancingSchema>
 ) {
   return {
-    ...nutritionalBalancing,
     animal: {
       id: 0,
       name: '',
@@ -12,50 +11,51 @@ export function createEmptyNutritionalBalancingEntry(
       ecc: '',
       weight: '',
       milkProduction: '',
+      estimatedMilkProduction: '',
       ...nutritionalBalancing.animal,
-      estimatedMilkProduction: '10',
     },
     summary: {
-      totalDryMatter: '10',
-      etherExtractPercent: '20',
-      forageDryMatterPercent: '30',
-      concentrateDryMatterPercent: '40',
-      nonFibrousCarbohydratesPercent: '50',
-      rdpTdnRatio: '60',
+      totalDryMatter: '0.00',
+      etherExtractPercent: '0.00',
+      forageDryMatterPercent: '0.00',
+      concentrateDryMatterPercent: '0.00',
+      nonFibrousCarbohydratesPercent: '0.00',
+      rdpTdnRatio: '0.00',
+      ...nutritionalBalancing.summary,
     },
-    evaluations: [
+    evaluations: nutritionalBalancing.evaluations ?? [
       {
         nutrientName: 'IMS (Ingestão de Matéria Seca)',
-        providedValue: '10',
-        requiredValue: '15',
-        evaluationStatus: 'BELOW' as const,
+        providedValue: '0.00',
+        requiredValue: '0.00',
+        evaluationStatus: 'NORMAL' as const,
       },
       {
         nutrientName: 'NDT (Nutrientes Digestíveis Totais)',
-        providedValue: '15',
-        requiredValue: '15',
+        providedValue: '0.00',
+        requiredValue: '0.00',
         evaluationStatus: 'NORMAL' as const,
       },
       {
         nutrientName: 'PB (Proteína Bruta)',
-        providedValue: '15',
-        requiredValue: '10',
-        evaluationStatus: 'ABOVE' as const,
+        providedValue: '0.00',
+        requiredValue: '0.00',
+        evaluationStatus: 'NORMAL' as const,
       },
       {
         nutrientName: 'Ca (Cálcio)',
-        providedValue: '15',
-        requiredValue: '10',
-        evaluationStatus: 'ABOVE' as const,
+        providedValue: '0.00',
+        requiredValue: '0.00',
+        evaluationStatus: 'NORMAL' as const,
       },
       {
         nutrientName: 'P (Fósforo)',
-        providedValue: '15',
-        requiredValue: '17',
+        providedValue: '0.00',
+        requiredValue: '0.00',
         evaluationStatus: 'NORMAL' as const,
       },
     ],
-    ingredientGroups: [
+    ingredientGroups: nutritionalBalancing.ingredientGroups ?? [
       {
         category: 'FORAGE' as const,
         ingredients: [],
@@ -69,5 +69,6 @@ export function createEmptyNutritionalBalancingEntry(
         ingredients: [],
       },
     ],
+    ...nutritionalBalancing,
   }
 }

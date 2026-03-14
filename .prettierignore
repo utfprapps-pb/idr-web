@@ -3,3 +3,6 @@ node_modules
 docs
 dist
 public/mockServiceWorker.js
+.gemini
+GEMINI.md
+.agents

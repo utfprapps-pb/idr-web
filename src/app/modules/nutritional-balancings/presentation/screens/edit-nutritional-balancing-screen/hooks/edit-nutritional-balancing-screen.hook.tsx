@@ -2,6 +2,7 @@ import { useState, useMemo, type ReactNode, useCallback } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
+import { useWatch } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
 import { makeRemoteUpdateNutritionalBalancingUseCase } from '@/app/modules/nutritional-balancings/main/factories'
@@ -16,6 +17,7 @@ import { makeAnimalInformationItems } from '../../../utils/make-animal-informati
 import { makeNutritionalSummaryItems } from '../../../utils/make-nutritional-summary-items'
 import {
   nutritionalBalancingFormSchema,
+  type IngredientGroupSchema,
   type NutritionalBalancingFormSchema,
 } from '../../../validations/nutritional-balancing-form-schema'
 
@@ -63,7 +65,7 @@ export function useEditNutritionalBalancingScreen() {
                   type: group.category,
                 })),
               })
-            ),
+            ) as IngredientGroupSchema[],
           },
         ],
       }
@@ -78,6 +80,11 @@ export function useEditNutritionalBalancingScreen() {
     },
     values: valuesFromApi,
     resolver: zodResolver(nutritionalBalancingFormSchema),
+  })
+
+  const watchedNutritionalBalancings = useWatch({
+    control: form.control,
+    name: 'nutritionalBalancings',
   })
 
   const updateNutritionalBalancingUseCase =
@@ -150,15 +157,17 @@ export function useEditNutritionalBalancingScreen() {
       {
         key: 'summary',
         name: 'Visão Geral',
-        component: (
+        component: watchedNutritionalBalancings[
+          currentNutritionalBalancingIndex
+        ] && (
           <SummaryTab
             animalInformationItems={makeAnimalInformationItems(
-              form,
-              currentNutritionalBalancingIndex
+              watchedNutritionalBalancings[currentNutritionalBalancingIndex]
+                .animal
             )}
             nutritionalSummaryItems={makeNutritionalSummaryItems(
-              form,
-              currentNutritionalBalancingIndex
+              watchedNutritionalBalancings[currentNutritionalBalancingIndex]
+                .summary
             )}
           />
         ),
@@ -170,24 +179,22 @@ export function useEditNutritionalBalancingScreen() {
           <NutritionalEvaluationWithIngredientsTab
             currentAnimalIndex={currentNutritionalBalancingIndex}
             rows={
-              form.getValues('nutritionalBalancings')[
-                currentNutritionalBalancingIndex
-              ]?.evaluations ?? []
+              watchedNutritionalBalancings[currentNutritionalBalancingIndex]
+                ?.evaluations ?? []
             }
           />
         ),
       },
     ],
-    [form, currentNutritionalBalancingIndex]
+    [currentNutritionalBalancingIndex, watchedNutritionalBalancings]
   )
 
   const tab = useMemo(() => {
     return tabs.find((tab) => tab.key === activeTab)
   }, [activeTab, tabs])
 
-  const nutritionalBalancings = form.watch('nutritionalBalancings')
   const currentNutritionalBalancing =
-    nutritionalBalancings[currentNutritionalBalancingIndex]
+    watchedNutritionalBalancings[currentNutritionalBalancingIndex]
 
   return {
     form,
