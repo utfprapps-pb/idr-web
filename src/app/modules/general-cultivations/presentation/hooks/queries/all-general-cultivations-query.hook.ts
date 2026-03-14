@@ -38,7 +38,19 @@ export function useAllGeneralCultivationsQuery({ filters }: Props) {
 
   return {
     allGeneralCultivations:
-      data?.resources.map((resource) => toOption(resource, 'name')) ?? [],
+      data?.resources.map((resource) =>
+        toOption(resource, 'name', {
+          type: resource.type,
+          crudeProtein: resource.crudeProtein,
+          totalDigestibleNutrients: resource.totalDigestibleNutrients,
+          dryMatter: resource.dryMatter,
+          calcium: resource.calcium,
+          phosphorus: resource.phosphorus,
+          nonFibrousCarbohydrates: resource.nonFibrousCarbohydrates,
+          etherExtract: resource.etherExtract,
+          rumenDegradableProtein: resource.rumenDegradableProtein,
+        })
+      ) ?? [],
     isLoading,
     refetchAllGeneralCultivations,
   }

@@ -9,7 +9,13 @@ import { env } from '@/core/env'
 
 import { authInterceptorRequest } from './interceptors/auth-interceptor'
 
-import type { ApiSort } from '@/core/domain/types'
+import type { ApiSort, NestedKeyOf } from '@/core/domain/types'
+
+type ApiFilterTriplet<TApiModel> = {
+  field: NestedKeyOf<TApiModel extends object ? TApiModel : object>
+  value: unknown
+  type: string
+}
 
 export const ITEMS_PER_PAGE = 10
 
@@ -45,38 +51,48 @@ export class ApiHttpClient<
             const { value } = filter
             return value !== undefined && value !== null && value !== ''
           })
-          .reduce<Array<{ field: string; value: string; type: string }>>(
-            (acc, field) => {
-              const filter = filters[field]
-              if (!filter) return acc
+          .reduce<Array<ApiFilterTriplet<TApiModel>>>((acc, field) => {
+            const filter = filters[field]
+            if (!filter) return acc
 
-              const { value, type = 'EQUALS' } = filter
+            const { value, type = 'LIKE' } = filter
 
-              if (!mapApiProperties || !(field in mapApiProperties)) {
-                return acc
-              }
+            if (!mapApiProperties || !(field in mapApiProperties)) {
+              return acc
+            }
 
-              const mappedField = mapApiProperties[field] as string
+            const mappedField = mapApiProperties[
+              field
+            ] as ApiFilterTriplet<TApiModel>['field']
 
-              if (value instanceof Date) {
-                acc.push({
-                  field: mappedField,
-                  value: value.toISOString(),
-                  type,
-                })
-                return acc
-              }
-
+            if (value instanceof Date) {
               acc.push({
                 field: mappedField,
-                value: String(value),
+                value: value.toISOString(),
                 type,
               })
-
               return acc
-            },
-            []
-          )
+            }
+
+            if (Array.isArray(value)) {
+              acc.push({
+                field: mappedField,
+                value: value.map((item) =>
+                  item instanceof Date ? item.toISOString() : item
+                ),
+                type,
+              })
+              return acc
+            }
+
+            acc.push({
+              field: mappedField,
+              value,
+              type,
+            })
+
+            return acc
+          }, [])
       : undefined
 
     const sortInfo: ApiSort<TApiModel> | undefined =

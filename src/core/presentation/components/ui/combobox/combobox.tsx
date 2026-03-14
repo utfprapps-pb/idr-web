@@ -28,6 +28,7 @@ export type ComboboxProps<
   loading?: boolean
   isError?: boolean
   disabled?: boolean
+  className?: string
 }
 
 export function Combobox<
@@ -47,6 +48,7 @@ export function Combobox<
   loading = false,
   isError = false,
   disabled = false,
+  className,
 }: Readonly<ComboboxProps<TExtraData>>) {
   const [open, setOpen] = useState(false)
 
@@ -60,7 +62,8 @@ export function Combobox<
           className={cn(
             'w-full justify-between',
             isError && 'border border-red-500',
-            !selected && 'text-muted-foreground'
+            !selected && 'text-muted-foreground',
+            className
           )}
         >
           {selected?.label

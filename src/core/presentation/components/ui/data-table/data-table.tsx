@@ -16,6 +16,7 @@ import {
 import { ArrowDownNarrowWide, ArrowUpNarrowWide } from 'lucide-react'
 
 import { ITEMS_PER_PAGE } from '@/core/infra/http'
+import { cn } from '@/core/utils'
 
 import { Loading } from '../loading'
 import { Pagination } from '../pagination'
@@ -25,20 +26,23 @@ import { Tooltip } from '../tooltip'
 
 import type { Sort } from '@/core/domain/types'
 
+export type CellAlignment = 'left' | 'center' | 'right'
+
 export type DataTableProps<TData extends RowData> = {
   data: TData[]
   columns: ColumnDef<TData>[]
-  totalPages: number
-  pagination: {
+  totalPages?: number
+  pagination?: {
     currentPage: number
     onPageChange: (page: number) => void
   }
-  sorting: {
+  sorting?: {
     currentSorting?: Sort<TData>
     onSorting: (sort?: Sort<TData>) => void
   }
   loading?: boolean
   onClickRow?: (row: TData) => void
+  noBorder?: boolean
 }
 
 export function TableBody<TData extends RowData>({
@@ -63,7 +67,7 @@ export function TableBody<TData extends RowData>({
     return (
       <Table.Row>
         <Table.Cell colSpan={columns.length} className="h-24 text-center">
-          No results.
+          Sem dados para exibir
         </Table.Cell>
       </Table.Row>
     )
@@ -81,11 +85,27 @@ export function TableBody<TData extends RowData>({
       className={onClickRow ? 'cursor-pointer' : ''}
       onClick={(event) => handleOnClickRow(event, row.original)}
     >
-      {row.getVisibleCells().map((cell) => (
-        <Table.Cell key={cell.id} className="whitespace-nowrap min-w-fit px-2">
-          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-        </Table.Cell>
-      ))}
+      {row.getVisibleCells().map((cell) => {
+        const alignment =
+          (cell.column.columnDef.meta as { align?: CellAlignment })?.align ||
+          'left'
+
+        const alignmentMap = {
+          left: 'text-left',
+          center: 'text-center',
+          right: 'text-right',
+        }
+        const alignmentClass = alignmentMap[alignment]
+
+        return (
+          <Table.Cell
+            key={cell.id}
+            className={cn('whitespace-nowrap min-w-fit px-4', alignmentClass)}
+          >
+            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+          </Table.Cell>
+        )
+      })}
     </Table.Row>
   ))
 }
@@ -95,15 +115,22 @@ export function DataTable<TData extends RowData>({
   data,
   sorting,
   pagination,
-  totalPages,
+  totalPages = 1,
   loading = false,
   onClickRow,
+  noBorder = false,
 }: Readonly<DataTableProps<TData>>) {
-  const { currentSorting, onSorting } = sorting
-  const { currentPage, onPageChange } = pagination
+  const currentSorting = sorting?.currentSorting
+  const onSorting = sorting?.onSorting
+  const currentPage = pagination?.currentPage ?? 1
+  const onPageChange = pagination?.onPageChange
+  const hasPagination = !!pagination && totalPages > 1
+  const hasSorting = !!sorting
 
   const onSortingChange: OnChangeFn<SortingState> = useCallback(
     (updaterOrValue: Updater<SortingState>) => {
+      if (!onSorting) return
+
       const [sort] =
         typeof updaterOrValue === 'function'
           ? updaterOrValue([
@@ -129,6 +156,8 @@ export function DataTable<TData extends RowData>({
 
   const onPaginationChange: OnChangeFn<PaginationState> = useCallback(
     (updaterOrValue: Updater<PaginationState>) => {
+      if (!onPageChange) return
+
       const page =
         typeof updaterOrValue === 'function'
           ? updaterOrValue({
@@ -155,24 +184,28 @@ export function DataTable<TData extends RowData>({
     columns,
     data,
     state: {
-      sorting: [
-        {
-          id: String(currentSorting?.field),
-          desc: currentSorting?.direction === 'desc',
-        },
-      ],
-      pagination: {
-        pageIndex: currentPage - 1,
-        pageSize: ITEMS_PER_PAGE,
-      },
+      sorting: hasSorting
+        ? [
+            {
+              id: String(currentSorting?.field),
+              desc: currentSorting?.direction === 'desc',
+            },
+          ]
+        : [],
+      pagination: hasPagination
+        ? {
+            pageIndex: currentPage - 1,
+            pageSize: ITEMS_PER_PAGE,
+          }
+        : undefined,
     },
-    manualSorting: true,
-    manualPagination: true,
+    manualSorting: hasSorting,
+    manualPagination: hasPagination,
     pageCount: totalPages,
-    onSortingChange,
-    onPaginationChange,
+    onSortingChange: hasSorting ? onSortingChange : undefined,
+    onPaginationChange: hasPagination ? onPaginationChange : undefined,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    getPaginationRowModel: hasPagination ? getPaginationRowModel() : undefined,
   })
 
   const tooltipText = (value: 'asc' | 'desc' | false) => {
@@ -182,7 +215,7 @@ export function DataTable<TData extends RowData>({
     return 'Limpar ordenação'
   }
 
-  const page = getState().pagination.pageIndex + 1
+  const page = hasPagination ? getState().pagination.pageIndex + 1 : 1
   const showFinalEllipsis = useMemo(() => page + 2 > 3, [page])
   const isAfterFirstPage = useMemo(() => page > 1, [page])
   const isBeforeLastPage = useMemo(
@@ -193,54 +226,87 @@ export function DataTable<TData extends RowData>({
   return (
     <div className="flex flex-col gap-4">
       <ScrollArea.Root className="w-full">
-        <div className="rounded-md border">
+        <div className={noBorder ? 'rounded-md' : 'rounded-md border'}>
           <Table.Root className="min-w-full table-auto">
             <Table.Header>
               {getHeaderGroups().map((headerGroup) => (
                 <Table.Row key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <Table.Head
-                      key={header.id}
-                      colSpan={header.colSpan}
-                      onClick={header.column.getToggleSortingHandler()}
-                      className={
-                        header.column.getCanSort()
-                          ? 'cursor-pointer select-none whitespace-nowrap min-w-fit'
-                          : 'whitespace-nowrap min-w-fit'
-                      }
-                    >
-                      {header.isPlaceholder ? null : (
-                        <Tooltip.Provider>
-                          <Tooltip.Root>
-                            <Tooltip.Trigger>
+                  {headerGroup.headers.map((header) => {
+                    const alignment =
+                      (
+                        header.column.columnDef.meta as {
+                          align?: CellAlignment
+                        }
+                      )?.align || 'left'
+
+                    const alignmentMap = {
+                      left: 'text-left',
+                      center: 'text-center',
+                      right: 'text-right',
+                    }
+                    const alignmentClass = alignmentMap[alignment]
+
+                    const baseClassName =
+                      hasSorting && header.column.getCanSort()
+                        ? 'cursor-pointer select-none whitespace-nowrap min-w-fit'
+                        : 'whitespace-nowrap min-w-fit'
+
+                    return (
+                      <Table.Head
+                        key={header.id}
+                        colSpan={header.colSpan}
+                        className={cn(baseClassName, alignmentClass)}
+                      >
+                        {header.isPlaceholder
+                          ? null
+                          : hasSorting && (
+                              <Tooltip.Provider>
+                                <Tooltip.Root>
+                                  <Tooltip.Trigger asChild>
+                                    <button
+                                      type="button"
+                                      onClick={header.column.getToggleSortingHandler()}
+                                      className="inline-flex items-center gap-2"
+                                    >
+                                      {flexRender(
+                                        header.column.columnDef.header,
+                                        header.getContext()
+                                      )}
+                                      {{
+                                        asc: <ArrowDownNarrowWide size={20} />,
+                                        desc: <ArrowUpNarrowWide size={20} />,
+                                      }[
+                                        header.column.getIsSorted() as string
+                                      ] ?? null}
+                                    </button>
+                                  </Tooltip.Trigger>
+                                  <Tooltip.Content>
+                                    <p>
+                                      {tooltipText(
+                                        header.column.getNextSortingOrder()
+                                      )}
+                                    </p>
+                                  </Tooltip.Content>
+                                </Tooltip.Root>
+                              </Tooltip.Provider>
+                            )}
+                        {header.isPlaceholder
+                          ? null
+                          : !hasSorting && (
                               <div className="inline-flex items-center gap-2">
                                 {flexRender(
                                   header.column.columnDef.header,
                                   header.getContext()
                                 )}
-                                {{
-                                  asc: <ArrowDownNarrowWide size={20} />,
-                                  desc: <ArrowUpNarrowWide size={20} />,
-                                }[header.column.getIsSorted() as string] ??
-                                  null}
                               </div>
-                            </Tooltip.Trigger>
-                            <Tooltip.Content>
-                              <p>
-                                {tooltipText(
-                                  header.column.getNextSortingOrder()
-                                )}
-                              </p>
-                            </Tooltip.Content>
-                          </Tooltip.Root>
-                        </Tooltip.Provider>
-                      )}
-                    </Table.Head>
-                  ))}
+                            )}
+                      </Table.Head>
+                    )
+                  })}
                 </Table.Row>
               ))}
             </Table.Header>
-            <Table.Body>
+            <Table.Body showLastRowBorder={noBorder}>
               <TableBody
                 columns={columns}
                 rowModel={getRowModel()}
@@ -252,59 +318,61 @@ export function DataTable<TData extends RowData>({
         </div>
         <ScrollArea.ScrollBar orientation="horizontal" />
       </ScrollArea.Root>
-      <Pagination.Root>
-        <Pagination.Content>
-          <Pagination.Item
-            isDisabled={!getCanPreviousPage()}
-            onClick={previousPage}
-          >
-            <Pagination.Previous />
-          </Pagination.Item>
-
-          {isAfterFirstPage && (
-            <>
-              <Pagination.Item onClick={() => setPageIndex(0)}>
-                <Pagination.Link>1</Pagination.Link>
-              </Pagination.Item>
-
-              <Pagination.Item>
-                <Pagination.Ellipsis />
-              </Pagination.Item>
-            </>
-          )}
-
-          <Pagination.Item>
-            <Pagination.Link isActive>{page}</Pagination.Link>
-          </Pagination.Item>
-
-          {page === 1 && isBeforeLastPage && (
-            <Pagination.Item>
-              <Pagination.Ellipsis />
+      {hasPagination && (
+        <Pagination.Root>
+          <Pagination.Content>
+            <Pagination.Item
+              isDisabled={!getCanPreviousPage()}
+              onClick={previousPage}
+            >
+              <Pagination.Previous />
             </Pagination.Item>
-          )}
 
-          {isBeforeLastPage && (
-            <>
-              {showFinalEllipsis && (
+            {isAfterFirstPage && (
+              <>
+                <Pagination.Item onClick={() => setPageIndex(0)}>
+                  <Pagination.Link>1</Pagination.Link>
+                </Pagination.Item>
+
                 <Pagination.Item>
                   <Pagination.Ellipsis />
                 </Pagination.Item>
-              )}
+              </>
+            )}
 
-              <Pagination.Item
-                onClick={() => setPageIndex(totalPages - 1)}
-                isDisabled={!getCanNextPage()}
-              >
-                <Pagination.Link>{totalPages}</Pagination.Link>
+            <Pagination.Item>
+              <Pagination.Link isActive>{page}</Pagination.Link>
+            </Pagination.Item>
+
+            {page === 1 && isBeforeLastPage && (
+              <Pagination.Item>
+                <Pagination.Ellipsis />
               </Pagination.Item>
-            </>
-          )}
+            )}
 
-          <Pagination.Item isDisabled={!getCanNextPage()} onClick={nextPage}>
-            <Pagination.Next />
-          </Pagination.Item>
-        </Pagination.Content>
-      </Pagination.Root>
+            {isBeforeLastPage && (
+              <>
+                {showFinalEllipsis && (
+                  <Pagination.Item>
+                    <Pagination.Ellipsis />
+                  </Pagination.Item>
+                )}
+
+                <Pagination.Item
+                  onClick={() => setPageIndex(totalPages - 1)}
+                  isDisabled={!getCanNextPage()}
+                >
+                  <Pagination.Link>{totalPages}</Pagination.Link>
+                </Pagination.Item>
+              </>
+            )}
+
+            <Pagination.Item isDisabled={!getCanNextPage()} onClick={nextPage}>
+              <Pagination.Next />
+            </Pagination.Item>
+          </Pagination.Content>
+        </Pagination.Root>
+      )}
     </div>
   )
 }

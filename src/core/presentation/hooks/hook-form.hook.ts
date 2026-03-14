@@ -48,9 +48,39 @@ export function useHookForm<TDefaultValues extends FieldValues>({
     [handleSubmit]
   )
 
+  const onSubmitWithCustomError = useCallback(
+    (
+      successCallback: SubmitHandler<TDefaultValues>,
+      customErrorCallback?: (
+        errors: Parameters<SubmitErrorHandler<TDefaultValues>>[0],
+        event: Parameters<SubmitErrorHandler<TDefaultValues>>[1]
+      ) => boolean | void
+    ) => {
+      const errorCallback: SubmitErrorHandler<TDefaultValues> = (
+        errors,
+        event
+      ) => {
+        let handled = false
+
+        if (customErrorCallback) {
+          const result = customErrorCallback(errors, event)
+          handled = result === true
+        }
+
+        if (!handled) {
+          toast.error('Preencha os campos obrigatórios')
+        }
+      }
+
+      return handleSubmit(successCallback, errorCallback)
+    },
+    [handleSubmit]
+  )
+
   return {
     ...form,
     handleSubmit: onSubmit,
+    handleSubmitWithCustomError: onSubmitWithCustomError,
     buttonDisabled,
   }
 }

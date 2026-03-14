@@ -41,7 +41,11 @@ export function AnimalHeiferCalfStagesScreen({
               <DatePicker
                 className="w-fit"
                 label="Filtrar por data da pesagem"
-                date={filters.weighingDate?.value}
+                date={
+                  filters.weighingDate?.value instanceof Date
+                    ? filters.weighingDate.value
+                    : undefined
+                }
                 onSelect={(date) => {
                   if (!date) return
                   handleChangeFilters({

@@ -7,6 +7,7 @@ import { CultivationsScreen } from '@/app/modules/cultivations/presentation/scre
 import { ForagesScreen } from '@/app/modules/forages/presentation/screens/forages-screen'
 import { ImprovementsScreen } from '@/app/modules/improvements/presentation/screens/improvements-screen'
 import { MachinesScreen } from '@/app/modules/machines/presentation/screens/machines-screen'
+import { NutritionalBalancingsScreen } from '@/app/modules/nutritional-balancings/presentation/screens/nutritional-balancings-screen'
 import { Breadcrumb, ScrollArea, Tabs } from '@/core/presentation/components/ui'
 
 type Tab =
@@ -37,6 +38,7 @@ export function PropertyScreen() {
       {
         key: 'soil-data',
         name: 'Dados da Terra',
+        // todo: refactor this into its own screen component, similar to cultivations screen
         subTabs: [
           {
             key: 'forages',
@@ -64,6 +66,11 @@ export function PropertyScreen() {
         key: 'cultivations-data',
         name: 'Cultivos',
         component: <CultivationsScreen />,
+      },
+      {
+        key: 'nutritional-balancings-data',
+        name: 'Balanceamentos Nutricionais',
+        component: <NutritionalBalancingsScreen />,
       },
     ],
     []

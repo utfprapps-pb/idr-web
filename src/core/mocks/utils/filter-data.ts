@@ -1,55 +1,67 @@
-import { isSameDay } from 'date-fns'
-
 import { isValidDate } from './date'
 import { getNestedValue } from './get-nested-value'
+import { valueEquals } from './value-equals'
+import { valueIncludes } from './value-includes'
 
-import type { Filters } from '@/core/domain/types'
+import type { FilterType } from '@/core/domain/types'
+import type { MockFilter } from '@/core/mocks/types/mock-params-type'
 
-type FilterValue<TData> = {
+type ActiveFilter<TData> = {
   field: keyof TData
   value: unknown
+  type: FilterType
 }
 
-// Implemented only the LIKE filter for simplicity
+// Supports LIKE (default) and NOT_IN. Extend as needed for other operators.
 export function filterData<TData extends object>(
-  filters: Filters<TData>,
+  filters: Array<MockFilter<TData>>,
   data: TData[]
 ) {
-  const activeFilters = Object.values(filters).filter(
-    (filterValue): filterValue is FilterValue<TData> => {
-      return (
-        !!filterValue &&
-        typeof filterValue === 'object' &&
-        'value' in filterValue &&
-        filterValue.value !== undefined &&
-        filterValue.value !== null &&
-        filterValue.value !== ''
-      )
-    }
-  )
+  const activeFilters: ActiveFilter<TData>[] = filters.reduce((acc, filter) => {
+    if (!filter || typeof filter !== 'object') return acc
+
+    const { field, value, type } = filter
+    if (value === undefined || value === null || value === '') return acc
+
+    acc.push({
+      field: field as keyof TData,
+      value,
+      type: (type ?? 'LIKE') as FilterType,
+    })
+
+    return acc
+  }, [] as ActiveFilter<TData>[])
 
   if (activeFilters.length === 0) {
     return data
   }
 
   return data.filter((item) =>
-    activeFilters.every((filterValue) => {
-      const { field, value } = filterValue
+    activeFilters.every(({ field, value, type }) => {
       const itemValue = getNestedValue(item, String(field))
 
       if (itemValue === null || itemValue === undefined) {
         return false
       }
 
+      if (type === 'NOT_IN') {
+        const values = Array.isArray(value) ? value : [value]
+
+        if (Array.isArray(itemValue)) {
+          return itemValue.every(
+            (item) => !values.some((value) => valueEquals(item, value))
+          )
+        }
+
+        return !values.some((value) => valueEquals(itemValue, value))
+      }
+
       if (isValidDate(itemValue)) {
-        const valueDate = new Date(String(value))
-        return isSameDay(itemValue, valueDate)
+        return valueEquals(itemValue, value)
       }
 
       if (Array.isArray(itemValue)) {
-        return itemValue.some((element) =>
-          String(element).toLowerCase().includes(String(value).toLowerCase())
-        )
+        return valueIncludes(itemValue, value)
       }
 
       if (
@@ -57,9 +69,7 @@ export function filterData<TData extends object>(
         typeof itemValue === 'number' ||
         typeof itemValue === 'boolean'
       ) {
-        return String(itemValue)
-          .toLowerCase()
-          .includes(String(value).toLowerCase())
+        return valueIncludes(itemValue, value)
       }
 
       return false

@@ -41,6 +41,9 @@ export const getAnimalHandler = httpWithMiddleware<
           label: animalFound.breed,
           value: faker.number.int({ min: 1, max: 1000 }),
         },
+        ecc: animalFound.ecc,
+        milkProduction: animalFound.milkProduction,
+        weight: animalFound.weight,
       },
       { status: HttpStatusCode.ok }
     )

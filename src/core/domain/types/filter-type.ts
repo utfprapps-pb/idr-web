@@ -14,7 +14,7 @@ export type FilterType =
   | 'BETWEEN'
 
 export type FilterValue<T> = {
-  value: T
+  value: T | T[]
   type: FilterType
 }
 
