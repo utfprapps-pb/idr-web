@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
+import { onlyNumbersMask } from '@/core/masker'
 import {
   Button,
   Form,
@@ -43,8 +44,25 @@ export function CreateGeneralCultivationForm() {
   const handleCreateGeneralCultivation = useCallback(
     async (data: GeneralCultivationFormSchema) => {
       try {
+        const parsePercent = (value: string) => {
+          const parsed = Number(onlyNumbersMask(value))
+          return Number.isNaN(parsed) ? 0 : parsed
+        }
+
         await mutateHandleCreateGeneralCultivation({
-          generalCultivation: data,
+          generalCultivation: {
+            ...data,
+            calcium: parsePercent(data.calcium),
+            phosphorus: parsePercent(data.phosphorus),
+            crudeProtein: parsePercent(data.crudeProtein),
+            dryMatter: parsePercent(data.dryMatter),
+            etherExtract: parsePercent(data.etherExtract),
+            nonFibrousCarbohydrates: parsePercent(data.nonFibrousCarbohydrates),
+            rumenDegradableProtein: parsePercent(data.rumenDegradableProtein),
+            totalDigestibleNutrients: parsePercent(
+              data.totalDigestibleNutrients
+            ),
+          },
         })
 
         queryClient.invalidateQueries({

@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
+import { onlyNumbersMask, percentMask } from '@/core/masker'
 import {
   Button,
   Form,
@@ -43,7 +44,23 @@ export function EditGeneralCultivationForm() {
   const form = useHookForm<GeneralCultivationFormSchema>({
     defaultValues: GENERAL_CULTIVATION_INITIAL_FORM_DATA,
     ...(generalCultivation && {
-      values: generalCultivation,
+      values: {
+        ...generalCultivation,
+        calcium: percentMask(String(generalCultivation.calcium)),
+        phosphorus: percentMask(String(generalCultivation.phosphorus)),
+        crudeProtein: percentMask(String(generalCultivation.crudeProtein)),
+        dryMatter: percentMask(String(generalCultivation.dryMatter)),
+        etherExtract: percentMask(String(generalCultivation.etherExtract)),
+        nonFibrousCarbohydrates: percentMask(
+          String(generalCultivation.nonFibrousCarbohydrates)
+        ),
+        rumenDegradableProtein: percentMask(
+          String(generalCultivation.rumenDegradableProtein)
+        ),
+        totalDigestibleNutrients: percentMask(
+          String(generalCultivation.totalDigestibleNutrients)
+        ),
+      },
     }),
     resolver: zodResolver(generalCultivationFormSchema),
   })
@@ -60,9 +77,25 @@ export function EditGeneralCultivationForm() {
           return
         }
 
+        const parsePercent = (value: string) => {
+          const parsed = Number(onlyNumbersMask(value))
+          return Number.isNaN(parsed) ? 0 : parsed
+        }
+
         await mutateHandleUpdateGeneralCultivation({
           generalCultivation: {
-            ...data,
+            name: data.name,
+            type: data.type,
+            calcium: parsePercent(data.calcium),
+            phosphorus: parsePercent(data.phosphorus),
+            crudeProtein: parsePercent(data.crudeProtein),
+            dryMatter: parsePercent(data.dryMatter),
+            etherExtract: parsePercent(data.etherExtract),
+            nonFibrousCarbohydrates: parsePercent(data.nonFibrousCarbohydrates),
+            rumenDegradableProtein: parsePercent(data.rumenDegradableProtein),
+            totalDigestibleNutrients: parsePercent(
+              data.totalDigestibleNutrients
+            ),
             id: selectedGeneralCultivation.id,
           },
         })
