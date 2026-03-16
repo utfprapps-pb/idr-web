@@ -12,6 +12,20 @@ type ActiveFilter<TData> = {
   type: FilterType
 }
 
+const valueIncludesDeep = (haystack: unknown, needle: unknown): boolean => {
+  if (Array.isArray(haystack)) {
+    return haystack.some((value) => valueIncludesDeep(value, needle))
+  }
+
+  if (haystack && typeof haystack === 'object') {
+    return Object.values(haystack).some((value) =>
+      valueIncludesDeep(value, needle)
+    )
+  }
+
+  return valueIncludes(haystack, needle)
+}
+
 // Supports LIKE (default) and NOT_IN. Extend as needed for other operators.
 export function filterData<TData extends object>(
   filters: Array<MockFilter<TData>>,
@@ -41,7 +55,7 @@ export function filterData<TData extends object>(
       const itemValue = getNestedValue(item, String(field))
 
       if (itemValue === null || itemValue === undefined) {
-        return false
+        return valueIncludesDeep(item, value)
       }
 
       if (type === 'NOT_IN') {
@@ -72,7 +86,7 @@ export function filterData<TData extends object>(
         return valueIncludes(itemValue, value)
       }
 
-      return false
+      return valueIncludesDeep(itemValue, value)
     })
   )
 }
