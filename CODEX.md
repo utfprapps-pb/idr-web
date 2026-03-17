@@ -1,7 +1,7 @@
-# Gemini CLI Steering Rules
+# Codex Steering Rules
 
-Este arquivo funciona como um arquivo de direcionamento ("steering file", semelhante ao `.cursorrules` do Cursor) para o Gemini CLI.
-As instruções contidas nos arquivos `GEMINI.md` são mandatos fundamentais e têm precedência absoluta sobre os meus fluxos de trabalho e padrões gerais.
+Este arquivo funciona como um arquivo de direcionamento ("steering file", semelhante ao `.cursorrules` do Cursor) para o Codex.
+As instruções contidas nos arquivos `CODEX.md` são mandatos fundamentais e têm precedência absoluta sobre os meus fluxos de trabalho e padrões gerais.
 
 ## Contexto do Projeto
 
@@ -42,14 +42,14 @@ O projeto segue uma estrutura baseada em camadas para garantir desacoplamento:
 1.  **Linguagem:** Responda sempre em Português do Brasil (pt-BR).
 2.  **Componentes:** Utilize componentes funcionais e hooks. Mantenha a lógica de dados em hooks customizados (ex: `useMyQuery`).
 3.  **Tipagem:**
-    - Use `type` em vez de `interface` para modelos e contratos.
-    - **Não** utilize o prefixo `I` em tipos (ex: use `AnimalModel`, não `IAnimal`).
+    - Prefira `type` em vez de `interface` para modelos e contratos.
+    - Se precisar usar `interface`, utilize o prefixo `I` para atender ao ESLint (ex: `IAnimal`).
     - Use TypeScript estrito.
 4.  **Uso de Ícones:** Utilize exclusivamente `lucide-react`.
 5.  **Feedback ao Usuário:** Utilize `react-hot-toast` para mensagens de sucesso ou erro.
 6.  **Importações:**
-    - Utilize *absolute imports* com os aliases `@/core/...` e `@/app/...`.
-    - Ordem de importação: React (topo), bibliotecas externas, módulos internos (@/...), estilos.
+    - Utilize *absolute imports* com os aliases `@/*` e `@database/*` (ex: `@/core/...`, `@/app/...`).
+    - Ordem de importação: React (topo), bibliotecas externas, módulos internos, estilos.
 7.  **Padrão de UseCase:** Sempre defina a interface no `domain` usando `RequestInterface` e implemente no `data`. Use factories no `main` para prover instâncias prontas para os hooks.
 
 ## Fluxo de Trabalho e Comandos
