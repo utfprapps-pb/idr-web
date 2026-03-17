@@ -124,7 +124,8 @@ export function DataTable<TData extends RowData>({
   const onSorting = sorting?.onSorting
   const currentPage = pagination?.currentPage ?? 1
   const onPageChange = pagination?.onPageChange
-  const hasPagination = !!pagination && totalPages > 1
+  const hasPagination = !!pagination
+  const showPagination = hasPagination && totalPages > 1
   const hasSorting = !!sorting
 
   const onSortingChange: OnChangeFn<SortingState> = useCallback(
@@ -192,12 +193,10 @@ export function DataTable<TData extends RowData>({
             },
           ]
         : [],
-      pagination: hasPagination
-        ? {
-            pageIndex: currentPage - 1,
-            pageSize: ITEMS_PER_PAGE,
-          }
-        : undefined,
+      pagination: {
+        pageIndex: currentPage - 1,
+        pageSize: ITEMS_PER_PAGE,
+      },
     },
     manualSorting: hasSorting,
     manualPagination: hasPagination,
@@ -215,7 +214,7 @@ export function DataTable<TData extends RowData>({
     return 'Limpar ordenação'
   }
 
-  const page = hasPagination ? getState().pagination.pageIndex + 1 : 1
+  const page = showPagination ? getState().pagination.pageIndex + 1 : 1
   const showFinalEllipsis = useMemo(() => page + 2 > 3, [page])
   const isAfterFirstPage = useMemo(() => page > 1, [page])
   const isBeforeLastPage = useMemo(
@@ -318,7 +317,7 @@ export function DataTable<TData extends RowData>({
         </div>
         <ScrollArea.ScrollBar orientation="horizontal" />
       </ScrollArea.Root>
-      {hasPagination && (
+      {showPagination && (
         <Pagination.Root>
           <Pagination.Content>
             <Pagination.Item
