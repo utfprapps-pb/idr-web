@@ -106,7 +106,7 @@
     ],
     "*.{json,js,jsx,ts,tsx,htm,html,md}": "pnpm format:check"
   },
-  "packageManager": "pnpm@9.4.0",
+  "packageManager": "pnpm@10.32.1",
   "engines": {
     "node": ">=20.0.0",
     "npm": ">=10.8.2"
