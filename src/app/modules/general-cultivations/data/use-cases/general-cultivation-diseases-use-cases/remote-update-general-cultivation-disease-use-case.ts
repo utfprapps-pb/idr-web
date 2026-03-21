@@ -30,7 +30,7 @@ export class RemoteUpdateGeneralCultivationDiseaseUseCase
 
     if (statusCode === HttpStatusCode.forbidden) {
       throw new ForbiddenError(
-        'Você não tem permissão para editar uma doença geral de cultivo.'
+        'Você não tem permissão para editar uma doença de cultivo geral.'
       )
     }
 
