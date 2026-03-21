@@ -24,7 +24,7 @@ import {
 } from '../../validations/animal-medication-form-schema'
 
 import { AnimalMedicationFormInputs } from './animal-medication-form-inputs'
-import { ANIMAL_MEDICATION_INITIAL_FORM_DATA } from './animal-medication-initial-data'
+import { ANIMAL_MEDICATION_INITIAL_FORM_DATA } from './animal-medication-initial-form-data'
 
 export function EditAnimalMedicationForm() {
   const {

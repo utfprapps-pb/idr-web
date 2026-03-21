@@ -20,7 +20,7 @@ import {
 } from '../../validations/animal-childbirth-form-schema'
 
 import { AnimalChildbirthFormInputs } from './animal-childbirth-form-inputs'
-import { ANIMAL_CHILDBIRTH_INITIAL_FORM_DATA } from './animal-childbirth-initial-data'
+import { ANIMAL_CHILDBIRTH_INITIAL_FORM_DATA } from './animal-childbirth-initial-form-data'
 
 export function CreateAnimalChildbirthForm() {
   const {

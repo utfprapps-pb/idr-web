@@ -22,7 +22,7 @@ import {
 } from '../../validations/animal-heifer-calf-stage-form-schema'
 
 import { AnimalHeiferCalfStageFormInputs } from './animal-heifer-calf-stage-form-inputs'
-import { ANIMAL_HEIFER_CALF_STAGE_INITIAL_FORM_DATA } from './animal-heifer-calf-stage-initial-data'
+import { ANIMAL_HEIFER_CALF_STAGE_INITIAL_FORM_DATA } from './animal-heifer-calf-stage-initial-form-data'
 
 export function CreateAnimalHeiferCalfStageForm() {
   const {
