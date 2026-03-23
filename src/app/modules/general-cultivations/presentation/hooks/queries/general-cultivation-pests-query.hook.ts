@@ -3,32 +3,40 @@ import { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
-import { toOption } from '@/core/utils/object/to-option'
-
 import { makeRemoteGetGeneralCultivationPestsUseCase } from '../../../main/factories/use-cases/general-cultivation-pests-use-cases'
 
-import type { GeneralCultivationPestFilters } from '../../types/general-cultivation-pest-types'
+import type {
+  GeneralCultivationPestFilters,
+  GeneralCultivationPestSort,
+} from '../../types/general-cultivation-pest-types'
 
 type Props = {
   filters: GeneralCultivationPestFilters
+  page: number
+  sort?: GeneralCultivationPestSort
 }
 
-export function useAllGeneralCultivationPestsQuery({ filters }: Props) {
+export function useGeneralCultivationPestsQuery({
+  filters,
+  page,
+  sort,
+}: Props) {
   const getGeneralCultivationPestsUseCase =
     makeRemoteGetGeneralCultivationPestsUseCase()
 
   const {
-    data,
+    data: generalCultivationPests,
     isError,
     error,
     isLoading,
-    refetch: refetchAllGeneralCultivationPests,
+    refetch: refetchGeneralCultivationPests,
   } = useQuery({
-    queryKey: ['all-general-cultivation-pests', { filters }],
+    queryKey: ['general-cultivation-pests', { page, sort, filters }],
     queryFn: () =>
       getGeneralCultivationPestsUseCase.execute({
+        pagination: { page },
+        sort,
         filters,
-        pagination: { page: 1, perPage: 30 },
       }),
   })
 
@@ -38,9 +46,11 @@ export function useAllGeneralCultivationPestsQuery({ filters }: Props) {
   }, [error, isError])
 
   return {
-    allGeneralCultivationPests:
-      data?.resources.map((resource) => toOption(resource, 'name', {})) ?? [],
+    generalCultivationPests: generalCultivationPests ?? {
+      resources: [],
+      totalPages: 1,
+    },
     isLoading,
-    refetchAllGeneralCultivationPests,
+    refetchGeneralCultivationPests,
   }
 }
