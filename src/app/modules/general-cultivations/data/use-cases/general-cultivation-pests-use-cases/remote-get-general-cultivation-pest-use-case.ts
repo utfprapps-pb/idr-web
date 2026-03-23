@@ -39,7 +39,7 @@ export class RemoteGetGeneralCultivationPestUseCase
 
     if (statusCode === HttpStatusCode.forbidden) {
       throw new ForbiddenError(
-        'Você não tem permissão para buscar uma praga geral de cultivo.'
+        'Você não tem permissão para buscar uma praga de cultivo geral.'
       )
     }
 

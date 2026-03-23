@@ -12,7 +12,6 @@ export type GeneralCultivationPestModel = WithId<{
   name: string
 }>
 
-// todo: refactor to be consistent with Api response
 export type GeneralCultivationPestApiResponse = WithId<{
   name: string
 }>

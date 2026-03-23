@@ -24,7 +24,8 @@ export const getGeneralCultivationPestHandler = httpWithMiddleware<
     }
 
     const generalCultivationPestsFound = generalCultivationPestsData.find(
-      (generalCultivation) => generalCultivation.id === Number(params.id)
+      (generalCultivationPest) =>
+        generalCultivationPest.id === Number(params.id)
     )
 
     if (!generalCultivationPestsFound) {
