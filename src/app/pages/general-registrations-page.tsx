@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState, type ReactNode } from 'react'
 
 import { Breadcrumb, ScrollArea, Tabs } from '@/core/presentation/components/ui'
 
+import { GeneralCultivationPestsScreen } from '../modules/general-cultivations/presentation/screens/general-cultivation-pests-screen'
 import { GeneralCultivationsScreen } from '../modules/general-cultivations/presentation/screens/general-cultivations-screen'
 
 type Tab =
@@ -33,6 +34,11 @@ export function GeneralRegistrationsPage() {
             key: 'general-cultivations',
             name: 'Cultivos Gerais',
             component: <GeneralCultivationsScreen />,
+          },
+          {
+            key: 'general-cultivation-pests',
+            name: 'Pragas',
+            component: <GeneralCultivationPestsScreen />,
           },
         ],
       },

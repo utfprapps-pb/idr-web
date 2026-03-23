@@ -30,7 +30,7 @@ export class RemoteUpdateGeneralCultivationPestUseCase
 
     if (statusCode === HttpStatusCode.forbidden) {
       throw new ForbiddenError(
-        'Você não tem permissão para editar uma praga geral de cultivo.'
+        'Você não tem permissão para editar uma praga de cultivo geral.'
       )
     }
 
