@@ -42,7 +42,7 @@ export function useGeneralCultivationDiseasesQuery({
 
   useEffect(() => {
     if (isError)
-      toast.error(error?.message ?? 'Erro ao buscar doenças gerais de cultivo')
+      toast.error(error?.message ?? 'Erro ao buscar doenças de cultivos gerais')
   }, [error, isError])
 
   return {

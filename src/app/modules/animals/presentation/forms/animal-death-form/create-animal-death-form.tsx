@@ -20,7 +20,7 @@ import {
 } from '../../validations/animal-death-form-schema'
 
 import { AnimalDeathFormInputs } from './animal-death-form-inputs'
-import { ANIMAL_DEATH_INITIAL_FORM_DATA } from './animal-death-initial-data'
+import { ANIMAL_DEATH_INITIAL_FORM_DATA } from './animal-death-initial-form-data'
 
 export function CreateAnimalDeathForm() {
   const {

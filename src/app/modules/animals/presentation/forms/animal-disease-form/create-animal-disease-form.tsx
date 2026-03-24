@@ -20,7 +20,7 @@ import {
 } from '../../validations/animal-disease-form-schema'
 
 import { AnimalDiseaseFormInputs } from './animal-disease-form-inputs'
-import { ANIMAL_DISEASE_INITIAL_FORM_DATA } from './animal-disease-initial-data'
+import { ANIMAL_DISEASE_INITIAL_FORM_DATA } from './animal-disease-initial-form-data'
 
 export function CreateAnimalDiseaseForm() {
   const {

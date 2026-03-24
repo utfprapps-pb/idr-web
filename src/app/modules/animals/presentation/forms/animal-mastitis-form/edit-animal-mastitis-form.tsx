@@ -23,7 +23,7 @@ import {
 } from '../../validations/animal-mastitis-form-schema'
 
 import { AnimalMastitisFormInputs } from './animal-mastitis-form-inputs'
-import { ANIMAL_MASTITIS_INITIAL_FORM_DATA } from './animal-mastitis-initial-data'
+import { ANIMAL_MASTITIS_INITIAL_FORM_DATA } from './animal-mastitis-initial-form-data'
 
 export function EditAnimalMastitisForm() {
   const {

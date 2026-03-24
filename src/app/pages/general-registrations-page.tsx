@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState, type ReactNode } from 'react'
 
 import { Breadcrumb, ScrollArea, Tabs } from '@/core/presentation/components/ui'
 
+import { GeneralCultivationDiseasesScreen } from '../modules/general-cultivations/presentation/screens/general-cultivation-diseases-screen'
 import { GeneralCultivationPestsScreen } from '../modules/general-cultivations/presentation/screens/general-cultivation-pests-screen'
 import { GeneralCultivationsScreen } from '../modules/general-cultivations/presentation/screens/general-cultivations-screen'
 
@@ -39,6 +40,11 @@ export function GeneralRegistrationsPage() {
             key: 'general-cultivation-pests',
             name: 'Pragas',
             component: <GeneralCultivationPestsScreen />,
+          },
+          {
+            key: 'general-cultivation-diseases',
+            name: 'Doenças',
+            component: <GeneralCultivationDiseasesScreen />,
           },
         ],
       },

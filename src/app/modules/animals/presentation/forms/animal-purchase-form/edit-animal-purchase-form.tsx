@@ -24,7 +24,7 @@ import {
 } from '../../validations/animal-purchase-form-schema'
 
 import { AnimalPurchaseFormInputs } from './animal-purchase-form-inputs'
-import { ANIMAL_PURCHASE_INITIAL_FORM_DATA } from './animal-purchase-initial-data'
+import { ANIMAL_PURCHASE_INITIAL_FORM_DATA } from './animal-purchase-initial-form-data'
 
 export function EditAnimalPurchaseForm() {
   const {

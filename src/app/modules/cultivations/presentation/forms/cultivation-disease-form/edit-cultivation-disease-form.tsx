@@ -22,7 +22,7 @@ import {
 } from '../../validations/cultivation-disease-form-schema'
 
 import { CultivationDiseaseFormInputs } from './cultivation-disease-form-inputs'
-import { CULTIVATION_DISEASE_INITIAL_FORM_DATA } from './cultivation-disease-initial-data'
+import { CULTIVATION_DISEASE_INITIAL_FORM_DATA } from './cultivation-disease-initial-form-data'
 
 export function EditCultivationDiseaseForm() {
   const {

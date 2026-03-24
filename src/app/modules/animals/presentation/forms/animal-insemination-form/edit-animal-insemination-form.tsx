@@ -23,7 +23,7 @@ import {
 } from '../../validations/animal-insemination-form-schema'
 
 import { AnimalInseminationFormInputs } from './animal-insemination-form-inputs'
-import { ANIMAL_INSEMINATION_INITIAL_FORM_DATA } from './animal-insemination-initial-data'
+import { ANIMAL_INSEMINATION_INITIAL_FORM_DATA } from './animal-insemination-initial-form-data'
 
 export function EditAnimalInseminationForm() {
   const {

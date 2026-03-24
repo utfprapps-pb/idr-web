@@ -64,7 +64,7 @@ export class RemoteGetGeneralCultivationDiseasesUseCase
 
     if (statusCode === HttpStatusCode.forbidden) {
       throw new ForbiddenError(
-        'Você não tem permissão para buscar as doenças gerais de cultivo.'
+        'Você não tem permissão para buscar as doenças de cultivos gerais.'
       )
     }
 

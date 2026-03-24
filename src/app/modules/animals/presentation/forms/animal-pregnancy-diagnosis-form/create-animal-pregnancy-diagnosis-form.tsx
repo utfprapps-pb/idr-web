@@ -20,7 +20,7 @@ import {
 } from '../../validations/animal-pregnancy-diagnosis-form-schema'
 
 import { AnimalPregnancyDiagnosisFormInputs } from './animal-pregnancy-diagnosis-form-inputs'
-import { ANIMAL_PREGNANCY_DIAGNOSIS_INITIAL_FORM_DATA } from './animal-pregnancy-diagnosis-initial-data'
+import { ANIMAL_PREGNANCY_DIAGNOSIS_INITIAL_FORM_DATA } from './animal-pregnancy-diagnosis-initial-form-data'
 
 export function CreateAnimalPregnancyDiagnosisForm() {
   const {

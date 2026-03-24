@@ -20,7 +20,7 @@ import {
 } from '../../validations/animal-sale-form-schema'
 
 import { AnimalSaleFormInputs } from './animal-sale-form-inputs'
-import { ANIMAL_SALE_INITIAL_FORM_DATA } from './animal-sale-initial-data'
+import { ANIMAL_SALE_INITIAL_FORM_DATA } from './animal-sale-initial-form-data'
 
 export function CreateAnimalSaleForm() {
   const {

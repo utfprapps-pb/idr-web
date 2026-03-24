@@ -31,7 +31,7 @@ export class RemoteDeleteGeneralCultivationDiseaseUseCase
 
     if (statusCode === HttpStatusCode.forbidden) {
       throw new ForbiddenError(
-        'Você não tem permissão para excluir uma doença geral de cultivo.'
+        'Você não tem permissão para excluir uma doença de cultivo geral.'
       )
     }
 

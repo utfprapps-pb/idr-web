@@ -22,7 +22,7 @@ import {
 } from '../../validations/cultivation-pest-form-schema'
 
 import { CultivationPestFormInputs } from './cultivation-pest-form-inputs'
-import { CULTIVATION_PEST_INITIAL_FORM_DATA } from './cultivation-pest-initial-data'
+import { CULTIVATION_PEST_INITIAL_FORM_DATA } from './cultivation-pest-initial-form-data'
 
 export function EditCultivationPestForm() {
   const {

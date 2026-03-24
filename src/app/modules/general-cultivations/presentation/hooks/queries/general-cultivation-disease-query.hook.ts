@@ -30,7 +30,7 @@ export function useGeneralCultivationDiseaseQuery({ id }: Props) {
   useEffect(() => {
     if (isError)
       toast.error(
-        error?.message ?? 'Erro ao buscar uma doença geral de cultivo'
+        error?.message ?? 'Erro ao buscar uma doença de cultivo geral'
       )
   }, [error, isError])
 
