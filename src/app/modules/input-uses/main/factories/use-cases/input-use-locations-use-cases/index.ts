@@ -1,0 +1,5 @@
+export * from './remote-create-input-use-location-use-case-factory'
+export * from './remote-update-input-use-location-use-case-factory'
+export * from './remote-delete-input-use-location-use-case-factory'
+export * from './remote-get-input-use-location-use-case-factory'
+export * from './remote-get-input-use-locations-use-case-factory'
