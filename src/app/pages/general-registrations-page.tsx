@@ -5,6 +5,7 @@ import { Breadcrumb, ScrollArea, Tabs } from '@/core/presentation/components/ui'
 import { GeneralCultivationDiseasesScreen } from '../modules/general-cultivations/presentation/screens/general-cultivation-diseases-screen'
 import { GeneralCultivationPestsScreen } from '../modules/general-cultivations/presentation/screens/general-cultivation-pests-screen'
 import { GeneralCultivationsScreen } from '../modules/general-cultivations/presentation/screens/general-cultivations-screen'
+import { InputUseLocationsScreen } from '../modules/input-uses/presentation/screens/input-use-locations-screen'
 
 type Tab =
   | {
@@ -48,12 +49,32 @@ export function GeneralRegistrationsPage() {
           },
         ],
       },
+      {
+        key: 'input-uses',
+        name: 'Utilização de Insumos',
+        subTabs: [
+          {
+            key: 'input-use-locations',
+            name: 'Locais de Utilização',
+            component: <InputUseLocationsScreen />,
+          },
+        ],
+      },
     ],
     []
   )
 
-  const [activeTab, setActiveTab] = useState('general-registrations')
-  const [activeSubTab, setActiveSubTab] = useState('general-cultivations')
+  const getFirstSubTabKey = useCallback(
+    (tabKey: string) => {
+      return tabs.find((tab) => tab.key === tabKey)?.subTabs?.[0]?.key ?? ''
+    },
+    [tabs]
+  )
+
+  const [activeTab, setActiveTab] = useState(() => tabs[0]?.key ?? '')
+  const [activeSubTab, setActiveSubTab] = useState(() =>
+    getFirstSubTabKey(tabs[0]?.key ?? '')
+  )
 
   const subTabs = useMemo(() => {
     const tab = tabs.find((tab) => tab.key === activeTab)
@@ -68,9 +89,13 @@ export function GeneralRegistrationsPage() {
     return subTabs.find((subTab) => subTab.key === activeSubTab)
   }, [activeSubTab, subTabs])
 
-  const handleTabChange = useCallback((tab: string) => {
-    setActiveTab(tab)
-  }, [])
+  const handleTabChange = useCallback(
+    (tab: string) => {
+      setActiveTab(tab)
+      setActiveSubTab(getFirstSubTabKey(tab))
+    },
+    [getFirstSubTabKey]
+  )
 
   const handleSubTabChange = useCallback((subTab: string) => {
     setActiveSubTab(subTab)
@@ -87,7 +112,7 @@ export function GeneralRegistrationsPage() {
         </p>
       </header>
 
-      <Tabs.Root defaultValue={activeTab} onValueChange={handleTabChange}>
+      <Tabs.Root value={activeTab} onValueChange={handleTabChange}>
         <Tabs.List>
           {tabs.map((tab) => (
             <Tabs.Trigger key={tab.key} value={tab.key}>
@@ -127,11 +152,9 @@ export function GeneralRegistrationsPage() {
                           <Breadcrumb.List>
                             <Breadcrumb.Link
                               asChild
-                              onClick={() =>
-                                setActiveTab('general-registrations')
-                              }
+                              onClick={() => handleTabChange(activeTab)}
                             >
-                              <span>Vegetais</span>
+                              <span>{tab?.name}</span>
                             </Breadcrumb.Link>
                             <Breadcrumb.Separator />
                             <Breadcrumb.Item>

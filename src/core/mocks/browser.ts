@@ -131,6 +131,13 @@ import {
   updateImprovementHandler,
 } from '@/app/modules/improvements/mocks/handlers'
 import {
+  createInputUseLocationHandler,
+  deleteInputUseLocationHandler,
+  getInputUseLocationHandler,
+  getInputUseLocationsHandler,
+  updateInputUseLocationHandler,
+} from '@/app/modules/input-uses/mocks/handlers/input-use-locations-handlers'
+import {
   createMachineHandler,
   deleteMachineHandler,
   getMachineHandler,
@@ -294,6 +301,12 @@ const handlers: HttpHandler[] = [
   getCultivationPestHandler,
   getCultivationPestsHandler,
   updateCultivationPestHandler,
+
+  createInputUseLocationHandler,
+  deleteInputUseLocationHandler,
+  getInputUseLocationHandler,
+  getInputUseLocationsHandler,
+  updateInputUseLocationHandler,
 
   createNutritionalBalancingHandler,
   deleteNutritionalBalancingHandler,
