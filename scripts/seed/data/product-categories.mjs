@@ -1,14 +1,14 @@
 import { faker } from '@faker-js/faker/locale/pt_BR'
 
-export const allProductCategoriesData = Array.from(
+export const productCategoriesData = Array.from(
   {
     length: faker.number.int({
-      min: 50,
-      max: 150,
+      min: 10,
+      max: 50,
     }),
   },
   (_, index) => ({
     id: index + 1,
-    description: faker.commerce.department(),
+    name: faker.commerce.department(),
   })
 )
