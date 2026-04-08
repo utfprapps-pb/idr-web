@@ -138,12 +138,12 @@ import {
   updateInputUseLocationHandler,
 } from '@/app/modules/input-uses/mocks/handlers/input-use-locations-handlers'
 import {
-  createProductCategoryHandler,
-  deleteProductCategoryHandler,
-  getProductCategoryHandler,
-  getProductCategoriesHandler,
-  updateProductCategoryHandler,
-} from '@/app/modules/input-uses/mocks/handlers/product-categories-handlers'
+  createInputUseProductCategoryHandler,
+  deleteInputUseProductCategoryHandler,
+  getInputUseProductCategoryHandler,
+  getInputUseProductCategoriesHandler,
+  updateInputUseProductCategoryHandler,
+} from '@/app/modules/input-uses/mocks/handlers/input-use-product-categories-handlers'
 import {
   createMachineHandler,
   deleteMachineHandler,
@@ -312,11 +312,11 @@ const handlers: HttpHandler[] = [
   getInputUseLocationsHandler,
   updateInputUseLocationHandler,
 
-  createProductCategoryHandler,
-  deleteProductCategoryHandler,
-  getProductCategoryHandler,
-  getProductCategoriesHandler,
-  updateProductCategoryHandler,
+  createInputUseProductCategoryHandler,
+  deleteInputUseProductCategoryHandler,
+  getInputUseProductCategoryHandler,
+  getInputUseProductCategoriesHandler,
+  updateInputUseProductCategoryHandler,
 
   createNutritionalBalancingHandler,
   deleteNutritionalBalancingHandler,

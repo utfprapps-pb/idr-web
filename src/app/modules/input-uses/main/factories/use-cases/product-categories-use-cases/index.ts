@@ -1,5 +1,0 @@
-export * from './remote-create-product-category-use-case-factory'
-export * from './remote-update-product-category-use-case-factory'
-export * from './remote-delete-product-category-use-case-factory'
-export * from './remote-get-product-category-use-case-factory'
-export * from './remote-get-product-categories-use-case-factory'

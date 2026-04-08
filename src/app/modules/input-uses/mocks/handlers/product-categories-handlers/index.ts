@@ -1,5 +1,0 @@
-export * from './create-product-category-handler'
-export * from './delete-product-category-handler'
-export * from './get-product-category-handler'
-export * from './get-product-categories-handler'
-export * from './update-product-category-handler'

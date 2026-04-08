@@ -1,5 +1,0 @@
-export * from './create-product-category-use-case'
-export * from './delete-product-category-use-case'
-export * from './get-product-category-use-case'
-export * from './get-product-categories-use-case'
-export * from './update-product-category-use-case'
