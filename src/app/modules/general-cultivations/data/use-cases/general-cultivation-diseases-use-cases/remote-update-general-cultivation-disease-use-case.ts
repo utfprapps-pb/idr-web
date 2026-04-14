@@ -20,11 +20,15 @@ export class RemoteUpdateGeneralCultivationDiseaseUseCase
   }) => {
     const { statusCode } = await this.httpClient.request({
       url: `${this.url}/${id}`,
-      method: 'patch',
+      method: 'put',
       body: generalCultivationDisease,
     })
 
-    if (statusCode === HttpStatusCode.noContent) return
+    if (
+      statusCode === HttpStatusCode.noContent ||
+      statusCode === HttpStatusCode.ok
+    )
+      return
 
     if (statusCode === HttpStatusCode.badRequest) throw new BadRequestError()
 

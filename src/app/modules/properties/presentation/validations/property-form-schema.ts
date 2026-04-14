@@ -46,17 +46,17 @@ const collaborators = z.array(
 
 const totalArea = z.object({
   dairyCattleFarming: z
-    .string()
+    .number()
     .refine((value) => moneyValidation(value, 0.01), {
       message: 'A Área destinada a bovinocultura é obrigatória',
     }),
-  perennialPasture: z.string().refine((value) => moneyValidation(value, 0.01), {
+  perennialPasture: z.number().refine((value) => moneyValidation(value, 0.01), {
     message: 'A Área de pasto perene é obrigatória',
   }),
-  summerPlowing: z.string().refine((value) => moneyValidation(value, 0.01), {
+  summerPlowing: z.number().refine((value) => moneyValidation(value, 0.01), {
     message: 'A Área de lavora de verão é obrigatória',
   }),
-  winterPlowing: z.string().refine((value) => moneyValidation(value, 0.01), {
+  winterPlowing: z.number().refine((value) => moneyValidation(value, 0.01), {
     message: 'A Área de lavoura de inverno é obrigatória',
   }),
 })
