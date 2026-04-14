@@ -7,6 +7,7 @@ import { GeneralCultivationPestsScreen } from '../modules/general-cultivations/p
 import { GeneralCultivationsScreen } from '../modules/general-cultivations/presentation/screens/general-cultivations-screen'
 import { InputUseLocationsScreen } from '../modules/input-uses/presentation/screens/input-use-locations-screen'
 import { InputUseProductCategoriesScreen } from '../modules/input-uses/presentation/screens/input-use-product-categories-screen'
+import { InputUseProductsScreen } from '../modules/input-uses/presentation/screens/input-use-products-screen'
 
 type Tab =
   | {
@@ -63,6 +64,11 @@ export function GeneralRegistrationsPage() {
             key: 'input-use-product-categories',
             name: 'Categorias de Produtos',
             component: <InputUseProductCategoriesScreen />,
+          },
+          {
+            key: 'input-use-products',
+            name: 'Produtos',
+            component: <InputUseProductsScreen />,
           },
         ],
       },
