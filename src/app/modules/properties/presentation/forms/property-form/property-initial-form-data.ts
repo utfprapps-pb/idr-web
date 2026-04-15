@@ -17,10 +17,10 @@ export const PROPERTY_INITIAL_FORM_DATA: PropertyFormSchema = {
     },
   ],
   totalArea: {
-    dairyCattleFarming: 0,
-    perennialPasture: 0,
-    summerPlowing: 0,
-    winterPlowing: 0,
+    dairyCattleFarming: '',
+    perennialPasture: '',
+    summerPlowing: '',
+    winterPlowing: '',
   },
   localization: {
     latitude: '',
