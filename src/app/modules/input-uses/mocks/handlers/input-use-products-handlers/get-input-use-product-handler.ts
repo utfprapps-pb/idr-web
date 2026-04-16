@@ -38,6 +38,7 @@ export const getInputUseProductHandler = httpWithMiddleware<
         category: category
           ? { value: category.id, label: category.name }
           : { value: 0, label: '' },
+        activeIngredient: inputUseProduct.activeIngredient,
       },
       { status: HttpStatusCode.ok }
     )

@@ -46,6 +46,7 @@ export const getInputUseProductsHandler = httpWithMiddleware<
         id: product.id,
         name: product.name,
         category: category?.name ?? 'Não informada',
+        activeIngredient: product.activeIngredient,
       }
     })
 

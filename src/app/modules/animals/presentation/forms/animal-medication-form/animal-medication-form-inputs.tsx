@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import { useFormContext } from 'react-hook-form'
 
+import { useAllInputUseProductsQuery } from '@/app/modules/input-uses/presentation/hooks/queries/all-input-use-products-query.hook'
 import { floatMask } from '@/core/masker'
 import {
   DatePicker,
@@ -12,7 +13,6 @@ import {
 } from '@/core/presentation/components/ui'
 import { Grouper } from '@/core/presentation/components/utils'
 import { useDebounce } from '@/core/presentation/hooks'
-import { useAllProductsQuery } from '@/core/presentation/hooks/queries/all-products-query.hook'
 
 import { AnimalMedicationFormSchema } from '../../validations/animal-medication-form-schema'
 
@@ -25,14 +25,15 @@ export function AnimalMedicationFormInputs() {
 
   const debouncedProduct = useDebounce({ value: searchProduct })
 
-  const { allProducts, isLoading: isLoadingAllProducts } = useAllProductsQuery({
-    filters: {
-      name: {
-        value: debouncedProduct,
-        type: 'LIKE',
+  const { allInputUseProducts, isLoading: isLoadingAllProducts } =
+    useAllInputUseProductsQuery({
+      filters: {
+        name: {
+          value: debouncedProduct,
+          type: 'LIKE',
+        },
       },
-    },
-  })
+    })
 
   return (
     <>
@@ -71,7 +72,7 @@ export function AnimalMedicationFormInputs() {
                 <Form.Control>
                   <Combobox<{ activeIngredient: Option }>
                     search={searchProduct}
-                    items={allProducts}
+                    items={allInputUseProducts}
                     loading={isLoadingAllProducts}
                     selected={field.value}
                     handleSearch={setSearchProduct}

@@ -176,7 +176,6 @@ import {
 
 import { getAllActiveIngredientsHandler } from './handlers/active-ingredients-handlers'
 import { getAllBreedsHandler } from './handlers/breeds-handlers'
-import { getAllProductsHandler } from './handlers/products-handlers'
 import { getAllUsersHandler, getMeHandler } from './handlers/users-handlers'
 
 const handlers: HttpHandler[] = [
@@ -185,8 +184,6 @@ const handlers: HttpHandler[] = [
   getAllBreedsHandler,
 
   getAllActiveIngredientsHandler,
-
-  getAllProductsHandler,
 
   getAllUsersHandler,
   getMeHandler,
