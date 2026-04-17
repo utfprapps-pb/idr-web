@@ -37,8 +37,12 @@ export function useInputUseProductDataTable() {
         header: 'Produto',
       },
       {
-        accessorKey: 'productCategory',
+        accessorKey: 'category',
         header: 'Categoria',
+      },
+      {
+        accessorKey: 'activeIngredient',
+        header: 'Princípio Ativo',
       },
       {
         id: 'row-actions',

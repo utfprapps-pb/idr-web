@@ -42,7 +42,6 @@ export class RemoteGetAnimalMedicationUseCase
         date: new Date(body.date),
         product: body.product,
         appliedDose: body.appliedDose,
-        activeIngredient: body.activeIngredient,
         applicationMethod:
           body.applicationMethod as AnimalMedicationApplicationMethod,
       }

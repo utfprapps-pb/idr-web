@@ -1,15 +1,15 @@
 import { type HttpClient, HttpStatusCode } from '@/core/data/protocols/http'
 import {
-  UnexpectedError,
-  NotFoundError,
   ForbiddenError,
+  NotFoundError,
+  UnexpectedError,
 } from '@/core/domain/errors'
 
 import type {
   InputUseProductApiResponse,
   InputUseProductModel,
-} from '../../../domain/models/input-use-products-model'
-import type { GetInputUseProductsUseCase } from '../../../domain/use-cases/input-use-products-use-cases'
+} from '@/app/modules/input-uses/domain/models/input-use-products-model'
+import type { GetInputUseProductsUseCase } from '@/app/modules/input-uses/domain/use-cases/input-use-products-use-cases'
 import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
 
 export class RemoteGetInputUseProductsUseCase
@@ -36,6 +36,7 @@ export class RemoteGetInputUseProductsUseCase
       id: 'id',
       name: 'name',
       category: 'category',
+      activeIngredient: 'activeIngredient',
     }
 
     const { statusCode, body } = await this.httpClient.request({
@@ -49,14 +50,13 @@ export class RemoteGetInputUseProductsUseCase
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        resources: body.content.map((item) => {
-          return {
-            id: item.id,
-            name: item.name,
-            category: item.category,
-          }
-        }),
-        totalPages: body.totalPages,
+        resources: body.content.map((item) => ({
+          id: item.id,
+          name: item.name,
+          category: item.category,
+          activeIngredient: item.activeIngredient,
+        })),
+        totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
       }
     }
 

@@ -6,4 +6,8 @@ export const INPUT_USE_PRODUCT_INITIAL_FORM_DATA: InputUseProductFormSchema = {
     label: '',
     value: 0,
   },
+  activeIngredient: {
+    label: '',
+    value: 0,
+  },
 }

@@ -13,6 +13,12 @@ export const inputUseProductFormSchema = z.object({
       message: 'Categoria é obrigatória',
     }
   ),
+  activeIngredient: optionSchema.refine(
+    ({ label, value }) => label !== '' && value !== 0,
+    {
+      message: 'Princípio ativo é obrigatório',
+    }
+  ),
 })
 
 export type InputUseProductFormSchema = z.infer<

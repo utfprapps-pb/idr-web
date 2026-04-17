@@ -43,10 +43,6 @@ export const getAnimalMedicationHandler = httpWithMiddleware<
         },
         applicationMethod: animalMedicationFound.applicationMethod,
         appliedDose: animalMedicationFound.appliedDose,
-        activeIngredient: {
-          label: animalMedicationFound.activeIngredient,
-          value: faker.number.int({ min: 1, max: 1000 }),
-        },
       },
       { status: HttpStatusCode.ok }
     )

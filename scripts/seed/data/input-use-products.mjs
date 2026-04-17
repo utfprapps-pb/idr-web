@@ -12,12 +12,9 @@ inputUseProductCategoriesData.forEach((category) => {
   for (let i = 0; i < numberOfProducts; i += 1) {
     inputUseProductsData.push({
       id: inputUseProductsData.length + 1,
-      name: `${faker.commerce.productName()} (${category.name})`,
-      productCategoryId: category.id,
-      activeIngredient: {
-        value: faker.number.int({ min: 1, max: 100 }),
-        label: faker.science.chemicalElement().name,
-      },
+      name: faker.commerce.productName(),
+      category: category.name,
+      activeIngredient: faker.science.chemicalElement().name,
     })
   }
 })

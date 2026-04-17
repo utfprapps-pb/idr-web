@@ -5,10 +5,9 @@ import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withAuth, withDelay } from '@/core/mocks/middleware'
 import { filterData, paginateData, sortData } from '@/core/mocks/utils'
 
-import inputUseProductCategoriesData from '@database/inputUseProductCategoriesData.json'
 import inputUseProductsData from '@database/inputUseProductsData.json'
 
-import type { InputUseProductApiResponse } from '@/app/modules/input-uses/domain/models/input-use-products-model'
+import type { InputUseProductApiResponse } from '../../../domain/models/input-use-products-model'
 import type { MockParams } from '@/core/mocks/types/mock-params-type'
 import type { MockResponse } from '@/core/mocks/types/mock-response-type'
 
@@ -39,13 +38,10 @@ export const getInputUseProductsHandler = httpWithMiddleware<
     }
 
     let inputUseProducts = inputUseProductsData.map((product) => {
-      const category = inputUseProductCategoriesData.find(
-        (cat) => cat.id === product.productCategoryId
-      )
       return {
         id: product.id,
         name: product.name,
-        category: category?.name ?? 'Não informada',
+        category: product.category,
         activeIngredient: product.activeIngredient,
       }
     })

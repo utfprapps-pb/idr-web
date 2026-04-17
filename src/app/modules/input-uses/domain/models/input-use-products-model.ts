@@ -15,11 +15,11 @@ export type InputUseProductDetailsApiResponse = {
 export type InputUseProductModel = WithId<{
   name: string
   category: string
-  activeIngredient: Option
+  activeIngredient: string
 }>
 
 export type InputUseProductApiResponse = WithId<{
   name: string
   category: string
-  activeIngredient: Option
+  activeIngredient: string
 }>

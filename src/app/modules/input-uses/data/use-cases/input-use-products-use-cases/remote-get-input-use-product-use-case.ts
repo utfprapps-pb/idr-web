@@ -1,15 +1,16 @@
 import { type HttpClient, HttpStatusCode } from '@/core/data/protocols/http'
 import {
-  UnexpectedError,
-  NotFoundError,
+  BadRequestError,
   ForbiddenError,
+  NotFoundError,
+  UnexpectedError,
 } from '@/core/domain/errors'
 
 import type {
   InputUseProductDetailsApiResponse,
   InputUseProductDetailsModel,
-} from '../../../domain/models/input-use-products-model'
-import type { GetInputUseProductUseCase } from '../../../domain/use-cases/input-use-products-use-cases'
+} from '@/app/modules/input-uses/domain/models/input-use-products-model'
+import type { GetInputUseProductUseCase } from '@/app/modules/input-uses/domain/use-cases/input-use-products-use-cases'
 
 export class RemoteGetInputUseProductUseCase
   implements GetInputUseProductUseCase
@@ -32,15 +33,19 @@ export class RemoteGetInputUseProductUseCase
       return {
         name: body.name,
         category: body.category,
+        activeIngredient: body.activeIngredient,
       }
     }
 
-    if (statusCode === HttpStatusCode.notFound)
-      throw new NotFoundError('Produto')
-
     if (statusCode === HttpStatusCode.forbidden) {
-      throw new ForbiddenError('Você não tem permissão para buscar um produto')
+      throw new ForbiddenError()
     }
+
+    if (statusCode === HttpStatusCode.notFound) {
+      throw new NotFoundError('Produto')
+    }
+
+    if (statusCode === HttpStatusCode.badRequest) throw new BadRequestError()
 
     throw new UnexpectedError()
   }

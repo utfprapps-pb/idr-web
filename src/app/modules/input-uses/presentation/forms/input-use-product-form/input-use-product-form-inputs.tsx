@@ -4,6 +4,7 @@ import { useFormContext } from 'react-hook-form'
 
 import { Combobox, Form, Input } from '@/core/presentation/components/ui'
 import { useDebounce } from '@/core/presentation/hooks'
+import { useAllActiveIngredientsQuery } from '@/core/presentation/hooks/queries/all-active-ingredients-query.hook'
 
 import { useAllInputUseProductCategoriesQuery } from '../../hooks/queries/all-input-use-product-categories-query.hook'
 
@@ -13,14 +14,28 @@ export function InputUseProductFormInputs() {
   const form = useFormContext<InputUseProductFormSchema>()
 
   const [searchCategory, setSearchCategory] = useState('')
+  const [searchActiveIngredient, setSearchActiveIngredient] = useState('')
 
   const debouncedCategory = useDebounce({ value: searchCategory })
+  const debouncedActiveIngredient = useDebounce({
+    value: searchActiveIngredient,
+  })
 
-  const { allInputUseProductCategories, isLoading } =
+  const { allInputUseProductCategories, isLoading: isLoadingCategories } =
     useAllInputUseProductCategoriesQuery({
       filters: {
         name: {
           value: debouncedCategory,
+          type: 'LIKE',
+        },
+      },
+    })
+
+  const { allActiveIngredients, isLoading: isLoadingActiveIngredients } =
+    useAllActiveIngredientsQuery({
+      filters: {
+        name: {
+          value: debouncedActiveIngredient,
           type: 'LIKE',
         },
       },
@@ -63,7 +78,7 @@ export function InputUseProductFormInputs() {
                 <Combobox
                   search={searchCategory}
                   items={allInputUseProductCategories}
-                  loading={isLoading}
+                  loading={isLoadingCategories}
                   selected={field.value}
                   handleSearch={setSearchCategory}
                   handleSelect={field.onChange}
@@ -71,6 +86,35 @@ export function InputUseProductFormInputs() {
                   placeholder="Selecione uma categoria"
                   emptyMessage="Nenhuma categoria encontrada"
                   searchPlaceholder="Buscar categoria"
+                />
+              </Form.Control>
+              <Form.Message />
+            </Form.Item>
+          )
+        }}
+      />
+
+      <Form.Field
+        name="activeIngredient"
+        control={form.control}
+        render={({ field, fieldState }) => {
+          const { error } = fieldState
+
+          return (
+            <Form.Item>
+              <Form.Label>Princípio Ativo*</Form.Label>
+              <Form.Control>
+                <Combobox
+                  search={searchActiveIngredient}
+                  items={allActiveIngredients}
+                  loading={isLoadingActiveIngredients}
+                  selected={field.value}
+                  handleSearch={setSearchActiveIngredient}
+                  handleSelect={field.onChange}
+                  isError={!!error}
+                  placeholder="Selecione um princípio ativo"
+                  emptyMessage="Nenhum princípio ativo encontrado"
+                  searchPlaceholder="Buscar princípio ativo"
                 />
               </Form.Control>
               <Form.Message />
