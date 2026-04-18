@@ -72,6 +72,7 @@ This layer requires a highly specific file organization:
 
 #### Queries Hooks
 - Create `hooks/queries/{entities}-query.hook.ts` using `@tanstack/react-query` to fetch lists. Handle `toast.error` for errors.
+- Create `hooks/queries/all-{entities}-query.hook.ts` (following the `all-breeds` pattern) to fetch a list of items mapped to `Option` (using `toOption`).
 - Create `hooks/queries/{entity}-query.hook.ts` for fetching single items.
 - Always use the factories from the `main` layer.
 
@@ -85,24 +86,32 @@ This layer requires a highly specific file organization:
 
 #### UI Components
 - **Data Table**: `components/{entity}-data-table/`
-  - Implement a hook (`.hook.tsx`) mapping columns and returning `react-table` configuration.
+  - Needs 3 files:
+    - `index.ts` (exporting `{entity}-data-table.tsx`)
+    - `{entity}-data-table.hook.tsx` mapping columns and returning `react-table` configuration.
+    - `{entity}-data-table.tsx` implementing the table using the generic `<DataTable />` component from `@/core/presentation/components/ui`.
   - Include an action column with a `DropdownMenu` for "Editar" and "Excluir".
-  - Implement the table (`.tsx`) using the generic `<DataTable />` component from `@/core/presentation/components/ui`.
 - **Delete Dialog**: `components/{entity}-delete-dialog/`
-  - Implement `.tsx` with `<AlertDialog />` and a `useMutation` calling the delete factory.
+  - Needs 2 files:
+    - `index.ts` (exporting `{entity}-delete-dialog.tsx`)
+    - `{entity}-delete-dialog.tsx` (Implement with `<AlertDialog />`, use `finally` block to close the dialog, and follow the Title pattern: `{`Deseja remover o [entity] ${item?.name}?`}`)
   - Invalidates react-query cache on success.
 - **Forms**: `forms/{entity}-form/`
-  - Needs 5 files:
-    - `create-{entity}-form.tsx` (using `<Sheet />`)
-    - `edit-{entity}-form.tsx` (fetches the item via Get One hook, displays `<Loading />` while fetching)
-    - `{entity}-form-inputs.tsx` (UI inputs mapped to `react-hook-form` via `useFormContext`)
+  - Needs 6 files:
+    - `index.ts` (exporting `{entity}-form.tsx`)
+    - `{entity}-form.tsx` (Wrapper rendering `Create` or `Edit` based on `id` prop presence).
+    - `create-{entity}-form.tsx` (using `<Sheet />`, form className `flex flex-col gap-4`, button text "Criar")
+    - `edit-{entity}-form.tsx` (fetches the item via Get One hook, displays `<Loading />` while fetching, form className `flex flex-col gap-4`, button text "Salvar")
+    - `{entity}-form-inputs.tsx` (UI inputs mapped to `react-hook-form` via `useFormContext`. Use `useAll{Entities}Query` for Comboboxes/Selects)
     - `{entity}-initial-form-data.ts` (Empty initial data object)
-    - `{entity}-form.tsx` (Wrapper rendering Create or Edit based on `id` prop presence).
 
 #### Screens
 - Create `screens/{entities}-screen.tsx` which glues everything together:
   - Wraps content in `{Entity}Provider` and `{Entity}Context.Consumer`.
-  - Header with a "Add" button and a search `<Input />`.
+  - Destructure values in this exact order: `filters, handleChangeFilters, selected{Entity}, isOpenDelete{Entity}Container, isOpenNew{Entity}Form, isOpenEdit{Entity}Form, openNew{Entity}Form`.
+  - Header (or `div` for sub-screens) with an "Add" button and a search `<Input />`.
+  - `Input` value should be `filters.field?.value` (without `?? ''`).
+  - `handleChangeFilters` inside `onChange` should be multi-line.
   - Renders `<{Entity}DataTable />`.
   - Conditionally renders `<{Entity}DeleteDialog />` and `<{Entity}Form />`.
 

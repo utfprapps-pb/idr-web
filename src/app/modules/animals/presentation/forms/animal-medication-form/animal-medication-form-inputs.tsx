@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import { useFormContext } from 'react-hook-form'
 
+import { useAllInputUseProductsQuery } from '@/app/modules/input-uses/presentation/hooks/queries/all-input-use-products-query.hook'
 import { floatMask } from '@/core/masker'
 import {
   DatePicker,
@@ -12,11 +13,8 @@ import {
 } from '@/core/presentation/components/ui'
 import { Grouper } from '@/core/presentation/components/utils'
 import { useDebounce } from '@/core/presentation/hooks'
-import { useAllProductsQuery } from '@/core/presentation/hooks/queries/all-products-query.hook'
 
 import { AnimalMedicationFormSchema } from '../../validations/animal-medication-form-schema'
-
-import type { Option } from '@/core/domain/types'
 
 export function AnimalMedicationFormInputs() {
   const form = useFormContext<AnimalMedicationFormSchema>()
@@ -25,14 +23,17 @@ export function AnimalMedicationFormInputs() {
 
   const debouncedProduct = useDebounce({ value: searchProduct })
 
-  const { allProducts, isLoading: isLoadingAllProducts } = useAllProductsQuery({
-    filters: {
-      name: {
-        value: debouncedProduct,
-        type: 'LIKE',
+  const { allInputUseProducts, isLoading: isLoadingAllProducts } =
+    useAllInputUseProductsQuery({
+      filters: {
+        name: {
+          value: debouncedProduct,
+          type: 'LIKE',
+        },
       },
-    },
-  })
+    })
+
+  const selectedProduct = form.watch('product')
 
   return (
     <>
@@ -69,21 +70,13 @@ export function AnimalMedicationFormInputs() {
               <Form.Item>
                 <Form.Label>Produto*</Form.Label>
                 <Form.Control>
-                  <Combobox<{ activeIngredient: Option }>
+                  <Combobox<{ activeIngredient: string }>
                     search={searchProduct}
-                    items={allProducts}
+                    items={allInputUseProducts}
                     loading={isLoadingAllProducts}
                     selected={field.value}
                     handleSearch={setSearchProduct}
-                    handleSelect={(item) => {
-                      field.onChange(item)
-                      if (item.extraData?.activeIngredient) {
-                        form.setValue(
-                          'activeIngredient',
-                          item.extraData?.activeIngredient
-                        )
-                      }
-                    }}
+                    handleSelect={field.onChange}
                     isError={!!error}
                     placeholder="Selecione um produto"
                     emptyMessage="Nenhum produto encontrado"
@@ -96,32 +89,16 @@ export function AnimalMedicationFormInputs() {
           }}
         />
 
-        <Form.Field
-          name="activeIngredient"
-          control={form.control}
-          render={({ field, fieldState }) => {
-            const { error } = fieldState
-
-            return (
-              <Form.Item>
-                <Form.Label>Princípio Ativo*</Form.Label>
-                <Form.Control>
-                  <Combobox
-                    disabled
-                    search=""
-                    items={[]}
-                    selected={field.value}
-                    handleSearch={() => null}
-                    handleSelect={field.onChange}
-                    isError={!!error}
-                    placeholder="Princípio ativo do produto"
-                  />
-                </Form.Control>
-                <Form.Message />
-              </Form.Item>
-            )
-          }}
-        />
+        <Form.Item>
+          <Form.Label>Princípio Ativo</Form.Label>
+          <Form.Control>
+            <Input
+              disabled
+              value={selectedProduct?.extraData?.activeIngredient ?? ''}
+              placeholder="Princípio ativo do produto"
+            />
+          </Form.Control>
+        </Form.Item>
       </Grouper>
 
       <Form.Field

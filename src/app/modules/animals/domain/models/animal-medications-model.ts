@@ -10,7 +10,6 @@ export type AnimalMedicationApplicationMethod =
 export type AnimalMedicationDetailsModel = {
   date: Date
   product: Option
-  activeIngredient: Option
   appliedDose: string
   applicationMethod: AnimalMedicationApplicationMethod
 }
@@ -18,7 +17,6 @@ export type AnimalMedicationDetailsModel = {
 export type AnimalMedicationDetailsApiResponse = {
   date: string
   product: Option
-  activeIngredient: Option
   appliedDose: string
   applicationMethod: string
 }
