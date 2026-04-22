@@ -5,6 +5,7 @@ import { Breadcrumb, ScrollArea, Tabs } from '@/core/presentation/components/ui'
 import { GeneralCultivationDiseasesScreen } from '../modules/general-cultivations/presentation/screens/general-cultivation-diseases-screen'
 import { GeneralCultivationPestsScreen } from '../modules/general-cultivations/presentation/screens/general-cultivation-pests-screen'
 import { GeneralCultivationsScreen } from '../modules/general-cultivations/presentation/screens/general-cultivations-screen'
+import { InputUseActiveIngredientsScreen } from '../modules/input-uses/presentation/screens/input-use-active-ingredients-screen'
 import { InputUseLocationsScreen } from '../modules/input-uses/presentation/screens/input-use-locations-screen'
 import { InputUseProductCategoriesScreen } from '../modules/input-uses/presentation/screens/input-use-product-categories-screen'
 import { InputUseProductsScreen } from '../modules/input-uses/presentation/screens/input-use-products-screen'
@@ -69,6 +70,11 @@ export function GeneralRegistrationsPage() {
             key: 'input-use-products',
             name: 'Produtos',
             component: <InputUseProductsScreen />,
+          },
+          {
+            key: 'input-use-active-ingredients',
+            name: 'Princípios Ativos',
+            component: <InputUseActiveIngredientsScreen />,
           },
         ],
       },
