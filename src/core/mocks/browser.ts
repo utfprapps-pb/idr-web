@@ -131,6 +131,13 @@ import {
   updateImprovementHandler,
 } from '@/app/modules/improvements/mocks/handlers'
 import {
+  createInputUseActiveIngredientHandler,
+  deleteInputUseActiveIngredientHandler,
+  getInputUseActiveIngredientHandler,
+  getInputUseActiveIngredientsHandler,
+  updateInputUseActiveIngredientHandler,
+} from '@/app/modules/input-uses/mocks/handlers/input-use-active-ingredients-handlers'
+import {
   createInputUseLocationHandler,
   deleteInputUseLocationHandler,
   getInputUseLocationHandler,
@@ -174,7 +181,6 @@ import {
   updatePropertyHandler,
 } from '@/app/modules/properties/mocks/handlers'
 
-import { getAllActiveIngredientsHandler } from './handlers/active-ingredients-handlers'
 import { getAllBreedsHandler } from './handlers/breeds-handlers'
 import { getAllUsersHandler, getMeHandler } from './handlers/users-handlers'
 
@@ -182,8 +188,6 @@ const handlers: HttpHandler[] = [
   loginHandler,
 
   getAllBreedsHandler,
-
-  getAllActiveIngredientsHandler,
 
   getAllUsersHandler,
   getMeHandler,
@@ -315,6 +319,12 @@ const handlers: HttpHandler[] = [
   getInputUseLocationHandler,
   getInputUseLocationsHandler,
   updateInputUseLocationHandler,
+
+  createInputUseActiveIngredientHandler,
+  deleteInputUseActiveIngredientHandler,
+  getInputUseActiveIngredientHandler,
+  getInputUseActiveIngredientsHandler,
+  updateInputUseActiveIngredientHandler,
 
   createInputUseProductCategoryHandler,
   deleteInputUseProductCategoryHandler,
