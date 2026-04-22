@@ -4,8 +4,8 @@ import { useFormContext } from 'react-hook-form'
 
 import { Combobox, Form, Input } from '@/core/presentation/components/ui'
 import { useDebounce } from '@/core/presentation/hooks'
-import { useAllActiveIngredientsQuery } from '@/core/presentation/hooks/queries/all-active-ingredients-query.hook'
 
+import { useAllInputUseActiveIngredientsQuery } from '../../hooks/queries/all-input-use-active-ingredients-query.hook'
 import { useAllInputUseProductCategoriesQuery } from '../../hooks/queries/all-input-use-product-categories-query.hook'
 
 import type { InputUseProductFormSchema } from '../../validations/input-use-product-form-schema'
@@ -31,15 +31,17 @@ export function InputUseProductFormInputs() {
       },
     })
 
-  const { allActiveIngredients, isLoading: isLoadingActiveIngredients } =
-    useAllActiveIngredientsQuery({
-      filters: {
-        name: {
-          value: debouncedActiveIngredient,
-          type: 'LIKE',
-        },
+  const {
+    allInputUseActiveIngredients: allActiveIngredients,
+    isLoading: isLoadingActiveIngredients,
+  } = useAllInputUseActiveIngredientsQuery({
+    filters: {
+      name: {
+        value: debouncedActiveIngredient,
+        type: 'LIKE',
       },
-    })
+    },
+  })
 
   return (
     <>
