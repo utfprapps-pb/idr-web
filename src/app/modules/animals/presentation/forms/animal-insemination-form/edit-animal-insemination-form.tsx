@@ -76,7 +76,7 @@ export function EditAnimalInseminationForm() {
           propertyId,
         })
         queryClient.invalidateQueries({
-          queryKey: ['animal-inseminations'],
+          queryKey: ['animal-inseminations', propertyId],
           exact: false,
         })
         toast.success('Inseminação Artificial foi editada com sucesso')

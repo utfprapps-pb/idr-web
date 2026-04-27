@@ -21,7 +21,8 @@ export function useAnimalChildbirthQuery({ id, propertyId, animalId }: Props) {
     isLoading,
     refetch: refetchAnimalChildbirth,
   } = useQuery({
-    queryKey: ['animal-childbirth', id],
+    queryKey: ['animal-childbirth', propertyId, id],
+    enabled: !!propertyId && !!id,
     queryFn: () =>
       getAnimalChildbirthUseCase.execute({
         propertyId,

@@ -24,7 +24,8 @@ export function useAllForagesQuery({ propertyId, filters }: Props) {
     isLoading,
     refetch: refetchAllForages,
   } = useQuery({
-    queryKey: ['all-forages', { filters }],
+    queryKey: ['all-forages', propertyId, { filters }],
+    enabled: !!propertyId,
     queryFn: () =>
       getForagesUseCase.execute({
         propertyId,

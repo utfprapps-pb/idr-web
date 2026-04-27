@@ -54,7 +54,7 @@ export function CreateAnimalMedicationForm() {
         })
 
         queryClient.invalidateQueries({
-          queryKey: ['animal-medications'],
+          queryKey: ['animal-medications', propertyId],
           exact: false,
         })
 

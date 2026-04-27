@@ -48,7 +48,7 @@ export function CreateForageForm() {
         })
 
         queryClient.invalidateQueries({
-          queryKey: ['forages'],
+          queryKey: ['forages', propertyId],
           exact: false,
         })
 

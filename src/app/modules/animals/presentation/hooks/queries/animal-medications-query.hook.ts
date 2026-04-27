@@ -34,7 +34,8 @@ export function useAnimalMedicationsQuery({
     isLoading,
     refetch: refetchAnimalMedications,
   } = useQuery({
-    queryKey: ['animal-medications', { page, sort, filters }],
+    queryKey: ['animal-medications', propertyId, { page, sort, filters }],
+    enabled: !!propertyId,
     queryFn: () =>
       getAnimalMedicationsUseCase.execute({
         propertyId,

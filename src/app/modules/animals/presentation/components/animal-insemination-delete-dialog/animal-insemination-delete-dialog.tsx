@@ -41,7 +41,7 @@ export function AnimalInseminationDeleteDialog() {
       })
 
       queryClient.invalidateQueries({
-        queryKey: ['animal-inseminations'],
+        queryKey: ['animal-inseminations', propertyId],
         exact: false,
       })
 

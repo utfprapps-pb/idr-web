@@ -132,7 +132,7 @@ export function useEditNutritionalBalancingScreen() {
         })
 
         queryClient.invalidateQueries({
-          queryKey: ['nutritional-balancings'],
+          queryKey: ['nutritional-balancings', propertyId],
           exact: false,
         })
 

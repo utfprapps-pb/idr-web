@@ -70,7 +70,7 @@ export function CreateAnimalHeiferCalfStageForm() {
         })
 
         queryClient.invalidateQueries({
-          queryKey: ['animal-heifer-calf-stages'],
+          queryKey: ['animal-heifer-calf-stages', propertyId],
           exact: false,
         })
 

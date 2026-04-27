@@ -32,7 +32,8 @@ export function useForageAvailabilitiesQuery({
     isLoading,
     refetch: refetchForageAvailabilities,
   } = useQuery({
-    queryKey: ['forage-availabilities', { page, sort, filters }],
+    queryKey: ['forage-availabilities', propertyId, { page, sort, filters }],
+    enabled: !!propertyId,
     queryFn: () =>
       getForageAvailabilitiesUseCase.execute({
         propertyId,

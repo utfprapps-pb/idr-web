@@ -33,7 +33,8 @@ export function useNutritionalBalancingsQuery({
     isLoading,
     refetch: refetchNutritionalBalancings,
   } = useQuery({
-    queryKey: ['nutritional-balancings', { page, sort, filters }],
+    queryKey: ['nutritional-balancings', propertyId, { page, sort, filters }],
+    enabled: !!propertyId,
     queryFn: () =>
       getNutritionalBalancingsUseCase.execute({
         propertyId,

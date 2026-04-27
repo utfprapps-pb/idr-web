@@ -37,7 +37,7 @@ export function CultivationPestDeleteDialog() {
       })
 
       queryClient.invalidateQueries({
-        queryKey: ['cultivation-pests'],
+        queryKey: ['cultivation-pests', propertyId],
         exact: false,
       })
 

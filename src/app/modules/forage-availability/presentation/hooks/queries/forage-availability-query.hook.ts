@@ -20,7 +20,8 @@ export function useForageAvailabilityQuery({ propertyId, id }: Props) {
     isLoading,
     refetch: refetchForageAvailability,
   } = useQuery({
-    queryKey: ['forage-availability', id],
+    queryKey: ['forage-availability', propertyId, id],
+    enabled: !!propertyId && !!id,
     queryFn: () => getForageAvailabilityUseCase.execute({ propertyId, id }),
   })
 

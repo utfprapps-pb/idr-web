@@ -52,7 +52,7 @@ export function CreateForageAvailabilityForm() {
         })
 
         queryClient.invalidateQueries({
-          queryKey: ['forage-availabilities'],
+          queryKey: ['forage-availabilities', propertyId],
           exact: false,
         })
 

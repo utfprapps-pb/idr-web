@@ -76,7 +76,7 @@ export function EditAnimalForm() {
           propertyId,
         })
         queryClient.invalidateQueries({
-          queryKey: ['animals'],
+          queryKey: ['animals', propertyId],
           exact: false,
         })
         toast.success('Animal foi editado com sucesso')

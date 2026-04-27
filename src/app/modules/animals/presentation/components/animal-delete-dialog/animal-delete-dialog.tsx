@@ -37,7 +37,7 @@ export function AnimalDeleteDialog() {
       })
 
       queryClient.invalidateQueries({
-        queryKey: ['animals'],
+        queryKey: ['animals', propertyId],
         exact: false,
       })
 

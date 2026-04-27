@@ -24,7 +24,8 @@ export function useMachinesQuery({ propertyId, filters, page, sort }: Props) {
     isLoading,
     refetch: refetchMachines,
   } = useQuery({
-    queryKey: ['machines', { page, sort, filters }],
+    queryKey: ['machines', propertyId, { page, sort, filters }],
+    enabled: !!propertyId,
     queryFn: () =>
       getMachinesUseCase.execute({
         propertyId,

@@ -55,7 +55,7 @@ export function CreateAnimalForm() {
           },
         })
         queryClient.invalidateQueries({
-          queryKey: ['animals'],
+          queryKey: ['animals', propertyId],
           exact: false,
         })
         toast.success('Animal foi cadastrado com sucesso')

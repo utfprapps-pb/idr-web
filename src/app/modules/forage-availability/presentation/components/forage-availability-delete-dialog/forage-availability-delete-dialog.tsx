@@ -39,7 +39,7 @@ export function ForageAvailabilityDeleteDialog() {
       })
 
       queryClient.invalidateQueries({
-        queryKey: ['forage-availabilities'],
+        queryKey: ['forage-availabilities', propertyId],
         exact: false,
       })
 

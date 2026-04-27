@@ -40,7 +40,7 @@ export function AnimalMastitisDeleteDialog() {
       })
 
       queryClient.invalidateQueries({
-        queryKey: ['animal-mastitides'],
+        queryKey: ['animal-mastitides', propertyId],
         exact: false,
       })
 

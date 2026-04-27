@@ -34,7 +34,8 @@ export function useAnimalSalesQuery({
     isLoading,
     refetch: refetchAnimalSales,
   } = useQuery({
-    queryKey: ['animal-sales', { page, sort, filters }],
+    queryKey: ['animal-sales', propertyId, { page, sort, filters }],
+    enabled: !!propertyId,
     queryFn: () =>
       getAnimalSalesUseCase.execute({
         propertyId,

@@ -86,7 +86,7 @@ export function EditAnimalMedicationForm() {
           propertyId,
         })
         queryClient.invalidateQueries({
-          queryKey: ['animal-medications'],
+          queryKey: ['animal-medications', propertyId],
           exact: false,
         })
         toast.success('Medicação do animal foi editada com sucesso')

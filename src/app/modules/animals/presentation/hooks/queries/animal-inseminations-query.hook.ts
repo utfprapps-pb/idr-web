@@ -35,7 +35,8 @@ export function useAnimalInseminationsQuery({
     isLoading,
     refetch: refetchAnimalInseminations,
   } = useQuery({
-    queryKey: ['animal-inseminations', { page, sort, filters }],
+    queryKey: ['animal-inseminations', propertyId, { page, sort, filters }],
+    enabled: !!propertyId,
     queryFn: () =>
       getAnimalInseminationsUseCase.execute({
         propertyId,

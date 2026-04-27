@@ -21,7 +21,8 @@ export function useAnimalMastitisQuery({ id, propertyId, animalId }: Props) {
     isLoading,
     refetch: refetchAnimalMastitis,
   } = useQuery({
-    queryKey: ['animal-mastitis', id],
+    queryKey: ['animal-mastitis', propertyId, id],
+    enabled: !!propertyId && !!id,
     queryFn: () =>
       getAnimalMastitisUseCase.execute({
         propertyId,

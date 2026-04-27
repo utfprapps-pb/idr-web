@@ -19,7 +19,8 @@ export function useImprovementQuery({ id, propertyId }: Props) {
     isLoading,
     refetch: refetchImprovement,
   } = useQuery({
-    queryKey: ['improvement', id],
+    queryKey: ['improvement', propertyId, id],
+    enabled: !!propertyId && !!id,
     queryFn: () =>
       getImprovementUseCase.execute({
         propertyId,

@@ -37,7 +37,7 @@ export function ImprovementDeleteDialog() {
       })
 
       queryClient.invalidateQueries({
-        queryKey: ['improvements'],
+        queryKey: ['improvements', propertyId],
         exact: false,
       })
 

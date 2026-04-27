@@ -26,7 +26,8 @@ export function useAnimalPregnancyDiagnosisQuery({
     isLoading,
     refetch: refetchAnimalPregnancyDiagnosis,
   } = useQuery({
-    queryKey: ['animal-pregnancy-diagnosis', id],
+    queryKey: ['animal-pregnancy-diagnosis', propertyId, id],
+    enabled: !!propertyId && !!id,
     queryFn: () =>
       getAnimalPregnancyDiagnosisUseCase.execute({
         propertyId,

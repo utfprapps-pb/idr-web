@@ -29,7 +29,8 @@ export function useImprovementsQuery({
     isLoading,
     refetch: refetchImprovements,
   } = useQuery({
-    queryKey: ['improvements', { page, sort, filters }],
+    queryKey: ['improvements', propertyId, { page, sort, filters }],
+    enabled: !!propertyId,
     queryFn: () =>
       getImprovementsUseCase.execute({
         propertyId,

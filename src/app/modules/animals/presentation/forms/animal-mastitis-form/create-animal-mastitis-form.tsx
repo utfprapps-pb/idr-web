@@ -53,7 +53,7 @@ export function CreateAnimalMastitisForm() {
         })
 
         queryClient.invalidateQueries({
-          queryKey: ['animal-mastitides'],
+          queryKey: ['animal-mastitides', propertyId],
           exact: false,
         })
 

@@ -73,7 +73,7 @@ export function EditAnimalMastitisForm() {
           propertyId,
         })
         queryClient.invalidateQueries({
-          queryKey: ['animal-mastitides'],
+          queryKey: ['animal-mastitides', propertyId],
           exact: false,
         })
         toast.success('Mastite foi editada com sucesso')

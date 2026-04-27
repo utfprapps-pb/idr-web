@@ -44,7 +44,7 @@ export function AnimalPregnancyDiagnosisDeleteDialog() {
       })
 
       queryClient.invalidateQueries({
-        queryKey: ['animal-pregnancy-diagnoses'],
+        queryKey: ['animal-pregnancy-diagnoses', propertyId],
         exact: false,
       })
 

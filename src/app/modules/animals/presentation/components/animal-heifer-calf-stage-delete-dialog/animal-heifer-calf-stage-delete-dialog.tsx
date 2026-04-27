@@ -41,7 +41,7 @@ export function AnimalHeiferCalfStageDeleteDialog() {
       })
 
       queryClient.invalidateQueries({
-        queryKey: ['animal-heifer-calf-stages'],
+        queryKey: ['animal-heifer-calf-stages', propertyId],
         exact: false,
       })
 

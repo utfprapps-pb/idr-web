@@ -32,7 +32,8 @@ export function useCultivationPestsQuery({
     isLoading,
     refetch: refetchCultivationPests,
   } = useQuery({
-    queryKey: ['cultivation-pests', { page, sort, filters }],
+    queryKey: ['cultivation-pests', propertyId, { page, sort, filters }],
+    enabled: !!propertyId,
     queryFn: () =>
       getCultivationPestsUseCase.execute({
         propertyId,
