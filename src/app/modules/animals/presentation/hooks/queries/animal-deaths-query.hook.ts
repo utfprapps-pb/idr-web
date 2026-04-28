@@ -34,7 +34,8 @@ export function useAnimalDeathsQuery({
     isLoading,
     refetch: refetchAnimalDeaths,
   } = useQuery({
-    queryKey: ['animal-deaths', { page, sort, filters }],
+    queryKey: ['animal-deaths', propertyId, { page, sort, filters }],
+    enabled: !!propertyId,
     queryFn: () =>
       getAnimalDeathsUseCase.execute({
         propertyId,

@@ -75,7 +75,7 @@ export function EditAnimalDeathForm() {
           propertyId,
         })
         queryClient.invalidateQueries({
-          queryKey: ['animal-deaths'],
+          queryKey: ['animal-deaths', propertyId],
           exact: false,
         })
         toast.success('Óbito do animal foi editado com sucesso')

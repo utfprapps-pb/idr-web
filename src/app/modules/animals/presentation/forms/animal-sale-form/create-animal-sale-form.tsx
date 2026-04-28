@@ -53,7 +53,7 @@ export function CreateAnimalSaleForm() {
         })
 
         queryClient.invalidateQueries({
-          queryKey: ['animal-sales'],
+          queryKey: ['animal-sales', propertyId],
           exact: false,
         })
 

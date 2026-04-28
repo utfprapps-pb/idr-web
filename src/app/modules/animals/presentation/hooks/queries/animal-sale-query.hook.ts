@@ -21,7 +21,8 @@ export function useAnimalSaleQuery({ id, propertyId, animalId }: Props) {
     isLoading,
     refetch: refetchAnimalSale,
   } = useQuery({
-    queryKey: ['animal-sale', id],
+    queryKey: ['animal-sale', propertyId, id],
+    enabled: !!propertyId && !!id,
     queryFn: () =>
       getAnimalSaleUseCase.execute({
         propertyId,

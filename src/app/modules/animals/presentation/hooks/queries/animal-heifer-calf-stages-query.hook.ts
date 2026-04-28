@@ -35,7 +35,12 @@ export function useAnimalHeiferCalfStagesQuery({
     isLoading,
     refetch: refetchAnimalHeiferCalfStages,
   } = useQuery({
-    queryKey: ['animal-heifer-calf-stages', { page, sort, filters }],
+    queryKey: [
+      'animal-heifer-calf-stages',
+      propertyId,
+      { page, sort, filters },
+    ],
+    enabled: !!propertyId,
     queryFn: () =>
       getAnimalHeiferCalfStagesUseCase.execute({
         propertyId,

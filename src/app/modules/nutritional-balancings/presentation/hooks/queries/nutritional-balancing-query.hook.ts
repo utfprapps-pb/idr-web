@@ -21,7 +21,8 @@ export function useNutritionalBalancingQuery({ id, propertyId }: Props) {
     isLoading,
     refetch: refetchNutritionalBalancing,
   } = useQuery({
-    queryKey: ['nutritional-balancing', id],
+    queryKey: ['nutritional-balancing', propertyId, id],
+    enabled: !!propertyId && !!id,
     queryFn: () =>
       getNutritionalBalancingUseCase.execute({
         propertyId,

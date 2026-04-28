@@ -34,7 +34,8 @@ export function useAnimalPurchasesQuery({
     isLoading,
     refetch: refetchAnimalPurchases,
   } = useQuery({
-    queryKey: ['animal-purchases', { page, sort, filters }],
+    queryKey: ['animal-purchases', propertyId, { page, sort, filters }],
+    enabled: !!propertyId,
     queryFn: () =>
       getAnimalPurchasesUseCase.execute({
         propertyId,

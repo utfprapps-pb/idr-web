@@ -87,7 +87,7 @@ export function EditAnimalHeiferCalfStageForm() {
           propertyId,
         })
         queryClient.invalidateQueries({
-          queryKey: ['animal-heifer-calf-stages'],
+          queryKey: ['animal-heifer-calf-stages', propertyId],
           exact: false,
         })
         toast.success('Fase bezerra novilha foi editada com sucesso')

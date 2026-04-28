@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
-import { makeRemoteGetAllAnimalsUseCase } from '@/app/modules/animals/main/factories/use-cases'
+import { makeRemoteGetAnimalsUseCase } from '@/app/modules/animals/main/factories/use-cases'
 import { toOption } from '@/core/utils/object/to-option'
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
 }
 
 export function useAllAnimalsQuery({ propertyId }: Props) {
-  const getAllAnimalsUseCase = makeRemoteGetAllAnimalsUseCase()
+  const getAnimalsUseCase = makeRemoteGetAnimalsUseCase()
 
   const {
     data,
@@ -22,8 +22,9 @@ export function useAllAnimalsQuery({ propertyId }: Props) {
   } = useQuery({
     queryKey: ['all-animals', propertyId],
     queryFn: () =>
-      getAllAnimalsUseCase.execute({
+      getAnimalsUseCase.execute({
         propertyId,
+        pagination: { page: 1, perPage: 30 },
       }),
   })
 
@@ -33,7 +34,7 @@ export function useAllAnimalsQuery({ propertyId }: Props) {
 
   return {
     allAnimals:
-      data?.map((resource) =>
+      data?.resources.map((resource) =>
         toOption(resource, 'name', {
           breed: resource.breed,
           weight: resource.weight,

@@ -47,7 +47,7 @@ export function CreateMachineForm() {
           machine: data,
         })
         queryClient.invalidateQueries({
-          queryKey: ['machines'],
+          queryKey: ['machines', propertyId],
           exact: false,
         })
         toast.success('Máquina foi cadastrada com sucesso')

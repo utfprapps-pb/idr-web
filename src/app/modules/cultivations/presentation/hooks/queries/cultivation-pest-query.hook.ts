@@ -20,7 +20,8 @@ export function useCultivationPestQuery({ id, propertyId }: Props) {
     isLoading,
     refetch: refetchCultivationPest,
   } = useQuery({
-    queryKey: ['cultivation-pest', id],
+    queryKey: ['cultivation-pest', propertyId, id],
+    enabled: !!propertyId && !!id,
     queryFn: () =>
       getCultivationPestUseCase.execute({
         propertyId,

@@ -33,7 +33,8 @@ export function useCultivationDiseasesQuery({
     isLoading,
     refetch: refetchCultivationDiseases,
   } = useQuery({
-    queryKey: ['cultivation-diseases', { page, sort, filters }],
+    queryKey: ['cultivation-diseases', propertyId, { page, sort, filters }],
+    enabled: !!propertyId,
     queryFn: () =>
       getCultivationDiseasesUseCase.execute({
         propertyId,

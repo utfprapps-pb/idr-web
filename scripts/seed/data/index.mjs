@@ -1,4 +1,5 @@
 export * from './forages.mjs'
+export * from './forage-availabilities.mjs'
 export * from './improvements.mjs'
 export * from './machines.mjs'
 export * from './properties.mjs'

@@ -54,7 +54,7 @@ export function CreateAnimalChildbirthForm() {
         })
 
         queryClient.invalidateQueries({
-          queryKey: ['animal-childbirths'],
+          queryKey: ['animal-childbirths', propertyId],
           exact: false,
         })
 

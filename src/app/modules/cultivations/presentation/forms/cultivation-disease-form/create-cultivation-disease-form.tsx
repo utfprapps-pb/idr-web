@@ -52,7 +52,7 @@ export function CreateCultivationDiseaseForm() {
         })
 
         queryClient.invalidateQueries({
-          queryKey: ['cultivation-diseases'],
+          queryKey: ['cultivation-diseases', propertyId],
           exact: false,
         })
 

@@ -76,7 +76,7 @@ export function EditMachineForm() {
         })
 
         queryClient.invalidateQueries({
-          queryKey: ['machines'],
+          queryKey: ['machines', propertyId],
           exact: false,
         })
 

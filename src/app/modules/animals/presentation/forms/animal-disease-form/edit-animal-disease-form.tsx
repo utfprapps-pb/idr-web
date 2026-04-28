@@ -75,7 +75,7 @@ export function EditAnimalDiseaseForm() {
           propertyId,
         })
         queryClient.invalidateQueries({
-          queryKey: ['animal-diseases'],
+          queryKey: ['animal-diseases', propertyId],
           exact: false,
         })
         toast.success('Doença de animal foi editada com sucesso')

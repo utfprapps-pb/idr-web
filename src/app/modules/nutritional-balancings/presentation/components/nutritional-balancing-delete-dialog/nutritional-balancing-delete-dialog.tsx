@@ -39,7 +39,7 @@ export function NutritionalBalancingDeleteDialog() {
       })
 
       queryClient.invalidateQueries({
-        queryKey: ['nutritional-balancings'],
+        queryKey: ['nutritional-balancings', propertyId],
         exact: false,
       })
 

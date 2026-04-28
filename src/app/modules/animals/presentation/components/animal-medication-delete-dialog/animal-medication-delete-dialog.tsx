@@ -41,7 +41,7 @@ export function AnimalMedicationDeleteDialog() {
       })
 
       queryClient.invalidateQueries({
-        queryKey: ['animal-medications'],
+        queryKey: ['animal-medications', propertyId],
         exact: false,
       })
 

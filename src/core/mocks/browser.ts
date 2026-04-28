@@ -4,7 +4,6 @@ import { setupWorker } from 'msw/browser'
 import {
   createAnimalHandler,
   deleteAnimalHandler,
-  getAllAnimalsHandler,
   getAnimalHandler,
   getAnimalsHandler,
   updateAnimalHandler,
@@ -96,6 +95,13 @@ import {
   updateCultivationPestHandler,
 } from '@/app/modules/cultivations/mocks/handlers/cultivation-pests-handlers'
 import {
+  createForageAvailabilityHandler,
+  deleteForageAvailabilityHandler,
+  getForageAvailabilitiesHandler,
+  getForageAvailabilityHandler,
+  updateForageAvailabilityHandler,
+} from '@/app/modules/forage-availability/mocks/handlers/forage-availability-handlers'
+import {
   createForageHandler,
   deleteForageHandler,
   getForageHandler,
@@ -124,7 +130,6 @@ import {
   updateGeneralCultivationHandler,
 } from '@/app/modules/general-cultivations/mocks/handlers/general-cultivations-handlers'
 import {
-  createImprovementHandler,
   deleteImprovementHandler,
   getImprovementHandler,
   getImprovementsHandler,
@@ -194,7 +199,6 @@ const handlers: HttpHandler[] = [
 
   createAnimalHandler,
   deleteAnimalHandler,
-  getAllAnimalsHandler,
   getAnimalHandler,
   getAnimalsHandler,
   updateAnimalHandler,
@@ -205,7 +209,7 @@ const handlers: HttpHandler[] = [
   getForagesHandler,
   updateForageHandler,
 
-  createImprovementHandler,
+  createInputUseLocationHandler,
   deleteImprovementHandler,
   getImprovementHandler,
   getImprovementsHandler,
@@ -216,6 +220,13 @@ const handlers: HttpHandler[] = [
   getPropertiesHandler,
   getPropertyHandler,
   updatePropertyHandler,
+
+  createForageAvailabilityHandler,
+  deleteForageAvailabilityHandler,
+  getForageAvailabilitiesHandler,
+  getForageAvailabilityHandler,
+  updateForageAvailabilityHandler,
+  updateInputUseLocationHandler,
 
   createMachineHandler,
   deleteMachineHandler,

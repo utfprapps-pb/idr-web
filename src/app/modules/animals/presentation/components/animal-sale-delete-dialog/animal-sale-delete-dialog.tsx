@@ -40,7 +40,7 @@ export function AnimalSaleDeleteDialog() {
       })
 
       queryClient.invalidateQueries({
-        queryKey: ['animal-sales'],
+        queryKey: ['animal-sales', propertyId],
         exact: false,
       })
 

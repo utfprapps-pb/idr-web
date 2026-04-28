@@ -78,7 +78,7 @@ export function EditAnimalPurchaseForm() {
           propertyId,
         })
         queryClient.invalidateQueries({
-          queryKey: ['animal-purchases'],
+          queryKey: ['animal-purchases', propertyId],
           exact: false,
         })
         toast.success('Compra de animal foi editada com sucesso')

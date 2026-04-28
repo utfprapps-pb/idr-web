@@ -101,7 +101,7 @@ This layer requires a highly specific file organization:
     - `index.ts` (exporting `{entity}-form.tsx`)
     - `{entity}-form.tsx` (Wrapper rendering `Create` or `Edit` based on `id` prop presence).
     - `create-{entity}-form.tsx` (using `<Sheet />`, form className `flex flex-col gap-4`, button text "Criar")
-    - `edit-{entity}-form.tsx` (fetches the item via Get One hook, displays `<Loading />` while fetching, form className `flex flex-col gap-4`, button text "Salvar")
+    - `edit-{entity}-form.tsx` (fetches the item via Get One hook, displays `<Loading />` while fetching, form className `flex flex-col gap-4`, button text "Salvar". The `<Sheet.Title>` MUST include a property from the model to identify the entity being edited, e.g., `{`Editar [Entidade] ${selectedEntity?.name}`}`)
     - `{entity}-form-inputs.tsx` (UI inputs mapped to `react-hook-form` via `useFormContext`. Use `useAll{Entities}Query` for Comboboxes/Selects)
     - `{entity}-initial-form-data.ts` (Empty initial data object)
 
@@ -121,6 +121,8 @@ This layer requires a highly specific file organization:
 **DO NOT** rely on your general knowledge to generate the file contents. You must treat the existing modules as strict templates. For every single file you create (e.g., the Delete Dialog, the Create Form, the Data Table, the Use Cases), you must read its equivalent in the reference module, copy its exact implementation logic, and adapt only the entity names, variables, specific domain fields, and **Custom Error Messages**. This is the only way to ensure 100% fidelity to the project's internal patterns. Pay special attention to change strings like "Local de Uso" or "Praga" in exceptions like `NotFoundError("...")` or `ForbiddenError("Você não tem permissão para...")` to match the newly created entity context.
 
 **Presentation Custom Messages:** You must also strictly adapt all success and error toasts, dialog titles, form titles, and action button labels present in the UI layers (`presentation/components`, `presentation/forms`, `presentation/screens`, `presentation/hooks/queries`) to the new entity name. For example, replace `toast.success('Local de utilização removido com sucesso')` with the appropriate label for the new entity. **Pay special attention to `useEffect` error toasts in query hooks** (`presentation/hooks/queries/{entity}-query.hook.ts`).
+
+**Sub-modules and Prefixes:** When creating a sub-module (e.g., `input-use-active-ingredients` inside `input-uses`), ensure all file names, class names, and variable names use the full prefix (e.g., `InputUseActiveIngredient...`) to avoid name collisions within the same module or global namespace. The directory structure should remain consistent: `src/app/modules/{parent-module}/{layer}/.../{sub-module}-...`.
 
 **Form Inputs and Placeholders:** Inside `presentation/forms/{entity}-form-inputs.tsx`, you must adapt all `<Form.Label>` and `<Input placeholder="..." />` to match the new entity's fields and context. Avoid leaving generic labels like "Descrição" if the field is "Nome", and update examples in placeholders (e.g., from "Ex: Galpão" to "Ex: Fertilizantes").
 

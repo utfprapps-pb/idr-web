@@ -71,7 +71,7 @@ export function EditCultivationPestForm() {
           propertyId,
         })
         queryClient.invalidateQueries({
-          queryKey: ['cultivation-pests'],
+          queryKey: ['cultivation-pests', propertyId],
           exact: false,
         })
         toast.success('Praga do cultivo foi editada com sucesso')

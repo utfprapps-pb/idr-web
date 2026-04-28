@@ -34,7 +34,8 @@ export function useAnimalMastitidesQuery({
     isLoading,
     refetch: refetchAnimalMastitides,
   } = useQuery({
-    queryKey: ['animal-mastitides', { page, sort, filters }],
+    queryKey: ['animal-mastitides', propertyId, { page, sort, filters }],
+    enabled: !!propertyId,
     queryFn: () =>
       getAnimalMastitidesUseCase.execute({
         propertyId,

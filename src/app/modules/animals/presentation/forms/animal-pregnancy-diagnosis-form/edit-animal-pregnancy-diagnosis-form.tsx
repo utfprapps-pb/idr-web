@@ -77,7 +77,7 @@ export function EditAnimalPregnancyDiagnosisForm() {
           propertyId,
         })
         queryClient.invalidateQueries({
-          queryKey: ['animal-pregnancy-diagnoses'],
+          queryKey: ['animal-pregnancy-diagnoses', propertyId],
           exact: false,
         })
         toast.success('Diagnóstico de gestação atualizado com sucesso')

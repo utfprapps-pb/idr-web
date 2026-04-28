@@ -76,7 +76,7 @@ export function EditImprovementForm() {
         })
 
         queryClient.invalidateQueries({
-          queryKey: ['improvements'],
+          queryKey: ['improvements', propertyId],
           exact: false,
         })
 

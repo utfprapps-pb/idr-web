@@ -21,7 +21,8 @@ export function useAnimalDeathQuery({ id, propertyId, animalId }: Props) {
     isLoading,
     refetch: refetchAnimalDeath,
   } = useQuery({
-    queryKey: ['animal-death', id],
+    queryKey: ['animal-death', propertyId, id],
+    enabled: !!propertyId && !!id,
     queryFn: () =>
       getAnimalDeathUseCase.execute({
         propertyId,

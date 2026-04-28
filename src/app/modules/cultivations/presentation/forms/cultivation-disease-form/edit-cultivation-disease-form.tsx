@@ -72,7 +72,7 @@ export function EditCultivationDiseaseForm() {
           propertyId,
         })
         queryClient.invalidateQueries({
-          queryKey: ['cultivation-diseases'],
+          queryKey: ['cultivation-diseases', propertyId],
           exact: false,
         })
         toast.success('Doença do cultivo foi editada com sucesso')

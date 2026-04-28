@@ -55,7 +55,7 @@ export function CreateAnimalPregnancyDiagnosisForm() {
         })
 
         queryClient.invalidateQueries({
-          queryKey: ['animal-pregnancy-diagnoses'],
+          queryKey: ['animal-pregnancy-diagnoses', propertyId],
           exact: false,
         })
 

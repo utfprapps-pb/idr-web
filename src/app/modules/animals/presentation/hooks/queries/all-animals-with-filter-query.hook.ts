@@ -28,7 +28,8 @@ export function useAllAnimalsWithFilterQuery({
     isLoading,
     refetch: refetchAllAnimals,
   } = useQuery({
-    queryKey: ['all-animals', { filters }],
+    queryKey: ['all-animals', propertyId, { filters }],
+    enabled: !!propertyId,
     queryFn: () =>
       getAnimalsUseCase.execute({
         propertyId,

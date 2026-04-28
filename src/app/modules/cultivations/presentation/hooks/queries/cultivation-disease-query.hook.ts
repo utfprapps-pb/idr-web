@@ -20,7 +20,8 @@ export function useCultivationDiseaseQuery({ id, propertyId }: Props) {
     isLoading,
     refetch: refetchCultivationDisease,
   } = useQuery({
-    queryKey: ['cultivation-disease', id],
+    queryKey: ['cultivation-disease', propertyId, id],
+    enabled: !!propertyId && !!id,
     queryFn: () =>
       getCultivationDiseaseUseCase.execute({
         propertyId,

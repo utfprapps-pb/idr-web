@@ -34,7 +34,8 @@ export function useAnimalDiseasesQuery({
     isLoading,
     refetch: refetchAnimalDiseases,
   } = useQuery({
-    queryKey: ['animal-diseases', { page, sort, filters }],
+    queryKey: ['animal-diseases', propertyId, { page, sort, filters }],
+    enabled: !!propertyId,
     queryFn: () =>
       getAnimalDiseasesUseCase.execute({
         propertyId,
