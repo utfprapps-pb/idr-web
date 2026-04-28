@@ -53,11 +53,11 @@ export function useForageAvailabilityDataTable() {
       },
       {
         accessorKey: 'kgPerSquareMeter',
-        header: 'Kg/m2',
+        header: 'Kg/m²',
       },
       {
         accessorKey: 'paddockArea',
-        header: 'Área Piquete (m2)',
+        header: 'Área Piquete (m²)',
       },
       {
         accessorKey: 'efficiencyPercent',

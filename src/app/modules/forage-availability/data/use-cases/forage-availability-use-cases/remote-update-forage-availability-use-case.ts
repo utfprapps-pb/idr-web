@@ -4,6 +4,7 @@ import {
   ForbiddenError,
   UnexpectedError,
 } from '@/core/domain/errors'
+import { onlyNumbersMask, unmaskFloat } from '@/core/masker'
 
 import { type UpdateForageAvailabilityUseCase } from '../../../domain/use-cases/forage-availability-use-cases'
 
@@ -22,7 +23,15 @@ export class RemoteUpdateForageAvailabilityUseCase
     const { statusCode } = await this.httpClient.request({
       url: `${this.url.replace(':propertyId', propertyId.toString())}/${id}`,
       method: 'patch',
-      body: forageAvailability,
+      body: {
+        ...forageAvailability,
+        entranceCm: unmaskFloat(forageAvailability.entranceCm),
+        residueCm: unmaskFloat(forageAvailability.residueCm),
+        kgPerSquareMeter: unmaskFloat(forageAvailability.kgPerSquareMeter),
+        paddockArea: unmaskFloat(forageAvailability.paddockArea),
+        efficiencyPercent: unmaskFloat(forageAvailability.efficiencyPercent),
+        numberOfCows: Number(onlyNumbersMask(forageAvailability.numberOfCows)),
+      },
     })
 
     if (statusCode === HttpStatusCode.noContent) return

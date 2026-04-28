@@ -5,6 +5,7 @@ import {
   NotFoundError,
   UnexpectedError,
 } from '@/core/domain/errors'
+import { formatNumber } from '@/core/masker'
 
 import {
   type ForageAvailabilityDetailsApiResponse,
@@ -36,12 +37,16 @@ export class RemoteGetForageAvailabilityUseCase
       return {
         date: new Date(body.date),
         forage: body.forage,
-        entranceCm: body.entranceCm,
-        residueCm: body.residueCm,
-        kgPerSquareMeter: body.kgPerSquareMeter,
-        paddockArea: body.paddockArea,
-        efficiencyPercent: body.efficiencyPercent,
-        numberOfCows: body.numberOfCows,
+        entranceCm: formatNumber(body.entranceCm, { suffix: 'cm' }),
+        residueCm: formatNumber(body.residueCm, { suffix: 'cm' }),
+        kgPerSquareMeter: formatNumber(body.kgPerSquareMeter, {
+          suffix: 'kg/m²',
+        }),
+        paddockArea: formatNumber(body.paddockArea, { suffix: 'm²' }),
+        efficiencyPercent: formatNumber(body.efficiencyPercent, {
+          suffix: '%',
+        }),
+        numberOfCows: body.numberOfCows.toString(),
       }
 
     if (statusCode === HttpStatusCode.badRequest) throw new BadRequestError()

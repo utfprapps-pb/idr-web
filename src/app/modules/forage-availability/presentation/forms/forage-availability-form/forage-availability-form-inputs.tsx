@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 
 import { useAllForagesQuery } from '@/app/modules/forages/presentation/hooks/queries/all-forages-query.hook'
-import { onlyNumbersAndDecimalMask, onlyNumbersMask } from '@/core/masker'
+import { floatMask, onlyNumbersMask } from '@/core/masker'
 import {
   Combobox,
   DatePicker,
@@ -89,8 +89,8 @@ export function ForageAvailabilityFormInputs() {
               <Form.Control>
                 <Input
                   {...field}
-                  placeholder="Ex: 25"
-                  mask={onlyNumbersAndDecimalMask}
+                  placeholder="Ex: 25,00 cm"
+                  mask={(val) => floatMask(val, 'cm')}
                   isError={!!fieldState.error}
                 />
               </Form.Control>
@@ -108,8 +108,8 @@ export function ForageAvailabilityFormInputs() {
               <Form.Control>
                 <Input
                   {...field}
-                  placeholder="Ex: 10"
-                  mask={onlyNumbersAndDecimalMask}
+                  placeholder="Ex: 10,00 cm"
+                  mask={(val) => floatMask(val, 'cm')}
                   isError={!!fieldState.error}
                 />
               </Form.Control>
@@ -125,12 +125,12 @@ export function ForageAvailabilityFormInputs() {
           name="kgPerSquareMeter"
           render={({ field, fieldState }) => (
             <Form.Item>
-              <Form.Label>Kg/m2*</Form.Label>
+              <Form.Label>Kg/m²*</Form.Label>
               <Form.Control>
                 <Input
                   {...field}
-                  placeholder="Ex: 1,50"
-                  mask={onlyNumbersAndDecimalMask}
+                  placeholder="Ex: 1,50 kg/m²"
+                  mask={(val) => floatMask(val, 'kg/m²')}
                   isError={!!fieldState.error}
                 />
               </Form.Control>
@@ -144,12 +144,12 @@ export function ForageAvailabilityFormInputs() {
           name="paddockArea"
           render={({ field, fieldState }) => (
             <Form.Item>
-              <Form.Label>Área de Piquete (m2)*</Form.Label>
+              <Form.Label>Área de Piquete (m²)*</Form.Label>
               <Form.Control>
                 <Input
                   {...field}
-                  placeholder="Ex: 1000"
-                  mask={onlyNumbersAndDecimalMask}
+                  placeholder="Ex: 1.000,00 m²"
+                  mask={(val) => floatMask(val, 'm²')}
                   isError={!!fieldState.error}
                 />
               </Form.Control>
@@ -169,8 +169,8 @@ export function ForageAvailabilityFormInputs() {
               <Form.Control>
                 <Input
                   {...field}
-                  placeholder="Ex: 70"
-                  mask={onlyNumbersAndDecimalMask}
+                  placeholder="Ex: 70,00 %"
+                  mask={(val) => floatMask(val, '%')}
                   isError={!!fieldState.error}
                 />
               </Form.Control>

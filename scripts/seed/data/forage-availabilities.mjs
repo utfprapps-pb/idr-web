@@ -18,14 +18,16 @@ export const forageAvailabilitiesData = Array.from(
       id: index + 1,
       date: faker.date.recent(),
       forage: forage.cultivation,
-      entranceCm: String(faker.number.int({ min: 20, max: 40 })),
-      residueCm: String(faker.number.int({ min: 5, max: 15 })),
-      kgPerSquareMeter: String(
-        faker.number.float({ min: 0.5, max: 3, fractionDigits: 2 })
-      ),
-      paddockArea: String(faker.number.int({ min: 500, max: 5000 })),
-      efficiencyPercent: String(faker.number.int({ min: 60, max: 90 })),
-      numberOfCows: String(faker.number.int({ min: 10, max: 100 })),
+      entranceCm: faker.number.int({ min: 20, max: 40 }),
+      residueCm: faker.number.int({ min: 5, max: 15 }),
+      kgPerSquareMeter: faker.number.float({
+        min: 0.5,
+        max: 3,
+        fractionDigits: 2,
+      }),
+      paddockArea: faker.number.int({ min: 500, max: 5000 }),
+      efficiencyPercent: faker.number.int({ min: 60, max: 90 }),
+      numberOfCows: faker.number.int({ min: 10, max: 100 }),
     }
   }
 )

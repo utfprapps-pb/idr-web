@@ -14,12 +14,12 @@ export type ForageAvailabilityDetailsModel = {
 export type ForageAvailabilityDetailsApiResponse = {
   date: string
   forage: Option
-  entranceCm: string
-  residueCm: string
-  kgPerSquareMeter: string
-  paddockArea: string
-  efficiencyPercent: string
-  numberOfCows: string
+  entranceCm: number
+  residueCm: number
+  kgPerSquareMeter: number
+  paddockArea: number
+  efficiencyPercent: number
+  numberOfCows: number
 }
 
 export type ForageAvailabilityModel = WithId<{
@@ -36,10 +36,10 @@ export type ForageAvailabilityModel = WithId<{
 export type ForageAvailabilityApiResponse = WithId<{
   date: string
   forage: string
-  entranceCm: string
-  residueCm: string
-  kgPerSquareMeter: string
-  paddockArea: string
-  efficiencyPercent: string
-  numberOfCows: string
+  entranceCm: number
+  residueCm: number
+  kgPerSquareMeter: number
+  paddockArea: number
+  efficiencyPercent: number
+  numberOfCows: number
 }>

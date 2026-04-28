@@ -8,6 +8,7 @@ import {
   type ListApiResponse,
   type MapApiProperties,
 } from '@/core/domain/types'
+import { formatNumber } from '@/core/masker'
 
 import {
   type ForageAvailabilityApiResponse,
@@ -63,12 +64,16 @@ export class RemoteGetForageAvailabilitiesUseCase
           id: item.id,
           date: new Date(item.date),
           forage: item.forage,
-          entranceCm: item.entranceCm,
-          residueCm: item.residueCm,
-          kgPerSquareMeter: item.kgPerSquareMeter,
-          paddockArea: item.paddockArea,
-          efficiencyPercent: item.efficiencyPercent,
-          numberOfCows: item.numberOfCows,
+          entranceCm: formatNumber(item.entranceCm, { suffix: 'cm' }),
+          residueCm: formatNumber(item.residueCm, { suffix: 'cm' }),
+          kgPerSquareMeter: formatNumber(item.kgPerSquareMeter, {
+            suffix: 'kg/m²',
+          }),
+          paddockArea: formatNumber(item.paddockArea, { suffix: 'm²' }),
+          efficiencyPercent: formatNumber(item.efficiencyPercent, {
+            suffix: '%',
+          }),
+          numberOfCows: item.numberOfCows.toString(),
         })),
         totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
       }
