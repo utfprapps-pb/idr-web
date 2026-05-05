@@ -1,6 +1,6 @@
 import type { Filters, MapApiProperties, Sort } from '@/core/domain/types'
 
-export type HttpMethod = 'get' | 'post' | 'delete' | 'patch'
+export type HttpMethod = 'get' | 'post' | 'delete' | 'patch' | 'put'
 
 export enum HttpStatusCode {
   ok = 200,
