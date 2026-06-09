@@ -5,30 +5,26 @@ import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay } from '@/core/mocks/middleware'
 
 type Params = {
-  username: string
-  password: string
+  token: string
 }
 
 type Response = {
-  user: {
-    displayName: string
-  }
   accessToken: string
   refreshToken: string
 }
 
-export const loginHandler = httpWithMiddleware<
+export const refreshHandler = httpWithMiddleware<
   never,
   Params,
   Response | object
 >({
-  routePath: '/api/login',
+  routePath: '/api/v1/auth/refresh',
   method: 'post',
   middlewares: [withDelay()],
   resolver: async ({ request }) => {
-    const { username, password } = await request.json()
+    const { token } = await request.json()
 
-    if (username && password) {
+    if (token) {
       return HttpResponse.json({
         accessToken: faker.string.uuid(),
         refreshToken: faker.string.uuid(),

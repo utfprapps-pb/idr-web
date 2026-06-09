@@ -62,6 +62,9 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   const signOut = useCallback(() => {
     LocalStorageAdapter.set(LocalStorageAdapter.LOCAL_STORAGE_KEYS.AUTH)
+    LocalStorageAdapter.set(
+      LocalStorageAdapter.LOCAL_STORAGE_KEYS.REFRESH_TOKEN
+    )
     setSignedIn(false)
     queryClient.removeQueries({ queryKey: ['users', 'me'] })
     navigateToBasePath()
@@ -73,6 +76,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
       signOut()
     }
   }, [isError, signOut])
+
+  useEffect(() => {
+    const handleTokenExpired = () => signOut()
+    window.addEventListener('auth:token-expired', handleTokenExpired)
+    return () =>
+      window.removeEventListener('auth:token-expired', handleTokenExpired)
+  }, [signOut])
 
   const providerProps = useMemo(
     () => ({

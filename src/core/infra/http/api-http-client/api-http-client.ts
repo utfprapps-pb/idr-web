@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios'
+import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 
 import {
   HttpClient,
@@ -6,6 +6,7 @@ import {
   HttpResponse,
 } from '@/core/data/protocols/http'
 import { env } from '@/core/env'
+import { LocalStorageAdapter } from '@/core/infra/cache'
 
 import { authInterceptorRequest } from './interceptors/auth-interceptor'
 
@@ -27,7 +28,62 @@ export const baseApi = axios.create({
   timeout: 30 * 1000,
   validateStatus: (status: number) => status >= 200 && status < 300,
 })
+const refreshBaseApi = axios.create({
+  baseURL: baseApi.defaults.baseURL,
+  headers: { 'Content-Type': 'application/json' },
+  timeout: 30 * 1000,
+})
+
+function clearTokensAndNotify() {
+  LocalStorageAdapter.set(LocalStorageAdapter.LOCAL_STORAGE_KEYS.AUTH)
+  LocalStorageAdapter.set(LocalStorageAdapter.LOCAL_STORAGE_KEYS.REFRESH_TOKEN)
+  window.dispatchEvent(new Event('auth:token-expired'))
+}
+
 baseApi.interceptors.request.use(authInterceptorRequest)
+baseApi.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (!axios.isAxiosError(error)) return Promise.reject(error)
+    const originalRequest = error.config as
+      | (InternalAxiosRequestConfig & { retry?: boolean })
+      | undefined
+    if (!originalRequest) return Promise.reject(error)
+    if (
+      (error.response?.status === 401 || error.response?.status === 403) &&
+      !originalRequest.retry
+    ) {
+      originalRequest.retry = true
+      const refreshToken = LocalStorageAdapter.get(
+        LocalStorageAdapter.LOCAL_STORAGE_KEYS.REFRESH_TOKEN
+      )
+      if (!refreshToken) {
+        clearTokensAndNotify()
+        return Promise.reject(error)
+      }
+      try {
+        const { data } = await refreshBaseApi.post<{
+          accessToken: string
+          refreshToken: string
+        }>('api/v1/auth/refresh', { token: refreshToken })
+        LocalStorageAdapter.set(
+          LocalStorageAdapter.LOCAL_STORAGE_KEYS.AUTH,
+          data.accessToken
+        )
+        LocalStorageAdapter.set(
+          LocalStorageAdapter.LOCAL_STORAGE_KEYS.REFRESH_TOKEN,
+          data.refreshToken
+        )
+        originalRequest.headers.Authorization = `Bearer ${data.accessToken}`
+        return baseApi(originalRequest)
+      } catch {
+        clearTokensAndNotify()
+        return Promise.reject(error)
+      }
+    }
+    return Promise.reject(error)
+  }
+)
 
 export class ApiHttpClient<
   TModel = unknown,

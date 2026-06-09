@@ -1,7 +1,9 @@
 export type AuthModel = {
-  token: string
+  accessToken: string
+  refreshToken: string
 }
 
 export type AuthApiResponse = {
-  token: string
+  accessToken: string
+  refreshToken: string
 }

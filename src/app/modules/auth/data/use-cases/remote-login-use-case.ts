@@ -28,7 +28,8 @@ export class RemoteLoginUseCase implements LoginUseCase {
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        token: body.token,
+        accessToken: body.accessToken,
+        refreshToken: body.refreshToken,
       }
     }
 

@@ -9,7 +9,7 @@ import type { GetMeUseCase } from '@/core/domain/use-cases/users-use-cases'
 
 export function makeRemoteGetMeUseCase(): GetMeUseCase {
   return new RemoteGetMeUseCase(
-    'users/me',
+    'v1/users/me',
     makeApiHttpClient<UserModel, UserApiResponse>()
   )
 }

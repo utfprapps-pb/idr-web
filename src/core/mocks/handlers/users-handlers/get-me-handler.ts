@@ -9,7 +9,7 @@ type Response = {
 }
 
 export const getMeHandler = httpWithMiddleware<never, never, Response>({
-  routePath: '/api/users/me',
+  routePath: 'v1/users/me',
   method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async () =>
