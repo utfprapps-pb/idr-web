@@ -5,5 +5,5 @@ import { RemoteDeletePropertyUseCase } from '../../../data/use-cases'
 import type { DeletePropertyUseCase } from '../../../domain/use-cases'
 
 export function makeRemoteDeletePropertyUseCase(): DeletePropertyUseCase {
-  return new RemoteDeletePropertyUseCase('properties', makeApiHttpClient())
+  return new RemoteDeletePropertyUseCase('v1/properties', makeApiHttpClient())
 }

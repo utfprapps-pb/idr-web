@@ -6,7 +6,10 @@ import { withAuth, withDelay } from '@/core/mocks/middleware'
 
 import inputUseLocationsData from '@database/inputUseLocationsData.json'
 
-import type { InputUseLocationApiResponse } from '@/app/modules/input-uses/domain/models/input-use-locations-model'
+import type {
+  InputUseLocationApiResponse,
+  InputUseLocationDetailsApiResponse,
+} from '@/app/modules/input-uses/domain/models/input-use-locations-model'
 
 export const getInputUseLocationHandler = httpWithMiddleware<
   PathParams<'id'>,
@@ -19,7 +22,7 @@ export const getInputUseLocationHandler = httpWithMiddleware<
   resolver: async ({ params }) => {
     const id = Number(params.id)
     const inputUseLocation = inputUseLocationsData.find(
-      (item) => item.id === id
+      (item: InputUseLocationDetailsApiResponse) => item.id === id
     )
 
     if (!inputUseLocation) {

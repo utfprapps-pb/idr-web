@@ -9,7 +9,7 @@ import { usePropertyContext } from '../../hooks/property-context.hook'
 import { usePropertiesQuery } from '../../hooks/queries/properties-query.hook'
 
 import type { PropertyModel } from '../../../domain/models/properties-model'
-import type { PropertyFilters, PropertySort } from '../../types'
+import type { PropertyFilters } from '../../types'
 import type { ColumnDef } from '@tanstack/react-table'
 
 export function usePropertyDataTable() {
@@ -17,30 +17,19 @@ export function usePropertyDataTable() {
     usePropertyContext()
 
   const [page, setPage] = useState(1)
-  const [sort, setSort] = useState<PropertySort>()
   const [filters, setFilters] = useState<PropertyFilters>({})
   const debouncedFilters = useDebounce({ value: filters })
 
   const { isLoading, properties } = usePropertiesQuery({
     filters: debouncedFilters,
     page,
-    sort,
   })
 
   const columns = useMemo<ColumnDef<PropertyModel>[]>(
     () => [
       {
-        accessorKey: 'producer',
-        header: 'Produtor',
-      },
-      {
         accessorKey: 'name',
         header: 'Propriedade',
-      },
-      {
-        accessorKey: 'county',
-        header: 'Município',
-        accessorFn: ({ county }) => `${county.city} - ${county.state}`,
       },
       {
         id: 'row-actions',
@@ -88,9 +77,7 @@ export function usePropertyDataTable() {
     isLoading,
     filters,
     page,
-    sort,
     setFilters,
-    setSort,
     setPage,
   }
 }

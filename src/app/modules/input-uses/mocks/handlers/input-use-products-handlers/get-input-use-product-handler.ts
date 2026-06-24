@@ -21,7 +21,7 @@ export const getInputUseProductHandler = httpWithMiddleware<
     const { id } = params
 
     const inputUseProduct = inputUseProductsData.find(
-      (item) => item.id === Number(id)
+      (item: InputUseProductDetailsApiResponse) => item.id === Number(id)
     )
 
     if (!inputUseProduct) {

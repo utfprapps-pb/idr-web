@@ -19,7 +19,7 @@ export const getForageAvailabilityHandler = httpWithMiddleware<
   resolver: async ({ params }) => {
     const id = Number(params.id)
     const forageAvailability = forageAvailabilitiesData.find(
-      (item) => item.id === id
+      (item: ForageAvailabilityDetailsApiResponse) => item.id === id
     )
 
     if (!forageAvailability) {

@@ -42,7 +42,7 @@ export function EditPropertyForm() {
 
   const form = useHookForm<PropertyFormSchema>({
     defaultValues: PROPERTY_INITIAL_FORM_DATA,
-    values: property,
+    ...(property && { values: property }),
     resolver: zodResolver(propertyFormSchema),
   })
 
@@ -114,40 +114,40 @@ export function EditPropertyForm() {
           </Sheet.Description>
         </Sheet.Header>
 
-        {isLoading ? (
-          <div className="flex justify-center h-full items-center">
-            <Loading size="lg" />
-          </div>
-        ) : (
-          <Tabs.Root
-            defaultValue="general"
-            value={activeTab}
+        <Form.Provider {...form}>
+          <form
+            id="update-property-form"
             className="h-[calc(100%-110px)]"
-            onValueChange={setActiveTab}
+            onSubmit={form.handleSubmit(handleUpdateProperty)}
           >
-            <ScrollArea.Root>
-              <Tabs.List>
-                {tabs.map((tab) => (
-                  <Tabs.Trigger
-                    key={tab.value}
-                    value={tab.value}
-                    onClick={() => setActiveTab(tab.value)}
-                  >
-                    {tab.title}
-                  </Tabs.Trigger>
-                ))}
-              </Tabs.List>
-
-              <ScrollArea.ScrollBar orientation="horizontal" />
-            </ScrollArea.Root>
-
-            <Form.Provider {...form}>
-              <form
-                id="update-property-form"
-                className="h-[calc(100%-44px)]"
-                onSubmit={form.handleSubmit(handleUpdateProperty)}
+            {isLoading ? (
+              <div className="flex justify-center h-full items-center">
+                <Loading size="lg" />
+              </div>
+            ) : (
+              <Tabs.Root
+                defaultValue="general"
+                value={activeTab}
+                className="h-full"
+                onValueChange={setActiveTab}
               >
-                <ScrollArea.Root className="h-full">
+                <ScrollArea.Root>
+                  <Tabs.List>
+                    {tabs.map((tab) => (
+                      <Tabs.Trigger
+                        key={tab.value}
+                        value={tab.value}
+                        onClick={() => setActiveTab(tab.value)}
+                      >
+                        {tab.title}
+                      </Tabs.Trigger>
+                    ))}
+                  </Tabs.List>
+
+                  <ScrollArea.ScrollBar orientation="horizontal" />
+                </ScrollArea.Root>
+
+                <ScrollArea.Root className="h-[calc(100%-44px)]">
                   <Tabs.Content
                     value={activeTab}
                     className="flex flex-col gap-4 px-2"
@@ -155,10 +155,10 @@ export function EditPropertyForm() {
                     {tabs.find((tab) => tab.value === activeTab)?.component}
                   </Tabs.Content>
                 </ScrollArea.Root>
-              </form>
-            </Form.Provider>
-          </Tabs.Root>
-        )}
+              </Tabs.Root>
+            )}
+          </form>
+        </Form.Provider>
 
         <Sheet.Footer className="pb-8">
           <Button
