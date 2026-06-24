@@ -1,11 +1,21 @@
-import type { WithId } from '../types'
+import type { Option, WithId } from '../types'
+
+export type UserRole =
+  | 'ADMIN'
+  | 'COORDENACAO_GERAL'
+  | 'GERENCIA_MACRO'
+  | 'GERENCIA_REGIONAL'
+  | 'GERENCIA_MUNICIPAL'
+  | 'TECNICO'
 
 export type UserModel = WithId<{
   name: string
+  role?: UserRole
 }>
 
 export type UserApiResponse = WithId<{
   displayName: string
+  role?: string
 }>
 
 export type CreateUserModel = {
@@ -19,6 +29,6 @@ export type CreateUserModel = {
   professionalRegister: string
   cep: string
   street: string
-  city: string
+  cityId: Option<string>
   houseNumber?: string
 }

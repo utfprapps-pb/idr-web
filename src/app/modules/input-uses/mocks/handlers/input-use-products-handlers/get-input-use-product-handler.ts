@@ -7,7 +7,10 @@ import { withAuth, withDelay } from '@/core/mocks/middleware'
 
 import inputUseProductsData from '@database/inputUseProductsData.json'
 
-import type { InputUseProductDetailsApiResponse } from '@/app/modules/input-uses/domain/models/input-use-products-model'
+import type {
+  InputUseProductApiResponse,
+  InputUseProductDetailsApiResponse,
+} from '@/app/modules/input-uses/domain/models/input-use-products-model'
 
 export const getInputUseProductHandler = httpWithMiddleware<
   PathParams<'id'>,
@@ -21,7 +24,7 @@ export const getInputUseProductHandler = httpWithMiddleware<
     const { id } = params
 
     const inputUseProduct = inputUseProductsData.find(
-      (item: InputUseProductDetailsApiResponse) => item.id === Number(id)
+      (item: InputUseProductApiResponse) => item.id === Number(id)
     )
 
     if (!inputUseProduct) {

@@ -65,7 +65,7 @@ baseApi.interceptors.response.use(
         const { data } = await refreshBaseApi.post<{
           accessToken: string
           refreshToken: string
-        }>('api/v1/auth/refresh', { token: refreshToken })
+        }>('v1/auth/refresh', { token: refreshToken })
         LocalStorageAdapter.set(
           LocalStorageAdapter.LOCAL_STORAGE_KEYS.AUTH,
           data.accessToken

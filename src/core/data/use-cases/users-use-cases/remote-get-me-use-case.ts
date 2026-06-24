@@ -28,6 +28,7 @@ export class RemoteGetMeUseCase implements GetMeUseCase {
       return {
         id: body.id,
         name: body.displayName,
+        role: body.role as UserModel['role'],
       }
     }
 

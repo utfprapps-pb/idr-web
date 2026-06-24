@@ -70,7 +70,7 @@ export function AnimalMedicationFormInputs() {
               <Form.Item>
                 <Form.Label>Produto*</Form.Label>
                 <Form.Control>
-                  <Combobox<{ activeIngredient: string }>
+                  <Combobox<number, { activeIngredient: string }>
                     search={searchProduct}
                     items={allInputUseProducts}
                     loading={isLoadingAllProducts}

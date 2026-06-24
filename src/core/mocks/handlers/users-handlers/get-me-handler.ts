@@ -6,6 +6,7 @@ import { withDelay, withAuth } from '../../middleware'
 
 type Response = {
   displayName: string
+  role: string
 }
 
 export const getMeHandler = httpWithMiddleware<never, never, Response>({
@@ -16,6 +17,7 @@ export const getMeHandler = httpWithMiddleware<never, never, Response>({
     HttpResponse.json(
       {
         displayName: faker.person.fullName(),
+        role: 'ADMIN',
       },
       { status: 200 }
     ),

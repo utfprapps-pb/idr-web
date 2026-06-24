@@ -52,15 +52,17 @@ export function LoggedContainer({
         }}
       >
         <Sidebar.List>
-          {sidebarItems.map(({ key, name, icon: Icon, path, matchPattern }) => (
-            <Sidebar.Item
-              key={key}
-              active={new RegExp(matchPattern).test(currentPathname)}
-              onClick={() => navigate(path)}
-            >
-              <Icon size={24} /> {name}
-            </Sidebar.Item>
-          ))}
+          {sidebarItems
+            .filter((item) => !item.adminOnly || user?.role === 'ADMIN')
+            .map(({ key, name, icon: Icon, path, matchPattern }) => (
+              <Sidebar.Item
+                key={key}
+                active={new RegExp(matchPattern).test(currentPathname)}
+                onClick={() => navigate(path)}
+              >
+                <Icon size={24} /> {name}
+              </Sidebar.Item>
+            ))}
         </Sidebar.List>
 
         <Button

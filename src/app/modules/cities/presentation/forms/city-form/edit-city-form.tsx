@@ -38,7 +38,7 @@ export function EditCityForm() {
           state: citySelected.state as CityFormSchema['state'],
           regionId: citySelected.regionId,
         }
-      : CITY_INITIAL_FORM_DATA,
+      : undefined,
     resolver: zodResolver(cityFormSchema),
   })
 
