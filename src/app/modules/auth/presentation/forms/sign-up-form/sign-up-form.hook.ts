@@ -5,6 +5,7 @@ import { useMutation } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
 import { useHookForm, useIdrNavigate } from '@/core/presentation/hooks'
+import { getApiErrorMessage } from '@/core/utils'
 
 import { makeRemoteCreateUserUseCase } from '../../../main/factories/use-cases'
 import {
@@ -13,8 +14,6 @@ import {
   type SignUpFormFirstStepSchema,
   type SignUpFormSecondStepSchema,
 } from '../../validations/sign-up-form-schema'
-
-import type { AxiosError } from 'axios'
 
 export function useSignUpForm() {
   const [isFirstStep, setIsFirstStep] = useState(true)
@@ -39,7 +38,7 @@ export function useSignUpForm() {
       professionalRegister: '',
       cep: '',
       street: '',
-      city: '',
+      cityId: { label: '', value: '' },
       houseNumber: '',
     },
     resolver: zodResolver(
@@ -50,6 +49,10 @@ export function useSignUpForm() {
   const { mutateAsync: mutateHandleCreateUser } = useMutation({
     mutationFn: createUser.execute,
   })
+
+  const handleGoBack = useCallback(() => {
+    setIsFirstStep(true)
+  }, [])
 
   const handleCreateUser = useCallback(
     async (data: SignUpFormFirstStepSchema & SignUpFormSecondStepSchema) => {
@@ -68,8 +71,7 @@ export function useSignUpForm() {
         toast.success('Conta criada com sucesso')
         navigateToBasePath()
       } catch (error) {
-        const axiosError = error as AxiosError
-        toast.error(axiosError.message)
+        toast.error(getApiErrorMessage(error))
       }
     },
     [firstStepData, isFirstStep, mutateHandleCreateUser, navigateToBasePath]
@@ -78,6 +80,7 @@ export function useSignUpForm() {
   return {
     form,
     isFirstStep,
+    handleGoBack,
     handleCreateUser,
   }
 }

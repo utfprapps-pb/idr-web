@@ -1,2 +1,5 @@
 export * from './login-handler'
 export * from './refresh-handler'
+export * from './request-password-recovery-handler'
+export * from './validate-recovery-code-handler'
+export * from './reset-password-handler'

@@ -1,8 +1,14 @@
 import { type HttpClient, HttpStatusCode } from '@/core/data/protocols/http'
-import { InvalidCredentialsError, UnexpectedError } from '@/core/domain/errors'
+import {
+  ForbiddenError,
+  InvalidCredentialsError,
+  UnexpectedError,
+} from '@/core/domain/errors'
 
 import type { AuthApiResponse, AuthModel } from '../../domain/models/auth-model'
 import type { LoginUseCase } from '../../domain/use-cases'
+
+type ApiErrorBody = { message?: string }
 
 export class RemoteLoginUseCase implements LoginUseCase {
   constructor(
@@ -26,6 +32,11 @@ export class RemoteLoginUseCase implements LoginUseCase {
       throw new InvalidCredentialsError()
     }
 
+    if (statusCode === HttpStatusCode.forbidden) {
+      const apiMessage = (body as ApiErrorBody | undefined)?.message
+      throw new ForbiddenError(apiMessage)
+    }
+
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
         accessToken: body.accessToken,
@@ -33,6 +44,7 @@ export class RemoteLoginUseCase implements LoginUseCase {
       }
     }
 
-    throw new UnexpectedError()
+    const apiMessage = (body as ApiErrorBody | undefined)?.message
+    throw new UnexpectedError(apiMessage)
   }
 }

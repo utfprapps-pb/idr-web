@@ -1,2 +1,5 @@
 export * from './remote-create-user-use-case'
 export * from './remote-login-use-case'
+export * from './remote-request-password-recovery-use-case'
+export * from './remote-validate-password-recovery-code-use-case'
+export * from './remote-reset-password-use-case'

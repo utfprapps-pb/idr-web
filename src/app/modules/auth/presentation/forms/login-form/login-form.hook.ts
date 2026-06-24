@@ -7,6 +7,7 @@ import toast from 'react-hot-toast'
 import { InvalidCredentialsError } from '@/core/domain/errors'
 import { LocalStorageAdapter } from '@/core/infra/cache'
 import { useAuth, useHookForm } from '@/core/presentation/hooks'
+import { getApiErrorMessage } from '@/core/utils'
 
 import { makeRemoteLoginUseCase } from '../../../main/factories/use-cases'
 import {
@@ -48,7 +49,7 @@ export function useLoginForm() {
           return
         }
 
-        toast.error('Erro inesperado, tente novamente mais tarde')
+        toast.error(getApiErrorMessage(error))
       }
     },
     [mutateHandleLogin, signIn]
