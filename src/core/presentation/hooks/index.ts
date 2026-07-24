@@ -1,4 +1,5 @@
 export * from './queries'
+export * from './sync'
 
 export * from './auth.hook'
 export * from './debounce.hook'

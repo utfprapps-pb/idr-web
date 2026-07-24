@@ -159,25 +159,30 @@ export class ApiHttpClient<
           }
         : undefined
 
+    const isFormData = data.body instanceof FormData
+
     try {
       axiosResponse = await baseApi.request({
         ...data,
         url,
-        data: {
-          ...(typeof data.body === 'object' && data.body !== null
-            ? data.body
-            : {}),
-          ...(pagination
-            ? {
-                page: pagination.page - 1,
-                rows: pagination.perPage ?? ITEMS_PER_PAGE,
-              }
-            : {}),
-          ...(sortInfo ? { sort: sortInfo } : {}),
-          ...(filtersArray && filtersArray.length > 0
-            ? { filters: filtersArray }
-            : {}),
-        },
+        ...(isFormData ? { headers: { 'Content-Type': undefined } } : {}),
+        data: isFormData
+          ? data.body
+          : {
+              ...(typeof data.body === 'object' && data.body !== null
+                ? data.body
+                : {}),
+              ...(pagination
+                ? {
+                    page: pagination.page - 1,
+                    rows: pagination.perPage ?? ITEMS_PER_PAGE,
+                  }
+                : {}),
+              ...(sortInfo ? { sort: sortInfo } : {}),
+              ...(filtersArray && filtersArray.length > 0
+                ? { filters: filtersArray }
+                : {}),
+            },
       })
     } catch (error: unknown) {
       if (error instanceof Error) {

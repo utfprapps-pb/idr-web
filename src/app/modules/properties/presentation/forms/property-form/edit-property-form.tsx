@@ -81,7 +81,19 @@ export function EditPropertyForm() {
   const handleUpdateProperty = useCallback(
     async (data: PropertyFormSchema) => {
       try {
-        await mutateHandleUpdateProperty({ ...data, id: propertySelected!.id })
+        const currentImageIds = new Set(
+          data.localization.images.map((image) => image.id).filter(Boolean)
+        )
+        const removeAttachmentIds = (property?.localization.images ?? [])
+          .map((image) => image.id)
+          .filter((imageId): imageId is string => !!imageId)
+          .filter((imageId) => !currentImageIds.has(imageId))
+
+        await mutateHandleUpdateProperty({
+          ...data,
+          id: propertySelected!.id,
+          removeAttachmentIds,
+        })
         queryClient.invalidateQueries({
           queryKey: ['properties'],
         })
@@ -96,6 +108,7 @@ export function EditPropertyForm() {
       closeEditPropertyForm,
       form,
       mutateHandleUpdateProperty,
+      property,
       propertySelected,
       queryClient,
     ]

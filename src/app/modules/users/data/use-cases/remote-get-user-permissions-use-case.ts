@@ -8,11 +8,17 @@ import {
 import type { GetUserPermissionsUseCase } from '../../domain/use-cases'
 import type { UserRole } from '@/core/domain/models/users-model'
 
-type UserPermissionsApiResponse = {
+type UserPermissionItem = {
+  id: string
   role: string
   readOnly: boolean
   regionIds: string[]
   cityIds: string[]
+}
+
+type UserPermissionsApiResponse = {
+  userId: string
+  permissions: UserPermissionItem[]
 }
 
 export class RemoteGetUserPermissionsUseCase
@@ -34,11 +40,13 @@ export class RemoteGetUserPermissionsUseCase
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
+      const permission = body.permissions?.[0]
+
       return {
-        role: body.role as UserRole,
-        readOnly: body.readOnly,
-        regionIds: body.regionIds ?? [],
-        cityIds: body.cityIds ?? [],
+        role: (permission?.role as UserRole) ?? 'TECNICO',
+        readOnly: permission?.readOnly ?? false,
+        regionIds: permission?.regionIds ?? [],
+        cityIds: permission?.cityIds ?? [],
       }
     }
 

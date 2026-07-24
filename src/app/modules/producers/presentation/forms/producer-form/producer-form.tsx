@@ -1,11 +1,17 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useFormContext } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
+import {
+  addPendingEntity,
+  isCacheExpired,
+  isCacheValid,
+} from '@/core/lib/offline'
 import { cpfMask } from '@/core/masker'
+import { OfflineBanner } from '@/core/presentation/components/sync/offline-banner'
 import {
   Button,
   Form,
@@ -33,6 +39,8 @@ import { PRODUCER_INITIAL_FORM_DATA } from './producer-initial-form-data'
 type ProducerFormProps = {
   readonly id?: string
 }
+
+type CacheStatus = 'valid' | 'expired' | 'absent' | null
 
 function ProducerFormFields() {
   const form = useFormContext<ProducerFormSchema>()
@@ -80,6 +88,37 @@ function CreateProducerForm() {
 
   const queryClient = useQueryClient()
 
+  // Task 4.3: stable localId for this form instance
+  const [localId] = useState(() => crypto.randomUUID())
+
+  const [isOnline, setIsOnline] = useState(navigator.onLine)
+  const [cacheStatus, setCacheStatus] = useState<CacheStatus>(null)
+
+  useEffect(() => {
+    const on = () => setIsOnline(true)
+    const off = () => setIsOnline(false)
+    window.addEventListener('online', on)
+    window.addEventListener('offline', off)
+    return () => {
+      window.removeEventListener('online', on)
+      window.removeEventListener('offline', off)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!isOnline) {
+      Promise.all([isCacheValid(), isCacheExpired()]).then(
+        ([valid, expired]) => {
+          if (valid) setCacheStatus('valid')
+          else if (expired) setCacheStatus('expired')
+          else setCacheStatus('absent')
+        }
+      )
+    } else {
+      setCacheStatus('valid')
+    }
+  }, [isOnline])
+
   const form = useHookForm<ProducerFormSchema>({
     defaultValues: PRODUCER_INITIAL_FORM_DATA,
     resolver: zodResolver(producerFormSchema),
@@ -91,6 +130,23 @@ function CreateProducerForm() {
 
   const handleCreateProducer = useCallback(
     async (data: ProducerFormSchema) => {
+      if (!isOnline) {
+        try {
+          await addPendingEntity({
+            localId,
+            type: 'PRODUCER',
+            data: { name: data.name, cpf: data.cpf },
+            status: 'pending',
+          })
+          toast.success('Produtor salvo localmente')
+          form.reset(PRODUCER_INITIAL_FORM_DATA)
+          closeNewProducerForm()
+        } catch {
+          toast.error('Erro ao salvar produtor localmente')
+        }
+        return
+      }
+
       try {
         await mutateHandleCreateProducer(data)
         queryClient.invalidateQueries({ queryKey: ['producers'] })
@@ -101,8 +157,18 @@ function CreateProducerForm() {
         toast.error('Não foi possível cadastrar o produtor')
       }
     },
-    [closeNewProducerForm, form, mutateHandleCreateProducer, queryClient]
+    [
+      closeNewProducerForm,
+      form,
+      isOnline,
+      localId,
+      mutateHandleCreateProducer,
+      queryClient,
+    ]
   )
+
+  const isSubmitDisabled =
+    form.buttonDisabled || (!isOnline && cacheStatus === 'absent')
 
   return (
     <Sheet.Root
@@ -116,6 +182,25 @@ function CreateProducerForm() {
             Preencha o formulário para criar um novo produtor
           </Sheet.Description>
         </Sheet.Header>
+
+        {/* Task 4.5: offline banner */}
+        <OfflineBanner className="mx-1 mt-2" />
+
+        {/* Task 7.2: cache expired warning (non-blocking amber) */}
+        {!isOnline && cacheStatus === 'expired' && (
+          <div className="mx-1 mt-2 flex items-center gap-2 rounded-md bg-amber-50 border border-amber-200 px-4 py-2 text-sm text-amber-700">
+            Cache de dados vencido. Os dados de referência podem estar
+            desatualizados.
+          </div>
+        )}
+
+        {/* Task 7.1: cache absent — show blocking message */}
+        {!isOnline && cacheStatus === 'absent' && (
+          <p className="mx-1 mt-2 text-sm text-destructive">
+            Sem dados de referência locais. Conecte-se à internet e sincronize
+            antes de cadastrar offline.
+          </p>
+        )}
 
         <Form.Provider {...form}>
           <form
@@ -132,13 +217,14 @@ function CreateProducerForm() {
         </Form.Provider>
 
         <Sheet.Footer>
+          {/* Task 4.5: dynamic button label */}
           <Button
             form="create-producer-form"
             type="submit"
             className="w-full"
-            disabled={form.buttonDisabled}
+            disabled={isSubmitDisabled}
           >
-            Criar
+            {isOnline ? 'Criar' : 'Salvar localmente'}
           </Button>
         </Sheet.Footer>
       </Sheet.Content>

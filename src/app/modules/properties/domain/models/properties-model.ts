@@ -67,4 +67,10 @@ export type PropertyDetailsApiResponse = {
     name: string
     hoursPerDay: string
   }[]
+  attachments: {
+    id: string
+    fileName: string
+    contentType: string
+    sizeBytes: number
+  }[]
 }

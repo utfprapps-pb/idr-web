@@ -1,7 +1,9 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { MoreHorizontalIcon, PencilIcon, Trash2Icon } from 'lucide-react'
 
+import { getPendingEntitiesByType } from '@/core/lib/offline'
+import { EntitySyncBadge } from '@/core/presentation/components/sync/entity-sync-badge'
 import { DropdownMenu } from '@/core/presentation/components/ui'
 import { useDebounce } from '@/core/presentation/hooks'
 
@@ -10,7 +12,10 @@ import { useProducersQuery } from '../../hooks/queries/use-producers-query.hook'
 
 import type { ProducerModel } from '../../../domain/models/producers-model'
 import type { ProducerFilters } from '../../types'
+import type { PendingEntityRecord } from '@/core/lib/offline/types'
 import type { ColumnDef } from '@tanstack/react-table'
+
+type ProducerRow = ProducerModel & { syncStatus?: string }
 
 export function useProducerDataTable() {
   const { openEditProducerForm, openDeleteProducerContainer } =
@@ -19,18 +24,39 @@ export function useProducerDataTable() {
   const [page, setPage] = useState(1)
   const [filters, setFilters] = useState<ProducerFilters>({})
   const debouncedFilters = useDebounce({ value: filters })
+  const [pendingProducers, setPendingProducers] = useState<
+    PendingEntityRecord[]
+  >([])
 
   const { isLoading, producers } = useProducersQuery({
     filters: debouncedFilters,
     page,
   })
 
-  const columns = useMemo<ColumnDef<ProducerModel>[]>(
+  useEffect(() => {
+    const load = () =>
+      getPendingEntitiesByType('PRODUCER').then(setPendingProducers)
+    load()
+    window.addEventListener('online', load)
+    window.addEventListener('pending-entities:changed', load)
+    return () => {
+      window.removeEventListener('online', load)
+      window.removeEventListener('pending-entities:changed', load)
+    }
+  }, [])
+
+  const allProducers = useMemo<ProducerRow[]>(() => {
+    const pending: ProducerRow[] = pendingProducers.map((p) => ({
+      id: p.localId,
+      name: p.data.name as string,
+      cpf: p.data.cpf as string,
+      syncStatus: p.status,
+    }))
+    return [...pending, ...(producers.resources ?? [])]
+  }, [pendingProducers, producers])
+
+  const columns = useMemo<ColumnDef<ProducerRow>[]>(
     () => [
-      {
-        accessorKey: 'id',
-        header: 'ID',
-      },
       {
         accessorKey: 'name',
         header: 'Nome',
@@ -40,10 +66,20 @@ export function useProducerDataTable() {
         header: 'CPF',
       },
       {
+        id: 'sync-status',
+        header: '',
+        cell: ({ row }) => {
+          const { syncStatus } = row.original
+          if (!syncStatus || syncStatus === 'synced') return null
+          return <EntitySyncBadge status={syncStatus as 'pending' | 'error'} />
+        },
+      },
+      {
         id: 'row-actions',
         header: '',
         cell: ({ row }) => {
           const { original: producer } = row
+          if (producer.syncStatus === 'pending') return null
 
           return (
             <DropdownMenu.Root key={producer.id}>
@@ -81,7 +117,10 @@ export function useProducerDataTable() {
 
   return {
     columns,
-    producers,
+    producers: {
+      ...producers,
+      resources: allProducers,
+    },
     isLoading,
     filters,
     page,

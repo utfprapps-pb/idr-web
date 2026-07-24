@@ -17,6 +17,7 @@ import {
 } from '@/core/presentation/components/ui'
 import { useHookForm, useDebounce } from '@/core/presentation/hooks'
 import { useSearchCitiesQuery } from '@/core/presentation/hooks/queries/search-cities-query.hook'
+import { useSearchRegionsQuery } from '@/core/presentation/hooks/queries/search-regions-query.hook'
 
 import { makeRemoteUpdateUserPermissionsUseCase } from '../../../main/factories/use-cases'
 import { useUserPermissionsQuery } from '../../hooks/queries/user-permissions-query.hook'
@@ -56,6 +57,12 @@ export function UserPermissionsForm() {
   const debouncedCitySearch = useDebounce({ value: citySearch })
   const { cities, isLoading: isLoadingCities } = useSearchCitiesQuery({
     terms: debouncedCitySearch,
+  })
+
+  const [regionSearch, setRegionSearch] = useState('')
+  const debouncedRegionSearch = useDebounce({ value: regionSearch })
+  const { regions, isLoading: isLoadingRegions } = useSearchRegionsQuery({
+    terms: debouncedRegionSearch,
   })
 
   const updateUseCase = makeRemoteUpdateUserPermissionsUseCase()
@@ -188,6 +195,72 @@ export function UserPermissionsForm() {
                         <Form.Message />
                       </Form.Item>
                     )}
+                  />
+
+                  <Form.Field
+                    name="regionIds"
+                    control={form.control}
+                    render={({ field, fieldState }) => {
+                      const selectedIds = field.value as string[]
+                      const availableRegions = regions.filter(
+                        (r) => !selectedIds.includes(String(r.value))
+                      )
+
+                      return (
+                        <Form.Item>
+                          <Form.Label>Regiões</Form.Label>
+                          <Form.Control>
+                            <Combobox
+                              search={regionSearch}
+                              handleSearch={setRegionSearch}
+                              items={availableRegions}
+                              selected={undefined}
+                              loading={isLoadingRegions}
+                              isError={!!fieldState.error}
+                              placeholder="Adicionar região..."
+                              searchPlaceholder="Buscar região"
+                              handleSelect={(item) => {
+                                field.onChange([
+                                  ...selectedIds,
+                                  String(item.value),
+                                ])
+                                setRegionSearch('')
+                              }}
+                            />
+                          </Form.Control>
+                          {selectedIds.length > 0 && (
+                            <div className="flex flex-wrap gap-1 mt-1">
+                              {selectedIds.map((id) => {
+                                const region = regions.find(
+                                  (r) => String(r.value) === id
+                                )
+                                return (
+                                  <Badge
+                                    key={id}
+                                    variant="secondary"
+                                    className="flex items-center gap-1"
+                                  >
+                                    {region?.label ?? id}
+                                    <button
+                                      type="button"
+                                      onClick={() =>
+                                        field.onChange(
+                                          selectedIds.filter((v) => v !== id)
+                                        )
+                                      }
+                                      className="ml-1 hover:text-destructive"
+                                    >
+                                      <X className="size-3" />
+                                    </button>
+                                  </Badge>
+                                )
+                              })}
+                            </div>
+                          )}
+                          <Form.Message />
+                        </Form.Item>
+                      )
+                    }}
                   />
 
                   <Form.Field

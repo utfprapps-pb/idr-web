@@ -4,6 +4,7 @@ import {
   NotFoundError,
   ForbiddenError,
 } from '@/core/domain/errors'
+import { env } from '@/core/env'
 import { floatMask, moneyMask } from '@/core/masker'
 
 import type {
@@ -62,7 +63,11 @@ export class RemoteGetPropertyUseCase implements GetPropertyUseCase {
         localization: {
           latitude: String(body.latitude),
           longitude: String(body.longitude),
-          images: [],
+          images: body.attachments.map((attachment) => ({
+            id: attachment.id,
+            fileName: attachment.fileName,
+            preview: `${env.VITE_API_BASE_URL.replace(/\/$/, '')}/${this.url.replace(/^\//, '')}/${id}/attachments/${attachment.id}`,
+          })),
         },
       }
     }

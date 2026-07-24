@@ -80,6 +80,7 @@ export const getPropertyHandler = httpWithMiddleware<
         name: faker.person.fullName(),
         hoursPerDay: String(faker.number.int({ min: 1, max: 8 })),
       })),
+      attachments: [],
     }
 
     return HttpResponse.json(response, { status: HttpStatusCode.ok })

@@ -12,13 +12,19 @@ export const getUserPermissionsHandler = httpWithMiddleware<
   routePath: '/api/v1/users/:userId/permissions',
   method: 'get',
   middlewares: [withDelay(), withAuth],
-  resolver: async () => {
+  resolver: async ({ params }) => {
     return HttpResponse.json(
       {
-        role: 'GERENCIA_MACRO',
-        readOnly: false,
-        regionIds: ['r1b2c3d4-0001-0000-0000-000000000001'],
-        cityIds: [],
+        userId: String(params.userId),
+        permissions: [
+          {
+            id: '30469ba2-7668-4130-b1c2-d1981eb645c8',
+            role: 'GERENCIA_MACRO',
+            readOnly: false,
+            regionIds: ['r1b2c3d4-0001-0000-0000-000000000001'],
+            cityIds: [],
+          },
+        ],
       },
       { status: HttpStatusCode.ok }
     )

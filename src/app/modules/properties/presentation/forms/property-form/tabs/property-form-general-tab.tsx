@@ -1,8 +1,9 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { PlusIcon, Trash2Icon } from 'lucide-react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 
+import { getPendingEntitiesByType } from '@/core/lib/offline'
 import { moneyMask } from '@/core/masker'
 import {
   Button,
@@ -11,13 +12,18 @@ import {
   Input,
   Label,
 } from '@/core/presentation/components/ui'
-import { useDebounce, useSearchCitiesQuery } from '@/core/presentation/hooks'
+import {
+  useDebounce,
+  useReferenceData,
+  useSearchCitiesQuery,
+} from '@/core/presentation/hooks'
 
 import { usePropertyProducersQuery } from '../../../hooks/queries/property-producers-query.hook'
 import { usePropertyUsersQuery } from '../../../hooks/queries/property-users-query.hook'
 
 import type { PropertyFormSchema } from '../../../validations/property-form-schema'
 import type { Option } from '@/core/domain/types'
+import type { PendingEntityRecord } from '@/core/lib/offline/types'
 
 export function PropertyFormGeneralTab() {
   const form = useFormContext<PropertyFormSchema>()
@@ -41,15 +47,64 @@ export function PropertyFormGeneralTab() {
   const [citySearch, setCitySearch] = useState('')
   const debouncedCitySearch = useDebounce({ value: citySearch })
 
-  const { producers, isLoading: isLoadingProducers } =
+  const {
+    isOnline,
+    cities: offlineCities,
+    producers: offlineReferenceProducers,
+  } = useReferenceData()
+
+  const [pendingProducers, setPendingProducers] = useState<
+    PendingEntityRecord[]
+  >([])
+
+  useEffect(() => {
+    if (!isOnline) {
+      getPendingEntitiesByType('PRODUCER').then(setPendingProducers)
+    }
+  }, [isOnline])
+
+  const { producers: onlineProducers, isLoading: isLoadingProducers } =
     usePropertyProducersQuery({ terms: debouncedProducerSearch })
 
-  const { cities, isLoading: isLoadingCities } = useSearchCitiesQuery({
-    terms: debouncedCitySearch,
-  })
+  const { cities: onlineCities, isLoading: isLoadingCities } =
+    useSearchCitiesQuery({
+      terms: debouncedCitySearch,
+    })
 
   const { users: allUsers, isLoading: isLoadingTechnicians } =
     usePropertyUsersQuery({ terms: debouncedTechnicianSearch })
+
+  const cityOptions: Option<string>[] = useMemo(() => {
+    if (isOnline) return onlineCities
+    const search = debouncedCitySearch.toLowerCase()
+    return offlineCities
+      .filter((c) => !search || c.name.toLowerCase().includes(search))
+      .map((c) => ({ label: c.name, value: c.id }))
+  }, [isOnline, onlineCities, offlineCities, debouncedCitySearch])
+
+  const producerOptions: Option<string>[] = useMemo(() => {
+    if (isOnline) return onlineProducers
+    const search = debouncedProducerSearch.toLowerCase()
+    const refOpts = offlineReferenceProducers
+      .filter((p) => !search || p.name.toLowerCase().includes(search))
+      .map((p) => ({ label: p.name, value: p.id }))
+    const pendingOpts = pendingProducers
+      .filter(
+        (p) =>
+          !search || (p.data.name as string)?.toLowerCase().includes(search)
+      )
+      .map((p) => ({
+        label: `${p.data.name as string} (local)`,
+        value: p.localId,
+      }))
+    return [...refOpts, ...pendingOpts]
+  }, [
+    isOnline,
+    onlineProducers,
+    offlineReferenceProducers,
+    pendingProducers,
+    debouncedProducerSearch,
+  ])
 
   const usersToAdd: Option<string>[] = useMemo(
     () =>
@@ -95,8 +150,8 @@ export function PropertyFormGeneralTab() {
               <Form.Control>
                 <Combobox<string>
                   search={producerSearch}
-                  items={producers}
-                  loading={isLoadingProducers}
+                  items={producerOptions}
+                  loading={isOnline ? isLoadingProducers : false}
                   selected={field.value}
                   handleSearch={(value) => setProducerSearch(value)}
                   handleSelect={(selected) => field.onChange(selected)}
@@ -122,8 +177,8 @@ export function PropertyFormGeneralTab() {
               <Form.Control>
                 <Combobox<string>
                   search={citySearch}
-                  items={cities}
-                  loading={isLoadingCities}
+                  items={cityOptions}
+                  loading={isOnline ? isLoadingCities : false}
                   selected={field.value}
                   handleSearch={(value) => setCitySearch(value)}
                   handleSelect={(selected) => field.onChange(selected)}

@@ -26,10 +26,6 @@ export function useRegionDataTable() {
   const columns = useMemo<ColumnDef<RegionModel>[]>(
     () => [
       {
-        accessorKey: 'id',
-        header: 'ID',
-      },
-      {
         accessorKey: 'name',
         header: 'Nome',
       },

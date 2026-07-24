@@ -70,7 +70,7 @@ export function CreateCityForm() {
               className="flex flex-col px-2 gap-4"
               onSubmit={form.handleSubmit(handleCreateCity)}
             >
-              <CityFormInputs />
+              <CityFormInputs disableState />
             </form>
           </ScrollArea.Root>
         </Form.Provider>
