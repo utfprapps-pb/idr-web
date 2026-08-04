@@ -3,6 +3,7 @@ import { HttpResponse } from 'msw'
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
+import { paginateData } from '@/core/mocks/utils'
 
 import citiesData from '@database/citiesData.json'
 
@@ -24,8 +25,7 @@ export const searchCitiesHandler = httpWithMiddleware<never, never, never>({
         )
       : (citiesData as CityApiResponse[])
 
-    const start = page * perPage
-    const items = filtered.slice(start, start + perPage)
+    const items = paginateData({ page, perPage }, filtered)
 
     return HttpResponse.json(
       {

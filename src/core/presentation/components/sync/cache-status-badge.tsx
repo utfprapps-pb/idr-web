@@ -4,6 +4,7 @@ import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 
 import { CACHE_TTL_MS, getCacheTimestamp } from '@/core/lib/offline'
+import { Badge } from '@/core/presentation/components/ui'
 
 type CacheState = 'absent' | 'valid' | 'expired'
 
@@ -27,11 +28,7 @@ export function CacheStatusBadge() {
   }, [])
 
   if (state === 'absent') {
-    return (
-      <span className="text-sm text-slate-500">
-        Dados de campo: <strong className="text-red-500">Não baixados</strong>
-      </span>
-    )
+    return <Badge variant="destructive">Dados de campo: Não baixados</Badge>
   }
 
   const formattedDate = lastSyncedAt
@@ -40,16 +37,16 @@ export function CacheStatusBadge() {
 
   if (state === 'expired') {
     return (
-      <span className="text-sm text-amber-600">
+      <Badge variant="secondary" className="bg-amber-100 text-amber-800">
         ⚠ Dados desatualizados — baixados em {formattedDate}
-      </span>
+      </Badge>
     )
   }
 
   return (
-    <span className="text-sm text-green-600">
+    <Badge variant="secondary" className="bg-green-100 text-green-800">
       ✓ Dados atualizados em {formattedDate}
-    </span>
+    </Badge>
   )
 }
 

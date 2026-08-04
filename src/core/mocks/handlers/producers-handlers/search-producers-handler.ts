@@ -3,6 +3,7 @@ import { HttpResponse } from 'msw'
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
+import { paginateData } from '@/core/mocks/utils'
 
 import producersData from '@database/producersData.json'
 
@@ -22,8 +23,7 @@ export const searchProducersHandler = httpWithMiddleware<never, never, never>({
         )
       : producersData
 
-    const start = page * perPage
-    const items = filtered.slice(start, start + perPage).map((p) => ({
+    const items = paginateData({ page, perPage }, filtered).map((p) => ({
       id: String(p.id),
       name: p.name,
     }))

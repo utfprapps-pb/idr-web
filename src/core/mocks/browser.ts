@@ -219,6 +219,8 @@ import {
   updateCityHandler,
   deleteCityHandler,
 } from './handlers/cities-handlers'
+import { searchProducersHandler } from './handlers/producers-handlers'
+import { searchRegionsHandler } from './handlers/regions-handlers'
 import {
   getAllUsersHandler,
   getMeHandler,
@@ -243,6 +245,7 @@ const handlers: HttpHandler[] = [
   createRegionHandler,
   updateRegionHandler,
   deleteRegionHandler,
+  searchRegionsHandler,
 
   getAllUsersHandler,
   getMeHandler,
@@ -271,6 +274,7 @@ const handlers: HttpHandler[] = [
   getProducerHandler,
   getProducersHandler,
   updateProducerHandler,
+  searchProducersHandler,
 
   createPropertyHandler,
   deletePropertyHandler,

@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
 
-import axios from 'axios'
 import toast from 'react-hot-toast'
 
 import { getCacheTimestamp } from '@/core/lib/offline'
@@ -26,15 +25,10 @@ export function useSyncDownload() {
       setLastSyncedAt(ts)
       toast.success('Dados de campo sincronizados com sucesso')
     } catch (err) {
-      let message = 'Erro ao sincronizar dados de campo'
-      if (axios.isAxiosError(err)) {
-        if (err.response?.status === 401)
-          message = 'Sessão expirada. Faça login novamente.'
-        else if (err.response?.status === 403)
-          message = 'Sem permissão para baixar dados de campo.'
-        else if (!err.response)
-          message = 'Sem conexão. Conecte-se à internet e tente novamente.'
-      }
+      const message =
+        err instanceof Error
+          ? err.message
+          : 'Erro ao sincronizar dados de campo'
       setError(message)
       toast.error(message)
     } finally {

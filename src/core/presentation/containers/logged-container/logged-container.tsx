@@ -3,6 +3,7 @@ import type { PropsWithChildren, CSSProperties } from 'react'
 import { LogOut } from 'lucide-react'
 import { useLocation } from 'react-router-dom'
 
+import { ADMIN_ROLE } from '@/core/domain/models/users-model'
 import { sidebarItems } from '@/core/main/routes/menu'
 import { CacheStatusBadge } from '@/core/presentation/components/sync/cache-status-badge'
 import { GlobalSyncIndicator } from '@/core/presentation/components/sync/global-sync-indicator'
@@ -41,15 +42,18 @@ export function LoggedContainer({
       className={cn('w-screen h-screen grid', className)}
       {...props}
     >
-      <div style={{ gridArea: 'Header' }} className="flex flex-col">
-        <Header displayName={user?.name ?? ''} imageUrl="" className="flex-1" />
-        <div className="flex items-center justify-end gap-4 px-5 py-1 border-b border-slate-200 bg-slate-50">
+      <Header
+        displayName={user?.name ?? ''}
+        imageUrl=""
+        style={{ gridArea: 'Header' }}
+      >
+        <div className="flex items-center justify-end gap-4 px-5 py-1 border-t border-slate-200 bg-slate-50">
           <GlobalSyncIndicator />
           <SyncUploadButton />
           <CacheStatusBadge />
           <SyncDownloadButton />
         </div>
-      </div>
+      </Header>
 
       <Sidebar.Root
         className="shadow-200 border-r border-slate-200"
@@ -59,7 +63,7 @@ export function LoggedContainer({
       >
         <Sidebar.List>
           {sidebarItems
-            .filter((item) => !item.adminOnly || user?.role === 'ADMIN')
+            .filter((item) => !item.adminOnly || user?.role === ADMIN_ROLE)
             .map(({ key, name, icon: Icon, path, matchPattern }) => (
               <Sidebar.Item
                 key={key}

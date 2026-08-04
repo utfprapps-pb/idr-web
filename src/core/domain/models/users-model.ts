@@ -1,5 +1,7 @@
 import type { Option, WithId } from '../types'
 
+export const ADMIN_ROLE = 'ADMIN'
+
 export type UserRole =
   | 'ADMIN'
   | 'COORDENACAO_GERAL'
