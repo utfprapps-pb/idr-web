@@ -1,7 +1,10 @@
 import { faker } from '@faker-js/faker/locale/pt_BR'
 import { HttpResponse, type PathParams } from 'msw'
 
-import { type ForageAvailabilityDetailsApiResponse } from '@/app/modules/forage-availability/domain/models/forage-availability-model'
+import {
+  type ForageAvailabilityApiResponse,
+  type ForageAvailabilityDetailsApiResponse,
+} from '@/app/modules/forage-availability/domain/models/forage-availability-model'
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withAuth, withDelay } from '@/core/mocks/middleware'
@@ -19,7 +22,7 @@ export const getForageAvailabilityHandler = httpWithMiddleware<
   resolver: async ({ params }) => {
     const id = Number(params.id)
     const forageAvailability = forageAvailabilitiesData.find(
-      (item) => item.id === id
+      (item: ForageAvailabilityApiResponse) => item.id === id
     )
 
     if (!forageAvailability) {

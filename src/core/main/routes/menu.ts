@@ -1,4 +1,12 @@
-import { Home, Trees, Info, FileText, LucideIcon } from 'lucide-react'
+import {
+  Home,
+  Trees,
+  UserRound,
+  Info,
+  FileText,
+  Users,
+  LucideIcon,
+} from 'lucide-react'
 
 import { PAGE_PATHS } from './paths'
 
@@ -8,6 +16,7 @@ type SidebarItems = {
   icon: LucideIcon
   path: string
   matchPattern: string
+  adminOnly?: boolean
 }
 
 export const sidebarItems = Object.freeze<SidebarItems[]>([
@@ -26,6 +35,13 @@ export const sidebarItems = Object.freeze<SidebarItems[]>([
     matchPattern: '^/properties(/.*)?$',
   },
   {
+    key: 'producers',
+    name: 'Produtores',
+    icon: UserRound,
+    path: PAGE_PATHS.PRODUCERS,
+    matchPattern: '^/producers(/.*)?$',
+  },
+  {
     key: 'generalRegistrations',
     name: 'Cadastros Gerais',
     icon: Info,
@@ -38,5 +54,13 @@ export const sidebarItems = Object.freeze<SidebarItems[]>([
     icon: FileText,
     path: PAGE_PATHS.REPORTS,
     matchPattern: '^/reports(/.*)?$',
+  },
+  {
+    key: 'users',
+    name: 'Usuários',
+    icon: Users,
+    path: PAGE_PATHS.USERS,
+    matchPattern: '^/users(/.*)?$',
+    adminOnly: true,
   },
 ])

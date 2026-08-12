@@ -10,8 +10,8 @@ export const updatePropertyHandler = httpWithMiddleware<
   never
 >({
   routePath: '/api/properties/:id',
-  method: 'patch',
+  method: 'put',
   middlewares: [withDelay(), withAuth],
   resolver: async () =>
-    HttpResponse.json(undefined, { status: HttpStatusCode.noContent }),
+    HttpResponse.json(undefined, { status: HttpStatusCode.ok }),
 })

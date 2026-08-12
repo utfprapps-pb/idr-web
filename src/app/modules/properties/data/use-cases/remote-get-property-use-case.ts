@@ -4,6 +4,8 @@ import {
   NotFoundError,
   ForbiddenError,
 } from '@/core/domain/errors'
+import { env } from '@/core/env'
+import { toFloatString, toMoneyString } from '@/core/utils'
 
 import type {
   PropertyDetailsApiResponse,
@@ -28,11 +30,35 @@ export class RemoteGetPropertyUseCase implements GetPropertyUseCase {
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        ...body,
+        general: {
+          name: body.name,
+          producerId: { label: body.producer.name, value: body.producer.id },
+          cityId: { label: body.city.name, value: body.city.id },
+          nakedAveragePricePerHectare: toMoneyString(body.nakedAveragePrice),
+          leaseAveragePricePerHectare: toMoneyString(body.leaseAveragePrice),
+          responsibleTechnicians: body.technicians.map((tech) => ({
+            label: tech.name,
+            value: tech.id,
+          })),
+        },
+        collaborators: body.collaborators.map((c) => ({
+          id: c.id,
+          name: c.name,
+          hoursPerDay: c.hoursPerDay,
+        })),
+        totalArea: {
+          dairyCattleFarming: toFloatString(body.dairyCattleFarmingArea),
+          perennialPasture: toFloatString(body.perennialPastureArea),
+          summerPlowing: toFloatString(body.summerPlowingArea),
+          winterPlowing: toFloatString(body.winterPlowingArea),
+        },
         localization: {
-          ...body.localization,
-          images: body.localization.images.map((image: string) => ({
-            preview: image,
+          latitude: String(body.latitude),
+          longitude: String(body.longitude),
+          images: body.attachments.map((attachment) => ({
+            id: attachment.id,
+            fileName: attachment.fileName,
+            preview: `${env.VITE_API_BASE_URL.replace(/\/$/, '')}/${this.url.replace(/^\//, '')}/${id}/attachments/${attachment.id}`,
           })),
         },
       }

@@ -5,7 +5,9 @@ import { useMutation } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
 import { InvalidCredentialsError } from '@/core/domain/errors'
+import { LocalStorageAdapter } from '@/core/infra/cache'
 import { useAuth, useHookForm } from '@/core/presentation/hooks'
+import { getApiErrorMessage } from '@/core/utils'
 
 import { makeRemoteLoginUseCase } from '../../../main/factories/use-cases'
 import {
@@ -35,15 +37,19 @@ export function useLoginForm() {
   const handleLogin = useCallback(
     async (data: LoginFormSchema) => {
       try {
-        const { token } = await mutateHandleLogin(data)
-        signIn(token)
+        const { accessToken, refreshToken } = await mutateHandleLogin(data)
+        LocalStorageAdapter.set(
+          LocalStorageAdapter.LOCAL_STORAGE_KEYS.REFRESH_TOKEN,
+          refreshToken
+        )
+        signIn(accessToken)
       } catch (error) {
         if (error instanceof InvalidCredentialsError) {
           toast.error('Credenciais inválidas')
           return
         }
 
-        toast.error('Erro inesperado, tente novamente mais tarde')
+        toast.error(getApiErrorMessage(error))
       }
     },
     [mutateHandleLogin, signIn]

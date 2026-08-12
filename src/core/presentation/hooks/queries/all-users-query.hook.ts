@@ -6,7 +6,7 @@ import toast from 'react-hot-toast'
 import { makeRemoteGetAllUsersUseCase } from '@/core/main/factories/use-cases/users-use-cases'
 import { toOption } from '@/core/utils/object/to-option'
 
-import type { UserModel } from '@/core/domain/models/users-model'
+import type { UserModel } from '@/app/modules/users/domain/models/users-model'
 import type { Filters } from '@/core/domain/types'
 
 type Props = {

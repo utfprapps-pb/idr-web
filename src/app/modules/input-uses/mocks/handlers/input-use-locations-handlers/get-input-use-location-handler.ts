@@ -19,7 +19,7 @@ export const getInputUseLocationHandler = httpWithMiddleware<
   resolver: async ({ params }) => {
     const id = Number(params.id)
     const inputUseLocation = inputUseLocationsData.find(
-      (item) => item.id === id
+      (item: InputUseLocationApiResponse) => item.id === id
     )
 
     if (!inputUseLocation) {

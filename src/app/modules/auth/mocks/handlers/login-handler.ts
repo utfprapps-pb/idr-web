@@ -13,7 +13,8 @@ type Response = {
   user: {
     displayName: string
   }
-  token: string
+  accessToken: string
+  refreshToken: string
 }
 
 export const loginHandler = httpWithMiddleware<
@@ -29,7 +30,8 @@ export const loginHandler = httpWithMiddleware<
 
     if (username && password) {
       return HttpResponse.json({
-        token: faker.string.uuid(),
+        accessToken: faker.string.uuid(),
+        refreshToken: faker.string.uuid(),
       })
     }
 

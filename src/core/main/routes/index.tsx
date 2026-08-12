@@ -4,17 +4,21 @@ import { Route, Routes } from 'react-router-dom'
 
 import { GeneralRegistrationsPage } from '@/app/pages/general-registrations-page'
 import { LoginPage } from '@/app/pages/login-page'
+import { PasswordRecoveryPage } from '@/app/pages/password-recovery-page'
+import { ProducersPage } from '@/app/pages/producers-page'
 import { PropertiesPage } from '@/app/pages/properties-page'
 import { PropertyPage } from '@/app/pages/property-page'
 import { SignUpPage } from '@/app/pages/sign-up-page'
+import { UsersPage } from '@/app/pages/users-page'
 
-import { PrivateRouteProxy } from '../proxies'
+import { AdminRouteProxy, PrivateRouteProxy } from '../proxies'
 
 import { ROUTES } from './routes'
 
 const ROUTE_PAGE_MAPPER: Record<keyof typeof ROUTES, ReactNode> = {
   LOGIN: <LoginPage />,
   SIGN_UP: <SignUpPage />,
+  PASSWORD_RECOVERY: <PasswordRecoveryPage />,
   HOME: (
     <PrivateRouteProxy>
       <h1>Under construction!</h1>
@@ -30,6 +34,11 @@ const ROUTE_PAGE_MAPPER: Record<keyof typeof ROUTES, ReactNode> = {
       <PropertyPage />
     </PrivateRouteProxy>
   ),
+  PRODUCERS: (
+    <PrivateRouteProxy>
+      <ProducersPage />
+    </PrivateRouteProxy>
+  ),
   GENERAL_REGISTRATIONS: (
     <PrivateRouteProxy>
       <GeneralRegistrationsPage />
@@ -38,6 +47,13 @@ const ROUTE_PAGE_MAPPER: Record<keyof typeof ROUTES, ReactNode> = {
   REPORTS: (
     <PrivateRouteProxy>
       <h1>Under construction!</h1>
+    </PrivateRouteProxy>
+  ),
+  USERS: (
+    <PrivateRouteProxy>
+      <AdminRouteProxy>
+        <UsersPage />
+      </AdminRouteProxy>
     </PrivateRouteProxy>
   ),
 }

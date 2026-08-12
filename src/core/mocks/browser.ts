@@ -79,7 +79,12 @@ import {
   getAnimalSalesHandler,
   updateAnimalSaleHandler,
 } from '@/app/modules/animals/mocks/handlers/animal-sales-handlers'
-import { loginHandler } from '@/app/modules/auth/mocks/handlers'
+import {
+  loginHandler,
+  requestPasswordRecoveryHandler,
+  validateRecoveryCodeHandler,
+  resetPasswordHandler,
+} from '@/app/modules/auth/mocks/handlers'
 import {
   createCultivationDiseaseHandler,
   deleteCultivationDiseaseHandler,
@@ -179,23 +184,72 @@ import {
   updateNutritionalBalancingHandler,
 } from '@/app/modules/nutritional-balancings/mocks/handlers'
 import {
+  createProducerHandler,
+  deleteProducerHandler,
+  getProducerHandler,
+  getProducersHandler,
+  updateProducerHandler,
+} from '@/app/modules/producers/mocks/handlers'
+import {
   createPropertyHandler,
   deletePropertyHandler,
   getPropertiesHandler,
   getPropertyHandler,
   updatePropertyHandler,
 } from '@/app/modules/properties/mocks/handlers'
+import {
+  createRegionHandler,
+  deleteRegionHandler,
+  getRegionHandler,
+  getRegionsHandler,
+  updateRegionHandler,
+} from '@/app/modules/regions/mocks/handlers'
+import {
+  getUserHandler,
+  getUsersHandler,
+  toggleUserActiveHandler,
+  updateUserPermissionsHandler,
+} from '@/app/modules/users/mocks/handlers'
 
 import { getAllBreedsHandler } from './handlers/breeds-handlers'
-import { getAllUsersHandler, getMeHandler } from './handlers/users-handlers'
+import {
+  searchCitiesHandler,
+  getCityHandler,
+  createCityHandler,
+  updateCityHandler,
+  deleteCityHandler,
+} from './handlers/cities-handlers'
+import { searchProducersHandler } from './handlers/producers-handlers'
+import { searchRegionsHandler } from './handlers/regions-handlers'
+import {
+  getAllUsersHandler,
+  getMeHandler,
+  searchUsersHandler,
+} from './handlers/users-handlers'
 
 const handlers: HttpHandler[] = [
   loginHandler,
+  requestPasswordRecoveryHandler,
+  validateRecoveryCodeHandler,
+  resetPasswordHandler,
 
   getAllBreedsHandler,
 
+  searchCitiesHandler,
+  getCityHandler,
+  createCityHandler,
+  updateCityHandler,
+  deleteCityHandler,
+  getRegionsHandler,
+  getRegionHandler,
+  createRegionHandler,
+  updateRegionHandler,
+  deleteRegionHandler,
+  searchRegionsHandler,
+
   getAllUsersHandler,
   getMeHandler,
+  searchUsersHandler,
 
   createAnimalHandler,
   deleteAnimalHandler,
@@ -215,11 +269,23 @@ const handlers: HttpHandler[] = [
   getImprovementsHandler,
   updateImprovementHandler,
 
+  getProducersHandler,
+  createProducerHandler,
+  deleteProducerHandler,
+  getProducerHandler,
+  updateProducerHandler,
+  searchProducersHandler,
+
   createPropertyHandler,
   deletePropertyHandler,
   getPropertiesHandler,
   getPropertyHandler,
   updatePropertyHandler,
+
+  getUserHandler,
+  getUsersHandler,
+  toggleUserActiveHandler,
+  updateUserPermissionsHandler,
 
   createForageAvailabilityHandler,
   deleteForageAvailabilityHandler,
