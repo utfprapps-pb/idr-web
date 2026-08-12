@@ -3,8 +3,11 @@ import { HttpResponse } from 'msw'
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
+import { filterData, paginateData } from '@/core/mocks/utils'
 
 import producersData from '@database/producersData.json'
+
+type ProducerApiResponse = { id: string; name: string; cpf: string }
 
 export const getProducersHandler = httpWithMiddleware<never, never, never>({
   routePath: '/api/v1/producers/search',
@@ -16,14 +19,12 @@ export const getProducersHandler = httpWithMiddleware<never, never, never>({
     const page = Number(url.searchParams.get('page') ?? 0)
     const perPage = Number(url.searchParams.get('perPage') ?? 10)
 
-    const filtered = terms
-      ? producersData.filter((p) =>
-          p.name.toLowerCase().includes(terms.toLowerCase())
-        )
-      : producersData
+    const filtered = filterData<ProducerApiResponse>(
+      [{ field: 'name', value: terms, type: 'LIKE' }],
+      producersData
+    )
 
-    const start = page * perPage
-    const items = filtered.slice(start, start + perPage).map((p) => ({
+    const items = paginateData({ page, perPage }, filtered).map((p) => ({
       id: String(p.id),
       name: p.name,
       cpf: p.cpf,

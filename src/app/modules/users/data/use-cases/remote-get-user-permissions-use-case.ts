@@ -5,8 +5,8 @@ import {
   UnexpectedError,
 } from '@/core/domain/errors'
 
+import type { UserRole } from '../../domain/models/users-model'
 import type { GetUserPermissionsUseCase } from '../../domain/use-cases'
-import type { UserRole } from '@/core/domain/models/users-model'
 
 type UserPermissionItem = {
   id: string

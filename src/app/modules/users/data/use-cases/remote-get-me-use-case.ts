@@ -9,8 +9,8 @@ import {
 import type {
   UserApiResponse,
   UserModel,
-} from '@/core/domain/models/users-model'
-import type { GetMeUseCase } from '@/core/domain/use-cases/users-use-cases'
+} from '../../domain/models/users-model'
+import type { GetMeUseCase } from '../../domain/use-cases'
 
 export class RemoteGetMeUseCase implements GetMeUseCase {
   constructor(

@@ -9,7 +9,7 @@ import {
 import type {
   UserApiResponse,
   UserModel,
-} from '@/core/domain/models/users-model'
+} from '@/app/modules/users/domain/models/users-model'
 import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
 import type { GetAllUsersUseCase } from '@/core/domain/use-cases/users-use-cases'
 

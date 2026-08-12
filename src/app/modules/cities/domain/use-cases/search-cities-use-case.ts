@@ -1,4 +1,3 @@
-import type { CityModel } from '../../models/city-model'
 import type { RequestInterface } from '@/core/domain/types'
 
 export type SearchCitiesParams = {
@@ -8,7 +7,7 @@ export type SearchCitiesParams = {
 }
 
 export type SearchCitiesResult = {
-  items: CityModel[]
+  items: Array<{ id: string; name: string }>
   total: number
 }
 

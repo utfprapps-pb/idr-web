@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
-import { makeRemoteSearchRegionsUseCase } from '@/core/main/factories/use-cases/region-use-cases'
+import { makeRemoteSearchRegionsUseCase } from '@/app/modules/regions/main/factories/use-cases'
 
 type Props = {
   terms?: string

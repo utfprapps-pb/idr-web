@@ -6,8 +6,8 @@ import {
 } from '@/core/domain/errors'
 
 import type { UserDetailApiResponse } from '../../domain/models/users-management-model'
+import type { UserRole } from '../../domain/models/users-model'
 import type { GetUserUseCase } from '../../domain/use-cases'
-import type { UserRole } from '@/core/domain/models/users-model'
 
 export class RemoteGetUserUseCase implements GetUserUseCase {
   constructor(

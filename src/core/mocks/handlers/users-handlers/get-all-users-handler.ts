@@ -10,7 +10,7 @@ import { filterData } from '../../utils'
 
 import type { MockParams } from '../../types/mock-params-type'
 import type { MockResponse } from '../../types/mock-response-type'
-import type { UserApiResponse } from '@/core/domain/models/users-model'
+import type { UserApiResponse } from '@/app/modules/users/domain/models/users-model'
 
 export const getAllUsersHandler = httpWithMiddleware<
   never,

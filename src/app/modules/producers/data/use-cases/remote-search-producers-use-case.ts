@@ -8,7 +8,7 @@ import {
 import type {
   SearchProducersUseCase,
   SearchProducersResult,
-} from '@/core/domain/use-cases/producers-use-cases'
+} from '../../domain/use-cases'
 
 type ProducerSearchApiResponse = {
   currentPage: number

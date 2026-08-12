@@ -1,4 +1,3 @@
-import type { RegionModel } from '../../models/region-model'
 import type { RequestInterface } from '@/core/domain/types'
 
 export type SearchRegionsParams = {
@@ -8,7 +7,7 @@ export type SearchRegionsParams = {
 }
 
 export type SearchRegionsResult = {
-  items: RegionModel[]
+  items: Array<{ id: string; description: string }>
   total: number
 }
 

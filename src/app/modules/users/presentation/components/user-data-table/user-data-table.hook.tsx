@@ -12,7 +12,7 @@ import { useUsersQuery } from '../../hooks/queries/users-query.hook'
 import { useUsersContext } from '../../hooks/users-context.hook'
 
 import type { UserListItemModel } from '../../../domain/models/users-management-model'
-import type { UserRole } from '@/core/domain/models/users-model'
+import type { UserRole } from '../../../domain/models/users-model'
 import type { ColumnDef } from '@tanstack/react-table'
 
 const ROLE_LABELS: Record<UserRole, string> = {

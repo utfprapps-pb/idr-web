@@ -269,10 +269,10 @@ const handlers: HttpHandler[] = [
   getImprovementsHandler,
   updateImprovementHandler,
 
+  getProducersHandler,
   createProducerHandler,
   deleteProducerHandler,
   getProducerHandler,
-  getProducersHandler,
   updateProducerHandler,
   searchProducersHandler,
 

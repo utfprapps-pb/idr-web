@@ -8,7 +8,7 @@ import {
 import type {
   SearchUsersUseCase,
   SearchUsersResult,
-} from '@/core/domain/use-cases/users-use-cases'
+} from '../../domain/use-cases'
 
 type UserSearchApiResponse = {
   currentPage: number

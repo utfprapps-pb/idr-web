@@ -1,24 +1,29 @@
 import { type HttpClient, HttpStatusCode } from '@/core/data/protocols/http'
-import {
-  BadRequestError,
-  ForbiddenError,
-  UnexpectedError,
-} from '@/core/domain/errors'
+import { ForbiddenError, UnexpectedError } from '@/core/domain/errors'
 
-import type { CitySearchApiResponse } from '@/core/domain/models/city-model'
-import type { SearchCitiesUseCase } from '@/core/domain/use-cases/city-use-cases'
+import type {
+  SearchRegionsUseCase,
+  SearchRegionsResult,
+} from '../../domain/use-cases'
 
-export class RemoteSearchCitiesUseCase implements SearchCitiesUseCase {
+type RegionSearchApiResponse = {
+  currentPage: number
+  perPage: number
+  total: number
+  items: Array<{ id: string; description: string }>
+}
+
+export class RemoteSearchRegionsUseCase implements SearchRegionsUseCase {
   constructor(
     private readonly url: string,
     private readonly httpClient: HttpClient<
       unknown,
       unknown,
-      CitySearchApiResponse
+      RegionSearchApiResponse
     >
   ) {}
 
-  execute: SearchCitiesUseCase['execute'] = async ({
+  execute: SearchRegionsUseCase['execute'] = async ({
     terms = '',
     page = 0,
     perPage = 10,
@@ -27,7 +32,7 @@ export class RemoteSearchCitiesUseCase implements SearchCitiesUseCase {
       terms,
       page: String(page),
       perPage: String(perPage),
-      sort: 'name',
+      sort: 'description',
       direction: 'asc',
     })
 
@@ -38,14 +43,15 @@ export class RemoteSearchCitiesUseCase implements SearchCitiesUseCase {
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        items: body.items.map((item) => ({ id: item.id, name: item.name })),
+        items: body.items.map((item) => ({
+          id: item.id,
+          description: item.description,
+        })),
         total: body.total,
-      }
+      } as SearchRegionsResult
     }
 
     if (statusCode === HttpStatusCode.forbidden) throw new ForbiddenError()
-
-    if (statusCode === HttpStatusCode.badRequest) throw new BadRequestError()
 
     throw new UnexpectedError()
   }

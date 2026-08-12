@@ -1,4 +1,4 @@
-import type { Option, WithId } from '../types'
+import type { WithId } from '@/core/domain/types'
 
 export const ADMIN_ROLE = 'ADMIN'
 
@@ -19,18 +19,3 @@ export type UserApiResponse = WithId<{
   displayName: string
   role?: string
 }>
-
-export type CreateUserModel = {
-  name: string
-  email: string
-  password: string
-  confirmPassword: string
-  cpf: string
-  phone: string
-  graduationYear: string
-  professionalRegister: string
-  cep: string
-  street: string
-  cityId: Option<string>
-  houseNumber?: string
-}

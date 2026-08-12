@@ -5,21 +5,13 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 import { env } from '@/core/env'
-import { floatMask, moneyMask } from '@/core/masker'
+import { toFloatString, toMoneyString } from '@/core/utils'
 
 import type {
   PropertyDetailsApiResponse,
   PropertyDetailsModel,
 } from '../../domain/models/properties-model'
 import type { GetPropertyUseCase } from '../../domain/use-cases'
-
-function toMoneyString(value: number): string {
-  return moneyMask(String(Math.round(value * 100)))
-}
-
-function toFloatString(value: number): string {
-  return floatMask(String(Math.round(value * 100)))
-}
 
 export class RemoteGetPropertyUseCase implements GetPropertyUseCase {
   constructor(

@@ -6,8 +6,8 @@ import {
 } from '@/core/domain/errors'
 
 import type { UserListApiResponse } from '../../domain/models/users-management-model'
+import type { UserRole } from '../../domain/models/users-model'
 import type { GetUsersUseCase } from '../../domain/use-cases'
-import type { UserRole } from '@/core/domain/models/users-model'
 
 type ApiResponse = {
   items: UserListApiResponse[]

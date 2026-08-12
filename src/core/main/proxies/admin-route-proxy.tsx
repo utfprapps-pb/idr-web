@@ -2,7 +2,7 @@ import { type PropsWithChildren } from 'react'
 
 import { Navigate } from 'react-router-dom'
 
-import { ADMIN_ROLE } from '@/core/domain/models/users-model'
+import { ADMIN_ROLE } from '@/app/modules/users/domain/models/users-model'
 import { useAuth } from '@/core/presentation/hooks'
 
 import { generateRoutePath } from '../routes/generate-route-path'

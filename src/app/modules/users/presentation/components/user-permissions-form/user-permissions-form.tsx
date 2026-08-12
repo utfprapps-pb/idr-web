@@ -27,7 +27,7 @@ import {
   type UserPermissionsFormSchema,
 } from '../../validations/user-permissions-form-schema'
 
-import type { UserRole } from '@/core/domain/models/users-model'
+import type { UserRole } from '../../../domain/models/users-model'
 
 const ROLE_OPTIONS: { value: UserRole; label: string }[] = [
   { value: 'ADMIN', label: 'Administrador' },

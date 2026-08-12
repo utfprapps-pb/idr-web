@@ -1,4 +1,4 @@
-import type { UserRole } from '@/core/domain/models/users-model'
+import type { UserRole } from './users-model'
 import type { WithId } from '@/core/domain/types'
 
 export type UserPermissionModel = {

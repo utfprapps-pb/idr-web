@@ -6,7 +6,7 @@ import { withDelay, withAuth } from '@/core/mocks/middleware'
 
 import citiesData from '@database/citiesData.json'
 
-import type { CityApiResponse } from '@/core/domain/models/city-model'
+import type { CityApiResponse } from '@/app/modules/cities/domain/models/cities-model'
 
 export const getCityHandler = httpWithMiddleware<
   PathParams<'id'>,

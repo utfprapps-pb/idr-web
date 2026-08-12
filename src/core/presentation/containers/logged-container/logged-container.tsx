@@ -3,7 +3,7 @@ import type { PropsWithChildren, CSSProperties } from 'react'
 import { LogOut } from 'lucide-react'
 import { useLocation } from 'react-router-dom'
 
-import { ADMIN_ROLE } from '@/core/domain/models/users-model'
+import { ADMIN_ROLE } from '@/app/modules/users/domain/models/users-model'
 import { sidebarItems } from '@/core/main/routes/menu'
 import { CacheStatusBadge } from '@/core/presentation/components/sync/cache-status-badge'
 import { GlobalSyncIndicator } from '@/core/presentation/components/sync/global-sync-indicator'
