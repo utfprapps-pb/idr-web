@@ -15,7 +15,11 @@ import {
   Select,
   Sheet,
 } from '@/core/presentation/components/ui'
-import { useHookForm, useDebounce } from '@/core/presentation/hooks'
+import {
+  useHookForm,
+  useDebounce,
+  useOptionLabelCache,
+} from '@/core/presentation/hooks'
 import { useSearchCitiesQuery } from '@/core/presentation/hooks/queries/search-cities-query.hook'
 import { useSearchRegionsQuery } from '@/core/presentation/hooks/queries/search-regions-query.hook'
 
@@ -58,12 +62,14 @@ export function UserPermissionsForm() {
   const { cities, isLoading: isLoadingCities } = useSearchCitiesQuery({
     terms: debouncedCitySearch,
   })
+  const { getLabel: getCityLabel } = useOptionLabelCache({ options: cities })
 
   const [regionSearch, setRegionSearch] = useState('')
   const debouncedRegionSearch = useDebounce({ value: regionSearch })
   const { regions, isLoading: isLoadingRegions } = useSearchRegionsQuery({
     terms: debouncedRegionSearch,
   })
+  const { getLabel: getRegionLabel } = useOptionLabelCache({ options: regions })
 
   const updateUseCase = makeRemoteUpdateUserPermissionsUseCase()
   const queryClient = useQueryClient()
@@ -231,16 +237,13 @@ export function UserPermissionsForm() {
                           {selectedIds.length > 0 && (
                             <div className="flex flex-wrap gap-1 mt-1">
                               {selectedIds.map((id) => {
-                                const region = regions.find(
-                                  (r) => String(r.value) === id
-                                )
                                 return (
                                   <Badge
                                     key={id}
                                     variant="secondary"
                                     className="flex items-center gap-1"
                                   >
-                                    {region?.label ?? id}
+                                    {getRegionLabel(id)}
                                     <button
                                       type="button"
                                       onClick={() =>
@@ -297,16 +300,13 @@ export function UserPermissionsForm() {
                           {selectedIds.length > 0 && (
                             <div className="flex flex-wrap gap-1 mt-1">
                               {selectedIds.map((id) => {
-                                const city = cities.find(
-                                  (c) => String(c.value) === id
-                                )
                                 return (
                                   <Badge
                                     key={id}
                                     variant="secondary"
                                     className="flex items-center gap-1"
                                   >
-                                    {city?.label ?? id}
+                                    {getCityLabel(id)}
                                     <button
                                       type="button"
                                       onClick={() =>

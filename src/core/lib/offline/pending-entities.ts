@@ -48,23 +48,9 @@ export async function getPendingEntitiesByType(
     .toArray()
 }
 
-export async function updateProducerLocalIdInProperties(
-  producerLocalId: string,
-  producerId: string
+export async function updateEntityData(
+  id: number,
+  data: Record<string, unknown>
 ): Promise<void> {
-  const properties = await db.pendingEntities
-    .where('status')
-    .equals('pending')
-    .and((e) => e.type === 'PROPERTY')
-    .toArray()
-
-  await Promise.all(
-    properties
-      .filter((prop) => prop.data.producerLocalId === producerLocalId)
-      .map((prop) => {
-        const newData: Record<string, unknown> = { ...prop.data, producerId }
-        delete newData.producerLocalId
-        return db.pendingEntities.update(prop.id!, { data: newData })
-      })
-  )
+  await db.pendingEntities.update(id, { data })
 }

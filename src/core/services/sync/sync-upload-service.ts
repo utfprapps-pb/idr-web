@@ -6,8 +6,9 @@ import {
 import {
   getPendingEntities,
   updateEntityStatus,
-  updateProducerLocalIdInProperties,
 } from '@/core/lib/offline/pending-entities'
+
+import { resolveProducerIdInPendingProperties } from './sync-property-service'
 
 import type {
   PendingEntityRecord,
@@ -112,7 +113,7 @@ export async function uploadPendingEntities(
         await updateEntityStatus(result.localId, 'synced', Date.now())
         await saveIdMapping(result.localId, result.serverId, entity.type)
         if (entity.type === 'PRODUCER') {
-          await updateProducerLocalIdInProperties(
+          await resolveProducerIdInPendingProperties(
             result.localId,
             result.serverId
           )
