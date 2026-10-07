@@ -11,25 +11,34 @@ export class RemoteCreateUserUseCase implements CreateUserUseCase {
 
   execute: CreateUserUseCase['execute'] = async (params) => {
     const body = {
-      ...params,
+      name: params.name,
       username: params.email,
-      displayName: params.name,
+      password: params.password,
+      confirmPassword: params.confirmPassword,
       cpf: params.cpf.replace(/\D/g, ''),
       phone: params.phone.replace(/\D/g, ''),
+      graduationYear: params.graduationYear,
+      professionalRegister: params.professionalRegister,
       cep: params.cep.replace(/\D/g, ''),
-      county: params.city,
+      street: params.street,
+      cityId: params.cityId.value,
+      houseNumber: params.houseNumber,
     }
 
-    const { statusCode } = await this.httpClient.request({
+    const { statusCode, body: responseBody } = await this.httpClient.request({
       url: this.url,
       method: 'post',
       body,
     })
 
-    if (statusCode === HttpStatusCode.created) return
+    if (statusCode === HttpStatusCode.ok) return
 
-    if (statusCode === HttpStatusCode.badRequest) throw new BadRequestError()
+    const apiMessage = (responseBody as { message?: string } | undefined)
+      ?.message
 
-    throw new UnexpectedError()
+    if (statusCode === HttpStatusCode.badRequest)
+      throw new BadRequestError(apiMessage)
+
+    throw new UnexpectedError(apiMessage)
   }
 }

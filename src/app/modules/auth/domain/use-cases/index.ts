@@ -1,2 +1,5 @@
 export * from './create-user-use-case'
 export * from './login-use-case'
+export * from './request-password-recovery-use-case'
+export * from './validate-password-recovery-code-use-case'
+export * from './reset-password-use-case'

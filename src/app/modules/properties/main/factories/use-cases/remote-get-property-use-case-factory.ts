@@ -10,7 +10,7 @@ import type { GetPropertyUseCase } from '../../../domain/use-cases'
 
 export function makeRemoteGetPropertyUseCase(): GetPropertyUseCase {
   return new RemoteGetPropertyUseCase(
-    'properties',
+    'v1/properties',
     makeApiHttpClient<PropertyDetailsModel, PropertyDetailsApiResponse>()
   )
 }

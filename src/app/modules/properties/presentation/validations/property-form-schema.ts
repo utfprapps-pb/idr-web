@@ -1,21 +1,14 @@
 import { z } from 'zod'
 
-import { fileTypeSchema, optionSchema } from '@/core/validation/schemas'
+import { fileTypeSchema, optionStringSchema } from '@/core/validation/schemas'
 import { moneyValidation } from '@/core/validation/validators'
 
 const general = z.object({
   name: z.string().min(1, {
     message: 'Nome da propriedade é obrigatório',
   }),
-  producer: z.string().min(1, {
-    message: 'Nome do produtor é obrigatório',
-  }),
-  state: z.string().min(1, {
-    message: 'Estado é obrigatório',
-  }),
-  city: z.string().min(1, {
-    message: 'Cidade é obrigatório',
-  }),
+  producerId: optionStringSchema,
+  cityId: optionStringSchema,
   nakedAveragePricePerHectare: z
     .string()
     .refine((value) => moneyValidation(value, 0.01), {
@@ -27,7 +20,7 @@ const general = z.object({
       message: 'O valor mínimo é R$0,01',
     }),
   responsibleTechnicians: z.array(
-    optionSchema.refine(({ label, value }) => !!label || !!value, {
+    optionStringSchema.refine(({ label, value }) => !!label || !!value, {
       message: 'Selecione pelo menos um técnico responsável',
     })
   ),

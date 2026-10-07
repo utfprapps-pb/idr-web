@@ -1,8 +1,10 @@
 import { useCallback } from 'react'
 
-import { Trash2Icon } from 'lucide-react'
+import { DownloadIcon, Trash2Icon } from 'lucide-react'
 import { useFormContext } from 'react-hook-form'
+import toast from 'react-hot-toast'
 
+import { baseApi } from '@/core/infra/http/api-http-client/api-http-client'
 import {
   Button,
   Dropzone,
@@ -26,6 +28,27 @@ export function PropertyFormLocalizationTab() {
     [form]
   )
 
+  const handleDownloadAttachment = useCallback(
+    async (url: string, fileName?: string) => {
+      try {
+        const { data } = await baseApi.get<Blob>(url, {
+          responseType: 'blob',
+        })
+        const objectUrl = URL.createObjectURL(data)
+        const link = document.createElement('a')
+        link.href = objectUrl
+        link.download = fileName ?? 'anexo'
+        document.body.appendChild(link)
+        link.click()
+        link.remove()
+        URL.revokeObjectURL(objectUrl)
+      } catch {
+        toast.error('Erro ao baixar anexo')
+      }
+    },
+    []
+  )
+
   return (
     <>
       <Form.Field
@@ -33,12 +56,6 @@ export function PropertyFormLocalizationTab() {
         name="localization.images"
         render={({ field, fieldState }) => {
           const { error } = fieldState
-          const onlyPreviews = field.value
-            .filter((item): item is { preview: string } => !!item.preview)
-            .map((item) => item.preview)
-          const onlyFiles = field.value
-            .filter((item): item is { file: File } => !!item.file)
-            .map((item) => item.file)
 
           return (
             <div className="flex flex-col gap-4">
@@ -49,63 +66,56 @@ export function PropertyFormLocalizationTab() {
                   onChange={(files) =>
                     field.onChange([...field.value, ...files])
                   }
-                  mimeType={['image/*']}
+                  mimeType={[
+                    'image/*',
+                    'application/pdf',
+                    'application/vnd.ms-excel',
+                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                  ]}
                   error={error?.message}
                 />
               </div>
               <div className="flex flex-col gap-2">
-                {onlyPreviews.map((preview, index) => (
-                  <div
-                    key={preview}
-                    className="flex items-center w-full justify-between gap-1"
-                  >
-                    <Button
-                      type="button"
-                      variant="link"
-                      size="link"
-                      asChild
-                      className="max-w-[80%] whitespace-normal text-ellipsis"
-                    >
-                      <a href={preview} target="_blank" rel="noreferrer">
-                        {preview}
-                      </a>
-                    </Button>
-                    <Button
-                      type="button"
-                      size="icon"
-                      variant="outline"
-                      onClick={() => handleRemoveFile(index, field.value)}
-                    >
-                      <Trash2Icon className="text-destructive" />
-                    </Button>
-                  </div>
-                ))}
+                {field.value.map((item, index) => {
+                  const isExisting = !!item.preview && !item.file
+                  const label = isExisting
+                    ? (item.fileName ?? item.preview)
+                    : item.file?.name
 
-                {onlyFiles.map((file, index) => (
-                  <div
-                    key={file.name}
-                    className="flex items-center w-full justify-between gap-1"
-                  >
-                    <Button
-                      type="button"
-                      variant="link"
-                      size="link"
-                      onClick={() =>
-                        window.open(URL.createObjectURL(file), '_blank')
-                      }
+                  return (
+                    <div
+                      key={item.id ?? item.preview ?? item.file?.name ?? index}
+                      className="flex items-center w-full justify-between gap-1"
                     >
-                      {file.name}
-                    </Button>
-                    <Button
-                      type="button"
-                      size="icon"
-                      variant="outline"
-                      onClick={() => handleRemoveFile(index, field.value)}
-                    >
-                      <Trash2Icon className="text-destructive" />
-                    </Button>
-                  </div>
-                ))}
+                      <span className="max-w-[80%] truncate">{label}</span>
+                      <div className="flex gap-1">
+                        <Button
+                          type="button"
+                          size="icon"
+                          variant="outline"
+                          onClick={() =>
+                            isExisting
+                              ? handleDownloadAttachment(item.preview!, label)
+                              : window.open(
+                                  URL.createObjectURL(item.file!),
+                                  '_blank'
+                                )
+                          }
+                        >
+                          <DownloadIcon />
+                        </Button>
+                        <Button
+                          type="button"
+                          size="icon"
+                          variant="outline"
+                          onClick={() => handleRemoveFile(index, field.value)}
+                        >
+                          <Trash2Icon className="text-destructive" />
+                        </Button>
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
             </div>
           )

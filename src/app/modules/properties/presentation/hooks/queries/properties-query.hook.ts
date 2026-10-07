@@ -5,24 +5,23 @@ import toast from 'react-hot-toast'
 
 import { makeRemoteGetPropertiesUseCase } from '../../../main/factories/use-cases'
 
-import type { PropertyFilters, PropertySort } from '../../types'
+import type { PropertyFilters } from '../../types'
 
 type Props = {
   filters: PropertyFilters
   page: number
-  sort?: PropertySort
 }
 
-export function usePropertiesQuery({ page, filters, sort }: Props) {
+export function usePropertiesQuery({ page, filters }: Props) {
   const getPropertiesUseCase = makeRemoteGetPropertiesUseCase()
 
   const { data, isError, error, isLoading, refetch } = useQuery({
-    queryKey: ['properties', { page, sort, filters }],
+    queryKey: ['properties', { page, filters }],
     queryFn: () =>
       getPropertiesUseCase.execute({
-        pagination: { page },
-        sort,
-        filters,
+        terms: filters.terms ?? '',
+        page: page - 1,
+        perPage: 10,
       }),
   })
 

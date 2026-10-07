@@ -10,11 +10,11 @@ import {
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
+import { makeRemoteGetMeUseCase } from '@/app/modules/users/main/factories/use-cases'
 import { LocalStorageAdapter } from '@/core/infra/cache'
-import { makeRemoteGetMeUseCase } from '@/core/main/factories/use-cases/users-use-cases'
 import { useIdrNavigate } from '@/core/presentation/hooks/idr-navigation.hook'
 
-import type { UserModel } from '@/core/domain/models/users-model'
+import type { UserModel } from '@/app/modules/users/domain/models/users-model'
 
 type AuthContextProps = {
   signedIn: boolean
@@ -62,6 +62,9 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   const signOut = useCallback(() => {
     LocalStorageAdapter.set(LocalStorageAdapter.LOCAL_STORAGE_KEYS.AUTH)
+    LocalStorageAdapter.set(
+      LocalStorageAdapter.LOCAL_STORAGE_KEYS.REFRESH_TOKEN
+    )
     setSignedIn(false)
     queryClient.removeQueries({ queryKey: ['users', 'me'] })
     navigateToBasePath()
@@ -73,6 +76,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
       signOut()
     }
   }, [isError, signOut])
+
+  useEffect(() => {
+    const handleTokenExpired = () => signOut()
+    window.addEventListener('auth:token-expired', handleTokenExpired)
+    return () =>
+      window.removeEventListener('auth:token-expired', handleTokenExpired)
+  }, [signOut])
 
   const providerProps = useMemo(
     () => ({
