@@ -9,9 +9,9 @@ import {
 import type {
   UserApiResponse,
   UserModel,
-} from '@/app/modules/users/domain/models/users-model'
+} from '../../domain/models/users-model'
+import type { GetAllUsersUseCase } from '../../domain/use-cases'
 import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
-import type { GetAllUsersUseCase } from '@/core/domain/use-cases/users-use-cases'
 
 export class RemoteGetAllUsersUseCase implements GetAllUsersUseCase {
   constructor(

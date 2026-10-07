@@ -7,10 +7,10 @@ import { filterData, paginateData } from '@/core/mocks/utils'
 
 import citiesData from '@database/citiesData.json'
 
-import type { CityApiResponse } from '@/app/modules/cities/domain/models/cities-model'
+import type { CityApiResponse } from '../../domain/models/cities-model'
 
-export const searchCitiesHandler = httpWithMiddleware<never, never, never>({
-  routePath: '/api/v1/cities/search',
+export const getCitiesHandler = httpWithMiddleware<never, never, never>({
+  routePath: '/api/v1/cities',
   method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ request }) => {

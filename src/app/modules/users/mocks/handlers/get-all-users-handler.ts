@@ -1,16 +1,15 @@
 import { HttpResponse } from 'msw'
 
 import { HttpStatusCode } from '@/core/data/protocols/http'
+import { httpWithMiddleware } from '@/core/mocks/lib'
+import { withDelay, withAuth } from '@/core/mocks/middleware'
+import { filterData } from '@/core/mocks/utils'
 
 import allUsersData from '@database/allUsersData.json'
 
-import { httpWithMiddleware } from '../../lib'
-import { withDelay, withAuth } from '../../middleware'
-import { filterData } from '../../utils'
-
-import type { MockParams } from '../../types/mock-params-type'
-import type { MockResponse } from '../../types/mock-response-type'
-import type { UserApiResponse } from '@/app/modules/users/domain/models/users-model'
+import type { UserApiResponse } from '../../domain/models/users-model'
+import type { MockParams } from '@/core/mocks/types/mock-params-type'
+import type { MockResponse } from '@/core/mocks/types/mock-response-type'
 
 export const getAllUsersHandler = httpWithMiddleware<
   never,

@@ -86,6 +86,13 @@ import {
   resetPasswordHandler,
 } from '@/app/modules/auth/mocks/handlers'
 import {
+  createCityHandler,
+  deleteCityHandler,
+  getCityHandler,
+  searchCitiesHandler,
+  updateCityHandler,
+} from '@/app/modules/cities/mocks/handlers'
+import {
   createCultivationDiseaseHandler,
   deleteCultivationDiseaseHandler,
   getCultivationDiseaseHandler,
@@ -188,6 +195,7 @@ import {
   deleteProducerHandler,
   getProducerHandler,
   getProducersHandler,
+  searchProducersHandler,
   updateProducerHandler,
 } from '@/app/modules/producers/mocks/handlers'
 import {
@@ -202,30 +210,20 @@ import {
   deleteRegionHandler,
   getRegionHandler,
   getRegionsHandler,
+  searchRegionsHandler,
   updateRegionHandler,
 } from '@/app/modules/regions/mocks/handlers'
 import {
+  getAllUsersHandler,
+  getMeHandler,
   getUserHandler,
   getUsersHandler,
+  searchUsersHandler,
   toggleUserActiveHandler,
   updateUserPermissionsHandler,
 } from '@/app/modules/users/mocks/handlers'
 
 import { getAllBreedsHandler } from './handlers/breeds-handlers'
-import {
-  searchCitiesHandler,
-  getCityHandler,
-  createCityHandler,
-  updateCityHandler,
-  deleteCityHandler,
-} from './handlers/cities-handlers'
-import { searchProducersHandler } from './handlers/producers-handlers'
-import { searchRegionsHandler } from './handlers/regions-handlers'
-import {
-  getAllUsersHandler,
-  getMeHandler,
-  searchUsersHandler,
-} from './handlers/users-handlers'
 
 const handlers: HttpHandler[] = [
   loginHandler,

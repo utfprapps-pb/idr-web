@@ -3,10 +3,11 @@ import { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
-import { makeRemoteGetAllUsersUseCase } from '@/core/main/factories/use-cases/users-use-cases'
 import { toOption } from '@/core/utils/object/to-option'
 
-import type { UserModel } from '@/app/modules/users/domain/models/users-model'
+import { makeRemoteGetAllUsersUseCase } from '../../../main/factories/use-cases'
+
+import type { UserModel } from '../../../domain/models/users-model'
 import type { Filters } from '@/core/domain/types'
 
 type Props = {

@@ -1,12 +1,13 @@
-import { RemoteGetAllUsersUseCase } from '@/core/data/use-cases/users-use-cases'
 import { makeApiHttpClient } from '@/core/main/factories/http'
+
+import { RemoteGetAllUsersUseCase } from '../../../data/use-cases'
 
 import type {
   UserApiResponse,
   UserModel,
-} from '@/app/modules/users/domain/models/users-model'
+} from '../../../domain/models/users-model'
+import type { GetAllUsersUseCase } from '../../../domain/use-cases'
 import type { ListApiResponse } from '@/core/domain/types'
-import type { GetAllUsersUseCase } from '@/core/domain/use-cases/users-use-cases'
 
 export function makeRemoteGetAllUsersUseCase(): GetAllUsersUseCase {
   return new RemoteGetAllUsersUseCase(

@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker'
 import { HttpResponse } from 'msw'
 
-import { httpWithMiddleware } from '../../lib'
-import { withDelay, withAuth } from '../../middleware'
+import { httpWithMiddleware } from '@/core/mocks/lib'
+import { withDelay, withAuth } from '@/core/mocks/middleware'
 
 type Response = {
   displayName: string
