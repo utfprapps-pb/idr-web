@@ -31,68 +31,85 @@ type Tab = {
 }
 
 export function AnimalsScreen() {
-  const [animalId, setAnimalId] = useState<number | null>(null)
+  const [animalId, setAnimalId] = useState<string | null>(null)
+
+  /** TODO: as abas de evento abaixo ainda esperam um animalId numérico, não migradas para o UUID. */
+  const legacyAnimalId = animalId as unknown as number | null
 
   const tabs = useMemo<Tab[]>(
     () => [
       {
         key: 'animal-childbirths',
         name: 'Parto',
-        component: animalId && <AnimalChildbirthsScreen animalId={animalId} />,
+        component: legacyAnimalId && (
+          <AnimalChildbirthsScreen animalId={legacyAnimalId} />
+        ),
       },
       {
         key: 'animal-heifer-calf-stages',
         name: 'Fase Bezerra/Novilha',
-        component: animalId && (
-          <AnimalHeiferCalfStagesScreen animalId={animalId} />
+        component: legacyAnimalId && (
+          <AnimalHeiferCalfStagesScreen animalId={legacyAnimalId} />
         ),
       },
       {
         key: 'animal-diseases',
         name: 'Doenças',
-        component: animalId && <AnimalDiseasesScreen animalId={animalId} />,
+        component: legacyAnimalId && (
+          <AnimalDiseasesScreen animalId={legacyAnimalId} />
+        ),
       },
       {
         key: 'animal-pregnancy-diagnoses',
         name: 'Diagnóstico de Gestação',
-        component: animalId && (
-          <AnimalPregnancyDiagnosesScreen animalId={animalId} />
+        component: legacyAnimalId && (
+          <AnimalPregnancyDiagnosesScreen animalId={legacyAnimalId} />
         ),
       },
       {
         key: 'animal-deaths',
         name: 'Óbitos',
-        component: animalId && <AnimalDeathsScreen animalId={animalId} />,
+        component: legacyAnimalId && (
+          <AnimalDeathsScreen animalId={legacyAnimalId} />
+        ),
       },
       {
         key: 'animal-inseminations',
         name: 'Inseminações',
-        component: animalId && (
-          <AnimalInseminationsScreen animalId={animalId} />
+        component: legacyAnimalId && (
+          <AnimalInseminationsScreen animalId={legacyAnimalId} />
         ),
       },
       {
         key: 'animal-purchases',
         name: 'Compra de Animal',
-        component: animalId && <AnimalPurchasesScreen animalId={animalId} />,
+        component: legacyAnimalId && (
+          <AnimalPurchasesScreen animalId={legacyAnimalId} />
+        ),
       },
       {
         key: 'animal-sales',
         name: 'Venda de Animal',
-        component: animalId && <AnimalSalesScreen animalId={animalId} />,
+        component: legacyAnimalId && (
+          <AnimalSalesScreen animalId={legacyAnimalId} />
+        ),
       },
       {
         key: 'animal-medications',
         name: 'Medicações',
-        component: animalId && <AnimalMedicationsScreen animalId={animalId} />,
+        component: legacyAnimalId && (
+          <AnimalMedicationsScreen animalId={legacyAnimalId} />
+        ),
       },
       {
         key: 'animal-mastitides',
         name: 'Mastites',
-        component: animalId && <AnimalMastitidesScreen animalId={animalId} />,
+        component: legacyAnimalId && (
+          <AnimalMastitidesScreen animalId={legacyAnimalId} />
+        ),
       },
     ],
-    [animalId]
+    [legacyAnimalId]
   )
 
   const [activeTab, setActiveTab] = useState('animal-childbirths')
@@ -105,7 +122,7 @@ export function AnimalsScreen() {
     setActiveTab(tab)
   }, [])
 
-  const handleSelectAnimalId = useCallback((animalId: number | null) => {
+  const handleSelectAnimalId = useCallback((animalId: string | null) => {
     setAnimalId(animalId)
   }, [])
 

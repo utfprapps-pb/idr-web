@@ -38,7 +38,7 @@ export const getAnimalInseminationHandler = httpWithMiddleware<
       {
         date: animalInseminationFound.date,
         sire: {
-          value: faker.number.int({ min: 1, max: 1000 }),
+          value: faker.string.uuid(),
           label: animalInseminationFound.sire,
         },
       },

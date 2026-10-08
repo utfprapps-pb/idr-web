@@ -78,7 +78,7 @@ export function useNewNutritionalBalancingScreen() {
   })
 
   const { allAnimals, isLoading: isLoadingAnimals } = useAllAnimalsQuery({
-    propertyId,
+    propertyId: String(propertyId),
   })
 
   const { lastVisitData, isLoading: isLoadingLastVisitData } =
@@ -95,13 +95,14 @@ export function useNewNutritionalBalancingScreen() {
       !animalsLoaded
     ) {
       const newEntries = allAnimals.map((animal) => {
+        /** Este módulo ainda referencia animais pelo próprio id numérico, não pelo UUID real do Animal. */
         const lastVisitAnimal = lastVisitData?.nutritionalBalancings.find(
-          (nutritional) => nutritional.animal.id === animal.value
+          (nutritional) => nutritional.animal.id === Number(animal.value)
         )
 
         const baseEntry = createEmptyNutritionalBalancingEntry({
           animal: {
-            id: animal.value,
+            id: Number(animal.value),
             name: animal.label,
             breed: animal.extraData?.breed ?? '',
             ecc: animal.extraData?.ecc ?? '',

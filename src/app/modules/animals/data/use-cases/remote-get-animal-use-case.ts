@@ -30,11 +30,11 @@ export class RemoteGetAnimalUseCase implements GetAnimalUseCase {
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        name: body.name,
-        breed: body.breed,
-        ecc: body.ecc,
-        weight: body.weight,
-        milkProduction: body.milkProduction,
+        name: body.identifier,
+        breed: { label: body.breed.breedName, value: body.breed.id },
+        ecc: body.ecc != null ? String(body.ecc) : '',
+        weight: body.currentWeight != null ? String(body.currentWeight) : '',
+        milkProduction: '',
       }
     }
 

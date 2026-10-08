@@ -37,3 +37,6 @@ docs-build
 database
 
 daily.mdx
+
+# Worktrees
+.worktrees/

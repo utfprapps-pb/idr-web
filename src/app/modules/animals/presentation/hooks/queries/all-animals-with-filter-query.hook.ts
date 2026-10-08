@@ -4,12 +4,11 @@ import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
 import { makeRemoteGetAnimalsUseCase } from '@/app/modules/animals/main/factories/use-cases'
-import { toOption } from '@/core/utils/object/to-option'
 
 import type { AnimalFilters } from '@/app/modules/animals/presentation/types/animal-types'
 
 type Props = {
-  propertyId: number
+  propertyId: string
   filters: AnimalFilters
   perPage?: number
 }
@@ -42,16 +41,21 @@ export function useAllAnimalsWithFilterQuery({
     if (isError) toast.error(error?.message ?? 'Erro ao buscar animais')
   }, [error, isError])
 
+  /** toOption() força value: number; construído diretamente aqui pois o id é uma string UUID. */
+  const allAnimals =
+    data?.resources.map((resource) => ({
+      label: resource.name,
+      value: resource.id,
+      extraData: {
+        breed: resource.breed,
+        weight: resource.weight,
+        ecc: resource.ecc,
+        milkProduction: resource.milkProduction,
+      },
+    })) ?? []
+
   return {
-    allAnimals:
-      data?.resources.map((resource) =>
-        toOption(resource, 'name', {
-          breed: resource.breed,
-          weight: resource.weight,
-          ecc: resource.ecc,
-          milkProduction: resource.milkProduction,
-        })
-      ) ?? [],
+    allAnimals,
     isLoading,
     refetchAllAnimals,
   }

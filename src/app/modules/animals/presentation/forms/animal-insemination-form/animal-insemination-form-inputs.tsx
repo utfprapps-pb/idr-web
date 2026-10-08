@@ -18,7 +18,7 @@ export function AnimalInseminationFormInputs() {
   const debouncedAnimal = useDebounce({ value: searchAnimal })
 
   const { allAnimals, isLoading } = useAllAnimalsWithFilterQuery({
-    propertyId,
+    propertyId: String(propertyId),
     filters: {
       name: {
         value: debouncedAnimal,

@@ -12,7 +12,7 @@ import type { AnimalModel } from '../../domain/models/animals-model'
 import type { AnimalFilters } from '../types/animal-types'
 
 type AnimalContextValue = {
-  propertyId: number
+  propertyId: string
   filters: AnimalFilters
   handleChangeFilters: (newFilters: AnimalFilters) => void
   selectedAnimal?: AnimalModel
@@ -82,7 +82,7 @@ export function AnimalProvider({ children }: Readonly<PropsWithChildren>) {
 
   const providerValues = useMemo(
     () => ({
-      propertyId: Number(params.propertyId),
+      propertyId: params.propertyId ?? '',
       filters,
       handleChangeFilters,
       selectedAnimal,

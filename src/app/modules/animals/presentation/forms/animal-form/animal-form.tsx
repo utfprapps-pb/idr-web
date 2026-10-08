@@ -2,7 +2,7 @@ import { CreateAnimalForm } from './create-animal-form'
 import { EditAnimalForm } from './edit-animal-form'
 
 type AnimalFormProps = {
-  id?: number
+  id?: string
 }
 
 export function AnimalForm({ id }: Readonly<AnimalFormProps>) {

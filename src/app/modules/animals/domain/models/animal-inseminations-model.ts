@@ -2,12 +2,12 @@ import type { Option, WithId } from '@/core/domain/types'
 
 export type AnimalInseminationDetailsModel = {
   date: Date
-  sire: Option
+  sire: Option<string>
 }
 
 export type AnimalInseminationDetailsApiResponse = {
   date: string
-  sire: Option
+  sire: Option<string>
 }
 
 export type AnimalInseminationModel = WithId<{

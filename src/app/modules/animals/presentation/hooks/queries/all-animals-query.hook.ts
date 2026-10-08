@@ -4,10 +4,9 @@ import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
 import { makeRemoteGetAnimalsUseCase } from '@/app/modules/animals/main/factories/use-cases'
-import { toOption } from '@/core/utils/object/to-option'
 
 type Props = {
-  propertyId: number
+  propertyId: string
 }
 
 export function useAllAnimalsQuery({ propertyId }: Props) {
@@ -34,14 +33,16 @@ export function useAllAnimalsQuery({ propertyId }: Props) {
 
   return {
     allAnimals:
-      data?.resources.map((resource) =>
-        toOption(resource, 'name', {
+      data?.resources.map((resource) => ({
+        label: resource.name,
+        value: resource.id,
+        extraData: {
           breed: resource.breed,
           weight: resource.weight,
           ecc: resource.ecc,
           milkProduction: resource.milkProduction,
-        })
-      ) ?? [],
+        },
+      })) ?? [],
     isLoading,
     refetchAllAnimals,
   }

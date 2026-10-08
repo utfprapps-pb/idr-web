@@ -3,8 +3,10 @@ node_modules
 docs
 dist
 public/mockServiceWorker.js
-.gemini
 GEMINI.md
-.agents
 CODEX.md
 AGENTS.md
+
+# Pastas de ferramentas/agentes (config ou estado local, não código do projeto)
+.*/
+!.storybook/

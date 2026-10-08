@@ -5,6 +5,7 @@ import {
   UnexpectedError,
 } from '@/core/domain/errors'
 
+import type { AnimalWriteApiRequest } from '../../domain/models/animals-model'
 import type { CreateAnimalUseCase } from '../../domain/use-cases'
 
 export class RemoteCreateAnimalUseCase implements CreateAnimalUseCase {
@@ -16,10 +17,16 @@ export class RemoteCreateAnimalUseCase implements CreateAnimalUseCase {
   execute: CreateAnimalUseCase['execute'] = async ({ propertyId, animal }) => {
     const url = this.url.replace(':propertyId', String(propertyId))
 
+    const body: AnimalWriteApiRequest = {
+      propertyId,
+      identifier: animal.name,
+      breed: { id: animal.breed.value },
+    }
+
     const { statusCode } = await this.httpClient.request({
       url,
       method: 'post',
-      body: animal,
+      body,
     })
 
     if (statusCode === HttpStatusCode.created) return
