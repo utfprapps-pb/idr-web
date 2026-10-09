@@ -3,70 +3,54 @@ import { HttpResponse, type PathParams } from 'msw'
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
-import { filterData, sortData, paginateData } from '@/core/mocks/utils'
+import { paginateData, sortData } from '@/core/mocks/utils'
 
 import animalPregnancyDiagnosesData from '@database/animalPregnancyDiagnosesData.json'
 
-import type { AnimalPregnancyDiagnosisApiResponse } from '../../../domain/models/animal-pregnancy-diagnoses-model'
-import type { MockParams } from '@/core/mocks/types/mock-params-type'
-import type { MockResponse } from '@/core/mocks/types/mock-response-type'
-
 export const getAnimalPregnancyDiagnosesHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId'>,
-  MockParams<AnimalPregnancyDiagnosisApiResponse>,
-  MockResponse<AnimalPregnancyDiagnosisApiResponse[]>
+  never,
+  never
 >({
   routePath:
     '/api/properties/:propertyId/animals/:animalId/pregnancy-diagnoses/search',
-  method: 'post',
+  method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ request }) => {
-    const { filters, page, rows, sort } = await request.json()
+    const url = new URL(request.url)
+    const terms = url.searchParams.get('terms') ?? ''
+    const page = Number(url.searchParams.get('page') ?? 0)
+    const perPage = Number(url.searchParams.get('perPage') ?? 10)
+    const sort = url.searchParams.get('sort')
+    const direction = url.searchParams.get('direction') ?? 'asc'
 
-    if (!animalPregnancyDiagnosesData.length) {
-      return HttpResponse.json(
-        {
-          content: [],
-          numberOfElements: 0,
-          pageable: {
-            pageSize: 0,
-          },
-        },
-        {
-          status: 404,
-        }
+    let animalPregnancyDiagnoses = animalPregnancyDiagnosesData.map((item) => ({
+      id: item.id,
+      diagnoseDate: item.date,
+      lastIa: item.lastInseminationDate,
+    }))
+
+    if (terms) {
+      animalPregnancyDiagnoses = animalPregnancyDiagnoses.filter((item) =>
+        JSON.stringify(item).toLowerCase().includes(terms.toLowerCase())
       )
     }
 
-    let animalPregnancyDiagnoses = animalPregnancyDiagnosesData
-
-    if (filters)
-      animalPregnancyDiagnoses =
-        filterData<AnimalPregnancyDiagnosisApiResponse>(
-          filters,
-          animalPregnancyDiagnoses
-        )
-    if (sort)
-      animalPregnancyDiagnoses = sortData<AnimalPregnancyDiagnosisApiResponse>(
-        sort,
+    if (sort) {
+      animalPregnancyDiagnoses = sortData(
+        {
+          field: sort as keyof (typeof animalPregnancyDiagnoses)[number],
+          type: direction as 'asc' | 'desc',
+        },
         animalPregnancyDiagnoses
       )
+    }
 
-    const numberOfElements = animalPregnancyDiagnoses.length
-    animalPregnancyDiagnoses =
-      paginateData<AnimalPregnancyDiagnosisApiResponse>(
-        { page, perPage: rows },
-        animalPregnancyDiagnoses
-      )
+    const total = animalPregnancyDiagnoses.length
+    const items = paginateData({ page, perPage }, animalPregnancyDiagnoses)
 
     return HttpResponse.json(
-      {
-        content: animalPregnancyDiagnoses,
-        numberOfElements,
-        pageable: {
-          pageSize: rows,
-        },
-      },
+      { currentPage: page, perPage, total, items },
       { status: HttpStatusCode.ok }
     )
   },

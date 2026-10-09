@@ -15,6 +15,5 @@ export const createAnimalPregnancyDiagnosisHandler = httpWithMiddleware<
     '/api/properties/:propertyId/animals/:animalId/pregnancy-diagnoses',
   method: 'post',
   middlewares: [withDelay(), withAuth],
-  resolver: async () =>
-    HttpResponse.json({}, { status: HttpStatusCode.created }),
+  resolver: async () => HttpResponse.json({}, { status: HttpStatusCode.ok }),
 })
