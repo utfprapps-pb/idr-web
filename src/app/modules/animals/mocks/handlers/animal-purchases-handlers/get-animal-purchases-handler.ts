@@ -3,67 +3,55 @@ import { HttpResponse, type PathParams } from 'msw'
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
-import { filterData, sortData, paginateData } from '@/core/mocks/utils'
+import { paginateData, sortData } from '@/core/mocks/utils'
 
 import animalPurchasesData from '@database/animalPurchasesData.json'
 
-import type { AnimalPurchaseApiResponse } from '../../../domain/models/animal-purchases-model'
-import type { MockParams } from '@/core/mocks/types/mock-params-type'
-import type { MockResponse } from '@/core/mocks/types/mock-response-type'
-
 export const getAnimalPurchasesHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId'>,
-  MockParams<AnimalPurchaseApiResponse>,
-  MockResponse<AnimalPurchaseApiResponse[]>
+  never,
+  never
 >({
   routePath: '/api/properties/:propertyId/animals/:animalId/purchases/search',
-  method: 'post',
+  method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ request }) => {
-    const { filters, page, rows, sort } = await request.json()
+    const url = new URL(request.url)
+    const terms = url.searchParams.get('terms') ?? ''
+    const page = Number(url.searchParams.get('page') ?? 0)
+    const perPage = Number(url.searchParams.get('perPage') ?? 10)
+    const sort = url.searchParams.get('sort')
+    const direction = url.searchParams.get('direction') ?? 'asc'
 
-    if (!animalPurchasesData.length) {
-      return HttpResponse.json(
-        {
-          content: [],
-          numberOfElements: 0,
-          pageable: {
-            pageSize: 0,
-          },
-        },
-        {
-          status: 404,
-        }
+    // `weight` não existe no backend real — não é incluído na resposta.
+    let animalPurchases = animalPurchasesData.map((item) => ({
+      id: item.id,
+      datePurchase: item.date,
+      birthDate: item.birthDate,
+      value: item.price,
+    }))
+
+    if (terms) {
+      animalPurchases = animalPurchases.filter((item) =>
+        JSON.stringify(item).toLowerCase().includes(terms.toLowerCase())
       )
     }
 
-    let animalPurchases = animalPurchasesData
-
-    if (filters)
-      animalPurchases = filterData<AnimalPurchaseApiResponse>(
-        filters,
+    if (sort) {
+      animalPurchases = sortData(
+        {
+          field: sort as keyof (typeof animalPurchases)[number],
+          type: direction as 'asc' | 'desc',
+        },
         animalPurchases
       )
-    if (sort)
-      animalPurchases = sortData<AnimalPurchaseApiResponse>(
-        sort,
-        animalPurchases
-      )
+    }
 
-    const numberOfElements = animalPurchases.length
-    animalPurchases = paginateData<AnimalPurchaseApiResponse>(
-      { page, perPage: rows },
-      animalPurchases
-    )
+    const total = animalPurchases.length
+    const items = paginateData({ page, perPage }, animalPurchases)
 
     return HttpResponse.json(
-      {
-        content: animalPurchases,
-        numberOfElements,
-        pageable: {
-          pageSize: rows,
-        },
-      },
+      { currentPage: page, perPage, total, items },
       { status: HttpStatusCode.ok }
     )
   },
