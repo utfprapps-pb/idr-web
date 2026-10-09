@@ -11,8 +11,8 @@ import type {
 } from '../../types/animal-mastitis-types'
 
 type Props = {
-  propertyId: number
-  animalId: number
+  propertyId: string
+  animalId: string
   filters: AnimalMastitisFilters
   page: number
   sort?: AnimalMastitisSort

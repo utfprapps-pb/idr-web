@@ -2,7 +2,7 @@ import { CreateAnimalMastitisForm } from './create-animal-mastitis-form'
 import { EditAnimalMastitisForm } from './edit-animal-mastitis-form'
 
 type AnimalMastitisFormProps = {
-  id?: number
+  id?: string
 }
 
 export function AnimalMastitisForm({ id }: Readonly<AnimalMastitisFormProps>) {

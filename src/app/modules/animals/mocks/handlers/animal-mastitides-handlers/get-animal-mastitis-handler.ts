@@ -24,7 +24,7 @@ export const getAnimalMastitisHandler = httpWithMiddleware<
     }
 
     const animalMastitisFound = animalMastitidesData.find(
-      (animal) => animal.id === Number(params.id)
+      (animal) => animal.id === params.id
     )
 
     if (!animalMastitisFound) {

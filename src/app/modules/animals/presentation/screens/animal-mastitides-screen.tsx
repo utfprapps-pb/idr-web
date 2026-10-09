@@ -9,7 +9,7 @@ import {
 import { AnimalMastitisForm } from '../forms/animal-mastitis-form'
 
 type AnimalMastitidesScreenProps = {
-  readonly animalId: number
+  readonly animalId: string
 }
 
 export function AnimalMastitidesScreen({

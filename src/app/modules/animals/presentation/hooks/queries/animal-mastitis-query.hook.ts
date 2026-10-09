@@ -6,9 +6,9 @@ import toast from 'react-hot-toast'
 import { makeRemoteGetAnimalMastitisUseCase } from '../../../main/factories/use-cases/animal-mastitides-use-cases'
 
 type Props = {
-  id: number
-  propertyId: number
-  animalId: number
+  id: string
+  propertyId: string
+  animalId: string
 }
 
 export function useAnimalMastitisQuery({ id, propertyId, animalId }: Props) {

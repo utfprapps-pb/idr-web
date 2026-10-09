@@ -104,9 +104,7 @@ export function AnimalsScreen() {
       {
         key: 'animal-mastitides',
         name: 'Mastites',
-        component: legacyAnimalId && (
-          <AnimalMastitidesScreen animalId={legacyAnimalId} />
-        ),
+        component: animalId && <AnimalMastitidesScreen animalId={animalId} />,
       },
     ],
     [legacyAnimalId, animalId]

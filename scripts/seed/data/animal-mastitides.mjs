@@ -7,8 +7,8 @@ export const animalMastitidesData = Array.from(
       max: 100,
     }),
   },
-  (_, index) => ({
-    id: index + 1,
+  () => ({
+    id: faker.string.uuid(),
     date: faker.date.past(),
     type: faker.helpers.arrayElement(['CLINICAL', 'SUBCLINICAL']),
     ad: faker.helpers.arrayElement([

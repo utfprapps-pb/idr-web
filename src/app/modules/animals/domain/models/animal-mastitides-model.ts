@@ -1,5 +1,3 @@
-import type { WithId } from '@/core/domain/types'
-
 export type AnimalMastitisCmtResults =
   | 'PLUS-ONE'
   | 'PLUS-TWO'
@@ -26,20 +24,22 @@ export type AnimalMastitisDetailsApiResponse = {
   pe: string
 }
 
-export type AnimalMastitisModel = WithId<{
+export type AnimalMastitisModel = {
+  id: string
   date: Date
   type: AnimalMastitisType
   ad: AnimalMastitisCmtResults
   ae: AnimalMastitisCmtResults
   pd: AnimalMastitisCmtResults
   pe: AnimalMastitisCmtResults
-}>
+}
 
-export type AnimalMastitisApiResponse = WithId<{
+export type AnimalMastitisApiResponse = {
+  id: string
   date: string
   type: string
   ad: string
   ae: string
   pd: string
   pe: string
-}>
+}
