@@ -33,7 +33,7 @@ type Tab = {
 export function AnimalsScreen() {
   const [animalId, setAnimalId] = useState<string | null>(null)
 
-  /** TODO: as abas de evento abaixo ainda esperam um animalId numérico, não migradas para o UUID. */
+  /** TODO: parto, fase bezerra/novilha e óbitos ainda esperam um animalId numérico (sem rota de backend migrada); as demais 7 abas já usam animalId (UUID) diretamente. */
   const legacyAnimalId = animalId as unknown as number | null
 
   const tabs = useMemo<Tab[]>(
