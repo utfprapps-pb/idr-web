@@ -1,5 +1,3 @@
-import type { WithId } from '@/core/domain/types'
-
 export type AnimalPurchaseDetailsModel = {
   date: Date
   birthDate: Date
@@ -14,17 +12,19 @@ export type AnimalPurchaseDetailsApiResponse = {
   price: string
 }
 
-export type AnimalPurchaseModel = WithId<{
+export type AnimalPurchaseModel = {
+  id: string
   date: Date
   birthDate: Date
   weight: string
   price: string
-}>
+}
 
 // todo: refactor to be consistent with Api response
-export type AnimalPurchaseApiResponse = WithId<{
+export type AnimalPurchaseApiResponse = {
+  id: string
   date: string
   birthDate: string
   weight: string
   price: string
-}>
+}

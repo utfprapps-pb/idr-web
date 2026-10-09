@@ -81,9 +81,7 @@ export function AnimalsScreen() {
       {
         key: 'animal-purchases',
         name: 'Compra de Animal',
-        component: legacyAnimalId && (
-          <AnimalPurchasesScreen animalId={legacyAnimalId} />
-        ),
+        component: animalId && <AnimalPurchasesScreen animalId={animalId} />,
       },
       {
         key: 'animal-sales',

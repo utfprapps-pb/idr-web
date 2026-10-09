@@ -24,7 +24,7 @@ export const getAnimalPurchaseHandler = httpWithMiddleware<
     }
 
     const animalPurchaseFound = animalPurchasesData.find(
-      (animal) => animal.id === Number(params.id)
+      (animal) => animal.id === params.id
     )
 
     if (!animalPurchaseFound) {
