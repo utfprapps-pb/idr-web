@@ -3,67 +3,56 @@ import { HttpResponse, type PathParams } from 'msw'
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
-import { filterData, sortData, paginateData } from '@/core/mocks/utils'
+import { paginateData, sortData } from '@/core/mocks/utils'
 
 import animalMedicationsData from '@database/animalMedicationsData.json'
 
-import type { AnimalMedicationApiResponse } from '../../../domain/models/animal-medications-model'
-import type { MockParams } from '@/core/mocks/types/mock-params-type'
-import type { MockResponse } from '@/core/mocks/types/mock-response-type'
-
 export const getAnimalMedicationsHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId'>,
-  MockParams<AnimalMedicationApiResponse>,
-  MockResponse<AnimalMedicationApiResponse[]>
+  never,
+  never
 >({
   routePath: '/api/properties/:propertyId/animals/:animalId/medications/search',
-  method: 'post',
+  method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ request }) => {
-    const { filters, page, rows, sort } = await request.json()
+    const url = new URL(request.url)
+    const terms = url.searchParams.get('terms') ?? ''
+    const page = Number(url.searchParams.get('page') ?? 0)
+    const perPage = Number(url.searchParams.get('perPage') ?? 10)
+    const sort = url.searchParams.get('sort')
+    const direction = url.searchParams.get('direction') ?? 'asc'
 
-    if (!animalMedicationsData.length) {
-      return HttpResponse.json(
-        {
-          content: [],
-          numberOfElements: 0,
-          pageable: {
-            pageSize: 0,
-          },
-        },
-        {
-          status: 404,
-        }
+    let animalMedications = animalMedicationsData.map((item) => ({
+      id: item.id,
+      applicationDate: item.date,
+      appliedDose: item.appliedDose,
+      applicationWay: item.applicationMethod,
+      product: item.product,
+      activeIngredient: item.activeIngredient,
+    }))
+
+    if (terms) {
+      animalMedications = animalMedications.filter((item) =>
+        JSON.stringify(item).toLowerCase().includes(terms.toLowerCase())
       )
     }
 
-    let animalMedications =
-      animalMedicationsData as AnimalMedicationApiResponse[]
+    if (sort) {
+      animalMedications = sortData(
+        {
+          field: sort as keyof (typeof animalMedications)[number],
+          type: direction as 'asc' | 'desc',
+        },
+        animalMedications
+      )
+    }
 
-    if (filters)
-      animalMedications = filterData<AnimalMedicationApiResponse>(
-        filters,
-        animalMedications
-      )
-    if (sort)
-      animalMedications = sortData<AnimalMedicationApiResponse>(
-        sort,
-        animalMedications
-      )
-    const numberOfElements = animalMedications.length
-    animalMedications = paginateData<AnimalMedicationApiResponse>(
-      { page, perPage: rows },
-      animalMedications
-    )
+    const total = animalMedications.length
+    const items = paginateData({ page, perPage }, animalMedications)
 
     return HttpResponse.json(
-      {
-        content: animalMedications,
-        numberOfElements,
-        pageable: {
-          pageSize: rows,
-        },
-      },
+      { currentPage: page, perPage, total, items },
       { status: HttpStatusCode.ok }
     )
   },

@@ -14,6 +14,5 @@ export const createAnimalMedicationHandler = httpWithMiddleware<
   routePath: '/api/properties/:propertyId/animals/:animalId/medications',
   method: 'post',
   middlewares: [withDelay(), withAuth],
-  resolver: async () =>
-    HttpResponse.json({}, { status: HttpStatusCode.created }),
+  resolver: async () => HttpResponse.json({}, { status: HttpStatusCode.ok }),
 })

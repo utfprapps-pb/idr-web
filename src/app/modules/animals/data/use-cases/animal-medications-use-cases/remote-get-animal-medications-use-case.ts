@@ -7,12 +7,56 @@ import {
 import { floatMask } from '@/core/masker'
 
 import type {
-  AnimalMedicationApiResponse,
   AnimalMedicationApplicationMethod,
   AnimalMedicationModel,
 } from '../../../domain/models/animal-medications-model'
 import type { GetAnimalMedicationsUseCase } from '../../../domain/use-cases/animal-medications-use-cases'
-import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
+import type { Filters } from '@/core/domain/types'
+
+export type AnimalMedicationSearchApiItem = {
+  id: string
+  applicationDate: string
+  appliedDose: string
+  applicationWay: string
+  // `product`/`activeIngredient` mantidos como estavam — resolução via
+  // catálogo real `Product` não é religada nesta entrega.
+  product: string
+  activeIngredient: string
+}
+
+export type AnimalMedicationSearchApiResponse = {
+  currentPage: number
+  perPage: number
+  total: number
+  items: AnimalMedicationSearchApiItem[]
+}
+
+const SORT_FIELD_MAP: Record<string, string> = {
+  date: 'applicationDate',
+  appliedDose: 'appliedDose',
+  applicationMethod: 'applicationWay',
+  product: 'product',
+  activeIngredient: 'activeIngredient',
+}
+
+function resolveTerms(
+  filters?: Filters<AnimalMedicationModel>
+): string | undefined {
+  if (!filters) return undefined
+
+  const filterEntry = Object.values(filters).find(
+    (filter) => filter !== undefined
+  ) as { value: unknown } | undefined
+
+  if (!filterEntry) return undefined
+
+  const { value } = filterEntry
+
+  if (value instanceof Date) return value.toISOString()
+  if (Array.isArray(value)) return value.map(String).join(',')
+
+  return String(value)
+}
 
 export class RemoteGetAnimalMedicationsUseCase
   implements GetAnimalMedicationsUseCase
@@ -21,8 +65,8 @@ export class RemoteGetAnimalMedicationsUseCase
     private readonly url: string,
     private readonly httpClient: HttpClient<
       AnimalMedicationModel,
-      AnimalMedicationApiResponse,
-      ListApiResponse<AnimalMedicationModel[]>
+      AnimalMedicationSearchApiItem,
+      AnimalMedicationSearchApiResponse
     >
   ) {}
 
@@ -33,58 +77,58 @@ export class RemoteGetAnimalMedicationsUseCase
     pagination,
     sort,
   }) => {
-    const mapApiProperties: MapApiProperties<
-      AnimalMedicationModel,
-      AnimalMedicationApiResponse
-    > = {
-      id: 'id',
-      date: 'date',
-      product: 'product',
-      appliedDose: 'appliedDose',
-      activeIngredient: 'activeIngredient',
-      applicationMethod: 'applicationMethod',
-    }
-
     const url = this.url
       .replace(':propertyId', String(propertyId))
       .replace(':animalId', String(animalId))
 
+    const params = new URLSearchParams({
+      page: String((pagination?.page ?? 1) - 1),
+      perPage: String(pagination?.perPage ?? 10),
+    })
+
+    const terms = resolveTerms(filters)
+    if (terms) params.set('terms', terms)
+
+    if (sort) {
+      params.set(
+        'sort',
+        SORT_FIELD_MAP[String(sort.field)] ?? String(sort.field)
+      )
+      params.set('direction', sort.direction)
+    }
+
     const { statusCode, body } = await this.httpClient.request({
-      url: `${url}/search`,
-      method: 'post',
-      filters,
-      pagination,
-      sort,
-      mapApiProperties,
+      url: `${url}/search?${params.toString()}`,
+      method: 'get',
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
-      return {
-        resources: body.content.map((item) => {
-          const applicationMethodMapper: Record<
-            AnimalMedicationApplicationMethod,
-            string
-          > = {
-            IM: 'IM',
-            IV: 'IV',
-            SC: 'SC',
-            IntraMammary: 'Intra Mamária',
-            PourOn: 'Pour On',
-          }
+      const applicationMethodMapper: Record<
+        AnimalMedicationApplicationMethod,
+        string
+      > = {
+        IM: 'IM',
+        IV: 'IV',
+        SC: 'SC',
+        IntraMammary: 'Intra Mamária',
+        PourOn: 'Pour On',
+      }
 
+      return {
+        resources: body.items.map((item) => {
           return {
             id: item.id,
-            date: new Date(item.date),
+            date: new Date(item.applicationDate),
             product: item.product,
             appliedDose: floatMask(item.appliedDose, 'mg/ml'),
             activeIngredient: item.activeIngredient,
             applicationMethod:
               applicationMethodMapper[
-                item.applicationMethod as AnimalMedicationApplicationMethod
+                item.applicationWay as AnimalMedicationApplicationMethod
               ],
           }
         }),
-        totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
+        totalPages: Math.ceil(body.total / body.perPage),
       }
     }
 
