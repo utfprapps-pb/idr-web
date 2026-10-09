@@ -24,7 +24,7 @@ export const getAnimalDiseaseHandler = httpWithMiddleware<
     }
 
     const animalDiseaseFound = animalDiseasesData.find(
-      (animal) => animal.id === Number(params.id)
+      (animal) => animal.id === params.id
     )
 
     if (!animalDiseaseFound) {

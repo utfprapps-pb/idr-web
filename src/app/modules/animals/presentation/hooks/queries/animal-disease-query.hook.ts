@@ -6,9 +6,9 @@ import toast from 'react-hot-toast'
 import { makeRemoteGetAnimalDiseaseUseCase } from '../../../main/factories/use-cases/animal-diseases-use-cases'
 
 type Props = {
-  id: number
-  propertyId: number
-  animalId: number
+  id: string
+  propertyId: string
+  animalId: string
 }
 
 export function useAnimalDiseaseQuery({ id, propertyId, animalId }: Props) {

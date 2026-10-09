@@ -1,5 +1,3 @@
-import type { WithId } from '@/core/domain/types'
-
 export type AnimalDiseaseDetailsModel = {
   diagnosticDate: Date
   diagnostic: string
@@ -10,13 +8,15 @@ export type AnimalDiseaseDetailsApiResponse = {
   diagnostic: string
 }
 
-export type AnimalDiseaseModel = WithId<{
+export type AnimalDiseaseModel = {
+  id: string
   diagnosticDate: Date
   diagnostic: string
-}>
+}
 
 // todo: refactor to be consistent with Api response
-export type AnimalDiseaseApiResponse = WithId<{
+export type AnimalDiseaseApiResponse = {
+  id: string
   diagnosticDate: string
   diagnostic: string
-}>
+}

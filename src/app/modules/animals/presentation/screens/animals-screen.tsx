@@ -55,9 +55,7 @@ export function AnimalsScreen() {
       {
         key: 'animal-diseases',
         name: 'Doenças',
-        component: legacyAnimalId && (
-          <AnimalDiseasesScreen animalId={legacyAnimalId} />
-        ),
+        component: animalId && <AnimalDiseasesScreen animalId={animalId} />,
       },
       {
         key: 'animal-pregnancy-diagnoses',

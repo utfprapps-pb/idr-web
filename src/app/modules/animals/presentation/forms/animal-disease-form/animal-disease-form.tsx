@@ -2,7 +2,7 @@ import { CreateAnimalDiseaseForm } from './create-animal-disease-form'
 import { EditAnimalDiseaseForm } from './edit-animal-disease-form'
 
 type AnimalDiseaseFormProps = {
-  id?: number
+  id?: string
 }
 
 export function AnimalDiseaseForm({ id }: Readonly<AnimalDiseaseFormProps>) {

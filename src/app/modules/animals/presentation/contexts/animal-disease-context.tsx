@@ -12,8 +12,8 @@ import type { AnimalDiseaseModel } from '../../domain/models/animal-diseases-mod
 import type { AnimalDiseaseFilters } from '../types/animal-disease-types'
 
 type AnimalDiseaseValue = {
-  propertyId: number
-  animalId: number
+  propertyId: string
+  animalId: string
   selectedAnimalDisease?: AnimalDiseaseModel
   filters: AnimalDiseaseFilters
   handleChangeFilters: (newFilters: AnimalDiseaseFilters) => void
@@ -33,7 +33,7 @@ export const AnimalDiseaseContext = createContext<AnimalDiseaseValue>(
 )
 
 type AnimalDiseaseProviderProps = PropsWithChildren<{
-  animalId: number
+  animalId: string
 }>
 
 export function AnimalDiseaseProvider({
@@ -104,7 +104,7 @@ export function AnimalDiseaseProvider({
 
   const providerValues = useMemo(
     () => ({
-      propertyId: Number(params.propertyId),
+      propertyId: params.propertyId ?? '',
       animalId,
       filters,
       handleChangeFilters,

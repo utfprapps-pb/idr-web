@@ -7,8 +7,8 @@ export const animalDiseasesData = Array.from(
       max: 100,
     }),
   },
-  (_, index) => ({
-    id: index + 1,
+  () => ({
+    id: faker.string.uuid(),
     diagnosticDate: faker.date.past(),
     diagnostic: faker.lorem.paragraph(1),
   })
