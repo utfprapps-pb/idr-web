@@ -5,6 +5,8 @@ import {
   UnexpectedError,
 } from '@/core/domain/errors'
 
+import { toApi } from '../../mappers/animal-insemination-api-mapper'
+
 import type { UpdateAnimalInseminationUseCase } from '../../../domain/use-cases/animal-inseminations-use-cases'
 
 export class RemoteUpdateAnimalInseminationUseCase
@@ -24,13 +26,13 @@ export class RemoteUpdateAnimalInseminationUseCase
       .replace(':propertyId', String(propertyId))
       .replace(':animalId', String(animalId))
 
-    const { statusCode } = await this.httpClient.request({
+    const { statusCode, body } = await this.httpClient.request({
       url: `${url}/${id}`,
-      method: 'patch',
-      body: animalInsemination,
+      method: 'put',
+      body: toApi(animalInsemination),
     })
 
-    if (statusCode === HttpStatusCode.noContent) return
+    if (statusCode === HttpStatusCode.ok && !!body) return
 
     if (statusCode === HttpStatusCode.badRequest) throw new BadRequestError()
 

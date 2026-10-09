@@ -5,12 +5,43 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
-import type {
-  AnimalInseminationApiResponse,
-  AnimalInseminationModel,
-} from '../../../domain/models/animal-inseminations-model'
+import { fromApi } from '../../mappers/animal-insemination-api-mapper'
+
+import type { AnimalInseminationModel } from '../../../domain/models/animal-inseminations-model'
 import type { GetAnimalInseminationsUseCase } from '../../../domain/use-cases/animal-inseminations-use-cases'
-import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
+import type { Filters } from '@/core/domain/types'
+
+export type AnimalInseminationSearchApiItem = {
+  id: string
+  date: string
+  bull: string
+}
+
+export type AnimalInseminationSearchApiResponse = {
+  currentPage: number
+  perPage: number
+  total: number
+  items: AnimalInseminationSearchApiItem[]
+}
+
+function resolveTerms(
+  filters?: Filters<AnimalInseminationModel>
+): string | undefined {
+  if (!filters) return undefined
+
+  const filterEntry = Object.values(filters).find(
+    (filter) => filter !== undefined
+  ) as { value: unknown } | undefined
+
+  if (!filterEntry) return undefined
+
+  const { value } = filterEntry
+
+  if (value instanceof Date) return value.toISOString()
+  if (Array.isArray(value)) return value.map(String).join(',')
+
+  return String(value)
+}
 
 export class RemoteGetAnimalInseminationsUseCase
   implements GetAnimalInseminationsUseCase
@@ -19,8 +50,8 @@ export class RemoteGetAnimalInseminationsUseCase
     private readonly url: string,
     private readonly httpClient: HttpClient<
       AnimalInseminationModel,
-      AnimalInseminationApiResponse,
-      ListApiResponse<AnimalInseminationModel[]>
+      AnimalInseminationSearchApiItem,
+      AnimalInseminationSearchApiResponse
     >
   ) {}
 
@@ -31,38 +62,37 @@ export class RemoteGetAnimalInseminationsUseCase
     pagination,
     sort,
   }) => {
-    const mapApiProperties: MapApiProperties<
-      AnimalInseminationModel,
-      AnimalInseminationApiResponse
-    > = {
-      id: 'id',
-      date: 'date',
-      sire: 'sire',
-    }
-
     const url = this.url
       .replace(':propertyId', String(propertyId))
       .replace(':animalId', String(animalId))
 
+    const params = new URLSearchParams({
+      page: String((pagination?.page ?? 1) - 1),
+      perPage: String(pagination?.perPage ?? 10),
+    })
+
+    const terms = resolveTerms(filters)
+    if (terms) params.set('terms', terms)
+
+    if (sort) {
+      const sortField = sort.field === 'sire' ? 'bull' : String(sort.field)
+      params.set('sort', sortField)
+      params.set('direction', sort.direction)
+    }
+
     const { statusCode, body } = await this.httpClient.request({
-      url: `${url}/search`,
-      method: 'post',
-      filters,
-      pagination,
-      sort,
-      mapApiProperties,
+      url: `${url}/search?${params.toString()}`,
+      method: 'get',
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        resources: body.content.map((item) => {
-          return {
-            id: item.id,
-            date: new Date(item.date),
-            sire: item.sire,
-          }
+        resources: body.items.map((item) => {
+          const { date, sire } = fromApi(item)
+
+          return { id: item.id, date, sire }
         }),
-        totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
+        totalPages: Math.ceil(body.total / body.perPage),
       }
     }
 

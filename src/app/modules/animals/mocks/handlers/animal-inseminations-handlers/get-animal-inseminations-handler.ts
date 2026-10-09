@@ -3,68 +3,54 @@ import { HttpResponse, type PathParams } from 'msw'
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
-import { filterData, sortData, paginateData } from '@/core/mocks/utils'
+import { paginateData, sortData } from '@/core/mocks/utils'
 
 import animalInseminationsData from '@database/animalInseminationsData.json'
 
-import type { AnimalInseminationApiResponse } from '../../../domain/models/animal-inseminations-model'
-import type { MockParams } from '@/core/mocks/types/mock-params-type'
-import type { MockResponse } from '@/core/mocks/types/mock-response-type'
-
 export const getAnimalInseminationsHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId'>,
-  MockParams<AnimalInseminationApiResponse>,
-  MockResponse<AnimalInseminationApiResponse[]>
+  never,
+  never
 >({
   routePath:
     '/api/properties/:propertyId/animals/:animalId/inseminations/search',
-  method: 'post',
+  method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ request }) => {
-    const { filters, page, rows, sort } = await request.json()
+    const url = new URL(request.url)
+    const terms = url.searchParams.get('terms') ?? ''
+    const page = Number(url.searchParams.get('page') ?? 0)
+    const perPage = Number(url.searchParams.get('perPage') ?? 10)
+    const sort = url.searchParams.get('sort')
+    const direction = url.searchParams.get('direction') ?? 'asc'
 
-    if (!animalInseminationsData.length) {
-      return HttpResponse.json(
-        {
-          content: [],
-          numberOfElements: 0,
-          pageable: {
-            pageSize: 0,
-          },
-        },
-        {
-          status: 404,
-        }
+    let animalInseminations = animalInseminationsData.map((item) => ({
+      id: item.id,
+      date: item.date,
+      bull: item.sire,
+    }))
+
+    if (terms) {
+      animalInseminations = animalInseminations.filter((item) =>
+        JSON.stringify(item).toLowerCase().includes(terms.toLowerCase())
       )
     }
 
-    let animalInseminations = animalInseminationsData
-
-    if (filters)
-      animalInseminations = filterData<AnimalInseminationApiResponse>(
-        filters,
+    if (sort) {
+      animalInseminations = sortData(
+        {
+          field: sort as keyof (typeof animalInseminations)[number],
+          type: direction as 'asc' | 'desc',
+        },
         animalInseminations
       )
-    if (sort)
-      animalInseminations = sortData<AnimalInseminationApiResponse>(
-        sort,
-        animalInseminations
-      )
+    }
 
-    const numberOfElements = animalInseminations.length
-    animalInseminations = paginateData<AnimalInseminationApiResponse>(
-      { page, perPage: rows },
-      animalInseminations
-    )
+    const total = animalInseminations.length
+    const items = paginateData({ page, perPage }, animalInseminations)
 
     return HttpResponse.json(
-      {
-        content: animalInseminations,
-        numberOfElements,
-        pageable: {
-          pageSize: rows,
-        },
-      },
+      { currentPage: page, perPage, total, items },
       { status: HttpStatusCode.ok }
     )
   },
