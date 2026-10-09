@@ -5,22 +5,34 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
-import type {
-  AnimalDetailsApiResponse,
-  AnimalDetailsModel,
-} from '../../domain/models/animals-model'
+import { fromApi } from '../mappers/animal-breed-mapper'
+
+import type { AnimalDetailsModel } from '../../domain/models/animals-model'
 import type { GetAnimalUseCase } from '../../domain/use-cases'
+import type { Option } from '@/core/domain/types'
+
+/** Formato real do `GetAnimalByIdOutput`: `breedId` plano, sem objeto `breed` aninhado. */
+export type AnimalGetApiResponse = {
+  id: string
+  identifier: string
+  breedId: number
+  currentWeight: number | null
+  ecc: number | null
+}
 
 export class RemoteGetAnimalUseCase implements GetAnimalUseCase {
   constructor(
     private readonly url: string,
     private readonly httpClient: HttpClient<
       AnimalDetailsModel,
-      AnimalDetailsApiResponse
+      AnimalGetApiResponse
     >
   ) {}
 
-  execute: GetAnimalUseCase['execute'] = async ({ animalId, propertyId }) => {
+  execute: GetAnimalUseCase['execute'] = async (
+    { animalId, propertyId },
+    breeds
+  ) => {
     const url = this.url.replace(':propertyId', String(propertyId))
 
     const { statusCode, body } = await this.httpClient.request({
@@ -31,7 +43,10 @@ export class RemoteGetAnimalUseCase implements GetAnimalUseCase {
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
         name: body.identifier,
-        breed: { label: body.breed.breedName, value: body.breed.id },
+        breed: fromApi(
+          body.breedId,
+          Array.isArray(breeds) ? (breeds as Option<number>[]) : []
+        ),
         ecc: body.ecc != null ? String(body.ecc) : '',
         weight: body.currentWeight != null ? String(body.currentWeight) : '',
         milkProduction: '',

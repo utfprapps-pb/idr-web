@@ -3,55 +3,51 @@ import { HttpResponse, type PathParams } from 'msw'
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
-import { filterData, sortData, paginateData } from '@/core/mocks/utils'
+import { paginateData, sortData } from '@/core/mocks/utils'
 
 import animalsData from '@database/animalsData.json'
 
 import type { AnimalApiResponse } from '../../domain/models/animals-model'
-import type { MockParams } from '@/core/mocks/types/mock-params-type'
-import type { MockResponse } from '@/core/mocks/types/mock-response-type'
 
 export const getAnimalsHandler = httpWithMiddleware<
   PathParams<'propertyId'>,
-  MockParams<AnimalApiResponse>,
-  MockResponse<AnimalApiResponse[]>
+  never,
+  never
 >({
   routePath: '/api/properties/:propertyId/animals/search',
-  method: 'post',
+  method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ request }) => {
-    const { filters, page, rows, sort } = await request.json()
-
-    if (!animalsData.length) {
-      return HttpResponse.json(
-        {
-          content: [],
-          numberOfElements: 0,
-          pageable: {
-            pageSize: 0,
-          },
-        },
-        {
-          status: 404,
-        }
-      )
-    }
+    const url = new URL(request.url)
+    const terms = url.searchParams.get('terms') ?? ''
+    const page = Number(url.searchParams.get('page') ?? 0)
+    const perPage = Number(url.searchParams.get('perPage') ?? 10)
+    const sort = url.searchParams.get('sort')
+    const direction = url.searchParams.get('direction') ?? 'asc'
 
     let animals = animalsData as AnimalApiResponse[]
 
-    if (filters) animals = filterData<AnimalApiResponse>(filters, animals)
-    if (sort) animals = sortData<AnimalApiResponse>(sort, animals)
-    const numberOfElements = animals.length
-    animals = paginateData<AnimalApiResponse>({ page, perPage: rows }, animals)
+    if (terms) {
+      animals = animals.filter((animal) =>
+        animal.identifier.toLowerCase().includes(terms.toLowerCase())
+      )
+    }
+
+    if (sort) {
+      animals = sortData(
+        {
+          field: sort as keyof AnimalApiResponse,
+          type: direction as 'asc' | 'desc',
+        },
+        animals
+      )
+    }
+
+    const total = animals.length
+    const items = paginateData({ page, perPage }, animals)
 
     return HttpResponse.json(
-      {
-        content: animals,
-        numberOfElements,
-        pageable: {
-          pageSize: rows,
-        },
-      },
+      { currentPage: page, perPage, total, items },
       { status: HttpStatusCode.ok }
     )
   },

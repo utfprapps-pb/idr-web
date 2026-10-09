@@ -6,19 +6,26 @@ import { withDelay, withAuth } from '@/core/mocks/middleware'
 
 import animalsData from '@database/animalsData.json'
 
-import type { AnimalDetailsApiResponse } from '../../domain/models/animals-model'
+/** Formato real do `GetAnimalByIdOutput`: `breedId` plano, sem objeto `breed` aninhado. */
+type AnimalGetApiResponse = {
+  id: string
+  identifier: string
+  breedId: number
+  currentWeight: number | null
+  ecc: number | null
+}
 
 export const getAnimalHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'id'>,
   never,
-  AnimalDetailsApiResponse
+  AnimalGetApiResponse
 >({
   routePath: '/api/properties/:propertyId/animals/:id',
   method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ params }) => {
     if (!animalsData.length) {
-      return HttpResponse.json({} as AnimalDetailsApiResponse, {
+      return HttpResponse.json({} as AnimalGetApiResponse, {
         status: 404,
       })
     }
@@ -26,11 +33,20 @@ export const getAnimalHandler = httpWithMiddleware<
     const animalFound = animalsData.find((animal) => animal.id === params.id)
 
     if (!animalFound) {
-      return HttpResponse.json({} as AnimalDetailsApiResponse, {
+      return HttpResponse.json({} as AnimalGetApiResponse, {
         status: 404,
       })
     }
 
-    return HttpResponse.json(animalFound, { status: HttpStatusCode.ok })
+    return HttpResponse.json(
+      {
+        id: animalFound.id,
+        identifier: animalFound.identifier,
+        breedId: animalFound.breed.id,
+        currentWeight: animalFound.currentWeight,
+        ecc: animalFound.ecc,
+      },
+      { status: HttpStatusCode.ok }
+    )
   },
 })

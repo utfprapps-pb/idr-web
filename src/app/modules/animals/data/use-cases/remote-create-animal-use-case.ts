@@ -29,7 +29,7 @@ export class RemoteCreateAnimalUseCase implements CreateAnimalUseCase {
       body,
     })
 
-    if (statusCode === HttpStatusCode.created) return
+    if (statusCode === HttpStatusCode.ok) return
 
     if (statusCode === HttpStatusCode.badRequest) throw new BadRequestError()
 
