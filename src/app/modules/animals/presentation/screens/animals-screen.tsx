@@ -91,9 +91,7 @@ export function AnimalsScreen() {
       {
         key: 'animal-medications',
         name: 'Medicações',
-        component: legacyAnimalId && (
-          <AnimalMedicationsScreen animalId={legacyAnimalId} />
-        ),
+        component: animalId && <AnimalMedicationsScreen animalId={animalId} />,
       },
       {
         key: 'animal-mastitides',

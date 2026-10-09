@@ -1,4 +1,4 @@
-import type { Option, WithId } from '@/core/domain/types'
+import type { Option } from '@/core/domain/types'
 
 export type AnimalMedicationApplicationMethod =
   | 'IM'
@@ -21,18 +21,20 @@ export type AnimalMedicationDetailsApiResponse = {
   applicationMethod: string
 }
 
-export type AnimalMedicationModel = WithId<{
+export type AnimalMedicationModel = {
+  id: string
   date: Date
   product: string
   activeIngredient: string
   appliedDose: string
   applicationMethod: string
-}>
+}
 
-export type AnimalMedicationApiResponse = WithId<{
+export type AnimalMedicationApiResponse = {
+  id: string
   date: string
   product: string
   activeIngredient: string
   appliedDose: string
   applicationMethod: string
-}>
+}

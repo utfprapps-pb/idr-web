@@ -25,7 +25,7 @@ export const getAnimalMedicationHandler = httpWithMiddleware<
     }
 
     const animalMedicationFound = animalMedicationsData.find(
-      (animal) => animal.id === Number(params.id)
+      (animal) => animal.id === params.id
     )
 
     if (!animalMedicationFound) {

@@ -2,7 +2,7 @@ import { CreateAnimalMedicationForm } from './create-animal-medication-form'
 import { EditAnimalMedicationForm } from './edit-animal-medication-form'
 
 type AnimalMedicationFormProps = {
-  id?: number
+  id?: string
 }
 
 export function AnimalMedicationForm({
