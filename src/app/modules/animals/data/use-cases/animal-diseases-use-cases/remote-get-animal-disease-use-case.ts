@@ -5,6 +5,8 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
+import { fromApi } from '../../mappers/animal-disease-api-mapper'
+
 import type {
   AnimalDiseaseDetailsModel,
   AnimalDiseaseDetailsApiResponse,
@@ -35,10 +37,7 @@ export class RemoteGetAnimalDiseaseUseCase implements GetAnimalDiseaseUseCase {
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
-      return {
-        diagnosticDate: new Date(body.diagnosticDate),
-        diagnostic: body.diagnostic,
-      }
+      return fromApi(body)
     }
 
     if (statusCode === HttpStatusCode.notFound)

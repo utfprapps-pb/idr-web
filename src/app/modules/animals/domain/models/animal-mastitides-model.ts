@@ -16,8 +16,8 @@ export type AnimalMastitisDetailsModel = {
 }
 
 export type AnimalMastitisDetailsApiResponse = {
-  date: string
-  type: string
+  diagnoseDate: string
+  mastitisType: string
   ad: string
   ae: string
   pd: string

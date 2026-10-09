@@ -11,10 +11,9 @@ export type AnimalSaleDetailsModel = {
 }
 
 export type AnimalSaleDetailsApiResponse = {
-  date: string
+  dateSale: string
   reason: string
-  weight: string
-  price: string
+  value: number
   destination: string
 }
 

@@ -13,7 +13,7 @@ import type { Filters } from '@/core/domain/types'
 
 export type AnimalInseminationSearchApiItem = {
   id: string
-  date: string
+  iaDate: string
   bull: string
 }
 
@@ -75,7 +75,11 @@ export class RemoteGetAnimalInseminationsUseCase
     if (terms) params.set('terms', terms)
 
     if (sort) {
-      const sortField = sort.field === 'sire' ? 'bull' : String(sort.field)
+      const SORT_FIELD_MAP: Record<string, string> = {
+        sire: 'bull',
+        date: 'iaDate',
+      }
+      const sortField = SORT_FIELD_MAP[String(sort.field)] ?? String(sort.field)
       params.set('sort', sortField)
       params.set('direction', sort.direction)
     }

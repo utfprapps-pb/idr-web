@@ -1,13 +1,13 @@
 import type { AnimalInseminationDetailsModel } from '../../domain/models/animal-inseminations-model'
 
 /**
- * Real backend field: `bull` (frontend: `sire`). Passthrough de valor,
- * só o nome do campo muda — não é tradução de enum (ver AnimalSales
- * para o caso que de fato precisa de tradução de valor).
+ * Real backend fields: `iaDate` (frontend: `date`), `bull` (frontend:
+ * `sire`). Passthrough de valor, só o nome do campo muda — não é
+ * tradução de enum.
  */
 
 export type AnimalInseminationApiRequest = {
-  date: Date
+  iaDate: Date
   bull: AnimalInseminationDetailsModel['sire']
 }
 
@@ -15,16 +15,16 @@ export function toApi(
   model: AnimalInseminationDetailsModel
 ): AnimalInseminationApiRequest {
   return {
-    date: model.date,
+    iaDate: model.date,
     bull: model.sire,
   }
 }
 
 export function fromApi<
   TSire = AnimalInseminationDetailsModel['sire'],
->(record: { date: string; bull: TSire }): { date: Date; sire: TSire } {
+>(record: { iaDate: string; bull: TSire }): { date: Date; sire: TSire } {
   return {
-    date: new Date(record.date),
+    date: new Date(record.iaDate),
     sire: record.bull,
   }
 }

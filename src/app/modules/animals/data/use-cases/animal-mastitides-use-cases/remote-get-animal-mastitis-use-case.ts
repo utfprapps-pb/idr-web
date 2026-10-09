@@ -5,11 +5,11 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
+import { fromApi } from '../../mappers/animal-mastitis-api-mapper'
+
 import type {
-  AnimalMastitisCmtResults,
   AnimalMastitisDetailsApiResponse,
   AnimalMastitisDetailsModel,
-  AnimalMastitisType,
 } from '../../../domain/models/animal-mastitides-model'
 import type { GetAnimalMastitisUseCase } from '../../../domain/use-cases/animal-mastitides-use-cases'
 
@@ -39,14 +39,7 @@ export class RemoteGetAnimalMastitisUseCase
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
-      return {
-        date: new Date(body.date),
-        type: body.type as AnimalMastitisType,
-        ad: body.ad as AnimalMastitisCmtResults,
-        ae: body.ae as AnimalMastitisCmtResults,
-        pd: body.pd as AnimalMastitisCmtResults,
-        pe: body.pe as AnimalMastitisCmtResults,
-      }
+      return fromApi(body)
     }
 
     if (statusCode === HttpStatusCode.notFound)

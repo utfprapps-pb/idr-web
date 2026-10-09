@@ -7,7 +7,14 @@ import { paginateData, sortData } from '@/core/mocks/utils'
 
 import animalsData from '@database/animalsData.json'
 
-import type { AnimalApiResponse } from '../../domain/models/animals-model'
+/** Formato real do `ListAnimalOutput`: `breedId` plano (UUID), sem objeto `breed` aninhado. */
+type AnimalListApiResponse = {
+  id: string
+  identifier: string
+  breedId: string
+  currentWeight: number | null
+  ecc: number | null
+}
 
 export const getAnimalsHandler = httpWithMiddleware<
   PathParams<'propertyId'>,
@@ -25,7 +32,7 @@ export const getAnimalsHandler = httpWithMiddleware<
     const sort = url.searchParams.get('sort')
     const direction = url.searchParams.get('direction') ?? 'asc'
 
-    let animals = animalsData as AnimalApiResponse[]
+    let animals = animalsData as AnimalListApiResponse[]
 
     if (terms) {
       animals = animals.filter((animal) =>
@@ -36,7 +43,7 @@ export const getAnimalsHandler = httpWithMiddleware<
     if (sort) {
       animals = sortData(
         {
-          field: sort as keyof AnimalApiResponse,
+          field: sort as keyof AnimalListApiResponse,
           type: direction as 'asc' | 'desc',
         },
         animals

@@ -28,7 +28,7 @@ export const getAnimalPurchasesHandler = httpWithMiddleware<
       id: item.id,
       datePurchase: item.date,
       birthDate: item.birthDate,
-      value: item.price,
+      value: Number(item.price),
     }))
 
     if (terms) {

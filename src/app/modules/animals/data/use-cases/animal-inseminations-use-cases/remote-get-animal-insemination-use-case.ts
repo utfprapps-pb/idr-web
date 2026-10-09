@@ -5,6 +5,8 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
+import { fromApi } from '../../mappers/animal-insemination-api-mapper'
+
 import type {
   AnimalInseminationDetailsModel,
   AnimalInseminationDetailsApiResponse,
@@ -37,10 +39,7 @@ export class RemoteGetAnimalInseminationUseCase
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
-      return {
-        date: new Date(body.date),
-        sire: body.sire,
-      }
+      return fromApi(body)
     }
 
     if (statusCode === HttpStatusCode.notFound)

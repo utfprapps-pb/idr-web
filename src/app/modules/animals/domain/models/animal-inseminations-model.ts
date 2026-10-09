@@ -6,8 +6,8 @@ export type AnimalInseminationDetailsModel = {
 }
 
 export type AnimalInseminationDetailsApiResponse = {
-  date: string
-  sire: Option<string>
+  iaDate: string
+  bull: Option<string>
 }
 
 export type AnimalInseminationModel = {

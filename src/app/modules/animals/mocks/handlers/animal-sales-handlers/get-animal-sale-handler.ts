@@ -35,11 +35,10 @@ export const getAnimalSaleHandler = httpWithMiddleware<
 
     return HttpResponse.json(
       {
-        date: animalSaleFound.date,
+        dateSale: animalSaleFound.date,
         reason: animalSaleFound.reason,
         destination: animalSaleFound.destination,
-        weight: animalSaleFound.weight,
-        price: animalSaleFound.price,
+        value: Number(animalSaleFound.price),
       },
       { status: HttpStatusCode.ok }
     )

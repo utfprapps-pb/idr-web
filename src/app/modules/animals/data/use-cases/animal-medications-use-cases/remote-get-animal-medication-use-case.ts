@@ -5,8 +5,9 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
+import { fromApi } from '../../mappers/animal-medication-api-mapper'
+
 import type {
-  AnimalMedicationApplicationMethod,
   AnimalMedicationDetailsApiResponse,
   AnimalMedicationDetailsModel,
 } from '../../../domain/models/animal-medications-model'
@@ -38,13 +39,7 @@ export class RemoteGetAnimalMedicationUseCase
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
-      return {
-        date: new Date(body.date),
-        product: body.product,
-        appliedDose: body.appliedDose,
-        applicationMethod:
-          body.applicationMethod as AnimalMedicationApplicationMethod,
-      }
+      return fromApi(body)
     }
 
     if (statusCode === HttpStatusCode.notFound)

@@ -6,7 +6,7 @@ import { withDelay, withAuth } from '@/core/mocks/middleware'
 
 export const updateAnimalInseminationHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId' | 'id'>,
-  { date: string; bull: unknown },
+  { iaDate: string; bull: unknown },
   never
 >({
   routePath: '/api/properties/:propertyId/animals/:animalId/inseminations/:id',
@@ -16,7 +16,7 @@ export const updateAnimalInseminationHandler = httpWithMiddleware<
     const body = await request.json()
 
     return HttpResponse.json(
-      { id: params.id, date: body.date, bull: body.bull },
+      { id: params.id, iaDate: body.iaDate, bull: body.bull },
       { status: HttpStatusCode.ok }
     )
   },

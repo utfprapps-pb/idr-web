@@ -40,7 +40,7 @@ export const getAnimalSalesHandler = httpWithMiddleware<
     let animalSales = animalSalesData.map((item) => ({
       id: item.id,
       dateSale: item.date,
-      value: item.price,
+      value: Number(item.price),
       destination: DESTINATION_TO_BACKEND[item.destination] ?? item.destination,
       reason: REASON_TO_BACKEND[item.reason] ?? item.reason,
     }))

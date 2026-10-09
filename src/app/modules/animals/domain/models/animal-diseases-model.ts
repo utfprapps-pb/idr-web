@@ -4,8 +4,8 @@ export type AnimalDiseaseDetailsModel = {
 }
 
 export type AnimalDiseaseDetailsApiResponse = {
-  diagnosticDate: string
-  diagnostic: string
+  diagnosisDate: string
+  diagnosis: string
 }
 
 export type AnimalDiseaseModel = {

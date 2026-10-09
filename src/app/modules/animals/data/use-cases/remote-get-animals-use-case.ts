@@ -5,14 +5,17 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
+import { fromApi } from '../mappers/animal-breed-mapper'
+
 import type { AnimalModel } from '../../domain/models/animals-model'
 import type { GetAnimalsUseCase } from '../../domain/use-cases'
-import type { Filters, MapApiProperties } from '@/core/domain/types'
+import type { Filters, MapApiProperties, Option } from '@/core/domain/types'
 
+/** Formato real do `ListAnimalOutput`: `breedId` plano (UUID), sem objeto `breed` aninhado. */
 export type AnimalSearchApiItem = {
   id: string
   identifier: string
-  breed: { id: number; breedName: string }
+  breedId: string
   currentWeight: number | null
   ecc: number | null
 }
@@ -51,17 +54,18 @@ export class RemoteGetAnimalsUseCase implements GetAnimalsUseCase {
     >
   ) {}
 
-  execute: GetAnimalsUseCase['execute'] = async ({
-    propertyId,
-    filters,
-    pagination,
-    sort,
-  }) => {
+  execute: GetAnimalsUseCase['execute'] = async (
+    { propertyId, filters, pagination, sort },
+    breeds
+  ) => {
+    // `breedId` é a única coluna real que existe no backend para raça —
+    // ordenar por ela não é semanticamente útil (é um UUID), mas evita
+    // erro no backend; `breed.breedName` não existe no DTO real.
     const mapApiProperties: MapApiProperties<AnimalModel, AnimalSearchApiItem> =
       {
         id: 'id',
         name: 'identifier',
-        breed: 'breed.breedName',
+        breed: 'breedId',
         ecc: 'ecc',
         weight: 'currentWeight',
       }
@@ -91,7 +95,10 @@ export class RemoteGetAnimalsUseCase implements GetAnimalsUseCase {
         resources: body.items.map((item) => ({
           id: item.id,
           name: item.identifier,
-          breed: item.breed.breedName,
+          breed: fromApi(
+            item.breedId,
+            Array.isArray(breeds) ? (breeds as Option<number>[]) : []
+          ).label,
           weight: item.currentWeight != null ? String(item.currentWeight) : '',
           ecc: item.ecc != null ? String(item.ecc) : '',
           milkProduction: '',

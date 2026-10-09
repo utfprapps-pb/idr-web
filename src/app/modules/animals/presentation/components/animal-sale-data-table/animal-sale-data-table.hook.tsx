@@ -3,7 +3,6 @@ import { useMemo, useState } from 'react'
 import { format } from 'date-fns'
 import { MoreHorizontalIcon, PencilIcon, Trash2Icon } from 'lucide-react'
 
-import { moneyMask } from '@/core/masker'
 import { DropdownMenu } from '@/core/presentation/components/ui'
 import { useDebounce } from '@/core/presentation/hooks'
 
@@ -68,7 +67,7 @@ export function useAnimalSaleDataTable() {
         cell: ({ row }) => {
           const { original: animalSale } = row
 
-          return moneyMask(animalSale.price)
+          return animalSale.price
         },
       },
       {

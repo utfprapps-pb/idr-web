@@ -15,10 +15,10 @@ export type AnimalMedicationDetailsModel = {
 }
 
 export type AnimalMedicationDetailsApiResponse = {
-  date: string
+  applicationDate: string
   product: Option
   appliedDose: string
-  applicationMethod: string
+  applicationWay: string
 }
 
 export type AnimalMedicationModel = {

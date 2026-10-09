@@ -5,6 +5,8 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
+import { fromApi } from '../../mappers/animal-purchase-api-mapper'
+
 import type {
   AnimalPurchaseDetailsModel,
   AnimalPurchaseDetailsApiResponse,
@@ -37,12 +39,7 @@ export class RemoteGetAnimalPurchaseUseCase
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
-      return {
-        date: new Date(body.date),
-        birthDate: new Date(body.birthDate),
-        price: body.price,
-        weight: body.weight,
-      }
+      return fromApi(body)
     }
 
     if (statusCode === HttpStatusCode.notFound)

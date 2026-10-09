@@ -10,7 +10,7 @@ import animalsData from '@database/animalsData.json'
 type AnimalGetApiResponse = {
   id: string
   identifier: string
-  breedId: number
+  breedId: string
   currentWeight: number | null
   ecc: number | null
 }
@@ -42,7 +42,7 @@ export const getAnimalHandler = httpWithMiddleware<
       {
         id: animalFound.id,
         identifier: animalFound.identifier,
-        breedId: animalFound.breed.id,
+        breedId: animalFound.breedId,
         currentWeight: animalFound.currentWeight,
         ecc: animalFound.ecc,
       },

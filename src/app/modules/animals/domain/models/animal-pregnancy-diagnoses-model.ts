@@ -4,8 +4,8 @@ export type AnimalPregnancyDiagnosisDetailsModel = {
 }
 
 export type AnimalPregnancyDiagnosisDetailsApiResponse = {
-  date: string
-  lastInseminationDate: string
+  diagnoseDate: string
+  lastIa: string
 }
 
 export type AnimalPregnancyDiagnosisModel = {

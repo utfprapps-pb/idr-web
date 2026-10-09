@@ -15,7 +15,7 @@ export type AnimalPurchaseSearchApiItem = {
   id: string
   datePurchase: string
   birthDate: string
-  value: string
+  value: number
 }
 
 export type AnimalPurchaseSearchApiResponse = {

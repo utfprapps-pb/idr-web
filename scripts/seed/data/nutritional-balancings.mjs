@@ -19,7 +19,7 @@ for (let visitIndex = 0; visitIndex < numberOfVisits; visitIndex += 1) {
       visitId,
       animalId: animal.id,
       animal: animal.identifier,
-      breed: animal.breed.breedName,
+      breed: faker.animal.cow(),
       weight: animal.currentWeight,
       milkProduction: faker.number.float({
         min: 1,

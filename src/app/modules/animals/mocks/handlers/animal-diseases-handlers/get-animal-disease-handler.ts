@@ -35,8 +35,8 @@ export const getAnimalDiseaseHandler = httpWithMiddleware<
 
     return HttpResponse.json(
       {
-        diagnosticDate: animalDiseaseFound.diagnosticDate,
-        diagnostic: animalDiseaseFound.diagnostic,
+        diagnosisDate: animalDiseaseFound.diagnosticDate,
+        diagnosis: animalDiseaseFound.diagnostic,
       },
       { status: HttpStatusCode.ok }
     )

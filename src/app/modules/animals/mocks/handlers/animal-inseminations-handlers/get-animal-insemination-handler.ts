@@ -36,8 +36,8 @@ export const getAnimalInseminationHandler = httpWithMiddleware<
 
     return HttpResponse.json(
       {
-        date: animalInseminationFound.date,
-        sire: {
+        iaDate: animalInseminationFound.date,
+        bull: {
           value: faker.string.uuid(),
           label: animalInseminationFound.sire,
         },

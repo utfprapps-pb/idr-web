@@ -36,12 +36,12 @@ export const getAnimalMedicationHandler = httpWithMiddleware<
 
     return HttpResponse.json(
       {
-        date: animalMedicationFound.date,
+        applicationDate: animalMedicationFound.date,
         product: {
           label: animalMedicationFound.product,
           value: faker.number.int({ min: 1, max: 1000 }),
         },
-        applicationMethod: animalMedicationFound.applicationMethod,
+        applicationWay: animalMedicationFound.applicationMethod,
         appliedDose: animalMedicationFound.appliedDose,
       },
       { status: HttpStatusCode.ok }

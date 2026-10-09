@@ -34,5 +34,5 @@ export type AnimalDetailsApiResponse = AnimalApiResponse
 export type AnimalWriteApiRequest = {
   propertyId: string
   identifier: string
-  breed: { id: number }
+  breedId: string
 }

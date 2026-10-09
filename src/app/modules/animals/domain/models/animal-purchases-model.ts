@@ -6,10 +6,9 @@ export type AnimalPurchaseDetailsModel = {
 }
 
 export type AnimalPurchaseDetailsApiResponse = {
-  date: string
+  datePurchase: string
   birthDate: string
-  weight: string
-  price: string
+  value: number
 }
 
 export type AnimalPurchaseModel = {

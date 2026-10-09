@@ -42,9 +42,8 @@ export const getAnimalPregnancyDiagnosisHandler = httpWithMiddleware<
 
     return HttpResponse.json(
       {
-        date: animalPregnancyDiagnosisFound.date,
-        lastInseminationDate:
-          animalPregnancyDiagnosisFound.lastInseminationDate,
+        diagnoseDate: animalPregnancyDiagnosisFound.date,
+        lastIa: animalPregnancyDiagnosisFound.lastInseminationDate,
       },
       { status: HttpStatusCode.ok }
     )

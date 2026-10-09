@@ -18,7 +18,7 @@ import type { Filters } from '@/core/domain/types'
 export type AnimalSaleSearchApiItem = {
   id: string
   dateSale: string
-  value: string
+  value: number
   destination: string
   reason: string
 }

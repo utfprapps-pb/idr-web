@@ -26,7 +26,7 @@ export const getAnimalInseminationsHandler = httpWithMiddleware<
 
     let animalInseminations = animalInseminationsData.map((item) => ({
       id: item.id,
-      date: item.date,
+      iaDate: item.date,
       bull: item.sire,
     }))
 

@@ -10,10 +10,7 @@ export const animalsData = Array.from(
   () => ({
     id: faker.string.uuid(),
     identifier: faker.lorem.word(),
-    breed: {
-      id: faker.number.int({ min: 1, max: 1000 }),
-      breedName: faker.animal.cow(),
-    },
+    breedId: faker.string.uuid(),
     currentWeight: faker.number.float({ min: 1, max: 1000, fractionDigits: 2 }),
     ecc: faker.number.float({ min: 1, max: 10, fractionDigits: 2 }),
   })

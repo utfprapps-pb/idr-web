@@ -5,6 +5,8 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
+import { fromApi } from '../../mappers/animal-pregnancy-diagnosis-api-mapper'
+
 import type {
   AnimalPregnancyDiagnosisDetailsApiResponse,
   AnimalPregnancyDiagnosisDetailsModel,
@@ -37,10 +39,7 @@ export class RemoteGetAnimalPregnancyDiagnosisUseCase
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
-      return {
-        date: new Date(body.date),
-        lastInseminationDate: new Date(body.lastInseminationDate),
-      }
+      return fromApi(body)
     }
 
     if (statusCode === HttpStatusCode.notFound)

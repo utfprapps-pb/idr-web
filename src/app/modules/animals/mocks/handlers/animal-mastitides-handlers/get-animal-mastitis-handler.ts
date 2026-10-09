@@ -35,8 +35,8 @@ export const getAnimalMastitisHandler = httpWithMiddleware<
 
     return HttpResponse.json(
       {
-        date: animalMastitisFound.date,
-        type: animalMastitisFound.type,
+        diagnoseDate: animalMastitisFound.date,
+        mastitisType: animalMastitisFound.type,
         ad: animalMastitisFound.ad,
         ae: animalMastitisFound.ae,
         pd: animalMastitisFound.pd,

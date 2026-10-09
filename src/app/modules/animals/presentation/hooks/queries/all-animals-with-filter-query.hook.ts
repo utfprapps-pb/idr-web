@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
 import { makeRemoteGetAnimalsUseCase } from '@/app/modules/animals/main/factories/use-cases'
+import { useAllBreedsQuery } from '@/core/presentation/hooks'
 
 import type { AnimalFilters } from '@/app/modules/animals/presentation/types/animal-types'
 
@@ -20,6 +21,12 @@ export function useAllAnimalsWithFilterQuery({
 }: Props) {
   const getAnimalsUseCase = makeRemoteGetAnimalsUseCase()
 
+  // Catálogo de raças já carregado pelo módulo (reaproveitado, sem fetch
+  // dedicado novo) — usado para resolver `breedName` a partir do
+  // `breedId` plano que o backend real devolve na busca, mesma
+  // convenção de `useAnimalQuery`.
+  const { allBreeds } = useAllBreedsQuery({ filters: {} })
+
   const {
     data,
     isError,
@@ -30,11 +37,14 @@ export function useAllAnimalsWithFilterQuery({
     queryKey: ['all-animals', propertyId, { filters }],
     enabled: !!propertyId,
     queryFn: () =>
-      getAnimalsUseCase.execute({
-        propertyId,
-        filters,
-        pagination: { page: 1, perPage },
-      }),
+      getAnimalsUseCase.execute(
+        {
+          propertyId,
+          filters,
+          pagination: { page: 1, perPage },
+        },
+        allBreeds
+      ),
   })
 
   useEffect(() => {

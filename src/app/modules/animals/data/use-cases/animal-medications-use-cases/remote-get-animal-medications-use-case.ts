@@ -35,8 +35,12 @@ const SORT_FIELD_MAP: Record<string, string> = {
   date: 'applicationDate',
   appliedDose: 'appliedDose',
   applicationMethod: 'applicationWay',
-  product: 'product',
-  activeIngredient: 'activeIngredient',
+  // `product`/`activeIngredient` não existem no DTO real
+  // (`ListMedicationOutput` só tem `productId`) — ordenar por eles
+  // faria o backend lançar erro no `Sort.by(...)`. `applicationDate`
+  // é usado como fallback seguro, não uma feature nova.
+  product: 'applicationDate',
+  activeIngredient: 'applicationDate',
 }
 
 function resolveTerms(
