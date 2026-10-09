@@ -5,14 +5,57 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
+import {
+  fromApi,
+  type AnimalMastitisApiRecord,
+} from '../../mappers/animal-mastitis-api-mapper'
+
 import type {
-  AnimalMastitisApiResponse,
   AnimalMastitisCmtResults,
   AnimalMastitisModel,
   AnimalMastitisType,
 } from '../../../domain/models/animal-mastitides-model'
 import type { GetAnimalMastitidesUseCase } from '../../../domain/use-cases/animal-mastitides-use-cases'
-import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
+import type { Filters } from '@/core/domain/types'
+
+export type AnimalMastitisSearchApiItem = AnimalMastitisApiRecord & {
+  id: string
+}
+
+export type AnimalMastitisSearchApiResponse = {
+  currentPage: number
+  perPage: number
+  total: number
+  items: AnimalMastitisSearchApiItem[]
+}
+
+const SORT_FIELD_MAP: Record<string, string> = {
+  date: 'diagnoseDate',
+  type: 'mastitisType',
+  ad: 'ad',
+  ae: 'ae',
+  pd: 'pd',
+  pe: 'pe',
+}
+
+function resolveTerms(
+  filters?: Filters<AnimalMastitisModel>
+): string | undefined {
+  if (!filters) return undefined
+
+  const filterEntry = Object.values(filters).find(
+    (filter) => filter !== undefined
+  ) as { value: unknown } | undefined
+
+  if (!filterEntry) return undefined
+
+  const { value } = filterEntry
+
+  if (value instanceof Date) return value.toISOString()
+  if (Array.isArray(value)) return value.map(String).join(',')
+
+  return String(value)
+}
 
 export class RemoteGetAnimalMastitidesUseCase
   implements GetAnimalMastitidesUseCase
@@ -21,8 +64,8 @@ export class RemoteGetAnimalMastitidesUseCase
     private readonly url: string,
     private readonly httpClient: HttpClient<
       AnimalMastitisModel,
-      AnimalMastitisApiResponse,
-      ListApiResponse<AnimalMastitisModel[]>
+      AnimalMastitisSearchApiItem,
+      AnimalMastitisSearchApiResponse
     >
   ) {}
 
@@ -33,58 +76,59 @@ export class RemoteGetAnimalMastitidesUseCase
     pagination,
     sort,
   }) => {
-    const mapApiProperties: MapApiProperties<
-      AnimalMastitisModel,
-      AnimalMastitisApiResponse
-    > = {
-      id: 'id',
-      date: 'date',
-      type: 'type',
-      ad: 'ad',
-      ae: 'ae',
-      pd: 'pd',
-      pe: 'pe',
-    }
-
     const url = this.url
       .replace(':propertyId', String(propertyId))
       .replace(':animalId', String(animalId))
 
+    const params = new URLSearchParams({
+      page: String((pagination?.page ?? 1) - 1),
+      perPage: String(pagination?.perPage ?? 10),
+    })
+
+    const terms = resolveTerms(filters)
+    if (terms) params.set('terms', terms)
+
+    if (sort) {
+      params.set(
+        'sort',
+        SORT_FIELD_MAP[String(sort.field)] ?? String(sort.field)
+      )
+      params.set('direction', sort.direction)
+    }
+
     const { statusCode, body } = await this.httpClient.request({
-      url: `${url}/search`,
-      method: 'post',
-      filters,
-      pagination,
-      sort,
-      mapApiProperties,
+      url: `${url}/search?${params.toString()}`,
+      method: 'get',
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
-      return {
-        resources: body.content.map((item) => {
-          const typeMapper: Record<AnimalMastitisType, string> = {
-            CLINICAL: 'Clínica',
-            SUBCLINICAL: 'Subclínica',
-          }
+      const typeMapper: Record<AnimalMastitisType, string> = {
+        CLINICAL: 'Clínica',
+        SUBCLINICAL: 'Subclínica',
+      }
 
-          const conditionMapper: Record<AnimalMastitisCmtResults, string> = {
-            'PLUS-ONE': '+',
-            'PLUS-TWO': '++',
-            'PLUS-THREE': '+++',
-            ABSENT: 'Ausente',
-          }
+      const conditionMapper: Record<AnimalMastitisCmtResults, string> = {
+        'PLUS-ONE': '+',
+        'PLUS-TWO': '++',
+        'PLUS-THREE': '+++',
+        ABSENT: 'Ausente',
+      }
+
+      return {
+        resources: body.items.map((item) => {
+          const { date, type, ad, ae, pd, pe } = fromApi(item)
 
           return {
             id: item.id,
-            date: new Date(item.date),
-            type: typeMapper[item.type] as AnimalMastitisType,
-            ad: conditionMapper[item.ad] as AnimalMastitisCmtResults,
-            ae: conditionMapper[item.ae] as AnimalMastitisCmtResults,
-            pd: conditionMapper[item.pd] as AnimalMastitisCmtResults,
-            pe: conditionMapper[item.pe] as AnimalMastitisCmtResults,
+            date,
+            type: typeMapper[type] as AnimalMastitisType,
+            ad: conditionMapper[ad] as AnimalMastitisCmtResults,
+            ae: conditionMapper[ae] as AnimalMastitisCmtResults,
+            pd: conditionMapper[pd] as AnimalMastitisCmtResults,
+            pe: conditionMapper[pe] as AnimalMastitisCmtResults,
           }
         }),
-        totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
+        totalPages: Math.ceil(body.total / body.perPage),
       }
     }
 

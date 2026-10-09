@@ -3,66 +3,57 @@ import { HttpResponse, type PathParams } from 'msw'
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
-import { filterData, sortData, paginateData } from '@/core/mocks/utils'
+import { paginateData, sortData } from '@/core/mocks/utils'
 
 import animalMastitidesData from '@database/animalMastitidesData.json'
 
-import type { AnimalMastitisApiResponse } from '../../../domain/models/animal-mastitides-model'
-import type { MockParams } from '@/core/mocks/types/mock-params-type'
-import type { MockResponse } from '@/core/mocks/types/mock-response-type'
-
 export const getAnimalMastitidesHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId'>,
-  MockParams<AnimalMastitisApiResponse>,
-  MockResponse<AnimalMastitisApiResponse[]>
+  never,
+  never
 >({
   routePath: '/api/properties/:propertyId/animals/:animalId/mastitides/search',
-  method: 'post',
+  method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ request }) => {
-    const { filters, page, rows, sort } = await request.json()
+    const url = new URL(request.url)
+    const terms = url.searchParams.get('terms') ?? ''
+    const page = Number(url.searchParams.get('page') ?? 0)
+    const perPage = Number(url.searchParams.get('perPage') ?? 10)
+    const sort = url.searchParams.get('sort')
+    const direction = url.searchParams.get('direction') ?? 'asc'
 
-    if (!animalMastitidesData.length) {
-      return HttpResponse.json(
-        {
-          content: [],
-          numberOfElements: 0,
-          pageable: {
-            pageSize: 0,
-          },
-        },
-        {
-          status: 404,
-        }
+    let animalMastitides = animalMastitidesData.map((item) => ({
+      id: item.id,
+      diagnoseDate: item.date,
+      mastitisType: item.type,
+      ad: item.ad,
+      ae: item.ae,
+      pd: item.pd,
+      pe: item.pe,
+    }))
+
+    if (terms) {
+      animalMastitides = animalMastitides.filter((item) =>
+        JSON.stringify(item).toLowerCase().includes(terms.toLowerCase())
       )
     }
 
-    let animalMastitides = animalMastitidesData as AnimalMastitisApiResponse[]
+    if (sort) {
+      animalMastitides = sortData(
+        {
+          field: sort as keyof (typeof animalMastitides)[number],
+          type: direction as 'asc' | 'desc',
+        },
+        animalMastitides
+      )
+    }
 
-    if (filters)
-      animalMastitides = filterData<AnimalMastitisApiResponse>(
-        filters,
-        animalMastitides
-      )
-    if (sort)
-      animalMastitides = sortData<AnimalMastitisApiResponse>(
-        sort,
-        animalMastitides
-      )
-    const numberOfElements = animalMastitides.length
-    animalMastitides = paginateData<AnimalMastitisApiResponse>(
-      { page, perPage: rows },
-      animalMastitides
-    )
+    const total = animalMastitides.length
+    const items = paginateData({ page, perPage }, animalMastitides)
 
     return HttpResponse.json(
-      {
-        content: animalMastitides,
-        numberOfElements,
-        pageable: {
-          pageSize: rows,
-        },
-      },
+      { currentPage: page, perPage, total, items },
       { status: HttpStatusCode.ok }
     )
   },
