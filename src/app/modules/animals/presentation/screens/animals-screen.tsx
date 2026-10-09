@@ -62,8 +62,8 @@ export function AnimalsScreen() {
       {
         key: 'animal-pregnancy-diagnoses',
         name: 'Diagnóstico de Gestação',
-        component: legacyAnimalId && (
-          <AnimalPregnancyDiagnosesScreen animalId={legacyAnimalId} />
+        component: animalId && (
+          <AnimalPregnancyDiagnosesScreen animalId={animalId} />
         ),
       },
       {

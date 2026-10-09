@@ -28,7 +28,7 @@ export const getAnimalPregnancyDiagnosisHandler = httpWithMiddleware<
     }
 
     const animalPregnancyDiagnosisFound = animalPregnancyDiagnosesData.find(
-      (animal) => animal.id === Number(params.id)
+      (animal) => animal.id === params.id
     )
 
     if (!animalPregnancyDiagnosisFound) {
