@@ -1,4 +1,4 @@
-import type { Option, WithId } from '@/core/domain/types'
+import type { Option } from '@/core/domain/types'
 
 export type AnimalInseminationDetailsModel = {
   date: Date
@@ -10,13 +10,15 @@ export type AnimalInseminationDetailsApiResponse = {
   sire: Option<string>
 }
 
-export type AnimalInseminationModel = WithId<{
+export type AnimalInseminationModel = {
+  id: string
   date: Date
   sire: string
-}>
+}
 
 // todo: refactor to be consistent with Api response
-export type AnimalInseminationApiResponse = WithId<{
+export type AnimalInseminationApiResponse = {
+  id: string
   date: string
   sire: string
-}>
+}

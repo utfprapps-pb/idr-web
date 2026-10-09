@@ -25,7 +25,7 @@ export const getAnimalInseminationHandler = httpWithMiddleware<
     }
 
     const animalInseminationFound = animalInseminationsData.find(
-      (animal) => animal.id === Number(params.id)
+      (animal) => animal.id === params.id
     )
 
     if (!animalInseminationFound) {

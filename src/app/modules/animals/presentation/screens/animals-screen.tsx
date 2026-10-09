@@ -76,8 +76,8 @@ export function AnimalsScreen() {
       {
         key: 'animal-inseminations',
         name: 'Inseminações',
-        component: legacyAnimalId && (
-          <AnimalInseminationsScreen animalId={legacyAnimalId} />
+        component: animalId && (
+          <AnimalInseminationsScreen animalId={animalId} />
         ),
       },
       {
@@ -109,7 +109,7 @@ export function AnimalsScreen() {
         ),
       },
     ],
-    [legacyAnimalId]
+    [legacyAnimalId, animalId]
   )
 
   const [activeTab, setActiveTab] = useState('animal-childbirths')
