@@ -1,3 +1,4 @@
+import { buildSearchQuery, toTotalPages } from '@/core/data/helpers'
 import { type HttpClient, HttpStatusCode } from '@/core/data/protocols/http'
 import {
   UnexpectedError,
@@ -11,7 +12,7 @@ import type {
   AnimalMedicationModel,
 } from '../../../domain/models/animal-medications-model'
 import type { GetAnimalMedicationsUseCase } from '../../../domain/use-cases/animal-medications-use-cases'
-import type { Filters } from '@/core/domain/types'
+import type { SearchApiResponse } from '@/core/domain/types'
 
 export type AnimalMedicationSearchApiItem = {
   id: string
@@ -22,13 +23,6 @@ export type AnimalMedicationSearchApiItem = {
   // catálogo real `Product` não é religada nesta entrega.
   product: string
   activeIngredient: string
-}
-
-export type AnimalMedicationSearchApiResponse = {
-  currentPage: number
-  perPage: number
-  total: number
-  items: AnimalMedicationSearchApiItem[]
 }
 
 const SORT_FIELD_MAP: Record<string, string> = {
@@ -43,25 +37,6 @@ const SORT_FIELD_MAP: Record<string, string> = {
   activeIngredient: 'applicationDate',
 }
 
-function resolveTerms(
-  filters?: Filters<AnimalMedicationModel>
-): string | undefined {
-  if (!filters) return undefined
-
-  const filterEntry = Object.values(filters).find(
-    (filter) => filter !== undefined
-  ) as { value: unknown } | undefined
-
-  if (!filterEntry) return undefined
-
-  const { value } = filterEntry
-
-  if (value instanceof Date) return value.toISOString()
-  if (Array.isArray(value)) return value.map(String).join(',')
-
-  return String(value)
-}
-
 export class RemoteGetAnimalMedicationsUseCase
   implements GetAnimalMedicationsUseCase
 {
@@ -70,7 +45,7 @@ export class RemoteGetAnimalMedicationsUseCase
     private readonly httpClient: HttpClient<
       AnimalMedicationModel,
       AnimalMedicationSearchApiItem,
-      AnimalMedicationSearchApiResponse
+      SearchApiResponse<AnimalMedicationSearchApiItem>
     >
   ) {}
 
@@ -85,24 +60,13 @@ export class RemoteGetAnimalMedicationsUseCase
       .replace(':propertyId', String(propertyId))
       .replace(':animalId', String(animalId))
 
-    const params = new URLSearchParams({
-      page: String((pagination?.page ?? 1) - 1),
-      perPage: String(pagination?.perPage ?? 10),
-    })
-
-    const terms = resolveTerms(filters)
-    if (terms) params.set('terms', terms)
-
-    if (sort) {
-      params.set(
-        'sort',
-        SORT_FIELD_MAP[String(sort.field)] ?? String(sort.field)
-      )
-      params.set('direction', sort.direction)
-    }
+    const query = buildSearchQuery(
+      { filters, pagination, sort },
+      (field) => SORT_FIELD_MAP[field] ?? field
+    )
 
     const { statusCode, body } = await this.httpClient.request({
-      url: `${url}/search?${params.toString()}`,
+      url: `${url}/search?${query}`,
       method: 'get',
     })
 
@@ -132,7 +96,7 @@ export class RemoteGetAnimalMedicationsUseCase
               ],
           }
         }),
-        totalPages: body.perPage > 0 ? Math.ceil(body.total / body.perPage) : 0,
+        totalPages: toTotalPages(body),
       }
     }
 

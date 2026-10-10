@@ -20,9 +20,14 @@ export function toApi(
   }
 }
 
-export function fromApi<
-  TSire = AnimalInseminationDetailsModel['sire'],
->(record: { iaDate: string; bull: TSire }): { date: Date; sire: TSire } {
+export type AnimalInseminationApiRecord = {
+  iaDate: string
+  bull: string
+}
+
+export function fromApi(
+  record: AnimalInseminationApiRecord
+): AnimalInseminationDetailsModel {
   return {
     date: new Date(record.iaDate),
     sire: record.bull,

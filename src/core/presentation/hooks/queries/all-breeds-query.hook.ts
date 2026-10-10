@@ -32,6 +32,11 @@ export function useAllBreedsQuery({ filters }: Props) {
         },
       }),
     enabled: !!filters,
+    select: (response) =>
+      response.resources.map((resource) => ({
+        label: resource.name,
+        value: resource.id,
+      })),
   })
 
   useEffect(() => {
@@ -39,11 +44,7 @@ export function useAllBreedsQuery({ filters }: Props) {
   }, [error, isError])
 
   return {
-    allBreeds:
-      data?.resources.map((resource) => ({
-        label: resource.name,
-        value: resource.id,
-      })) ?? [],
+    allBreeds: data ?? [],
     isLoading,
     refetchAllBreeds,
   }

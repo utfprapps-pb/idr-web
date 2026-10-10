@@ -3,7 +3,7 @@ import { HttpResponse, type PathParams } from 'msw'
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
-import { paginateData, sortData } from '@/core/mocks/utils'
+import { parseSearchParams, toSearchResponse } from '@/core/mocks/utils'
 
 import animalSalesData from '@database/animalSalesData.json'
 
@@ -29,15 +29,10 @@ export const getAnimalSalesHandler = httpWithMiddleware<
   method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ request }) => {
-    const url = new URL(request.url)
-    const terms = url.searchParams.get('terms') ?? ''
-    const page = Number(url.searchParams.get('page') ?? 0)
-    const perPage = Number(url.searchParams.get('perPage') ?? 10)
-    const sort = url.searchParams.get('sort')
-    const direction = url.searchParams.get('direction') ?? 'asc'
+    const search = parseSearchParams(request)
 
     // `weight` não existe no backend real — não é incluído na resposta.
-    let animalSales = animalSalesData.map((item) => ({
+    const animalSales = animalSalesData.map((item) => ({
       id: item.id,
       dateSale: item.date,
       value: Number(item.price),
@@ -45,30 +40,8 @@ export const getAnimalSalesHandler = httpWithMiddleware<
       reason: REASON_TO_BACKEND[item.reason] ?? item.reason,
     }))
 
-    if (terms) {
-      animalSales = animalSales.filter((item) =>
-        Object.values(item).some((value) =>
-          String(value).toLowerCase().includes(terms.toLowerCase())
-        )
-      )
-    }
-
-    if (sort) {
-      animalSales = sortData(
-        {
-          field: sort as keyof (typeof animalSales)[number],
-          type: direction as 'asc' | 'desc',
-        },
-        animalSales
-      )
-    }
-
-    const total = animalSales.length
-    const items = paginateData({ page, perPage }, animalSales)
-
-    return HttpResponse.json(
-      { currentPage: page, perPage, total, items },
-      { status: HttpStatusCode.ok }
-    )
+    return HttpResponse.json(toSearchResponse(animalSales, search), {
+      status: HttpStatusCode.ok,
+    })
   },
 })

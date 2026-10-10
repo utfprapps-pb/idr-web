@@ -1,3 +1,4 @@
+import { buildSearchQuery, toTotalPages } from '@/core/data/helpers'
 import { type HttpClient, HttpStatusCode } from '@/core/data/protocols/http'
 import {
   UnexpectedError,
@@ -13,7 +14,7 @@ import type {
   AnimalSaleReason,
 } from '../../../domain/models/animal-sales-model'
 import type { GetAnimalSalesUseCase } from '../../../domain/use-cases/animal-sales-use-cases'
-import type { Filters } from '@/core/domain/types'
+import type { SearchApiResponse } from '@/core/domain/types'
 
 export type AnimalSaleSearchApiItem = {
   id: string
@@ -23,35 +24,11 @@ export type AnimalSaleSearchApiItem = {
   reason: string
 }
 
-export type AnimalSaleSearchApiResponse = {
-  currentPage: number
-  perPage: number
-  total: number
-  items: AnimalSaleSearchApiItem[]
-}
-
 const SORT_FIELD_MAP: Record<string, string> = {
   date: 'dateSale',
   price: 'value',
   destination: 'destination',
   reason: 'reason',
-}
-
-function resolveTerms(filters?: Filters<AnimalSaleModel>): string | undefined {
-  if (!filters) return undefined
-
-  const filterEntry = Object.values(filters).find(
-    (filter) => filter !== undefined
-  ) as { value: unknown } | undefined
-
-  if (!filterEntry) return undefined
-
-  const { value } = filterEntry
-
-  if (value instanceof Date) return value.toISOString()
-  if (Array.isArray(value)) return value.map(String).join(',')
-
-  return String(value)
 }
 
 export class RemoteGetAnimalSalesUseCase implements GetAnimalSalesUseCase {
@@ -60,7 +37,7 @@ export class RemoteGetAnimalSalesUseCase implements GetAnimalSalesUseCase {
     private readonly httpClient: HttpClient<
       AnimalSaleModel,
       AnimalSaleSearchApiItem,
-      AnimalSaleSearchApiResponse
+      SearchApiResponse<AnimalSaleSearchApiItem>
     >
   ) {}
 
@@ -75,24 +52,13 @@ export class RemoteGetAnimalSalesUseCase implements GetAnimalSalesUseCase {
       .replace(':propertyId', String(propertyId))
       .replace(':animalId', String(animalId))
 
-    const params = new URLSearchParams({
-      page: String((pagination?.page ?? 1) - 1),
-      perPage: String(pagination?.perPage ?? 10),
-    })
-
-    const terms = resolveTerms(filters)
-    if (terms) params.set('terms', terms)
-
-    if (sort) {
-      params.set(
-        'sort',
-        SORT_FIELD_MAP[String(sort.field)] ?? String(sort.field)
-      )
-      params.set('direction', sort.direction)
-    }
+    const query = buildSearchQuery(
+      { filters, pagination, sort },
+      (field) => SORT_FIELD_MAP[field] ?? field
+    )
 
     const { statusCode, body } = await this.httpClient.request({
-      url: `${url}/search?${params.toString()}`,
+      url: `${url}/search?${query}`,
       method: 'get',
     })
 
@@ -121,7 +87,7 @@ export class RemoteGetAnimalSalesUseCase implements GetAnimalSalesUseCase {
             weight: '',
           }
         }),
-        totalPages: body.perPage > 0 ? Math.ceil(body.total / body.perPage) : 0,
+        totalPages: toTotalPages(body),
       }
     }
 

@@ -3,11 +3,11 @@ import { makeApiHttpClient } from '@/core/main/factories/http'
 import {
   RemoteGetAnimalInseminationsUseCase,
   type AnimalInseminationSearchApiItem,
-  type AnimalInseminationSearchApiResponse,
 } from '../../../../data/use-cases/animal-inseminations-use-cases/remote-get-animal-inseminations-use-case'
 
 import type { AnimalInseminationModel } from '../../../../domain/models/animal-inseminations-model'
 import type { GetAnimalInseminationsUseCase } from '../../../../domain/use-cases/animal-inseminations-use-cases'
+import type { SearchApiResponse } from '@/core/domain/types'
 
 export function makeRemoteGetAnimalInseminationsUseCase(): GetAnimalInseminationsUseCase {
   return new RemoteGetAnimalInseminationsUseCase(
@@ -15,7 +15,7 @@ export function makeRemoteGetAnimalInseminationsUseCase(): GetAnimalInsemination
     makeApiHttpClient<
       AnimalInseminationModel,
       AnimalInseminationSearchApiItem,
-      AnimalInseminationSearchApiResponse
+      SearchApiResponse<AnimalInseminationSearchApiItem>
     >()
   )
 }
