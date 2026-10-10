@@ -1,3 +1,5 @@
+import { fromLocalDate, toLocalDate } from '@/core/data/helpers'
+
 import type {
   AnimalMastitisCmtResults,
   AnimalMastitisDetailsModel,
@@ -13,7 +15,7 @@ import type {
  */
 
 export type AnimalMastitisApiRequest = {
-  diagnoseDate: Date
+  diagnoseDate: string
   mastitisType: AnimalMastitisType
   ad: AnimalMastitisCmtResults
   ae: AnimalMastitisCmtResults
@@ -26,7 +28,7 @@ export function toApi(
   model: AnimalMastitisDetailsModel
 ): AnimalMastitisApiRequest {
   return {
-    diagnoseDate: model.date,
+    diagnoseDate: toLocalDate(model.date),
     mastitisType: model.type,
     ad: model.ad,
     ae: model.ae,
@@ -40,7 +42,7 @@ export function fromApi(
   record: AnimalMastitisApiResponse
 ): AnimalMastitisDetailsModel {
   return {
-    date: new Date(record.diagnoseDate),
+    date: fromLocalDate(record.diagnoseDate),
     type: record.mastitisType as AnimalMastitisType,
     ad: record.ad as AnimalMastitisCmtResults,
     ae: record.ae as AnimalMastitisCmtResults,

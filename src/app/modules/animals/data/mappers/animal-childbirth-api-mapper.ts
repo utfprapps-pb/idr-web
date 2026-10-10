@@ -1,3 +1,4 @@
+import { fromLocalDate, toLocalDate } from '@/core/data/helpers'
 import { formatNumber, unmaskFloat } from '@/core/masker'
 
 import type {
@@ -14,7 +15,7 @@ import type {
  */
 
 export type AnimalChildbirthApiRequest = {
-  childbirthDate: Date
+  childbirthDate: string
   gender: AnimalChildbirthDetailsModel['gender']
   weight: number | null
   condition: AnimalChildbirthDetailsModel['condition']
@@ -26,7 +27,7 @@ export function toApi(
   model: AnimalChildbirthDetailsModel
 ): AnimalChildbirthApiRequest {
   return {
-    childbirthDate: model.date,
+    childbirthDate: toLocalDate(model.date),
     gender: model.gender,
     weight: model.weight ? unmaskFloat(model.weight) : null,
     condition: model.condition,
@@ -39,7 +40,7 @@ export function fromApi(
   record: AnimalChildbirthApiResponse
 ): AnimalChildbirthDetailsModel {
   return {
-    date: new Date(record.childbirthDate),
+    date: fromLocalDate(record.childbirthDate),
     gender: record.gender,
     weight: formatNumber(record.weight ?? '', { suffix: 'kg' }),
     condition: record.condition,

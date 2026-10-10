@@ -1,4 +1,8 @@
-import { buildSearchQuery, toTotalPages } from '@/core/data/helpers'
+import {
+  fromLocalDate,
+  buildSearchQuery,
+  toTotalPages,
+} from '@/core/data/helpers'
 import { type HttpClient, HttpStatusCode } from '@/core/data/protocols/http'
 import {
   UnexpectedError,
@@ -76,7 +80,7 @@ export class RemoteGetAnimalMedicationsUseCase
         resources: body.items.map((item) => {
           return {
             id: item.id,
-            date: new Date(item.applicationDate),
+            date: fromLocalDate(item.applicationDate),
             // A API só devolve `productId`; nome e princípio ativo dependem de
             // religar o catálogo `Product` (ainda não feito).
             product: '',

@@ -1,3 +1,5 @@
+import { fromLocalDate, toLocalDate } from '@/core/data/helpers'
+
 import type {
   AnimalInseminationDetailsModel,
   AnimalInseminationApiResponse,
@@ -10,7 +12,7 @@ import type {
  */
 
 export type AnimalInseminationApiRequest = {
-  iaDate: Date
+  iaDate: string
   bull: AnimalInseminationDetailsModel['sire']
 }
 
@@ -18,7 +20,7 @@ export function toApi(
   model: AnimalInseminationDetailsModel
 ): AnimalInseminationApiRequest {
   return {
-    iaDate: model.date,
+    iaDate: toLocalDate(model.date),
     bull: model.sire,
   }
 }
@@ -27,7 +29,7 @@ export function fromApi(
   record: AnimalInseminationApiResponse
 ): AnimalInseminationDetailsModel {
   return {
-    date: new Date(record.iaDate),
+    date: fromLocalDate(record.iaDate),
     sire: record.bull,
   }
 }

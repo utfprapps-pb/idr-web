@@ -1,3 +1,5 @@
+import { fromLocalDate, toLocalDate } from '@/core/data/helpers'
+
 import type {
   AnimalDeathDetailsModel,
   AnimalDeathApiResponse,
@@ -11,13 +13,13 @@ import type {
 
 export type AnimalDeathApiRequest = {
   reason: string
-  deathDate: Date
+  deathDate: string
 }
 
 export function toApi(model: AnimalDeathDetailsModel): AnimalDeathApiRequest {
   return {
     reason: model.reason,
-    deathDate: model.date,
+    deathDate: toLocalDate(model.date),
   }
 }
 
@@ -26,6 +28,6 @@ export function fromApi(
 ): AnimalDeathDetailsModel {
   return {
     reason: record.reason,
-    date: new Date(record.deathDate),
+    date: fromLocalDate(record.deathDate),
   }
 }

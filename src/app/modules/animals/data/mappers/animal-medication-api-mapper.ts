@@ -1,3 +1,5 @@
+import { fromLocalDate, toLocalDate } from '@/core/data/helpers'
+
 import type {
   AnimalMedicationApplicationMethod,
   AnimalMedicationDetailsModel,
@@ -22,7 +24,7 @@ const NO_PRODUCT: AnimalMedicationDetailsModel['product'] = {
 }
 
 export type AnimalMedicationApiRequest = {
-  applicationDate: Date
+  applicationDate: string
   appliedDose: string
   applicationWay: AnimalMedicationApplicationMethod
   product: AnimalMedicationDetailsModel['product']
@@ -32,7 +34,7 @@ export function toApi(
   model: AnimalMedicationDetailsModel
 ): AnimalMedicationApiRequest {
   return {
-    applicationDate: model.date,
+    applicationDate: toLocalDate(model.date),
     appliedDose: model.appliedDose,
     applicationWay: model.applicationMethod,
     product: model.product,
@@ -43,7 +45,7 @@ export function fromApi(
   record: AnimalMedicationApiResponse
 ): AnimalMedicationDetailsModel {
   return {
-    date: new Date(record.applicationDate),
+    date: fromLocalDate(record.applicationDate),
     appliedDose: record.appliedDose,
     applicationMethod:
       record.applicationWay as AnimalMedicationApplicationMethod,

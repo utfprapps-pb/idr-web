@@ -1,3 +1,4 @@
+import { fromLocalDate, toLocalDate } from '@/core/data/helpers'
 import { formatNumber, unmaskFloat } from '@/core/masker'
 
 import type {
@@ -51,7 +52,7 @@ const DESTINATION_TO_BACKEND: Record<
 }
 
 export type AnimalSaleApiRequest = {
-  dateSale: Date
+  dateSale: string
   value: number
   destination: BackendDestination
   reason: BackendReason
@@ -60,7 +61,7 @@ export type AnimalSaleApiRequest = {
 
 export function toApi(model: AnimalSaleDetailsModel): AnimalSaleApiRequest {
   return {
-    dateSale: model.date,
+    dateSale: toLocalDate(model.date),
     value: unmaskFloat(model.price),
     destination: DESTINATION_TO_BACKEND[model.destination],
     reason: REASON_TO_BACKEND[model.reason],
@@ -70,7 +71,7 @@ export function toApi(model: AnimalSaleDetailsModel): AnimalSaleApiRequest {
 
 export function fromApi(record: AnimalSaleApiResponse): AnimalSaleDetailsModel {
   return {
-    date: new Date(record.dateSale),
+    date: fromLocalDate(record.dateSale),
     price: formatNumber(record.value, { prefix: 'R$' }),
     destination:
       DESTINATION_TO_FRONTEND[record.destination as BackendDestination],

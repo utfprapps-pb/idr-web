@@ -1,3 +1,4 @@
+import { fromLocalDate, toLocalDate } from '@/core/data/helpers'
 import { formatNumber, unmaskFloat } from '@/core/masker'
 
 import type {
@@ -16,8 +17,8 @@ import type {
  */
 
 export type AnimalPurchaseApiRequest = {
-  datePurchase: Date
-  birthDate: Date
+  datePurchase: string
+  birthDate: string
   value: number
   weight: number | null
 }
@@ -26,8 +27,8 @@ export function toApi(
   model: AnimalPurchaseDetailsModel
 ): AnimalPurchaseApiRequest {
   return {
-    datePurchase: model.date,
-    birthDate: model.birthDate,
+    datePurchase: toLocalDate(model.date),
+    birthDate: toLocalDate(model.birthDate),
     value: unmaskFloat(model.price),
     weight: model.weight ? unmaskFloat(model.weight) : null,
   }
@@ -37,8 +38,8 @@ export function fromApi(
   record: AnimalPurchaseApiResponse
 ): AnimalPurchaseDetailsModel {
   return {
-    date: new Date(record.datePurchase),
-    birthDate: new Date(record.birthDate),
+    date: fromLocalDate(record.datePurchase),
+    birthDate: fromLocalDate(record.birthDate),
     price: formatNumber(record.value, { prefix: 'R$' }),
     weight: formatNumber(record.weight ?? '', { suffix: 'kg' }),
   }
