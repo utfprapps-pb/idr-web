@@ -1,31 +1,11 @@
-import { useState } from 'react'
-
 import { useFormContext } from 'react-hook-form'
 
-import { DatePicker, Form, Combobox } from '@/core/presentation/components/ui'
-import { useDebounce } from '@/core/presentation/hooks'
+import { DatePicker, Form, Input } from '@/core/presentation/components/ui'
 
-import { useAnimalInseminationContext } from '../../hooks/animal-insemination-context.hook'
-import { useAllAnimalsWithFilterQuery } from '../../hooks/queries/all-animals-with-filter-query.hook'
 import { AnimalInseminationFormSchema } from '../../validations/animal-insemination-form-schema'
 
 export function AnimalInseminationFormInputs() {
   const form = useFormContext<AnimalInseminationFormSchema>()
-  const { propertyId } = useAnimalInseminationContext()
-
-  const [searchAnimal, setSearchAnimal] = useState('')
-
-  const debouncedAnimal = useDebounce({ value: searchAnimal })
-
-  const { allAnimals, isLoading } = useAllAnimalsWithFilterQuery({
-    propertyId: String(propertyId),
-    filters: {
-      name: {
-        value: debouncedAnimal,
-        type: 'LIKE',
-      },
-    },
-  })
 
   return (
     <>
@@ -59,19 +39,12 @@ export function AnimalInseminationFormInputs() {
 
           return (
             <Form.Item>
-              <Form.Label>Animal Reprodutor*</Form.Label>
+              <Form.Label>Touro*</Form.Label>
               <Form.Control>
-                <Combobox
-                  search={searchAnimal}
-                  items={allAnimals}
-                  loading={isLoading}
-                  selected={field.value}
-                  handleSearch={setSearchAnimal}
-                  handleSelect={field.onChange}
-                  isError={!!error}
-                  placeholder="Selecione o animal reprodutor"
-                  emptyMessage="Nenhum animal encontrado"
-                  searchPlaceholder="Buscar animal reprodutor"
+                <Input
+                  {...field}
+                  placeholder="Nome ou identificação do touro"
+                  isError={!!error?.message}
                 />
               </Form.Control>
               <Form.Message />

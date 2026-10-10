@@ -1,4 +1,3 @@
-import { faker } from '@faker-js/faker/locale/pt_BR'
 import { HttpResponse, type PathParams } from 'msw'
 
 import { HttpStatusCode } from '@/core/data/protocols/http'
@@ -37,10 +36,7 @@ export const getAnimalInseminationHandler = httpWithMiddleware<
     return HttpResponse.json(
       {
         iaDate: animalInseminationFound.date,
-        bull: {
-          value: faker.string.uuid(),
-          label: animalInseminationFound.sire,
-        },
+        bull: animalInseminationFound.sire,
       },
       { status: HttpStatusCode.ok }
     )

@@ -3,8 +3,5 @@ import type { AnimalInseminationFormSchema } from '../../validations/animal-inse
 export const ANIMAL_INSEMINATION_INITIAL_FORM_DATA: AnimalInseminationFormSchema =
   {
     date: new Date(),
-    sire: {
-      label: '',
-      value: '',
-    },
+    sire: '',
   }

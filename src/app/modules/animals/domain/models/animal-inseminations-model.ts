@@ -1,13 +1,11 @@
-import type { Option } from '@/core/domain/types'
-
 export type AnimalInseminationDetailsModel = {
   date: Date
-  sire: Option<string>
+  sire: string
 }
 
 export type AnimalInseminationDetailsApiResponse = {
   iaDate: string
-  bull: Option<string>
+  bull: string
 }
 
 export type AnimalInseminationModel = {
@@ -16,7 +14,6 @@ export type AnimalInseminationModel = {
   sire: string
 }
 
-// todo: refactor to be consistent with Api response
 export type AnimalInseminationApiResponse = {
   id: string
   date: string
