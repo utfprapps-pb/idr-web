@@ -16,6 +16,11 @@ type NutritionalBalancingAnimal = {
   estimatedMilkProduction: string
 }
 
+/** `id` é o UUID do Animal. */
+type NutritionalBalancingAnimalWithId = NutritionalBalancingAnimal & {
+  id: string
+}
+
 type NutritionalBalancingSummary = {
   totalDryMatter: string
   etherExtractPercent: string
@@ -45,7 +50,7 @@ type IngredientGroup = {
 export type NutritionalBalancingDetailsModel = {
   date: Date
   visitId?: number
-  animal: WithId<NutritionalBalancingAnimal>
+  animal: NutritionalBalancingAnimalWithId
   summary?: NutritionalBalancingSummary
   evaluations: NutritionalEvaluation[]
   ingredientGroups: IngredientGroup[]
@@ -54,7 +59,7 @@ export type NutritionalBalancingDetailsModel = {
 export type NutritionalBalancingDetailsApiResponse = {
   date: string
   visitId: number
-  animal: WithId<NutritionalBalancingAnimal>
+  animal: NutritionalBalancingAnimalWithId
   summary?: NutritionalBalancingSummary
   evaluations: NutritionalEvaluation[]
   ingredientGroups: IngredientGroup[]
