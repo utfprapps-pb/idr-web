@@ -6,19 +6,19 @@ import { withDelay, withAuth } from '@/core/mocks/middleware'
 
 import animalInseminationsData from '@database/animalInseminationsData.json'
 
-import type { AnimalInseminationDetailsApiResponse } from '../../../domain/models/animal-inseminations-model'
+import type { AnimalInseminationApiResponse } from '../../../domain/models/animal-inseminations-model'
 
 export const getAnimalInseminationHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId' | 'id'>,
   never,
-  AnimalInseminationDetailsApiResponse
+  AnimalInseminationApiResponse
 >({
   routePath: '/api/properties/:propertyId/animals/:animalId/inseminations/:id',
   method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ params }) => {
     if (!animalInseminationsData.length) {
-      return HttpResponse.json({} as AnimalInseminationDetailsApiResponse, {
+      return HttpResponse.json({} as AnimalInseminationApiResponse, {
         status: 404,
       })
     }
@@ -28,13 +28,15 @@ export const getAnimalInseminationHandler = httpWithMiddleware<
     )
 
     if (!animalInseminationFound) {
-      return HttpResponse.json({} as AnimalInseminationDetailsApiResponse, {
+      return HttpResponse.json({} as AnimalInseminationApiResponse, {
         status: 404,
       })
     }
 
     return HttpResponse.json(
       {
+        id: animalInseminationFound.id,
+        animalId: String(params.animalId),
         iaDate: animalInseminationFound.date,
         bull: animalInseminationFound.sire,
       },

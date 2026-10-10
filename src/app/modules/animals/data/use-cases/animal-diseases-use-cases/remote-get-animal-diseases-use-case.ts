@@ -8,15 +8,12 @@ import {
 
 import { fromApi } from '../../mappers/animal-disease-api-mapper'
 
-import type { AnimalDiseaseModel } from '../../../domain/models/animal-diseases-model'
+import type {
+  AnimalDiseaseModel,
+  AnimalDiseaseApiResponse,
+} from '../../../domain/models/animal-diseases-model'
 import type { GetAnimalDiseasesUseCase } from '../../../domain/use-cases/animal-diseases-use-cases'
 import type { SearchApiResponse } from '@/core/domain/types'
-
-export type AnimalDiseaseSearchApiItem = {
-  id: string
-  diagnosis: string
-  diagnosisDate: string
-}
 
 const SORT_FIELD_MAP: Record<string, string> = {
   diagnostic: 'diagnosis',
@@ -30,8 +27,8 @@ export class RemoteGetAnimalDiseasesUseCase
     private readonly url: string,
     private readonly httpClient: HttpClient<
       AnimalDiseaseModel,
-      AnimalDiseaseSearchApiItem,
-      SearchApiResponse<AnimalDiseaseSearchApiItem>
+      AnimalDiseaseApiResponse,
+      SearchApiResponse<AnimalDiseaseApiResponse>
     >
   ) {}
 

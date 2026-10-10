@@ -23,8 +23,7 @@ export const getAnimalMedicationsHandler = httpWithMiddleware<
       applicationDate: item.date,
       appliedDose: item.appliedDose,
       applicationWay: item.applicationMethod,
-      product: item.product,
-      activeIngredient: item.activeIngredient,
+      productId: null,
     }))
 
     return HttpResponse.json(toSearchResponse(animalMedications, search), {

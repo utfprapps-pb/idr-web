@@ -1,10 +1,10 @@
 import { makeApiHttpClient } from '@/core/main/factories/http'
 
+import { RemoteGetAnimalMedicationsUseCase } from '../../../../data/use-cases/animal-medications-use-cases/remote-get-animal-medications-use-case'
 import {
-  RemoteGetAnimalMedicationsUseCase,
-  type AnimalMedicationSearchApiItem,
-} from '../../../../data/use-cases/animal-medications-use-cases/remote-get-animal-medications-use-case'
-import { type AnimalMedicationModel } from '../../../../domain/models/animal-medications-model'
+  type AnimalMedicationModel,
+  AnimalMedicationApiResponse,
+} from '../../../../domain/models/animal-medications-model'
 
 import type { GetAnimalMedicationsUseCase } from '../../../../domain/use-cases/animal-medications-use-cases'
 import type { SearchApiResponse } from '@/core/domain/types'
@@ -14,8 +14,8 @@ export function makeRemoteGetAnimalMedicationsUseCase(): GetAnimalMedicationsUse
     'properties/:propertyId/animals/:animalId/medications',
     makeApiHttpClient<
       AnimalMedicationModel,
-      AnimalMedicationSearchApiItem,
-      SearchApiResponse<AnimalMedicationSearchApiItem>
+      AnimalMedicationApiResponse,
+      SearchApiResponse<AnimalMedicationApiResponse>
     >()
   )
 }

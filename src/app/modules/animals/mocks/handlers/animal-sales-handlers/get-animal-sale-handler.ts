@@ -6,19 +6,19 @@ import { withDelay, withAuth } from '@/core/mocks/middleware'
 
 import animalSalesData from '@database/animalSalesData.json'
 
-import type { AnimalSaleDetailsApiResponse } from '../../../domain/models/animal-sales-model'
+import type { AnimalSaleApiResponse } from '../../../domain/models/animal-sales-model'
 
 export const getAnimalSaleHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId' | 'id'>,
   never,
-  AnimalSaleDetailsApiResponse
+  AnimalSaleApiResponse
 >({
   routePath: '/api/properties/:propertyId/animals/:animalId/sales/:id',
   method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ params }) => {
     if (!animalSalesData.length) {
-      return HttpResponse.json({} as AnimalSaleDetailsApiResponse, {
+      return HttpResponse.json({} as AnimalSaleApiResponse, {
         status: 404,
       })
     }
@@ -28,13 +28,16 @@ export const getAnimalSaleHandler = httpWithMiddleware<
     )
 
     if (!animalSaleFound) {
-      return HttpResponse.json({} as AnimalSaleDetailsApiResponse, {
+      return HttpResponse.json({} as AnimalSaleApiResponse, {
         status: 404,
       })
     }
 
     return HttpResponse.json(
       {
+        id: animalSaleFound.id,
+        animalId: String(params.animalId),
+        weight: Number(animalSaleFound.weight),
         dateSale: animalSaleFound.date,
         reason: animalSaleFound.reason,
         destination: animalSaleFound.destination,

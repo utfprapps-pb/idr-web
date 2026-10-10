@@ -2,6 +2,7 @@ import type {
   AnimalMastitisCmtResults,
   AnimalMastitisDetailsModel,
   AnimalMastitisType,
+  AnimalMastitisApiResponse,
 } from '../../domain/models/animal-mastitides-model'
 
 /**
@@ -21,16 +22,6 @@ export type AnimalMastitisApiRequest = {
   cmtResult?: string | null
 }
 
-export type AnimalMastitisApiRecord = {
-  diagnoseDate: string
-  mastitisType: string
-  ad: string
-  ae: string
-  pd: string
-  pe: string
-  cmtResult?: string | null
-}
-
 export function toApi(
   model: AnimalMastitisDetailsModel
 ): AnimalMastitisApiRequest {
@@ -46,7 +37,7 @@ export function toApi(
 }
 
 export function fromApi(
-  record: AnimalMastitisApiRecord
+  record: AnimalMastitisApiResponse
 ): AnimalMastitisDetailsModel {
   return {
     date: new Date(record.diagnoseDate),

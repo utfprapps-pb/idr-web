@@ -6,22 +6,16 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
-import {
-  fromApi,
-  type AnimalMastitisApiRecord,
-} from '../../mappers/animal-mastitis-api-mapper'
+import { fromApi } from '../../mappers/animal-mastitis-api-mapper'
 
 import type {
   AnimalMastitisCmtResults,
   AnimalMastitisModel,
   AnimalMastitisType,
+  AnimalMastitisApiResponse,
 } from '../../../domain/models/animal-mastitides-model'
 import type { GetAnimalMastitidesUseCase } from '../../../domain/use-cases/animal-mastitides-use-cases'
 import type { SearchApiResponse } from '@/core/domain/types'
-
-export type AnimalMastitisSearchApiItem = AnimalMastitisApiRecord & {
-  id: string
-}
 
 const SORT_FIELD_MAP: Record<string, string> = {
   date: 'diagnoseDate',
@@ -39,8 +33,8 @@ export class RemoteGetAnimalMastitidesUseCase
     private readonly url: string,
     private readonly httpClient: HttpClient<
       AnimalMastitisModel,
-      AnimalMastitisSearchApiItem,
-      SearchApiResponse<AnimalMastitisSearchApiItem>
+      AnimalMastitisApiResponse,
+      SearchApiResponse<AnimalMastitisApiResponse>
     >
   ) {}
 

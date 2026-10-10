@@ -3,20 +3,16 @@ export type AnimalDiseaseDetailsModel = {
   diagnostic: string
 }
 
-export type AnimalDiseaseDetailsApiResponse = {
-  diagnosisDate: string
+/** Formato real da API (`GetAnimalDiseasesByIdOutput` = `ListAnimalDiseasesOutput`), usado no GET e em cada item da busca. */
+export type AnimalDiseaseApiResponse = {
+  id: string
+  animalId: string
   diagnosis: string
+  diagnosisDate: string
 }
 
 export type AnimalDiseaseModel = {
   id: string
   diagnosticDate: Date
-  diagnostic: string
-}
-
-// todo: refactor to be consistent with Api response
-export type AnimalDiseaseApiResponse = {
-  id: string
-  diagnosticDate: string
   diagnostic: string
 }

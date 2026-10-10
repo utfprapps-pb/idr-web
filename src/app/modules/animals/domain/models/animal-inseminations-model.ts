@@ -3,7 +3,10 @@ export type AnimalInseminationDetailsModel = {
   sire: string
 }
 
-export type AnimalInseminationDetailsApiResponse = {
+/** Formato real da API (`GetInseminationByIdOutput` = `ListInseminationOutput`), usado no GET e em cada item da busca. */
+export type AnimalInseminationApiResponse = {
+  id: string
+  animalId: string
   iaDate: string
   bull: string
 }
@@ -11,11 +14,5 @@ export type AnimalInseminationDetailsApiResponse = {
 export type AnimalInseminationModel = {
   id: string
   date: Date
-  sire: string
-}
-
-export type AnimalInseminationApiResponse = {
-  id: string
-  date: string
   sire: string
 }

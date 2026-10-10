@@ -4,11 +4,11 @@ import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withAuth, withDelay } from '@/core/mocks/middleware'
 
-import type { AnimalPregnancyDiagnosisDetailsApiResponse } from '../../../domain/models/animal-pregnancy-diagnoses-model'
+import type { AnimalPregnancyDiagnosisApiResponse } from '../../../domain/models/animal-pregnancy-diagnoses-model'
 
 export const createAnimalPregnancyDiagnosisHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId'>,
-  AnimalPregnancyDiagnosisDetailsApiResponse,
+  AnimalPregnancyDiagnosisApiResponse,
   never
 >({
   routePath:

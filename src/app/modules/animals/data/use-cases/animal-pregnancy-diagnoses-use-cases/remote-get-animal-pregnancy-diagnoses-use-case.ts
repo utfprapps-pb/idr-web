@@ -8,15 +8,12 @@ import {
 
 import { fromApi } from '../../mappers/animal-pregnancy-diagnosis-api-mapper'
 
-import type { AnimalPregnancyDiagnosisModel } from '../../../domain/models/animal-pregnancy-diagnoses-model'
+import type {
+  AnimalPregnancyDiagnosisModel,
+  AnimalPregnancyDiagnosisApiResponse,
+} from '../../../domain/models/animal-pregnancy-diagnoses-model'
 import type { GetAnimalPregnancyDiagnosesUseCase } from '../../../domain/use-cases/animal-pregnancy-diagnoses-use-cases'
 import type { SearchApiResponse } from '@/core/domain/types'
-
-export type AnimalPregnancyDiagnosisSearchApiItem = {
-  id: string
-  diagnoseDate: string
-  lastIa: string
-}
 
 const SORT_FIELD_MAP: Record<string, string> = {
   date: 'diagnoseDate',
@@ -30,8 +27,8 @@ export class RemoteGetAnimalPregnancyDiagnosesUseCase
     private readonly url: string,
     private readonly httpClient: HttpClient<
       AnimalPregnancyDiagnosisModel,
-      AnimalPregnancyDiagnosisSearchApiItem,
-      SearchApiResponse<AnimalPregnancyDiagnosisSearchApiItem>
+      AnimalPregnancyDiagnosisApiResponse,
+      SearchApiResponse<AnimalPregnancyDiagnosisApiResponse>
     >
   ) {}
 

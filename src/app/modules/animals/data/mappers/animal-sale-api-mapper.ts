@@ -4,6 +4,7 @@ import type {
   AnimalSaleDestination,
   AnimalSaleDetailsModel,
   AnimalSaleReason,
+  AnimalSaleApiResponse,
 } from '../../domain/models/animal-sales-model'
 
 /**
@@ -14,10 +15,8 @@ import type {
  * frontend guarda `price` como string já formatada/mascarada (ver
  * `input.hook.ts`) — por isso a conversão usa `unmaskFloat`/
  * `formatNumber`, não é um passthrough de valor.
- *
- * `weight` existe só no frontend, sem campo correspondente no backend
- * — não é enviado no create/update, e não há como lê-lo de volta (fica
- * vazio), por decisão de escopo.
+ * `weight` segue a mesma regra: número (kg) na API, string mascarada
+ * (`"450,00 kg"`) no formulário.
  */
 
 type BackendReason = 'VOLUNTARIA' | 'DESCARTE' | 'EMERGENCIA'
@@ -56,13 +55,7 @@ export type AnimalSaleApiRequest = {
   value: number
   destination: BackendDestination
   reason: BackendReason
-}
-
-export type AnimalSaleApiRecord = {
-  dateSale: string
-  value: number
-  destination: string
-  reason: string
+  weight: number | null
 }
 
 export function toApi(model: AnimalSaleDetailsModel): AnimalSaleApiRequest {
@@ -71,16 +64,17 @@ export function toApi(model: AnimalSaleDetailsModel): AnimalSaleApiRequest {
     value: unmaskFloat(model.price),
     destination: DESTINATION_TO_BACKEND[model.destination],
     reason: REASON_TO_BACKEND[model.reason],
+    weight: model.weight ? unmaskFloat(model.weight) : null,
   }
 }
 
-export function fromApi(record: AnimalSaleApiRecord): AnimalSaleDetailsModel {
+export function fromApi(record: AnimalSaleApiResponse): AnimalSaleDetailsModel {
   return {
     date: new Date(record.dateSale),
     price: formatNumber(record.value, { prefix: 'R$' }),
     destination:
       DESTINATION_TO_FRONTEND[record.destination as BackendDestination],
     reason: REASON_TO_FRONTEND[record.reason as BackendReason],
-    weight: '',
+    weight: formatNumber(record.weight ?? '', { suffix: 'kg' }),
   }
 }

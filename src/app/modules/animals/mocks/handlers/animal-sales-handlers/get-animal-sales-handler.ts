@@ -31,11 +31,11 @@ export const getAnimalSalesHandler = httpWithMiddleware<
   resolver: async ({ request }) => {
     const search = parseSearchParams(request)
 
-    // `weight` não existe no backend real — não é incluído na resposta.
     const animalSales = animalSalesData.map((item) => ({
       id: item.id,
       dateSale: item.date,
       value: Number(item.price),
+      weight: Number(item.weight),
       destination: DESTINATION_TO_BACKEND[item.destination] ?? item.destination,
       reason: REASON_TO_BACKEND[item.reason] ?? item.reason,
     }))

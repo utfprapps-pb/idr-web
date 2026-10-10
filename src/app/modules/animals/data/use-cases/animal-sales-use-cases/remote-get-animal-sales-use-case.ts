@@ -12,17 +12,10 @@ import type {
   AnimalSaleDestination,
   AnimalSaleModel,
   AnimalSaleReason,
+  AnimalSaleApiResponse,
 } from '../../../domain/models/animal-sales-model'
 import type { GetAnimalSalesUseCase } from '../../../domain/use-cases/animal-sales-use-cases'
 import type { SearchApiResponse } from '@/core/domain/types'
-
-export type AnimalSaleSearchApiItem = {
-  id: string
-  dateSale: string
-  value: number
-  destination: string
-  reason: string
-}
 
 const SORT_FIELD_MAP: Record<string, string> = {
   date: 'dateSale',
@@ -36,8 +29,8 @@ export class RemoteGetAnimalSalesUseCase implements GetAnimalSalesUseCase {
     private readonly url: string,
     private readonly httpClient: HttpClient<
       AnimalSaleModel,
-      AnimalSaleSearchApiItem,
-      SearchApiResponse<AnimalSaleSearchApiItem>
+      AnimalSaleApiResponse,
+      SearchApiResponse<AnimalSaleApiResponse>
     >
   ) {}
 
@@ -76,7 +69,7 @@ export class RemoteGetAnimalSalesUseCase implements GetAnimalSalesUseCase {
 
       return {
         resources: body.items.map((item) => {
-          const { date, price, destination, reason } = fromApi(item)
+          const { date, price, destination, reason, weight } = fromApi(item)
 
           return {
             id: item.id,
@@ -84,7 +77,7 @@ export class RemoteGetAnimalSalesUseCase implements GetAnimalSalesUseCase {
             destination: destinationMapper[destination],
             reason: reasonMapper[reason],
             price,
-            weight: '',
+            weight,
           }
         }),
         totalPages: toTotalPages(body),

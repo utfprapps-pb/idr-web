@@ -8,7 +8,7 @@ import {
 import { fromApi } from '../../mappers/animal-medication-api-mapper'
 
 import type {
-  AnimalMedicationDetailsApiResponse,
+  AnimalMedicationApiResponse,
   AnimalMedicationDetailsModel,
 } from '../../../domain/models/animal-medications-model'
 import type { GetAnimalMedicationUseCase } from '../../../domain/use-cases/animal-medications-use-cases'
@@ -20,7 +20,7 @@ export class RemoteGetAnimalMedicationUseCase
     private readonly url: string,
     private readonly httpClient: HttpClient<
       AnimalMedicationDetailsModel,
-      AnimalMedicationDetailsApiResponse
+      AnimalMedicationApiResponse
     >
   ) {}
 

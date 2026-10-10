@@ -1,4 +1,7 @@
-import type { AnimalDiseaseDetailsModel } from '../../domain/models/animal-diseases-model'
+import type {
+  AnimalDiseaseDetailsModel,
+  AnimalDiseaseApiResponse,
+} from '../../domain/models/animal-diseases-model'
 
 /**
  * Real backend fields: `diagnosis` (frontend: `diagnostic`),
@@ -11,11 +14,6 @@ export type AnimalDiseaseApiRequest = {
   diagnosisDate: Date
 }
 
-export type AnimalDiseaseApiRecord = {
-  diagnosis: string
-  diagnosisDate: string
-}
-
 export function toApi(
   model: AnimalDiseaseDetailsModel
 ): AnimalDiseaseApiRequest {
@@ -26,7 +24,7 @@ export function toApi(
 }
 
 export function fromApi(
-  record: AnimalDiseaseApiRecord
+  record: AnimalDiseaseApiResponse
 ): AnimalDiseaseDetailsModel {
   return {
     diagnostic: record.diagnosis,

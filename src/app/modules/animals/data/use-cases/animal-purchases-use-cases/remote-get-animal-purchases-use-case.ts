@@ -8,16 +8,12 @@ import {
 
 import { fromApi } from '../../mappers/animal-purchase-api-mapper'
 
-import type { AnimalPurchaseModel } from '../../../domain/models/animal-purchases-model'
+import type {
+  AnimalPurchaseModel,
+  AnimalPurchaseApiResponse,
+} from '../../../domain/models/animal-purchases-model'
 import type { GetAnimalPurchasesUseCase } from '../../../domain/use-cases/animal-purchases-use-cases'
 import type { SearchApiResponse } from '@/core/domain/types'
-
-export type AnimalPurchaseSearchApiItem = {
-  id: string
-  datePurchase: string
-  birthDate: string
-  value: number
-}
 
 const SORT_FIELD_MAP: Record<string, string> = {
   date: 'datePurchase',
@@ -32,8 +28,8 @@ export class RemoteGetAnimalPurchasesUseCase
     private readonly url: string,
     private readonly httpClient: HttpClient<
       AnimalPurchaseModel,
-      AnimalPurchaseSearchApiItem,
-      SearchApiResponse<AnimalPurchaseSearchApiItem>
+      AnimalPurchaseApiResponse,
+      SearchApiResponse<AnimalPurchaseApiResponse>
     >
   ) {}
 

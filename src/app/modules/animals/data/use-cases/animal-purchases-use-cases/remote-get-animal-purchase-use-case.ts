@@ -9,7 +9,7 @@ import { fromApi } from '../../mappers/animal-purchase-api-mapper'
 
 import type {
   AnimalPurchaseDetailsModel,
-  AnimalPurchaseDetailsApiResponse,
+  AnimalPurchaseApiResponse,
 } from '../../../domain/models/animal-purchases-model'
 import type { GetAnimalPurchaseUseCase } from '../../../domain/use-cases/animal-purchases-use-cases'
 
@@ -20,7 +20,7 @@ export class RemoteGetAnimalPurchaseUseCase
     private readonly url: string,
     private readonly httpClient: HttpClient<
       AnimalPurchaseDetailsModel,
-      AnimalPurchaseDetailsApiResponse
+      AnimalPurchaseApiResponse
     >
   ) {}
 

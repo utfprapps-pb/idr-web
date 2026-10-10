@@ -1,4 +1,7 @@
-import type { AnimalPregnancyDiagnosisDetailsModel } from '../../domain/models/animal-pregnancy-diagnoses-model'
+import type {
+  AnimalPregnancyDiagnosisDetailsModel,
+  AnimalPregnancyDiagnosisApiResponse,
+} from '../../domain/models/animal-pregnancy-diagnoses-model'
 
 /**
  * Real backend fields: `diagnoseDate` (frontend: `date`), `lastIa`
@@ -11,11 +14,6 @@ export type AnimalPregnancyDiagnosisApiRequest = {
   lastIa: Date
 }
 
-export type AnimalPregnancyDiagnosisApiRecord = {
-  diagnoseDate: string
-  lastIa: string
-}
-
 export function toApi(
   model: AnimalPregnancyDiagnosisDetailsModel
 ): AnimalPregnancyDiagnosisApiRequest {
@@ -26,7 +24,7 @@ export function toApi(
 }
 
 export function fromApi(
-  record: AnimalPregnancyDiagnosisApiRecord
+  record: AnimalPregnancyDiagnosisApiResponse
 ): AnimalPregnancyDiagnosisDetailsModel {
   return {
     date: new Date(record.diagnoseDate),

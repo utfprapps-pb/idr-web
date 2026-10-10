@@ -8,7 +8,7 @@ import {
 import { fromApi } from '../../mappers/animal-pregnancy-diagnosis-api-mapper'
 
 import type {
-  AnimalPregnancyDiagnosisDetailsApiResponse,
+  AnimalPregnancyDiagnosisApiResponse,
   AnimalPregnancyDiagnosisDetailsModel,
 } from '../../../domain/models/animal-pregnancy-diagnoses-model'
 import type { GetAnimalPregnancyDiagnosisUseCase } from '../../../domain/use-cases/animal-pregnancy-diagnoses-use-cases'
@@ -20,7 +20,7 @@ export class RemoteGetAnimalPregnancyDiagnosisUseCase
     private readonly url: string,
     private readonly httpClient: HttpClient<
       AnimalPregnancyDiagnosisDetailsModel,
-      AnimalPregnancyDiagnosisDetailsApiResponse
+      AnimalPregnancyDiagnosisApiResponse
     >
   ) {}
 

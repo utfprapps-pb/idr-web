@@ -1,4 +1,7 @@
-import type { AnimalInseminationDetailsModel } from '../../domain/models/animal-inseminations-model'
+import type {
+  AnimalInseminationDetailsModel,
+  AnimalInseminationApiResponse,
+} from '../../domain/models/animal-inseminations-model'
 
 /**
  * Real backend fields: `iaDate` (frontend: `date`), `bull` (frontend:
@@ -20,13 +23,8 @@ export function toApi(
   }
 }
 
-export type AnimalInseminationApiRecord = {
-  iaDate: string
-  bull: string
-}
-
 export function fromApi(
-  record: AnimalInseminationApiRecord
+  record: AnimalInseminationApiResponse
 ): AnimalInseminationDetailsModel {
   return {
     date: new Date(record.iaDate),

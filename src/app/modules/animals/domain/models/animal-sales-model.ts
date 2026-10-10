@@ -10,26 +10,20 @@ export type AnimalSaleDetailsModel = {
   destination: AnimalSaleDestination
 }
 
-export type AnimalSaleDetailsApiResponse = {
+/** Formato real da API (`GetAnimalSalesByIdOutput` = `ListAnimalSalesOutput`), usado no GET e em cada item da busca. */
+export type AnimalSaleApiResponse = {
+  id: string
+  animalId: string
   dateSale: string
   reason: string
   value: number
   destination: string
+  weight: number | null
 }
 
 export type AnimalSaleModel = {
   id: string
   date: Date
-  reason: string
-  weight: string
-  price: string
-  destination: string
-}
-
-// todo: refactor to be consistent with Api response
-export type AnimalSaleApiResponse = {
-  id: string
-  date: string
   reason: string
   weight: string
   price: string

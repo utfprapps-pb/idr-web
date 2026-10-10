@@ -8,15 +8,12 @@ import {
 
 import { fromApi } from '../../mappers/animal-insemination-api-mapper'
 
-import type { AnimalInseminationModel } from '../../../domain/models/animal-inseminations-model'
+import type {
+  AnimalInseminationModel,
+  AnimalInseminationApiResponse,
+} from '../../../domain/models/animal-inseminations-model'
 import type { GetAnimalInseminationsUseCase } from '../../../domain/use-cases/animal-inseminations-use-cases'
 import type { SearchApiResponse } from '@/core/domain/types'
-
-export type AnimalInseminationSearchApiItem = {
-  id: string
-  iaDate: string
-  bull: string
-}
 
 const SORT_FIELD_MAP: Record<string, string> = {
   sire: 'bull',
@@ -30,8 +27,8 @@ export class RemoteGetAnimalInseminationsUseCase
     private readonly url: string,
     private readonly httpClient: HttpClient<
       AnimalInseminationModel,
-      AnimalInseminationSearchApiItem,
-      SearchApiResponse<AnimalInseminationSearchApiItem>
+      AnimalInseminationApiResponse,
+      SearchApiResponse<AnimalInseminationApiResponse>
     >
   ) {}
 

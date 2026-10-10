@@ -17,14 +17,17 @@ export type AnimalMastitisDetailsModel = {
   cmtResult?: string | null
 }
 
-export type AnimalMastitisDetailsApiResponse = {
+/** Formato real da API (`GetMastitisByIdOutput` = `ListMastitisOutput`), usado no GET e em cada item da busca. */
+export type AnimalMastitisApiResponse = {
+  id: string
+  animalId: string
   diagnoseDate: string
   mastitisType: string
+  cmtResult: string | null
   ad: string
   ae: string
   pd: string
   pe: string
-  cmtResult?: string | null
 }
 
 export type AnimalMastitisModel = {
@@ -35,14 +38,4 @@ export type AnimalMastitisModel = {
   ae: AnimalMastitisCmtResults
   pd: AnimalMastitisCmtResults
   pe: AnimalMastitisCmtResults
-}
-
-export type AnimalMastitisApiResponse = {
-  id: string
-  date: string
-  type: string
-  ad: string
-  ae: string
-  pd: string
-  pe: string
 }

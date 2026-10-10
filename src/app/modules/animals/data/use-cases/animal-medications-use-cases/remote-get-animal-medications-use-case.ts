@@ -10,20 +10,10 @@ import { floatMask } from '@/core/masker'
 import type {
   AnimalMedicationApplicationMethod,
   AnimalMedicationModel,
+  AnimalMedicationApiResponse,
 } from '../../../domain/models/animal-medications-model'
 import type { GetAnimalMedicationsUseCase } from '../../../domain/use-cases/animal-medications-use-cases'
 import type { SearchApiResponse } from '@/core/domain/types'
-
-export type AnimalMedicationSearchApiItem = {
-  id: string
-  applicationDate: string
-  appliedDose: string
-  applicationWay: string
-  // `product`/`activeIngredient` mantidos como estavam — resolução via
-  // catálogo real `Product` não é religada nesta entrega.
-  product: string
-  activeIngredient: string
-}
 
 const SORT_FIELD_MAP: Record<string, string> = {
   date: 'applicationDate',
@@ -44,8 +34,8 @@ export class RemoteGetAnimalMedicationsUseCase
     private readonly url: string,
     private readonly httpClient: HttpClient<
       AnimalMedicationModel,
-      AnimalMedicationSearchApiItem,
-      SearchApiResponse<AnimalMedicationSearchApiItem>
+      AnimalMedicationApiResponse,
+      SearchApiResponse<AnimalMedicationApiResponse>
     >
   ) {}
 
@@ -87,9 +77,11 @@ export class RemoteGetAnimalMedicationsUseCase
           return {
             id: item.id,
             date: new Date(item.applicationDate),
-            product: item.product,
+            // A API só devolve `productId`; nome e princípio ativo dependem de
+            // religar o catálogo `Product` (ainda não feito).
+            product: '',
             appliedDose: floatMask(item.appliedDose, 'mg/ml'),
-            activeIngredient: item.activeIngredient,
+            activeIngredient: '',
             applicationMethod:
               applicationMethodMapper[
                 item.applicationWay as AnimalMedicationApplicationMethod

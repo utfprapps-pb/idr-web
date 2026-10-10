@@ -8,7 +8,7 @@ import {
 import { fromApi } from '../../mappers/animal-mastitis-api-mapper'
 
 import type {
-  AnimalMastitisDetailsApiResponse,
+  AnimalMastitisApiResponse,
   AnimalMastitisDetailsModel,
 } from '../../../domain/models/animal-mastitides-model'
 import type { GetAnimalMastitisUseCase } from '../../../domain/use-cases/animal-mastitides-use-cases'
@@ -20,7 +20,7 @@ export class RemoteGetAnimalMastitisUseCase
     private readonly url: string,
     private readonly httpClient: HttpClient<
       AnimalMastitisDetailsModel,
-      AnimalMastitisDetailsApiResponse
+      AnimalMastitisApiResponse
     >
   ) {}
 
