@@ -96,7 +96,7 @@ export class RemoteGetAnimalInseminationsUseCase
 
           return { id: item.id, date, sire }
         }),
-        totalPages: Math.ceil(body.total / body.perPage),
+        totalPages: body.perPage > 0 ? Math.ceil(body.total / body.perPage) : 0,
       }
     }
 

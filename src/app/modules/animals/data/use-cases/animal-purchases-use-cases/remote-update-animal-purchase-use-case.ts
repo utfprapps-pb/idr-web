@@ -26,13 +26,13 @@ export class RemoteUpdateAnimalPurchaseUseCase
       .replace(':propertyId', String(propertyId))
       .replace(':animalId', String(animalId))
 
-    const { statusCode, body } = await this.httpClient.request({
+    const { statusCode } = await this.httpClient.request({
       url: `${url}/${id}`,
       method: 'put',
       body: toApi(animalPurchase),
     })
 
-    if (statusCode === HttpStatusCode.ok && !!body) return
+    if (statusCode === HttpStatusCode.ok) return
 
     if (statusCode === HttpStatusCode.badRequest) throw new BadRequestError()
 

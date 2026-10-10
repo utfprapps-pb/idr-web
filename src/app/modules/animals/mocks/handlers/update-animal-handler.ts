@@ -12,6 +12,5 @@ export const updateAnimalHandler = httpWithMiddleware<
   routePath: '/api/properties/:propertyId/animals/:id',
   method: 'patch',
   middlewares: [withDelay(), withAuth],
-  resolver: async () =>
-    HttpResponse.json(undefined, { status: HttpStatusCode.ok }),
+  resolver: async () => HttpResponse.json({}, { status: HttpStatusCode.ok }),
 })

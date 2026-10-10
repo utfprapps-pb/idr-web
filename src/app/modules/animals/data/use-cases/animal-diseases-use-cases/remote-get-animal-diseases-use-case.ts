@@ -99,7 +99,7 @@ export class RemoteGetAnimalDiseasesUseCase
 
           return { id: item.id, diagnostic, diagnosticDate }
         }),
-        totalPages: Math.ceil(body.total / body.perPage),
+        totalPages: body.perPage > 0 ? Math.ceil(body.total / body.perPage) : 0,
       }
     }
 

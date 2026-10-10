@@ -32,7 +32,9 @@ export const getAnimalPregnancyDiagnosesHandler = httpWithMiddleware<
 
     if (terms) {
       animalPregnancyDiagnoses = animalPregnancyDiagnoses.filter((item) =>
-        JSON.stringify(item).toLowerCase().includes(terms.toLowerCase())
+        Object.values(item).some((value) =>
+          String(value).toLowerCase().includes(terms.toLowerCase())
+        )
       )
     }
 

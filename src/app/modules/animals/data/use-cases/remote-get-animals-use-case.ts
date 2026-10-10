@@ -103,7 +103,7 @@ export class RemoteGetAnimalsUseCase implements GetAnimalsUseCase {
           ecc: item.ecc != null ? String(item.ecc) : '',
           milkProduction: '',
         })),
-        totalPages: Math.ceil(body.total / body.perPage),
+        totalPages: body.perPage > 0 ? Math.ceil(body.total / body.perPage) : 0,
       }
     }
 

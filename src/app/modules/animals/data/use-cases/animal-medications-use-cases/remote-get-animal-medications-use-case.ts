@@ -132,7 +132,7 @@ export class RemoteGetAnimalMedicationsUseCase
               ],
           }
         }),
-        totalPages: Math.ceil(body.total / body.perPage),
+        totalPages: body.perPage > 0 ? Math.ceil(body.total / body.perPage) : 0,
       }
     }
 

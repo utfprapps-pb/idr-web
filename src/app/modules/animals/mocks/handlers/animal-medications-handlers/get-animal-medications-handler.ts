@@ -34,7 +34,9 @@ export const getAnimalMedicationsHandler = httpWithMiddleware<
 
     if (terms) {
       animalMedications = animalMedications.filter((item) =>
-        JSON.stringify(item).toLowerCase().includes(terms.toLowerCase())
+        Object.values(item).some((value) =>
+          String(value).toLowerCase().includes(terms.toLowerCase())
+        )
       )
     }
 

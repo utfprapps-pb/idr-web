@@ -128,7 +128,7 @@ export class RemoteGetAnimalMastitidesUseCase
             pe: conditionMapper[pe] as AnimalMastitisCmtResults,
           }
         }),
-        totalPages: Math.ceil(body.total / body.perPage),
+        totalPages: body.perPage > 0 ? Math.ceil(body.total / body.perPage) : 0,
       }
     }
 

@@ -101,7 +101,7 @@ export class RemoteGetAnimalPurchasesUseCase
 
           return { id: item.id, date, birthDate, price, weight }
         }),
-        totalPages: Math.ceil(body.total / body.perPage),
+        totalPages: body.perPage > 0 ? Math.ceil(body.total / body.perPage) : 0,
       }
     }
 

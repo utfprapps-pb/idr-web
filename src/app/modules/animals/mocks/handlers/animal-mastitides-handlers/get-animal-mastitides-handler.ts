@@ -35,7 +35,9 @@ export const getAnimalMastitidesHandler = httpWithMiddleware<
 
     if (terms) {
       animalMastitides = animalMastitides.filter((item) =>
-        JSON.stringify(item).toLowerCase().includes(terms.toLowerCase())
+        Object.values(item).some((value) =>
+          String(value).toLowerCase().includes(terms.toLowerCase())
+        )
       )
     }
 

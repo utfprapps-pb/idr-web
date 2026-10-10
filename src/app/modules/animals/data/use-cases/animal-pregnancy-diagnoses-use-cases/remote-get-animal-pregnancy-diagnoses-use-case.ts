@@ -99,7 +99,7 @@ export class RemoteGetAnimalPregnancyDiagnosesUseCase
 
           return { id: item.id, date, lastInseminationDate }
         }),
-        totalPages: Math.ceil(body.total / body.perPage),
+        totalPages: body.perPage > 0 ? Math.ceil(body.total / body.perPage) : 0,
       }
     }
 
