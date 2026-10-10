@@ -1,5 +1,9 @@
-import { fromLocalDate, toLocalDate } from '@/core/data/helpers'
-import { formatNumber, unmaskFloat } from '@/core/masker'
+import {
+  fromApiWeight,
+  fromLocalDate,
+  toApiWeight,
+  toLocalDate,
+} from '@/core/data/helpers'
 
 import type {
   AnimalChildbirthApiResponse,
@@ -29,7 +33,7 @@ export function toApi(
   return {
     childbirthDate: toLocalDate(model.date),
     gender: model.gender,
-    weight: model.weight ? unmaskFloat(model.weight) : null,
+    weight: toApiWeight(model.weight),
     condition: model.condition,
     breedId: model.breed.value,
     calfId: model.calf.value || null,
@@ -42,7 +46,7 @@ export function fromApi(
   return {
     date: fromLocalDate(record.childbirthDate),
     gender: record.gender,
-    weight: formatNumber(record.weight ?? '', { suffix: 'kg' }),
+    weight: fromApiWeight(record.weight),
     condition: record.condition,
     breed: { value: record.breedId, label: record.breedName ?? '' },
     calf: { value: record.calfId ?? '', label: record.calfIdentifier ?? '' },

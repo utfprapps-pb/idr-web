@@ -16,7 +16,6 @@ import type { GetAnimalDeathsUseCase } from '../../../domain/use-cases/animal-de
 import type { SearchApiResponse } from '@/core/domain/types'
 
 const SORT_FIELD_MAP: Record<string, string> = {
-  reason: 'reason',
   date: 'deathDate',
 }
 

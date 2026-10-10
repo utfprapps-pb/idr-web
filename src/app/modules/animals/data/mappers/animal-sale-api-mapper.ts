@@ -1,4 +1,9 @@
-import { fromLocalDate, toLocalDate } from '@/core/data/helpers'
+import {
+  fromApiWeight,
+  fromLocalDate,
+  toApiWeight,
+  toLocalDate,
+} from '@/core/data/helpers'
 import { formatNumber, unmaskFloat } from '@/core/masker'
 
 import type {
@@ -65,7 +70,7 @@ export function toApi(model: AnimalSaleDetailsModel): AnimalSaleApiRequest {
     value: unmaskFloat(model.price),
     destination: DESTINATION_TO_BACKEND[model.destination],
     reason: REASON_TO_BACKEND[model.reason],
-    weight: model.weight ? unmaskFloat(model.weight) : null,
+    weight: toApiWeight(model.weight),
   }
 }
 
@@ -76,6 +81,6 @@ export function fromApi(record: AnimalSaleApiResponse): AnimalSaleDetailsModel {
     destination:
       DESTINATION_TO_FRONTEND[record.destination as BackendDestination],
     reason: REASON_TO_FRONTEND[record.reason as BackendReason],
-    weight: formatNumber(record.weight ?? '', { suffix: 'kg' }),
+    weight: fromApiWeight(record.weight),
   }
 }

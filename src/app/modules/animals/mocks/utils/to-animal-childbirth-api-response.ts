@@ -1,4 +1,4 @@
-import allBreedsData from '@database/allBreedsData.json'
+import { findBreedName } from './find-breed-name'
 
 import type {
   AnimalChildbirthApiResponse,
@@ -29,9 +29,7 @@ export function toAnimalChildbirthApiResponse(
     condition: childbirth.condition as AnimalChildbirthCondition,
     breedId: childbirth.breedId,
     calfId: null,
-    breedName:
-      allBreedsData.find((breed) => breed.id === childbirth.breedId)
-        ?.breedName ?? null,
+    breedName: findBreedName(childbirth.breedId),
     calfIdentifier: null,
   }
 }

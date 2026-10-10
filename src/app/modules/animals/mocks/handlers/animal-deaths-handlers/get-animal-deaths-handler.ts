@@ -7,6 +7,8 @@ import { parseSearchParams, toSearchResponse } from '@/core/mocks/utils'
 
 import animalDeathsData from '@database/animalDeathsData.json'
 
+import { toAnimalDeathApiResponse } from '../../utils/to-animal-death-api-response'
+
 export const getAnimalDeathsHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId'>,
   never,
@@ -15,14 +17,12 @@ export const getAnimalDeathsHandler = httpWithMiddleware<
   routePath: '/api/properties/:propertyId/animals/:animalId/deaths/search',
   method: 'get',
   middlewares: [withDelay(), withAuth],
-  resolver: async ({ request }) => {
+  resolver: async ({ request, params }) => {
     const search = parseSearchParams(request)
 
-    const animalDeaths = animalDeathsData.map((item) => ({
-      id: item.id,
-      reason: item.reason,
-      deathDate: item.date,
-    }))
+    const animalDeaths = animalDeathsData.map((item) =>
+      toAnimalDeathApiResponse(item, String(params.animalId))
+    )
 
     return HttpResponse.json(toSearchResponse(animalDeaths, search), {
       status: HttpStatusCode.ok,

@@ -1,4 +1,4 @@
-import allBreedsData from '@database/allBreedsData.json'
+import { findBreedName } from './find-breed-name'
 
 import type { AnimalApiResponse } from '../../domain/models/animals-model'
 
@@ -20,9 +20,7 @@ export function toAnimalApiResponse(
     propertyId,
     animalMotherId: null,
     breedId: animal.breedId,
-    breedName:
-      allBreedsData.find((breed) => breed.id === animal.breedId)?.breedName ??
-      null,
+    breedName: findBreedName(animal.breedId),
     type: null,
     identifier: animal.identifier,
     gender: null,

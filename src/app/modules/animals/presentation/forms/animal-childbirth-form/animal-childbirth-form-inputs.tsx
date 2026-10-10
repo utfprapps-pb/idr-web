@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { useFormContext } from 'react-hook-form'
 
@@ -47,12 +47,15 @@ export function AnimalChildbirthFormInputs() {
     })
 
   // A mãe não pode ser o próprio bezerro; "Nenhum" desfaz o vínculo.
-  const calfOptions = [
-    NO_CALF,
-    ...allAnimals
-      .filter((animal) => animal.value !== animalId)
-      .map(({ label, value }) => ({ label, value })),
-  ]
+  const calfOptions = useMemo(
+    () => [
+      NO_CALF,
+      ...allAnimals
+        .filter((animal) => animal.value !== animalId)
+        .map(({ label, value }) => ({ label, value })),
+    ],
+    [allAnimals, animalId]
+  )
 
   return (
     <>
