@@ -1,3 +1,4 @@
+import { buildSearchQuery, toTotalPages } from '@/core/data/helpers'
 import { type HttpClient, HttpStatusCode } from '@/core/data/protocols/http'
 import {
   UnexpectedError,
@@ -5,12 +6,19 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
+import { fromApi } from '../../mappers/animal-death-api-mapper'
+
 import type {
-  AnimalDeathApiResponse,
   AnimalDeathModel,
+  AnimalDeathApiResponse,
 } from '../../../domain/models/animal-deaths-model'
 import type { GetAnimalDeathsUseCase } from '../../../domain/use-cases/animal-deaths-use-cases'
-import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
+import type { SearchApiResponse } from '@/core/domain/types'
+
+const SORT_FIELD_MAP: Record<string, string> = {
+  reason: 'reason',
+  date: 'deathDate',
+}
 
 export class RemoteGetAnimalDeathsUseCase implements GetAnimalDeathsUseCase {
   constructor(
@@ -18,7 +26,7 @@ export class RemoteGetAnimalDeathsUseCase implements GetAnimalDeathsUseCase {
     private readonly httpClient: HttpClient<
       AnimalDeathModel,
       AnimalDeathApiResponse,
-      ListApiResponse<AnimalDeathModel[]>
+      SearchApiResponse<AnimalDeathApiResponse>
     >
   ) {}
 
@@ -29,38 +37,28 @@ export class RemoteGetAnimalDeathsUseCase implements GetAnimalDeathsUseCase {
     pagination,
     sort,
   }) => {
-    const mapApiProperties: MapApiProperties<
-      AnimalDeathModel,
-      AnimalDeathApiResponse
-    > = {
-      id: 'id',
-      date: 'date',
-      reason: 'reason',
-    }
-
     const url = this.url
       .replace(':propertyId', String(propertyId))
       .replace(':animalId', String(animalId))
 
+    const query = buildSearchQuery(
+      { filters, pagination, sort },
+      (field) => SORT_FIELD_MAP[field] ?? field
+    )
+
     const { statusCode, body } = await this.httpClient.request({
-      url: `${url}/search`,
-      method: 'post',
-      filters,
-      pagination,
-      sort,
-      mapApiProperties,
+      url: `${url}/search?${query}`,
+      method: 'get',
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        resources: body.content.map((item) => {
-          return {
-            id: item.id,
-            date: new Date(item.date),
-            reason: item.reason,
-          }
+        resources: body.items.map((item) => {
+          const { reason, date } = fromApi(item)
+
+          return { id: item.id, reason, date }
         }),
-        totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
+        totalPages: toTotalPages(body),
       }
     }
 
@@ -70,7 +68,7 @@ export class RemoteGetAnimalDeathsUseCase implements GetAnimalDeathsUseCase {
 
     if (statusCode === HttpStatusCode.forbidden) {
       throw new ForbiddenError(
-        'Você não tem permissão para buscar óbitos deste animal.'
+        'Você não tem permissão para buscar os óbitos do animal'
       )
     }
 

@@ -41,9 +41,7 @@ export function AnimalsScreen() {
       {
         key: 'animal-childbirths',
         name: 'Parto',
-        component: legacyAnimalId && (
-          <AnimalChildbirthsScreen animalId={legacyAnimalId} />
-        ),
+        component: animalId && <AnimalChildbirthsScreen animalId={animalId} />,
       },
       {
         key: 'animal-heifer-calf-stages',
@@ -67,9 +65,7 @@ export function AnimalsScreen() {
       {
         key: 'animal-deaths',
         name: 'Óbitos',
-        component: legacyAnimalId && (
-          <AnimalDeathsScreen animalId={legacyAnimalId} />
-        ),
+        component: animalId && <AnimalDeathsScreen animalId={animalId} />,
       },
       {
         key: 'animal-inseminations',

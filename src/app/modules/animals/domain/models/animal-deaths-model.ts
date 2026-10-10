@@ -1,22 +1,18 @@
-import type { WithId } from '@/core/domain/types'
-
 export type AnimalDeathDetailsModel = {
   date: Date
   reason: string
 }
 
-export type AnimalDeathDetailsApiResponse = {
-  date: string
+/** Formato real da API (`GetAnimalDeathByIdOutput` = `ListAnimalDeathOutput`), usado no GET e em cada item da busca. */
+export type AnimalDeathApiResponse = {
+  id: string
+  animalId: string
   reason: string
+  deathDate: string
 }
 
-export type AnimalDeathModel = WithId<{
+export type AnimalDeathModel = {
+  id: string
   date: Date
   reason: string
-}>
-
-// todo: refactor to be consistent with Api response
-export type AnimalDeathApiResponse = WithId<{
-  date: string
-  reason: string
-}>
+}

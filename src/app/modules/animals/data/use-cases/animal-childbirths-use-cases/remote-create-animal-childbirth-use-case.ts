@@ -5,6 +5,8 @@ import {
   UnexpectedError,
 } from '@/core/domain/errors'
 
+import { toApi } from '../../mappers/animal-childbirth-api-mapper'
+
 import type { CreateAnimalChildbirthUseCase } from '../../../domain/use-cases/animal-childbirths-use-cases'
 
 export class RemoteCreateAnimalChildbirthUseCase
@@ -27,16 +29,16 @@ export class RemoteCreateAnimalChildbirthUseCase
     const { statusCode } = await this.httpClient.request({
       url,
       method: 'post',
-      body: animalChildbirth,
+      body: toApi(animalChildbirth),
     })
 
-    if (statusCode === HttpStatusCode.created) return
+    if (statusCode === HttpStatusCode.ok) return
 
     if (statusCode === HttpStatusCode.badRequest) throw new BadRequestError()
 
     if (statusCode === HttpStatusCode.forbidden) {
       throw new ForbiddenError(
-        'Você não tem permissão para criar um novo parto para esse animal'
+        'Você não tem permissão para registrar um parto do animal'
       )
     }
 

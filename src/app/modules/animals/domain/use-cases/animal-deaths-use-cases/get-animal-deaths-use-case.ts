@@ -7,8 +7,8 @@ import type {
 
 export type GetAnimalDeathsUseCase = RequestInterface<
   ListParams<AnimalDeathModel> & {
-    propertyId: number
-    animalId: number
+    propertyId: string
+    animalId: string
   },
   ListResponse<AnimalDeathModel>
 >

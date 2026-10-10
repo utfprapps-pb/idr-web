@@ -9,4 +9,8 @@ export const ANIMAL_CHILDBIRTH_INITIAL_FORM_DATA: AnimalChildbirthFormSchema = {
     label: '',
     value: '',
   },
+  calf: {
+    label: '',
+    value: '',
+  },
 }

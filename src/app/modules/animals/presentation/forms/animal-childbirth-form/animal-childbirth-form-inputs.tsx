@@ -12,10 +12,16 @@ import {
 } from '@/core/presentation/components/ui'
 import { useAllBreedsQuery, useDebounce } from '@/core/presentation/hooks'
 
+import { useAnimalChildbirthContext } from '../../hooks/animal-childbirth-context.hook'
+import { useAllAnimalsWithFilterQuery } from '../../hooks/queries/all-animals-with-filter-query.hook'
 import { AnimalChildbirthFormSchema } from '../../validations/animal-childbirth-form-schema'
+
+const NO_CALF = { label: 'Nenhum (bezerro fora do rebanho)', value: '' }
 
 export function AnimalChildbirthFormInputs() {
   const form = useFormContext<AnimalChildbirthFormSchema>()
+
+  const { propertyId, animalId } = useAnimalChildbirthContext()
 
   const [searchBreed, setSearchBreed] = useState('')
 
@@ -29,6 +35,24 @@ export function AnimalChildbirthFormInputs() {
       },
     },
   })
+
+  const [searchCalf, setSearchCalf] = useState('')
+
+  const debouncedCalf = useDebounce({ value: searchCalf })
+
+  const { allAnimals, isLoading: isLoadingAnimals } =
+    useAllAnimalsWithFilterQuery({
+      propertyId,
+      filters: { name: { value: debouncedCalf, type: 'LIKE' } },
+    })
+
+  // A mãe não pode ser o próprio bezerro; "Nenhum" desfaz o vínculo.
+  const calfOptions = [
+    NO_CALF,
+    ...allAnimals
+      .filter((animal) => animal.value !== animalId)
+      .map(({ label, value }) => ({ label, value })),
+  ]
 
   return (
     <>
@@ -127,6 +151,30 @@ export function AnimalChildbirthFormInputs() {
             </Form.Item>
           )
         }}
+      />
+
+      <Form.Field
+        name="calf"
+        control={form.control}
+        render={({ field }) => (
+          <Form.Item>
+            <Form.Label>Bezerro no rebanho</Form.Label>
+            <Form.Control>
+              <Combobox
+                search={searchCalf}
+                items={calfOptions}
+                loading={isLoadingAnimals}
+                selected={field.value.value ? field.value : NO_CALF}
+                handleSearch={setSearchCalf}
+                handleSelect={field.onChange}
+                placeholder="Selecione o bezerro (opcional)"
+                emptyMessage="Nenhum animal encontrado"
+                searchPlaceholder="Buscar animal"
+              />
+            </Form.Control>
+            <Form.Message />
+          </Form.Item>
+        )}
       />
 
       <Form.Field

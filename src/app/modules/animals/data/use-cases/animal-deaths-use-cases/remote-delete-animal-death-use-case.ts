@@ -37,7 +37,7 @@ export class RemoteDeleteAnimalDeathUseCase
 
     if (statusCode === HttpStatusCode.forbidden) {
       throw new ForbiddenError(
-        'Você não tem permissão para excluir este óbito do animal.'
+        'Você não tem permissão para excluir o óbito deste animal'
       )
     }
 

@@ -11,8 +11,8 @@ import type {
 } from '../../types/animal-childbirth-types'
 
 type Props = {
-  propertyId: number
-  animalId: number
+  propertyId: string
+  animalId: string
   filters: AnimalChildbirthFilters
   page: number
   sort?: AnimalChildbirthSort

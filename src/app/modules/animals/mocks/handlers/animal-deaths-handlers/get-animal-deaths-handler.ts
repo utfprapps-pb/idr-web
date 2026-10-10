@@ -3,62 +3,29 @@ import { HttpResponse, type PathParams } from 'msw'
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
-import { filterData, sortData, paginateData } from '@/core/mocks/utils'
+import { parseSearchParams, toSearchResponse } from '@/core/mocks/utils'
 
 import animalDeathsData from '@database/animalDeathsData.json'
 
-import type { AnimalDeathApiResponse } from '../../../domain/models/animal-deaths-model'
-import type { MockParams } from '@/core/mocks/types/mock-params-type'
-import type { MockResponse } from '@/core/mocks/types/mock-response-type'
-
 export const getAnimalDeathsHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId'>,
-  MockParams<AnimalDeathApiResponse>,
-  MockResponse<AnimalDeathApiResponse[]>
+  never,
+  never
 >({
   routePath: '/api/properties/:propertyId/animals/:animalId/deaths/search',
-  method: 'post',
+  method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ request }) => {
-    const { filters, page, rows, sort } = await request.json()
+    const search = parseSearchParams(request)
 
-    if (!animalDeathsData.length) {
-      return HttpResponse.json(
-        {
-          content: [],
-          numberOfElements: 0,
-          pageable: {
-            pageSize: 0,
-          },
-        },
-        {
-          status: 404,
-        }
-      )
-    }
+    const animalDeaths = animalDeathsData.map((item) => ({
+      id: item.id,
+      reason: item.reason,
+      deathDate: item.date,
+    }))
 
-    let animalDeaths = animalDeathsData
-
-    if (filters)
-      animalDeaths = filterData<AnimalDeathApiResponse>(filters, animalDeaths)
-    if (sort)
-      animalDeaths = sortData<AnimalDeathApiResponse>(sort, animalDeaths)
-
-    const numberOfElements = animalDeaths.length
-    animalDeaths = paginateData<AnimalDeathApiResponse>(
-      { page, perPage: rows },
-      animalDeaths
-    )
-
-    return HttpResponse.json(
-      {
-        content: animalDeaths,
-        numberOfElements,
-        pageable: {
-          pageSize: rows,
-        },
-      },
-      { status: HttpStatusCode.ok }
-    )
+    return HttpResponse.json(toSearchResponse(animalDeaths, search), {
+      status: HttpStatusCode.ok,
+    })
   },
 })

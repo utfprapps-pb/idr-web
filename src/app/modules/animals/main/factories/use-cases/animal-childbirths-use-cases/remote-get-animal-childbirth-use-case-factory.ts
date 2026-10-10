@@ -3,8 +3,8 @@ import { makeApiHttpClient } from '@/core/main/factories/http'
 import { RemoteGetAnimalChildbirthUseCase } from '../../../../data/use-cases/animal-childbirths-use-cases'
 
 import type {
-  AnimalChildbirthDetailsApiResponse,
   AnimalChildbirthDetailsModel,
+  AnimalChildbirthApiResponse,
 } from '../../../../domain/models/animal-childbirths-model'
 import type { GetAnimalChildbirthUseCase } from '../../../../domain/use-cases/animal-childbirths-use-cases'
 
@@ -13,7 +13,7 @@ export function makeRemoteGetAnimalChildbirthUseCase(): GetAnimalChildbirthUseCa
     'properties/:propertyId/animals/:animalId/childbirths',
     makeApiHttpClient<
       AnimalChildbirthDetailsModel,
-      AnimalChildbirthDetailsApiResponse
+      AnimalChildbirthApiResponse
     >()
   )
 }

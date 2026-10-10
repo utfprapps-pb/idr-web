@@ -17,6 +17,8 @@ export const animalChildbirthFormSchema = z.object({
       message: 'Raça é obrigatória',
     }
   ),
+  // Opcional: `value: ''` quando o bezerro não faz parte do rebanho.
+  calf: optionStringSchema,
 })
 
 export type AnimalChildbirthFormSchema = z.infer<

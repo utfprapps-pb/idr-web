@@ -3,9 +3,9 @@ import type { RequestInterface } from '@/core/domain/types'
 
 export type GetAnimalDeathUseCase = RequestInterface<
   {
-    propertyId: number
-    animalId: number
-    id: number
+    propertyId: string
+    animalId: string
+    id: string
   },
   AnimalDeathDetailsModel
 >
