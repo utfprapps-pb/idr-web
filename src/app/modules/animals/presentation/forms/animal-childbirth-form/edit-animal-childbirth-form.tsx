@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
-import { floatMask } from '@/core/masker'
 import {
   Button,
   Form,
@@ -47,12 +46,7 @@ export function EditAnimalChildbirthForm() {
 
   const form = useHookForm<AnimalChildbirthFormSchema>({
     defaultValues: ANIMAL_CHILDBIRTH_INITIAL_FORM_DATA,
-    ...(animalChildbirth && {
-      values: {
-        ...animalChildbirth,
-        weight: floatMask(animalChildbirth.weight, 'kg'),
-      },
-    }),
+    ...(animalChildbirth && { values: animalChildbirth }),
     resolver: zodResolver(animalChildbirthFormSchema),
   })
 

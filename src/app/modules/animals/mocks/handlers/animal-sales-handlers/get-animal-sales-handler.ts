@@ -7,18 +7,7 @@ import { parseSearchParams, toSearchResponse } from '@/core/mocks/utils'
 
 import animalSalesData from '@database/animalSalesData.json'
 
-// Backend real fala em português — o seed/fixture local está em inglês,
-// então traduzimos aqui para simular o contrato real.
-const REASON_TO_BACKEND: Record<string, string> = {
-  VOLUNTARY: 'VOLUNTARIA',
-  DISCARD: 'DESCARTE',
-  EMERGENCY: 'EMERGENCIA',
-}
-
-const DESTINATION_TO_BACKEND: Record<string, string> = {
-  SLAUGHTER: 'ABATE',
-  PRODUCTION: 'PRODUCAO',
-}
+import { toAnimalSaleApiResponse } from '../../utils/to-animal-sale-api-response'
 
 export const getAnimalSalesHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId'>,
@@ -28,17 +17,12 @@ export const getAnimalSalesHandler = httpWithMiddleware<
   routePath: '/api/properties/:propertyId/animals/:animalId/sales/search',
   method: 'get',
   middlewares: [withDelay(), withAuth],
-  resolver: async ({ request }) => {
+  resolver: async ({ request, params }) => {
     const search = parseSearchParams(request)
 
-    const animalSales = animalSalesData.map((item) => ({
-      id: item.id,
-      dateSale: item.date,
-      value: Number(item.price),
-      weight: Number(item.weight),
-      destination: DESTINATION_TO_BACKEND[item.destination] ?? item.destination,
-      reason: REASON_TO_BACKEND[item.reason] ?? item.reason,
-    }))
+    const animalSales = animalSalesData.map((sale) =>
+      toAnimalSaleApiResponse(sale, String(params.animalId))
+    )
 
     return HttpResponse.json(toSearchResponse(animalSales, search), {
       status: HttpStatusCode.ok,

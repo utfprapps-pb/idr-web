@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import toast from 'react-hot-toast'
 
-import { moneyMask, floatMask } from '@/core/masker'
+import { moneyMask } from '@/core/masker'
 import {
   Button,
   Form,
@@ -51,7 +51,6 @@ export function EditAnimalPurchaseForm() {
       values: {
         ...animalPurchase,
         price: moneyMask(animalPurchase.price),
-        weight: floatMask(animalPurchase.weight, 'kg'),
       },
     }),
     resolver: zodResolver(animalPurchaseFormSchema),

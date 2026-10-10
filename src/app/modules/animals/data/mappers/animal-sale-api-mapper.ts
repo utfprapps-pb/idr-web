@@ -34,7 +34,7 @@ const REASON_TO_FRONTEND: Record<BackendReason, AnimalSaleReason> = {
   EMERGENCIA: 'EMERGENCY',
 }
 
-const REASON_TO_BACKEND: Record<AnimalSaleReason, BackendReason> = {
+export const REASON_TO_BACKEND: Record<AnimalSaleReason, BackendReason> = {
   VOLUNTARY: 'VOLUNTARIA',
   DISCARD: 'DESCARTE',
   EMERGENCY: 'EMERGENCIA',
@@ -48,7 +48,7 @@ const DESTINATION_TO_FRONTEND: Record<
   PRODUCAO: 'PRODUCTION',
 }
 
-const DESTINATION_TO_BACKEND: Record<
+export const DESTINATION_TO_BACKEND: Record<
   AnimalSaleDestination,
   BackendDestination
 > = {

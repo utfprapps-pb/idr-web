@@ -6,6 +6,8 @@ import { withDelay, withAuth } from '@/core/mocks/middleware'
 
 import animalSalesData from '@database/animalSalesData.json'
 
+import { toAnimalSaleApiResponse } from '../../utils/to-animal-sale-api-response'
+
 import type { AnimalSaleApiResponse } from '../../../domain/models/animal-sales-model'
 
 export const getAnimalSaleHandler = httpWithMiddleware<
@@ -34,15 +36,7 @@ export const getAnimalSaleHandler = httpWithMiddleware<
     }
 
     return HttpResponse.json(
-      {
-        id: animalSaleFound.id,
-        animalId: String(params.animalId),
-        weight: Number(animalSaleFound.weight),
-        dateSale: animalSaleFound.date,
-        reason: animalSaleFound.reason,
-        destination: animalSaleFound.destination,
-        value: Number(animalSaleFound.price),
-      },
+      toAnimalSaleApiResponse(animalSaleFound, String(params.animalId)),
       { status: HttpStatusCode.ok }
     )
   },

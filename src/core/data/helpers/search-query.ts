@@ -1,19 +1,31 @@
+import { toLocalDate } from './local-date'
+
 import type { Filters, ListParams } from '@/core/domain/types'
 
+function hasValue(value: unknown): boolean {
+  if (value === undefined || value === null || value === '') return false
+  if (Array.isArray(value)) return value.length > 0
+
+  return true
+}
+
+/**
+ * A rota `/search` aceita um único `terms`: usa o primeiro filtro preenchido.
+ */
 export function resolveTerms<TModel>(
   filters?: Filters<TModel>
 ): string | undefined {
   if (!filters) return undefined
 
-  const filterEntry = Object.values(filters).find(
-    (filter) => filter !== undefined
-  ) as { value: unknown } | undefined
+  const filterEntry = (
+    Object.values(filters) as ({ value: unknown } | undefined)[]
+  ).find((filter) => filter !== undefined && hasValue(filter.value))
 
   if (!filterEntry) return undefined
 
   const { value } = filterEntry
 
-  if (value instanceof Date) return value.toISOString()
+  if (value instanceof Date) return toLocalDate(value)
   if (Array.isArray(value)) return value.map(String).join(',')
 
   return String(value)
