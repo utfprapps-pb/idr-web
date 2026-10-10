@@ -7,14 +7,7 @@ import { parseSearchParams, toSearchResponse } from '@/core/mocks/utils'
 
 import animalsData from '@database/animalsData.json'
 
-/** Formato real do `ListAnimalOutput`: `breedId` plano (UUID), sem objeto `breed` aninhado. */
-type AnimalListApiResponse = {
-  id: string
-  identifier: string
-  breedId: string
-  currentWeight: number | null
-  ecc: number | null
-}
+import { toAnimalApiResponse } from '../utils/to-animal-api-response'
 
 export const getAnimalsHandler = httpWithMiddleware<
   PathParams<'propertyId'>,
@@ -24,9 +17,11 @@ export const getAnimalsHandler = httpWithMiddleware<
   routePath: '/api/properties/:propertyId/animals/search',
   method: 'get',
   middlewares: [withDelay(), withAuth],
-  resolver: async ({ request }) => {
+  resolver: async ({ request, params }) => {
     const search = parseSearchParams(request)
-    const animals = animalsData as AnimalListApiResponse[]
+    const animals = animalsData.map((animal) =>
+      toAnimalApiResponse(animal, String(params.propertyId))
+    )
 
     return HttpResponse.json(
       toSearchResponse(animals, search, (animal, terms) =>

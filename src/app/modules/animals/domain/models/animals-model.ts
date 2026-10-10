@@ -17,6 +17,24 @@ export type AnimalModel = {
   milkProduction: string
 }
 
+/** Formato real da API (`GetAnimalByIdOutput` = `ListAnimalOutput`), usado no GET e em cada item da busca. */
+export type AnimalApiResponse = {
+  id: string
+  propertyId: string
+  animalMotherId: string | null
+  breedId: string
+  breedName: string | null
+  type: string | null
+  identifier: string
+  gender: string | null
+  bornCondition: string | null
+  bornDate: string | null
+  bornWeight: number | null
+  previousWeight: number | null
+  currentWeight: number | null
+  ecc: number | null
+}
+
 export type AnimalWriteApiRequest = {
   propertyId: string
   identifier: string

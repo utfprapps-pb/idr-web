@@ -1,16 +1,16 @@
 import { makeApiHttpClient } from '@/core/main/factories/http'
 
-import {
-  RemoteGetAnimalUseCase,
-  type AnimalGetApiResponse,
-} from '../../../data/use-cases/remote-get-animal-use-case'
+import { RemoteGetAnimalUseCase } from '../../../data/use-cases/remote-get-animal-use-case'
 
-import type { AnimalDetailsModel } from '../../../domain/models/animals-model'
+import type {
+  AnimalApiResponse,
+  AnimalDetailsModel,
+} from '../../../domain/models/animals-model'
 import type { GetAnimalUseCase } from '../../../domain/use-cases'
 
 export function makeRemoteGetAnimalUseCase(): GetAnimalUseCase {
   return new RemoteGetAnimalUseCase(
     'properties/:propertyId/animals',
-    makeApiHttpClient<AnimalDetailsModel, AnimalGetApiResponse>()
+    makeApiHttpClient<AnimalDetailsModel, AnimalApiResponse>()
   )
 }
