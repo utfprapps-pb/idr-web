@@ -67,6 +67,7 @@ export function EditAnimalMastitisForm() {
         await mutateHandleUpdateAnimalMastitis({
           animalMastitis: {
             ...data,
+            cmtResult: animalMastitis?.cmtResult,
             id: selectedAnimalMastitis.id,
           },
           animalId,
@@ -85,6 +86,7 @@ export function EditAnimalMastitisForm() {
     },
     [
       animalId,
+      animalMastitis?.cmtResult,
       closeEditAnimalMastitisForm,
       form,
       mutateHandleUpdateAnimalMastitis,

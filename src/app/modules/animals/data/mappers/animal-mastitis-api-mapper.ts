@@ -7,8 +7,8 @@ import type {
 /**
  * Real backend fields: `diagnoseDate` (frontend: `date`), `mastitisType`
  * (frontend: `type`); `ad`/`ae`/`pd`/`pe` passthrough (mesmo nome).
- * `cmtResult` existe no backend mas não tem campo correspondente no
- * frontend — não é enviado/lido nesta entrega (decisão de escopo).
+ * `cmtResult` não aparece na tela, mas é lido e reenviado: o update é um
+ * PUT (substituição completa) e omiti-lo apagaria o valor salvo.
  */
 
 export type AnimalMastitisApiRequest = {
@@ -18,6 +18,7 @@ export type AnimalMastitisApiRequest = {
   ae: AnimalMastitisCmtResults
   pd: AnimalMastitisCmtResults
   pe: AnimalMastitisCmtResults
+  cmtResult?: string | null
 }
 
 export type AnimalMastitisApiRecord = {
@@ -27,7 +28,7 @@ export type AnimalMastitisApiRecord = {
   ae: string
   pd: string
   pe: string
-  cmtResult?: string
+  cmtResult?: string | null
 }
 
 export function toApi(
@@ -40,6 +41,7 @@ export function toApi(
     ae: model.ae,
     pd: model.pd,
     pe: model.pe,
+    cmtResult: model.cmtResult,
   }
 }
 
@@ -53,5 +55,6 @@ export function fromApi(
     ae: record.ae as AnimalMastitisCmtResults,
     pd: record.pd as AnimalMastitisCmtResults,
     pe: record.pe as AnimalMastitisCmtResults,
+    cmtResult: record.cmtResult,
   }
 }

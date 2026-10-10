@@ -13,6 +13,8 @@ export type AnimalMastitisDetailsModel = {
   ae: AnimalMastitisCmtResults
   pd: AnimalMastitisCmtResults
   pe: AnimalMastitisCmtResults
+  /** Sem campo na tela; guardado do GET e reenviado no PUT para não ser apagado. */
+  cmtResult?: string | null
 }
 
 export type AnimalMastitisDetailsApiResponse = {
@@ -22,6 +24,7 @@ export type AnimalMastitisDetailsApiResponse = {
   ae: string
   pd: string
   pe: string
+  cmtResult?: string | null
 }
 
 export type AnimalMastitisModel = {
