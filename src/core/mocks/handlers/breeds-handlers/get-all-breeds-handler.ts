@@ -1,66 +1,65 @@
-import { HttpResponse } from 'msw'
+import { HttpResponse, type PathParams } from 'msw'
 
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
-import { filterData } from '@/core/mocks/utils'
+import { paginateData, sortData } from '@/core/mocks/utils'
 
 import allBreedsData from '@database/allBreedsData.json'
 
-import type { MockParams } from '../../types/mock-params-type'
-import type { MockResponse } from '../../types/mock-response-type'
 import type { BreedApiResponse } from '@/core/domain/models/breeds-model'
 
-export const getAllBreedsHandler = httpWithMiddleware<
-  never,
-  MockParams<BreedApiResponse>,
-  MockResponse<BreedApiResponse[]>
->({
-  routePath: '/api/breeds/search',
-  method: 'post',
-  middlewares: [withDelay(), withAuth],
-  resolver: async ({ request }) => {
-    const { filters, rows } = await request.json()
+export type BreedSearchApiResponse = {
+  currentPage: number
+  perPage: number
+  total: number
+  items: BreedApiResponse[]
+}
 
-    if (!allBreedsData.length) {
-      return HttpResponse.json(
-        {
-          content: [],
-          numberOfElements: 0,
-          pageable: {
-            pageSize: 0,
+export const getAllBreedsHandler = httpWithMiddleware<PathParams, never, never>(
+  {
+    routePath: '/api/breeds/search',
+    method: 'get',
+    middlewares: [withDelay(), withAuth],
+    resolver: async ({ request }) => {
+      const url = new URL(request.url)
+      const terms = url.searchParams.get('terms') ?? ''
+      const page = Number(url.searchParams.get('page') ?? 0)
+      const perPage = Number(url.searchParams.get('perPage') ?? 10)
+      const sort = url.searchParams.get('sort')
+      const direction = url.searchParams.get('direction') ?? 'asc'
+
+      let breeds: BreedApiResponse[] = allBreedsData
+
+      if (terms) {
+        breeds = breeds.filter((item) =>
+          Object.values(item).some((value) =>
+            String(value).toLowerCase().includes(terms.toLowerCase())
+          )
+        )
+      }
+
+      if (sort) {
+        breeds = sortData(
+          {
+            field: sort as keyof BreedApiResponse,
+            type: direction as 'asc' | 'desc',
           },
-        },
-        {
-          status: 404,
-        }
-      )
-    }
+          breeds
+        )
+      }
 
-    if (filters) {
-      const breeds = filterData<BreedApiResponse>(filters, allBreedsData)
+      const total = breeds.length
+      const items = paginateData({ page, perPage }, breeds)
 
-      return HttpResponse.json(
-        {
-          content: breeds,
-          numberOfElements: breeds.length,
-          pageable: {
-            pageSize: rows,
-          },
-        },
-        { status: HttpStatusCode.ok }
-      )
-    }
+      const response: BreedSearchApiResponse = {
+        currentPage: page,
+        perPage,
+        total,
+        items,
+      }
 
-    return HttpResponse.json(
-      {
-        content: allBreedsData,
-        numberOfElements: allBreedsData.length,
-        pageable: {
-          pageSize: rows,
-        },
-      },
-      { status: HttpStatusCode.ok }
-    )
-  },
-})
+      return HttpResponse.json(response, { status: HttpStatusCode.ok })
+    },
+  }
+)
