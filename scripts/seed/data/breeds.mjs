@@ -7,8 +7,8 @@ export const allBreedsData = Array.from(
       max: 150,
     }),
   },
-  (_, index) => ({
-    id: index + 1,
+  () => ({
+    id: faker.string.uuid(),
     breedName: faker.animal.cow(),
   })
 )

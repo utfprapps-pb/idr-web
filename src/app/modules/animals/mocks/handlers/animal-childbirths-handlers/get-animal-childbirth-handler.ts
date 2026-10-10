@@ -42,7 +42,7 @@ export const getAnimalChildbirthHandler = httpWithMiddleware<
         condition: animalChildbirthFound.condition,
         breed: {
           label: animalChildbirthFound.breed,
-          value: faker.number.int({ min: 1, max: 1000 }),
+          value: faker.string.uuid(),
         },
       },
       { status: HttpStatusCode.ok }

@@ -97,7 +97,7 @@ export class RemoteGetAnimalsUseCase implements GetAnimalsUseCase {
           name: item.identifier,
           breed: fromApi(
             item.breedId,
-            Array.isArray(breeds) ? (breeds as Option<number>[]) : []
+            Array.isArray(breeds) ? (breeds as Option<string>[]) : []
           ).label,
           weight: item.currentWeight != null ? String(item.currentWeight) : '',
           ecc: item.ecc != null ? String(item.ecc) : '',

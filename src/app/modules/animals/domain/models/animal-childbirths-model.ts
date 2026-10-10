@@ -9,7 +9,7 @@ export type AnimalChildbirthDetailsModel = {
   gender: AnimalChildbirthGender
   weight: string
   condition: AnimalChildbirthCondition
-  breed: Option
+  breed: Option<string>
 }
 
 export type AnimalChildbirthDetailsApiResponse = {
@@ -17,7 +17,7 @@ export type AnimalChildbirthDetailsApiResponse = {
   gender: string
   weight: string
   condition: string
-  breed: Option
+  breed: Option<string>
 }
 
 export type AnimalChildbirthModel = WithId<{

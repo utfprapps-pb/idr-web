@@ -23,7 +23,7 @@ export class RemoteUpdateAnimalUseCase implements UpdateAnimalUseCase {
     const body: AnimalWriteApiRequest = {
       propertyId,
       identifier: animal.name,
-      breedId: String(animal.breed.value),
+      breedId: animal.breed.value,
     }
 
     const { statusCode } = await this.httpClient.request({

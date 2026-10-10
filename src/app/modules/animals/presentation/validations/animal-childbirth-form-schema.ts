@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { optionSchema } from '@/core/validation/schemas'
+import { optionStringSchema } from '@/core/validation/schemas'
 
 export const animalChildbirthFormSchema = z.object({
   date: z.date().max(new Date(), { message: 'Data inválida' }),
@@ -11,9 +11,12 @@ export const animalChildbirthFormSchema = z.object({
   condition: z.enum(['ALIVE', 'DEAD'], {
     message: 'Campo obrigatório',
   }),
-  breed: optionSchema.refine(({ label, value }) => label !== '' && value > 0, {
-    message: 'Raça é obrigatória',
-  }),
+  breed: optionStringSchema.refine(
+    ({ label, value }) => label !== '' && value !== '',
+    {
+      message: 'Raça é obrigatória',
+    }
+  ),
 })
 
 export type AnimalChildbirthFormSchema = z.infer<

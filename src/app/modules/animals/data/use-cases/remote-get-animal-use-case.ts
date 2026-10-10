@@ -11,11 +11,11 @@ import type { AnimalDetailsModel } from '../../domain/models/animals-model'
 import type { GetAnimalUseCase } from '../../domain/use-cases'
 import type { Option } from '@/core/domain/types'
 
-/** Formato real do `GetAnimalByIdOutput`: `breedId` plano, sem objeto `breed` aninhado. */
+/** Formato real do `GetAnimalByIdOutput`: `breedId` plano (UUID), sem objeto `breed` aninhado. */
 export type AnimalGetApiResponse = {
   id: string
   identifier: string
-  breedId: number
+  breedId: string
   currentWeight: number | null
   ecc: number | null
 }
@@ -45,7 +45,7 @@ export class RemoteGetAnimalUseCase implements GetAnimalUseCase {
         name: body.identifier,
         breed: fromApi(
           body.breedId,
-          Array.isArray(breeds) ? (breeds as Option<number>[]) : []
+          Array.isArray(breeds) ? (breeds as Option<string>[]) : []
         ),
         ecc: body.ecc != null ? String(body.ecc) : '',
         weight: body.currentWeight != null ? String(body.currentWeight) : '',

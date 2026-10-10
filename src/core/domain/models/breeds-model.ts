@@ -1,9 +1,9 @@
-import type { WithId } from '../types'
-
-export type BreedModel = WithId<{
+export type BreedModel = {
+  id: string
   name: string
-}>
+}
 
-export type BreedApiResponse = WithId<{
+export type BreedApiResponse = {
+  id: string
   breedName: string
-}>
+}
