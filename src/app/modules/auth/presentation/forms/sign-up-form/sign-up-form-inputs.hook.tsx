@@ -4,9 +4,13 @@ import { Mail, EyeOff, Eye } from 'lucide-react'
 import { useFormContext } from 'react-hook-form'
 
 import { cpfMask, onlyNumbersMask, phoneMask, cepMask } from '@/core/masker'
-import { Form, Input } from '@/core/presentation/components/ui'
+import { Combobox, Form, Input } from '@/core/presentation/components/ui'
 import { Grouper } from '@/core/presentation/components/utils'
-import { useCepQuery } from '@/core/presentation/hooks'
+import {
+  useCepQuery,
+  useDebounce,
+  useSearchCitiesQuery,
+} from '@/core/presentation/hooks'
 
 import type {
   SignUpFormFirstStepSchema,
@@ -18,6 +22,9 @@ export function useSignUpFormInputs() {
 
   const [viewPassword, setViewPassword] = useState(false)
   const [viewConfirmPassword, setViewConfirmPassword] = useState(false)
+  const [citySearch, setCitySearch] = useState('')
+
+  const debouncedCitySearch = useDebounce({ value: citySearch })
 
   const form = useFormContext<
     SignUpFormFirstStepSchema & SignUpFormSecondStepSchema
@@ -26,6 +33,9 @@ export function useSignUpFormInputs() {
   const cepForQuery = form.watch('cep')
 
   const { address, isLoading: cepLoading } = useCepQuery(cepForQuery)
+  const { cities, isLoading: isLoadingCities } = useSearchCitiesQuery({
+    terms: debouncedCitySearch,
+  })
 
   const inputDataFirstStep = [
     <Grouper key="grouper-name-email">
@@ -296,24 +306,28 @@ export function useSignUpFormInputs() {
         }}
       />
     </Grouper>,
-    <Grouper key="grouper-city-state">
+    <Grouper key="grouper-city-house">
       <Form.Field
-        key="city"
-        name="city"
+        key="cityId"
+        name="cityId"
         control={form.control}
-        render={({ field, formState }) => {
-          const { city } = formState.errors
+        render={({ field, fieldState }) => {
+          const { error } = fieldState
 
           return (
             <Form.Item>
-              <Form.Label>Cidade *</Form.Label>
+              <Form.Label>Município *</Form.Label>
               <Form.Control>
-                <Input
-                  {...field}
-                  isError={!!city?.message}
-                  placeholder="Digite sua cidade"
-                  disabled={cepLoading}
-                  loading={cepLoading}
+                <Combobox<string>
+                  search={citySearch}
+                  items={cities}
+                  loading={isLoadingCities}
+                  selected={field.value}
+                  handleSearch={(value) => setCitySearch(value)}
+                  handleSelect={(selected) => field.onChange(selected)}
+                  isError={!!error}
+                  placeholder="Selecione um município"
+                  searchPlaceholder="Buscar município"
                 />
               </Form.Control>
               <Form.Message />
@@ -344,11 +358,6 @@ export function useSignUpFormInputs() {
     cepRef.current = cepForQuery
 
     form.setValue('street', address.street, {
-      shouldDirty: true,
-      shouldValidate: true,
-      shouldTouch: true,
-    })
-    form.setValue('city', address.city, {
       shouldDirty: true,
       shouldValidate: true,
       shouldTouch: true,

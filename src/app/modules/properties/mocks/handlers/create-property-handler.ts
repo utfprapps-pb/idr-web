@@ -14,6 +14,5 @@ export const createPropertyHandler = httpWithMiddleware<
   routePath: '/api/properties',
   method: 'post',
   middlewares: [withDelay(), withAuth],
-  resolver: async () =>
-    HttpResponse.json({}, { status: HttpStatusCode.created }),
+  resolver: async () => HttpResponse.json({}, { status: HttpStatusCode.ok }),
 })

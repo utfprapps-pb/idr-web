@@ -7,35 +7,20 @@ import { usePropertyDataTable } from './property-data-table.hook'
 import type { PropertyModel } from '../../../domain/models/properties-model'
 
 export function PropertyDataTable() {
-  const {
-    columns,
-    properties,
-    isLoading,
-    filters,
-    page,
-    sort,
-    setFilters,
-    setSort,
-    setPage,
-  } = usePropertyDataTable()
+  const { columns, properties, isLoading, filters, page, setFilters, setPage } =
+    usePropertyDataTable()
 
   const { navigate } = useIdrNavigate()
 
   return (
     <div className="flex flex-col gap-4">
       <Input
-        value={filters.producer?.value ?? ''}
+        value={filters.terms ?? ''}
         className="w-fit"
         onChange={({ target }) => {
-          setFilters((prevState) => ({
-            ...prevState,
-            producer: {
-              value: target.value,
-              type: 'LIKE',
-            },
-          }))
+          setFilters({ terms: target.value })
         }}
-        placeholder="Procurar por produtor"
+        placeholder="Procurar por propriedade"
       />
 
       <DataTable<PropertyModel>
@@ -49,7 +34,6 @@ export function PropertyDataTable() {
                 propertyId: row.id,
               },
               query: {
-                producer: row.producer,
                 property: row.name,
               },
             })
@@ -58,10 +42,6 @@ export function PropertyDataTable() {
         pagination={{
           currentPage: page,
           onPageChange: setPage,
-        }}
-        sorting={{
-          currentSorting: sort,
-          onSorting: setSort,
         }}
         loading={isLoading}
       />

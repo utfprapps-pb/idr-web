@@ -37,14 +37,16 @@ export const getInputUseProductsHandler = httpWithMiddleware<
       )
     }
 
-    let inputUseProducts = inputUseProductsData.map((product) => {
-      return {
-        id: product.id,
-        name: product.name,
-        category: product.category,
-        activeIngredient: product.activeIngredient,
+    let inputUseProducts = inputUseProductsData.map(
+      (product: InputUseProductApiResponse) => {
+        return {
+          id: product.id,
+          name: product.name,
+          category: product.category,
+          activeIngredient: product.activeIngredient,
+        }
       }
-    })
+    )
 
     if (filters) {
       inputUseProducts = filterData<InputUseProductApiResponse>(

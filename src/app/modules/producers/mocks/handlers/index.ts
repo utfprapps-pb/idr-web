@@ -1,0 +1,6 @@
+export * from './create-producer-handler'
+export * from './delete-producer-handler'
+export * from './get-producer-handler'
+export * from './get-producers-handler'
+export * from './update-producer-handler'
+export * from './search-producers-handler'

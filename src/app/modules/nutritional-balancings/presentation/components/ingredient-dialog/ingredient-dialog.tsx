@@ -83,7 +83,7 @@ export function IngredientDialog({
                   <Form.Item>
                     <Form.Label>Ingrediente*</Form.Label>
                     <Form.Control>
-                      <Combobox<IngredientExtraData>
+                      <Combobox<number, IngredientExtraData>
                         search={searchIngredient}
                         items={allGeneralCultivations}
                         loading={isLoading}

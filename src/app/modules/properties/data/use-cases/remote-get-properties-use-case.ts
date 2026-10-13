@@ -5,57 +5,51 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
-import type {
-  PropertyApiResponse,
-  PropertyModel,
-} from '../../domain/models/properties-model'
+import type { PropertyApiResponse } from '../../domain/models/properties-model'
 import type { GetPropertiesUseCase } from '../../domain/use-cases'
-import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
+
+type PropertySearchApiResponse = {
+  currentPage: number
+  perPage: number
+  total: number
+  items: PropertyApiResponse[]
+}
 
 export class RemoteGetPropertiesUseCase implements GetPropertiesUseCase {
   constructor(
     private readonly url: string,
     private readonly httpClient: HttpClient<
-      PropertyModel,
-      PropertyApiResponse,
-      ListApiResponse<PropertyApiResponse[]>
+      unknown,
+      unknown,
+      PropertySearchApiResponse
     >
   ) {}
 
   execute: GetPropertiesUseCase['execute'] = async ({
-    filters,
-    pagination,
-    sort,
+    terms = '',
+    page = 0,
+    perPage = 10,
   }) => {
-    const mapApiProperties: MapApiProperties<
-      PropertyModel,
-      PropertyApiResponse
-    > = {
-      producer: 'user.displayName',
-      name: 'name',
-    }
+    const params = new URLSearchParams({
+      terms,
+      page: String(page),
+      perPage: String(perPage),
+      sort: 'name',
+      direction: 'asc',
+    })
 
     const { statusCode, body } = await this.httpClient.request({
-      url: `${this.url}/search`,
-      method: 'post',
-      filters,
-      pagination,
-      sort,
-      mapApiProperties,
+      url: `${this.url}/search?${params.toString()}`,
+      method: 'get',
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        resources: body.content.map((item) => ({
+        resources: body.items.map((item) => ({
           id: item.id,
-          name: 'MOCKADO - SEM RETORNO DA API', // todo: remove mock
-          producer: item.user.displayName,
-          county: {
-            city: 'MOCKADO - SEM RETORNO DA API', // todo: remove mock
-            state: 'MOCKADO - SEM RETORNO DA API', // todo: remove mock
-          },
+          name: item.name,
         })),
-        totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
+        totalPages: body.total > 0 ? Math.ceil(body.total / perPage) : 1,
       }
     }
 

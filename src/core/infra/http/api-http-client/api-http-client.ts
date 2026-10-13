@@ -8,6 +8,7 @@ import {
 import { env } from '@/core/env'
 
 import { authInterceptorRequest } from './interceptors/auth-interceptor'
+import { createAuthRefreshInterceptor } from './interceptors/auth-refresh-interceptor'
 
 import type { ApiSort, NestedKeyOf } from '@/core/domain/types'
 
@@ -28,6 +29,10 @@ export const baseApi = axios.create({
   validateStatus: (status: number) => status >= 200 && status < 300,
 })
 baseApi.interceptors.request.use(authInterceptorRequest)
+baseApi.interceptors.response.use(
+  (response) => response,
+  createAuthRefreshInterceptor(baseApi)
+)
 
 export class ApiHttpClient<
   TModel = unknown,
@@ -103,25 +108,30 @@ export class ApiHttpClient<
           }
         : undefined
 
+    const isFormData = data.body instanceof FormData
+
     try {
       axiosResponse = await baseApi.request({
         ...data,
         url,
-        data: {
-          ...(typeof data.body === 'object' && data.body !== null
-            ? data.body
-            : {}),
-          ...(pagination
-            ? {
-                page: pagination.page - 1,
-                rows: pagination.perPage ?? ITEMS_PER_PAGE,
-              }
-            : {}),
-          ...(sortInfo ? { sort: sortInfo } : {}),
-          ...(filtersArray && filtersArray.length > 0
-            ? { filters: filtersArray }
-            : {}),
-        },
+        ...(isFormData ? { headers: { 'Content-Type': undefined } } : {}),
+        data: isFormData
+          ? data.body
+          : {
+              ...(typeof data.body === 'object' && data.body !== null
+                ? data.body
+                : {}),
+              ...(pagination
+                ? {
+                    page: pagination.page - 1,
+                    rows: pagination.perPage ?? ITEMS_PER_PAGE,
+                  }
+                : {}),
+              ...(sortInfo ? { sort: sortInfo } : {}),
+              ...(filtersArray && filtersArray.length > 0
+                ? { filters: filtersArray }
+                : {}),
+            },
       })
     } catch (error: unknown) {
       if (error instanceof Error) {

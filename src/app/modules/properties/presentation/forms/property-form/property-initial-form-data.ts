@@ -3,9 +3,8 @@ import type { PropertyFormSchema } from '../../validations/property-form-schema'
 export const PROPERTY_INITIAL_FORM_DATA: PropertyFormSchema = {
   general: {
     name: '',
-    producer: '',
-    state: '',
-    city: '',
+    producerId: { label: '', value: '' },
+    cityId: { label: '', value: '' },
     nakedAveragePricePerHectare: '',
     leaseAveragePricePerHectare: '',
     responsibleTechnicians: [],

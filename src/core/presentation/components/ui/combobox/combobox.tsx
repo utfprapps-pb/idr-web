@@ -12,6 +12,7 @@ import { Popover } from '../popover'
 import type { Option } from '@/core/domain/types'
 
 export type ComboboxProps<
+  TValue extends string | number = number,
   TExtraData extends Record<PropertyKey, unknown> = Record<
     PropertyKey,
     unknown
@@ -19,9 +20,9 @@ export type ComboboxProps<
 > = {
   search: string
   handleSearch: (search: string) => void
-  items: Option<number, TExtraData>[]
-  selected: Option<number, TExtraData>
-  handleSelect: (item: Option<number, TExtraData>) => void
+  items: Option<TValue, TExtraData>[]
+  selected?: Option<TValue, TExtraData>
+  handleSelect: (item: Option<TValue, TExtraData>) => void
   placeholder?: string
   searchPlaceholder?: string
   emptyMessage?: string
@@ -32,6 +33,7 @@ export type ComboboxProps<
 }
 
 export function Combobox<
+  TValue extends string | number = number,
   TExtraData extends Record<PropertyKey, unknown> = Record<
     PropertyKey,
     unknown
@@ -49,7 +51,7 @@ export function Combobox<
   isError = false,
   disabled = false,
   className,
-}: Readonly<ComboboxProps<TExtraData>>) {
+}: Readonly<ComboboxProps<TValue, TExtraData>>) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -94,7 +96,7 @@ export function Combobox<
               <Command.Group>
                 {items.map((item) => (
                   <Command.Item
-                    key={item.value}
+                    key={String(item.value)}
                     value={String(item.value)}
                     onSelect={(currentValue) => {
                       const selectedItem = items.find(
@@ -110,7 +112,7 @@ export function Combobox<
                     <Check
                       className={cn(
                         'mr-2 h-4 w-4',
-                        selected.value === item.value
+                        selected?.value === item.value
                           ? 'opacity-100'
                           : 'opacity-0'
                       )}

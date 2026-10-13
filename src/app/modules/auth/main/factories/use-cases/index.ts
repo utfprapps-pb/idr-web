@@ -1,2 +1,5 @@
 export * from './remote-create-user-use-case-factory'
 export * from './remote-login-use-case-factory'
+export * from './remote-request-password-recovery-use-case-factory'
+export * from './remote-validate-password-recovery-code-use-case-factory'
+export * from './remote-reset-password-use-case-factory'

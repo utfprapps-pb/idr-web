@@ -1,2 +1,6 @@
 export { fileTypeSchema } from './file-type-schema'
-export { optionSchema, createOptionSchemaWithExtraData } from './option-schema'
+export {
+  optionSchema,
+  optionStringSchema,
+  createOptionSchemaWithExtraData,
+} from './option-schema'

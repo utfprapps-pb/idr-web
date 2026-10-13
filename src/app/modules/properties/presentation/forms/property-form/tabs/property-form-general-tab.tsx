@@ -1,8 +1,9 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { PlusIcon, Trash2Icon } from 'lucide-react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 
+import { getPendingEntitiesByType } from '@/core/lib/offline'
 import { moneyMask } from '@/core/masker'
 import {
   Button,
@@ -11,11 +12,18 @@ import {
   Input,
   Label,
 } from '@/core/presentation/components/ui'
-import { useAllUsersQuery, useDebounce } from '@/core/presentation/hooks'
+import {
+  useDebounce,
+  useReferenceData,
+  useSearchCitiesQuery,
+} from '@/core/presentation/hooks'
 
-import { PropertyFormSchema } from '../../../validations/property-form-schema'
+import { usePropertyProducersQuery } from '../../../hooks/queries/property-producers-query.hook'
+import { usePropertyUsersQuery } from '../../../hooks/queries/property-users-query.hook'
 
+import type { PropertyFormSchema } from '../../../validations/property-form-schema'
 import type { Option } from '@/core/domain/types'
+import type { PendingEntityRecord } from '@/core/lib/offline/types'
 
 export function PropertyFormGeneralTab() {
   const form = useFormContext<PropertyFormSchema>()
@@ -30,25 +38,83 @@ export function PropertyFormGeneralTab() {
     control: form.control,
   })
 
-  const [search, setSearch] = useState('')
-  const debouncedSearch = useDebounce({ value: search })
+  const [technicianSearch, setTechnicianSearch] = useState('')
+  const debouncedTechnicianSearch = useDebounce({ value: technicianSearch })
 
-  const { allUsers, isLoading } = useAllUsersQuery({
-    filters: {
-      name: {
-        value: debouncedSearch,
-        type: 'LIKE',
-      },
-    },
-  })
+  const [producerSearch, setProducerSearch] = useState('')
+  const debouncedProducerSearch = useDebounce({ value: producerSearch })
 
-  const usersToAdd: Option[] = useMemo(
+  const [citySearch, setCitySearch] = useState('')
+  const debouncedCitySearch = useDebounce({ value: citySearch })
+
+  const {
+    isOnline,
+    cities: offlineCities,
+    producers: offlineReferenceProducers,
+  } = useReferenceData()
+
+  const [pendingProducers, setPendingProducers] = useState<
+    PendingEntityRecord[]
+  >([])
+
+  useEffect(() => {
+    if (!isOnline) {
+      getPendingEntitiesByType('PRODUCER').then(setPendingProducers)
+    }
+  }, [isOnline])
+
+  const { producers: onlineProducers, isLoading: isLoadingProducers } =
+    usePropertyProducersQuery({ terms: debouncedProducerSearch })
+
+  const { cities: onlineCities, isLoading: isLoadingCities } =
+    useSearchCitiesQuery({
+      terms: debouncedCitySearch,
+    })
+
+  const { users: allUsers, isLoading: isLoadingTechnicians } =
+    usePropertyUsersQuery({ terms: debouncedTechnicianSearch })
+
+  const cityOptions: Option<string>[] = useMemo(() => {
+    if (isOnline) return onlineCities
+    const search = debouncedCitySearch.toLowerCase()
+    return offlineCities
+      .filter((c) => !search || c.name.toLowerCase().includes(search))
+      .map((c) => ({ label: c.name, value: c.id }))
+  }, [isOnline, onlineCities, offlineCities, debouncedCitySearch])
+
+  const producerOptions: Option<string>[] = useMemo(() => {
+    if (isOnline) return onlineProducers
+    const search = debouncedProducerSearch.toLowerCase()
+    const refOpts = offlineReferenceProducers
+      .filter((p) => !search || p.name.toLowerCase().includes(search))
+      .map((p) => ({ label: p.name, value: p.id }))
+    const pendingOpts = pendingProducers
+      .filter(
+        (p) =>
+          !search || (p.data.name as string)?.toLowerCase().includes(search)
+      )
+      .map((p) => ({
+        label: `${p.data.name as string} (local)`,
+        value: p.localId,
+      }))
+    return [...refOpts, ...pendingOpts]
+  }, [
+    isOnline,
+    onlineProducers,
+    offlineReferenceProducers,
+    pendingProducers,
+    debouncedProducerSearch,
+  ])
+
+  const usersToAdd: Option<string>[] = useMemo(
     () =>
       allUsers.filter(
         (user) =>
           !form
             .getValues('general.responsibleTechnicians')
-            .some((technician: Option) => technician.value === user.value)
+            .some(
+              (technician: Option<string>) => technician.value === user.value
+            )
       ),
     [allUsers, form]
   )
@@ -73,41 +139,7 @@ export function PropertyFormGeneralTab() {
         }}
       />
       <Form.Field
-        name="general.city"
-        control={form.control}
-        render={({ field, fieldState }) => {
-          const { error } = fieldState
-
-          return (
-            <Form.Item>
-              <Form.Label>Município</Form.Label>
-              <Form.Control>
-                <Input {...field} isError={!!error?.message} />
-              </Form.Control>
-              <Form.Message />
-            </Form.Item>
-          )
-        }}
-      />
-      <Form.Field
-        name="general.state"
-        control={form.control}
-        render={({ field, fieldState }) => {
-          const { error } = fieldState
-
-          return (
-            <Form.Item>
-              <Form.Label>Estado</Form.Label>
-              <Form.Control>
-                <Input {...field} isError={!!error?.message} />
-              </Form.Control>
-              <Form.Message />
-            </Form.Item>
-          )
-        }}
-      />
-      <Form.Field
-        name="general.producer"
+        name="general.producerId"
         control={form.control}
         render={({ field, fieldState }) => {
           const { error } = fieldState
@@ -116,7 +148,44 @@ export function PropertyFormGeneralTab() {
             <Form.Item>
               <Form.Label>Produtor</Form.Label>
               <Form.Control>
-                <Input {...field} isError={!!error?.message} />
+                <Combobox<string>
+                  search={producerSearch}
+                  items={producerOptions}
+                  loading={isOnline ? isLoadingProducers : false}
+                  selected={field.value}
+                  handleSearch={(value) => setProducerSearch(value)}
+                  handleSelect={(selected) => field.onChange(selected)}
+                  isError={!!error}
+                  placeholder="Selecione um produtor"
+                  searchPlaceholder="Buscar produtor"
+                />
+              </Form.Control>
+              <Form.Message />
+            </Form.Item>
+          )
+        }}
+      />
+      <Form.Field
+        name="general.cityId"
+        control={form.control}
+        render={({ field, fieldState }) => {
+          const { error } = fieldState
+
+          return (
+            <Form.Item>
+              <Form.Label>Município</Form.Label>
+              <Form.Control>
+                <Combobox<string>
+                  search={citySearch}
+                  items={cityOptions}
+                  loading={isOnline ? isLoadingCities : false}
+                  selected={field.value}
+                  handleSearch={(value) => setCitySearch(value)}
+                  handleSelect={(selected) => field.onChange(selected)}
+                  isError={!!error}
+                  placeholder="Selecione um município"
+                  searchPlaceholder="Buscar município"
+                />
               </Form.Control>
               <Form.Message />
             </Form.Item>
@@ -181,13 +250,13 @@ export function PropertyFormGeneralTab() {
 
                       <Form.Control>
                         <div className="flex gap-2">
-                          <Combobox
+                          <Combobox<string>
                             key={technician.value}
-                            search={search}
+                            search={technicianSearch}
                             items={usersToAdd}
-                            loading={isLoading}
+                            loading={isLoadingTechnicians}
                             selected={technician}
-                            handleSearch={(value) => setSearch(value)}
+                            handleSearch={(value) => setTechnicianSearch(value)}
                             handleSelect={(selected) =>
                               handleUpdateTechnician(index, selected)
                             }
@@ -231,7 +300,7 @@ export function PropertyFormGeneralTab() {
           onClick={() =>
             handleAddTechnician({
               label: '',
-              value: 0,
+              value: '',
             })
           }
         >

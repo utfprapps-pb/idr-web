@@ -6,7 +6,7 @@ import toast from 'react-hot-toast'
 import { makeRemoteGetPropertyUseCase } from '../../../main/factories/use-cases'
 
 type Props = {
-  id: number
+  id: string
 }
 
 export function usePropertyQuery({ id }: Props) {

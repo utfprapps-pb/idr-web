@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState, type ReactNode } from 'react'
 
 import { Breadcrumb, ScrollArea, Tabs } from '@/core/presentation/components/ui'
 
+import { CitiesScreen } from '../modules/cities/presentation/screens/cities-screen'
 import { GeneralCultivationDiseasesScreen } from '../modules/general-cultivations/presentation/screens/general-cultivation-diseases-screen'
 import { GeneralCultivationPestsScreen } from '../modules/general-cultivations/presentation/screens/general-cultivation-pests-screen'
 import { GeneralCultivationsScreen } from '../modules/general-cultivations/presentation/screens/general-cultivations-screen'
@@ -9,6 +10,7 @@ import { InputUseActiveIngredientsScreen } from '../modules/input-uses/presentat
 import { InputUseLocationsScreen } from '../modules/input-uses/presentation/screens/input-use-locations-screen'
 import { InputUseProductCategoriesScreen } from '../modules/input-uses/presentation/screens/input-use-product-categories-screen'
 import { InputUseProductsScreen } from '../modules/input-uses/presentation/screens/input-use-products-screen'
+import { RegionsScreen } from '../modules/regions/presentation/screens/regions-screen'
 
 type Tab =
   | {
@@ -49,6 +51,22 @@ export function GeneralRegistrationsPage() {
             key: 'general-cultivation-diseases',
             name: 'Doenças',
             component: <GeneralCultivationDiseasesScreen />,
+          },
+        ],
+      },
+      {
+        key: 'localization',
+        name: 'Localização',
+        subTabs: [
+          {
+            key: 'regions',
+            name: 'Regiões',
+            component: <RegionsScreen />,
+          },
+          {
+            key: 'cities',
+            name: 'Cidades',
+            component: <CitiesScreen />,
           },
         ],
       },

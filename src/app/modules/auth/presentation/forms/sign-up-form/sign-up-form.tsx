@@ -14,7 +14,7 @@ function FormFields({ isFirstStep }: { isFirstStep: boolean }) {
 }
 
 export function SignUpForm() {
-  const { form, isFirstStep, handleCreateUser } = useSignUpForm()
+  const { form, isFirstStep, handleGoBack, handleCreateUser } = useSignUpForm()
 
   return (
     <Form.Provider {...form}>
@@ -25,7 +25,17 @@ export function SignUpForm() {
         <Card.Content className="flex flex-col gap-4 sm:gap-6">
           <FormFields isFirstStep={isFirstStep} />
         </Card.Content>
-        <Card.Footer>
+        <Card.Footer className="flex gap-3">
+          {!isFirstStep && (
+            <Button
+              className="w-full"
+              variant="outline"
+              type="button"
+              onClick={handleGoBack}
+            >
+              Voltar
+            </Button>
+          )}
           <Button
             className="w-full"
             variant={isFirstStep ? 'secondary' : 'default'}

@@ -1,5 +1,6 @@
 import { z } from 'zod'
 
+import { optionStringSchema } from '@/core/validation/schemas'
 import {
   emailValidation,
   passwordValidation,
@@ -50,8 +51,8 @@ export const signUpFormSecondStepSchema = z.object({
   street: z.string().min(1, {
     message: 'Rua é obrigatório',
   }),
-  city: z.string().min(1, {
-    message: 'Cidade é obrigatório',
+  cityId: optionStringSchema.refine(({ value }) => !!value, {
+    message: 'Cidade é obrigatória',
   }),
   houseNumber: z.string().optional(),
 })

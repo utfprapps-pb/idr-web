@@ -19,7 +19,7 @@ export const getInputUseProductCategoryHandler = httpWithMiddleware<
   resolver: async ({ params }) => {
     const id = Number(params.id)
     const inputUseProductCategory = inputUseProductCategoriesData.find(
-      (item) => item.id === id
+      (item: InputUseProductCategoryApiResponse) => item.id === id
     )
 
     if (!inputUseProductCategory) {
