@@ -2,7 +2,7 @@ pipeline {
 	agent any
 
   environment {
-    VITE_API_BASE_URL="https://idr-api.app.pb.utfpr.edu.br/"
+    VITE_API_BASE_URL="https://idr-api.app.pb.utfpr.edu.br/api"
     VITE_API_MOCKED="false"
   }
 
