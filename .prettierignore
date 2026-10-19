@@ -8,5 +8,8 @@ CODEX.md
 AGENTS.md
 
 # Pastas de ferramentas/agentes (config ou estado local, não código do projeto)
-.*/
-!.storybook/
+.gemini/
+.agents/
+.idea/
+.worktrees/
+.pnpm-store/
