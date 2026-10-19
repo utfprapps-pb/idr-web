@@ -10,6 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 import { useFieldArray, useWatch } from 'react-hook-form'
 import toast from 'react-hot-toast'
+import { useParams } from 'react-router-dom'
 
 import { useAllAnimalsQuery } from '@/app/modules/animals/presentation/hooks/queries/all-animals-query.hook'
 import { makeRemoteCreateNutritionalBalancingUseCase } from '@/app/modules/nutritional-balancings/main/factories'
@@ -77,8 +78,11 @@ export function useNewNutritionalBalancingScreen() {
     name: 'nutritionalBalancings',
   })
 
+  /** TODO: o módulo ainda tipa propertyId como número; a busca de animais (já em UUID) lê o id da rota. */
+  const params = useParams<{ propertyId: string }>()
+
   const { allAnimals, isLoading: isLoadingAnimals } = useAllAnimalsQuery({
-    propertyId: String(propertyId),
+    propertyId: params.propertyId ?? '',
   })
 
   const { lastVisitData, isLoading: isLoadingLastVisitData } =
