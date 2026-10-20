@@ -5,7 +5,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import toast from 'react-hot-toast'
 
-import { moneyMask } from '@/core/masker'
 import {
   Button,
   Form,
@@ -48,10 +47,7 @@ export function EditAnimalSaleForm() {
   const form = useHookForm<AnimalSaleFormSchema>({
     defaultValues: ANIMAL_SALE_INITIAL_FORM_DATA,
     ...(animalSale && {
-      values: {
-        ...animalSale,
-        price: moneyMask(animalSale.price),
-      },
+      values: animalSale,
     }),
     resolver: zodResolver(animalSaleFormSchema),
   })
