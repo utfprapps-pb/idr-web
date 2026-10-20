@@ -6,6 +6,8 @@ import { withDelay, withAuth } from '@/core/mocks/middleware'
 
 import animalPregnancyDiagnosesData from '@database/animalPregnancyDiagnosesData.json'
 
+import { withAnimalId } from '../../utils/with-animal-id'
+
 import type { AnimalPregnancyDiagnosisApiResponse } from '../../../domain/models/animal-pregnancy-diagnoses-model'
 
 export const getAnimalPregnancyDiagnosisHandler = httpWithMiddleware<
@@ -18,30 +20,18 @@ export const getAnimalPregnancyDiagnosisHandler = httpWithMiddleware<
   method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ params }) => {
-    if (!animalPregnancyDiagnosesData.length) {
+    const found = animalPregnancyDiagnosesData.find(
+      (item) => item.id === params.id
+    )
+
+    if (!found) {
       return HttpResponse.json({} as AnimalPregnancyDiagnosisApiResponse, {
-        status: 404,
+        status: HttpStatusCode.notFound,
       })
     }
 
-    const animalPregnancyDiagnosisFound = animalPregnancyDiagnosesData.find(
-      (animal) => animal.id === params.id
-    )
-
-    if (!animalPregnancyDiagnosisFound) {
-      return HttpResponse.json({} as AnimalPregnancyDiagnosisApiResponse, {
-        status: 404,
-      })
-    }
-
-    return HttpResponse.json(
-      {
-        id: animalPregnancyDiagnosisFound.id,
-        animalId: String(params.animalId),
-        diagnoseDate: animalPregnancyDiagnosisFound.date,
-        lastIa: animalPregnancyDiagnosisFound.lastInseminationDate,
-      },
-      { status: HttpStatusCode.ok }
-    )
+    return HttpResponse.json(withAnimalId(found, String(params.animalId)), {
+      status: HttpStatusCode.ok,
+    })
   },
 })

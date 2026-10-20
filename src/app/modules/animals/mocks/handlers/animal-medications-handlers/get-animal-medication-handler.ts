@@ -6,6 +6,8 @@ import { withDelay, withAuth } from '@/core/mocks/middleware'
 
 import animalMedicationsData from '@database/animalMedicationsData.json'
 
+import { withAnimalId } from '../../utils/with-animal-id'
+
 import type { AnimalMedicationApiResponse } from '../../../domain/models/animal-medications-model'
 
 export const getAnimalMedicationHandler = httpWithMiddleware<
@@ -17,32 +19,16 @@ export const getAnimalMedicationHandler = httpWithMiddleware<
   method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ params }) => {
-    if (!animalMedicationsData.length) {
+    const found = animalMedicationsData.find((item) => item.id === params.id)
+
+    if (!found) {
       return HttpResponse.json({} as AnimalMedicationApiResponse, {
-        status: 404,
+        status: HttpStatusCode.notFound,
       })
     }
 
-    const animalMedicationFound = animalMedicationsData.find(
-      (animal) => animal.id === params.id
-    )
-
-    if (!animalMedicationFound) {
-      return HttpResponse.json({} as AnimalMedicationApiResponse, {
-        status: 404,
-      })
-    }
-
-    return HttpResponse.json(
-      {
-        id: animalMedicationFound.id,
-        animalId: String(params.animalId),
-        productId: null,
-        applicationDate: animalMedicationFound.date,
-        applicationWay: animalMedicationFound.applicationMethod,
-        appliedDose: animalMedicationFound.appliedDose,
-      },
-      { status: HttpStatusCode.ok }
-    )
+    return HttpResponse.json(withAnimalId(found, String(params.animalId)), {
+      status: HttpStatusCode.ok,
+    })
   },
 })

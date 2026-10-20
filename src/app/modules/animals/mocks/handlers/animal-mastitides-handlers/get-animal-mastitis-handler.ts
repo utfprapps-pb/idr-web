@@ -6,6 +6,8 @@ import { withDelay, withAuth } from '@/core/mocks/middleware'
 
 import animalMastitidesData from '@database/animalMastitidesData.json'
 
+import { withAnimalId } from '../../utils/with-animal-id'
+
 import type { AnimalMastitisApiResponse } from '../../../domain/models/animal-mastitides-model'
 
 export const getAnimalMastitisHandler = httpWithMiddleware<
@@ -17,35 +19,16 @@ export const getAnimalMastitisHandler = httpWithMiddleware<
   method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ params }) => {
-    if (!animalMastitidesData.length) {
+    const found = animalMastitidesData.find((item) => item.id === params.id)
+
+    if (!found) {
       return HttpResponse.json({} as AnimalMastitisApiResponse, {
-        status: 404,
+        status: HttpStatusCode.notFound,
       })
     }
 
-    const animalMastitisFound = animalMastitidesData.find(
-      (animal) => animal.id === params.id
-    )
-
-    if (!animalMastitisFound) {
-      return HttpResponse.json({} as AnimalMastitisApiResponse, {
-        status: 404,
-      })
-    }
-
-    return HttpResponse.json(
-      {
-        id: animalMastitisFound.id,
-        animalId: String(params.animalId),
-        cmtResult: null,
-        diagnoseDate: animalMastitisFound.date,
-        mastitisType: animalMastitisFound.type,
-        ad: animalMastitisFound.ad,
-        ae: animalMastitisFound.ae,
-        pd: animalMastitisFound.pd,
-        pe: animalMastitisFound.pe,
-      },
-      { status: HttpStatusCode.ok }
-    )
+    return HttpResponse.json(withAnimalId(found, String(params.animalId)), {
+      status: HttpStatusCode.ok,
+    })
   },
 })

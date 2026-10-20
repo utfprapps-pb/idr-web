@@ -6,7 +6,7 @@ import { withDelay, withAuth } from '@/core/mocks/middleware'
 
 import animalDeathsData from '@database/animalDeathsData.json'
 
-import { toAnimalDeathApiResponse } from '../../utils/to-animal-death-api-response'
+import { withAnimalId } from '../../utils/with-animal-id'
 
 import type { AnimalDeathApiResponse } from '../../../domain/models/animal-deaths-model'
 
@@ -19,19 +19,16 @@ export const getAnimalDeathHandler = httpWithMiddleware<
   method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ params }) => {
-    const animalDeathFound = animalDeathsData.find(
-      (animal) => animal.id === params.id
-    )
+    const found = animalDeathsData.find((item) => item.id === params.id)
 
-    if (!animalDeathFound) {
+    if (!found) {
       return HttpResponse.json({} as AnimalDeathApiResponse, {
-        status: 404,
+        status: HttpStatusCode.notFound,
       })
     }
 
-    return HttpResponse.json(
-      toAnimalDeathApiResponse(animalDeathFound, String(params.animalId)),
-      { status: HttpStatusCode.ok }
-    )
+    return HttpResponse.json(withAnimalId(found, String(params.animalId)), {
+      status: HttpStatusCode.ok,
+    })
   },
 })

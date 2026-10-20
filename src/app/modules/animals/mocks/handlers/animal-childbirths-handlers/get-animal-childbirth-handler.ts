@@ -19,22 +19,19 @@ export const getAnimalChildbirthHandler = httpWithMiddleware<
   method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ params }) => {
-    const animalChildbirthFound = animalChildbirthsData.find(
-      (animal) => animal.id === params.id
-    )
+    const found = animalChildbirthsData.find((item) => item.id === params.id)
 
-    if (!animalChildbirthFound) {
+    if (!found) {
       return HttpResponse.json({} as AnimalChildbirthApiResponse, {
-        status: 404,
+        status: HttpStatusCode.notFound,
       })
     }
 
     return HttpResponse.json(
-      toAnimalChildbirthApiResponse(
-        animalChildbirthFound,
-        String(params.animalId)
-      ),
-      { status: HttpStatusCode.ok }
+      toAnimalChildbirthApiResponse(found, String(params.animalId)),
+      {
+        status: HttpStatusCode.ok,
+      }
     )
   },
 })

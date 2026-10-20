@@ -19,12 +19,11 @@ export const getAnimalChildbirthsHandler = httpWithMiddleware<
   middlewares: [withDelay(), withAuth],
   resolver: async ({ request, params }) => {
     const search = parseSearchParams(request)
-
-    const animalChildbirths = animalChildbirthsData.map((item) =>
+    const items = animalChildbirthsData.map((item) =>
       toAnimalChildbirthApiResponse(item, String(params.animalId))
     )
 
-    return HttpResponse.json(toSearchResponse(animalChildbirths, search), {
+    return HttpResponse.json(toSearchResponse(items, search), {
       status: HttpStatusCode.ok,
     })
   },

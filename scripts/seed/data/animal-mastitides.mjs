@@ -1,5 +1,8 @@
 import { faker } from '@faker-js/faker/locale/pt_BR'
 
+const CMT_RESULTS = ['PLUS-ONE', 'PLUS-TWO', 'PLUS-THREE', 'ABSENT']
+
+/** Registros no formato da API do backend (sem `animalId`, que vem da rota do mock). */
 export const animalMastitidesData = Array.from(
   {
     length: faker.number.int({
@@ -9,31 +12,12 @@ export const animalMastitidesData = Array.from(
   },
   () => ({
     id: faker.string.uuid(),
-    date: faker.date.past(),
-    type: faker.helpers.arrayElement(['CLINICAL', 'SUBCLINICAL']),
-    ad: faker.helpers.arrayElement([
-      'PLUS-ONE',
-      'PLUS-TWO',
-      'PLUS-THREE',
-      'ABSENT',
-    ]),
-    ae: faker.helpers.arrayElement([
-      'PLUS-ONE',
-      'PLUS-TWO',
-      'PLUS-THREE',
-      'ABSENT',
-    ]),
-    pd: faker.helpers.arrayElement([
-      'PLUS-ONE',
-      'PLUS-TWO',
-      'PLUS-THREE',
-      'ABSENT',
-    ]),
-    pe: faker.helpers.arrayElement([
-      'PLUS-ONE',
-      'PLUS-TWO',
-      'PLUS-THREE',
-      'ABSENT',
-    ]),
+    diagnoseDate: faker.date.past().toISOString().slice(0, 10),
+    mastitisType: faker.helpers.arrayElement(['CLINICAL', 'SUBCLINICAL']),
+    cmtResult: null,
+    ad: faker.helpers.arrayElement(CMT_RESULTS),
+    ae: faker.helpers.arrayElement(CMT_RESULTS),
+    pd: faker.helpers.arrayElement(CMT_RESULTS),
+    pe: faker.helpers.arrayElement(CMT_RESULTS),
   })
 )

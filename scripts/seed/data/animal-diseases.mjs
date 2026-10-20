@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker/locale/pt_BR'
 
+/** Registros no formato da API do backend (sem `animalId`, que vem da rota do mock). */
 export const animalDiseasesData = Array.from(
   {
     length: faker.number.int({
@@ -9,7 +10,7 @@ export const animalDiseasesData = Array.from(
   },
   () => ({
     id: faker.string.uuid(),
-    diagnosticDate: faker.date.past(),
-    diagnostic: faker.lorem.paragraph(1),
+    diagnosisDate: faker.date.past().toISOString().slice(0, 10),
+    diagnosis: faker.lorem.paragraph(1),
   })
 )
