@@ -1,4 +1,3 @@
-import { faker } from '@faker-js/faker/locale/pt_BR'
 import { HttpResponse, type PathParams } from 'msw'
 
 import { HttpStatusCode } from '@/core/data/protocols/http'
@@ -38,7 +37,7 @@ export const getAnimalMedicationHandler = httpWithMiddleware<
       {
         id: animalMedicationFound.id,
         animalId: String(params.animalId),
-        productId: faker.string.uuid(),
+        productId: null,
         applicationDate: animalMedicationFound.date,
         applicationWay: animalMedicationFound.applicationMethod,
         appliedDose: animalMedicationFound.appliedDose,

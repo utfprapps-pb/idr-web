@@ -1,8 +1,4 @@
-import {
-  fromLocalDate,
-  buildSearchQuery,
-  toTotalPages,
-} from '@/core/data/helpers'
+import { buildSearchQuery, toTotalPages } from '@/core/data/helpers'
 import { type HttpClient, HttpStatusCode } from '@/core/data/protocols/http'
 import {
   UnexpectedError,
@@ -10,6 +6,8 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 import { floatMask } from '@/core/masker'
+
+import { fromApi } from '../../mappers/animal-medication-api-mapper'
 
 import type {
   AnimalMedicationApplicationMethod,
@@ -23,12 +21,6 @@ const SORT_FIELD_MAP: Record<string, string> = {
   date: 'applicationDate',
   appliedDose: 'appliedDose',
   applicationMethod: 'applicationWay',
-  // `product`/`activeIngredient` não existem no DTO real
-  // (`ListMedicationOutput` só tem `productId`) — ordenar por eles
-  // faria o backend lançar erro no `Sort.by(...)`. `applicationDate`
-  // é usado como fallback seguro, não uma feature nova.
-  product: 'applicationDate',
-  activeIngredient: 'applicationDate',
 }
 
 export class RemoteGetAnimalMedicationsUseCase
@@ -78,18 +70,17 @@ export class RemoteGetAnimalMedicationsUseCase
 
       return {
         resources: body.items.map((item) => {
+          const record = fromApi(item)
           return {
             id: item.id,
-            date: fromLocalDate(item.applicationDate),
+            date: record.date,
             // A API só devolve `productId`; nome e princípio ativo dependem de
             // religar o catálogo `Product` (ainda não feito).
             product: '',
-            appliedDose: floatMask(item.appliedDose, 'mg/ml'),
+            appliedDose: floatMask(record.appliedDose, 'mg/ml'),
             activeIngredient: '',
             applicationMethod:
-              applicationMethodMapper[
-                item.applicationWay as AnimalMedicationApplicationMethod
-              ],
+              applicationMethodMapper[record.applicationMethod],
           }
         }),
         totalPages: toTotalPages(body),
