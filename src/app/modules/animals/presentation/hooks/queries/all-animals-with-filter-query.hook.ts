@@ -1,9 +1,11 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
 import { makeRemoteGetAnimalsUseCase } from '@/app/modules/animals/main/factories/use-cases'
+
+import { toAnimalOption } from './to-animal-option'
 
 import type { AnimalFilters } from '@/app/modules/animals/presentation/types/animal-types'
 
@@ -41,18 +43,10 @@ export function useAllAnimalsWithFilterQuery({
     if (isError) toast.error(error?.message ?? 'Erro ao buscar animais')
   }, [error, isError])
 
-  /** toOption() força value: number; construído diretamente aqui pois o id é uma string UUID. */
-  const allAnimals =
-    data?.resources.map((resource) => ({
-      label: resource.name,
-      value: resource.id,
-      extraData: {
-        breed: resource.breed,
-        weight: resource.weight,
-        ecc: resource.ecc,
-        milkProduction: resource.milkProduction,
-      },
-    })) ?? []
+  const allAnimals = useMemo(
+    () => data?.resources.map(toAnimalOption) ?? [],
+    [data]
+  )
 
   return {
     allAnimals,
