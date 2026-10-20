@@ -65,7 +65,7 @@ export function useAnimalPurchaseDataTable() {
         cell: ({ row }) => {
           const { original: animalHeiferCalf } = row
 
-          return animalHeiferCalf.weight ? `${animalHeiferCalf.weight} kg` : '-'
+          return animalHeiferCalf.weight || '-'
         },
       },
       {
