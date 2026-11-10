@@ -1,13 +1,13 @@
 import { makeApiHttpClient } from '@/core/main/factories/http'
 
-import { RemoteGetAnimalSalesUseCase } from '../../../../data/use-cases/animal-sales-use-cases'
+import { RemoteGetAnimalSalesUseCase } from '../../../../data/use-cases/animal-sales-use-cases/remote-get-animal-sales-use-case'
 
 import type {
-  AnimalSaleApiResponse,
   AnimalSaleModel,
+  AnimalSaleApiResponse,
 } from '../../../../domain/models/animal-sales-model'
 import type { GetAnimalSalesUseCase } from '../../../../domain/use-cases/animal-sales-use-cases'
-import type { ListApiResponse } from '@/core/domain/types'
+import type { SearchApiResponse } from '@/core/domain/types'
 
 export function makeRemoteGetAnimalSalesUseCase(): GetAnimalSalesUseCase {
   return new RemoteGetAnimalSalesUseCase(
@@ -15,7 +15,7 @@ export function makeRemoteGetAnimalSalesUseCase(): GetAnimalSalesUseCase {
     makeApiHttpClient<
       AnimalSaleModel,
       AnimalSaleApiResponse,
-      ListApiResponse<AnimalSaleModel[]>
+      SearchApiResponse<AnimalSaleApiResponse>
     >()
   )
 }

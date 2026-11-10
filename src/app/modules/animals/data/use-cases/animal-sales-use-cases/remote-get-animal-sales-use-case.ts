@@ -1,3 +1,4 @@
+import { buildSearchQuery, toTotalPages } from '@/core/data/helpers'
 import { type HttpClient, HttpStatusCode } from '@/core/data/protocols/http'
 import {
   UnexpectedError,
@@ -5,14 +6,23 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
+import { fromApi } from '../../mappers/animal-sale-api-mapper'
+
 import type {
-  AnimalSaleApiResponse,
   AnimalSaleDestination,
   AnimalSaleModel,
   AnimalSaleReason,
+  AnimalSaleApiResponse,
 } from '../../../domain/models/animal-sales-model'
 import type { GetAnimalSalesUseCase } from '../../../domain/use-cases/animal-sales-use-cases'
-import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
+import type { SearchApiResponse } from '@/core/domain/types'
+
+const SORT_FIELD_MAP: Record<string, string> = {
+  date: 'dateSale',
+  price: 'value',
+  destination: 'destination',
+  reason: 'reason',
+}
 
 export class RemoteGetAnimalSalesUseCase implements GetAnimalSalesUseCase {
   constructor(
@@ -20,7 +30,7 @@ export class RemoteGetAnimalSalesUseCase implements GetAnimalSalesUseCase {
     private readonly httpClient: HttpClient<
       AnimalSaleModel,
       AnimalSaleApiResponse,
-      ListApiResponse<AnimalSaleModel[]>
+      SearchApiResponse<AnimalSaleApiResponse>
     >
   ) {}
 
@@ -31,29 +41,18 @@ export class RemoteGetAnimalSalesUseCase implements GetAnimalSalesUseCase {
     pagination,
     sort,
   }) => {
-    const mapApiProperties: MapApiProperties<
-      AnimalSaleModel,
-      AnimalSaleApiResponse
-    > = {
-      id: 'id',
-      date: 'date',
-      destination: 'destination',
-      reason: 'reason',
-      price: 'price',
-      weight: 'weight',
-    }
-
     const url = this.url
       .replace(':propertyId', String(propertyId))
       .replace(':animalId', String(animalId))
 
+    const query = buildSearchQuery(
+      { filters, pagination, sort },
+      (field) => SORT_FIELD_MAP[field] ?? field
+    )
+
     const { statusCode, body } = await this.httpClient.request({
-      url: `${url}/search`,
-      method: 'post',
-      filters,
-      pagination,
-      sort,
-      mapApiProperties,
+      url: `${url}/search?${query}`,
+      method: 'get',
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
@@ -69,18 +68,19 @@ export class RemoteGetAnimalSalesUseCase implements GetAnimalSalesUseCase {
       }
 
       return {
-        resources: body.content.map((item) => {
+        resources: body.items.map((item) => {
+          const { date, price, destination, reason, weight } = fromApi(item)
+
           return {
             id: item.id,
-            date: new Date(item.date),
-            destination:
-              destinationMapper[item.destination as AnimalSaleDestination],
-            reason: reasonMapper[item.reason as AnimalSaleReason],
-            price: item.price,
-            weight: item.weight,
+            date,
+            destination: destinationMapper[destination],
+            reason: reasonMapper[reason],
+            price,
+            weight,
           }
         }),
-        totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
+        totalPages: toTotalPages(body),
       }
     }
 

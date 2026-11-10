@@ -9,7 +9,7 @@ import {
 import { AnimalSaleForm } from '../forms/animal-sale-form'
 
 type AnimalSalesScreenProps = {
-  readonly animalId: number
+  readonly animalId: string
 }
 
 export function AnimalSalesScreen({ animalId }: AnimalSalesScreenProps) {

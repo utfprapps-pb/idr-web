@@ -1,3 +1,4 @@
+import { buildSearchQuery, toTotalPages } from '@/core/data/helpers'
 import { type HttpClient, HttpStatusCode } from '@/core/data/protocols/http'
 import {
   BadRequestError,
@@ -10,7 +11,7 @@ import type {
   BreedApiResponse,
   BreedModel,
 } from '@/core/domain/models/breeds-model'
-import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
+import type { SearchApiResponse } from '@/core/domain/types'
 import type { GetAllBreedsUseCase } from '@/core/domain/use-cases/breeds-use-cases'
 
 export class RemoteGetAllBreedsUseCase implements GetAllBreedsUseCase {
@@ -19,30 +20,25 @@ export class RemoteGetAllBreedsUseCase implements GetAllBreedsUseCase {
     private readonly httpClient: HttpClient<
       BreedModel,
       BreedApiResponse,
-      ListApiResponse<BreedApiResponse[]>
+      SearchApiResponse<BreedApiResponse>
     >
   ) {}
 
-  execute: GetAllBreedsUseCase['execute'] = async ({ filters }) => {
-    const mapApiProperties: MapApiProperties<BreedModel, BreedApiResponse> = {
-      id: 'id',
-      name: 'breedName',
-    }
+  execute: GetAllBreedsUseCase['execute'] = async ({ filters, pagination }) => {
+    const query = buildSearchQuery({ filters, pagination })
 
     const { statusCode, body } = await this.httpClient.request({
-      url: `${this.url}/search`,
-      method: 'post',
-      filters,
-      mapApiProperties,
+      url: `${this.url}/search?${query}`,
+      method: 'get',
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        resources: body.content.map((item) => ({
+        resources: body.items.map((item) => ({
           id: item.id,
           name: item.breedName,
         })),
-        totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
+        totalPages: toTotalPages(body),
       }
     }
 

@@ -5,9 +5,10 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
+import { fromApi } from '../../mappers/animal-medication-api-mapper'
+
 import type {
-  AnimalMedicationApplicationMethod,
-  AnimalMedicationDetailsApiResponse,
+  AnimalMedicationApiResponse,
   AnimalMedicationDetailsModel,
 } from '../../../domain/models/animal-medications-model'
 import type { GetAnimalMedicationUseCase } from '../../../domain/use-cases/animal-medications-use-cases'
@@ -19,7 +20,7 @@ export class RemoteGetAnimalMedicationUseCase
     private readonly url: string,
     private readonly httpClient: HttpClient<
       AnimalMedicationDetailsModel,
-      AnimalMedicationDetailsApiResponse
+      AnimalMedicationApiResponse
     >
   ) {}
 
@@ -38,13 +39,7 @@ export class RemoteGetAnimalMedicationUseCase
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
-      return {
-        date: new Date(body.date),
-        product: body.product,
-        appliedDose: body.appliedDose,
-        applicationMethod:
-          body.applicationMethod as AnimalMedicationApplicationMethod,
-      }
+      return fromApi(body)
     }
 
     if (statusCode === HttpStatusCode.notFound)

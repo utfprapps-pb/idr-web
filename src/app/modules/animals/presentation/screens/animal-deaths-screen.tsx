@@ -9,7 +9,7 @@ import {
 import { AnimalDeathForm } from '../forms/animal-death-form'
 
 type AnimalDeathsScreenProps = {
-  readonly animalId: number
+  readonly animalId: string
 }
 
 export function AnimalDeathsScreen({ animalId }: AnimalDeathsScreenProps) {

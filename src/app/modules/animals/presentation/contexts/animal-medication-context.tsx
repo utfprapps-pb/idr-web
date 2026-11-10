@@ -12,8 +12,8 @@ import type { AnimalMedicationModel } from '../../domain/models/animal-medicatio
 import type { AnimalMedicationFilters } from '../types/animal-medication-types'
 
 type AnimalMedicationContextValue = {
-  propertyId: number
-  animalId: number
+  propertyId: string
+  animalId: string
   selectedAnimalMedication?: AnimalMedicationModel
   filters: AnimalMedicationFilters
   handleChangeFilters: (newFilters: AnimalMedicationFilters) => void
@@ -38,7 +38,7 @@ export const AnimalMedicationContext =
   )
 
 type AnimalMedicationProviderProps = PropsWithChildren<{
-  animalId: number
+  animalId: string
 }>
 
 export function AnimalMedicationProvider({
@@ -109,7 +109,7 @@ export function AnimalMedicationProvider({
 
   const providerValues = useMemo(
     () => ({
-      propertyId: Number(params.propertyId),
+      propertyId: params.propertyId ?? '',
       animalId,
       filters,
       handleChangeFilters,

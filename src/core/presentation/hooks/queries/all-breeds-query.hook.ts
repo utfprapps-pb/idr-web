@@ -4,7 +4,6 @@ import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
 import { makeRemoteGetAllBreedsUseCase } from '@/core/main/factories/use-cases/breeds-use-cases'
-import { toOption } from '@/core/utils/object/to-option'
 
 import type { BreedModel } from '@/core/domain/models/breeds-model'
 import type { Filters } from '@/core/domain/types'
@@ -33,6 +32,11 @@ export function useAllBreedsQuery({ filters }: Props) {
         },
       }),
     enabled: !!filters,
+    select: (response) =>
+      response.resources.map((resource) => ({
+        label: resource.name,
+        value: resource.id,
+      })),
   })
 
   useEffect(() => {
@@ -40,8 +44,7 @@ export function useAllBreedsQuery({ filters }: Props) {
   }, [error, isError])
 
   return {
-    allBreeds:
-      data?.resources.map((resource) => toOption(resource, 'name')) ?? [],
+    allBreeds: data ?? [],
     isLoading,
     refetchAllBreeds,
   }

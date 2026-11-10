@@ -1,5 +1,7 @@
 import { faker } from '@faker-js/faker/locale/pt_BR'
 
+import { allBreedsData } from './breeds.mjs'
+
 export const animalsData = Array.from(
   {
     length: faker.number.int({
@@ -7,27 +9,11 @@ export const animalsData = Array.from(
       max: 100,
     }),
   },
-  (_, index) => ({
-    id: index + 1,
-    name: faker.lorem.word(),
-    breed: faker.animal.cow(),
-    weight: faker.number
-      .float({
-        min: 1,
-        max: 1000,
-      })
-      .toFixed(2),
-    ecc: faker.number
-      .float({
-        min: 1,
-        max: 10,
-      })
-      .toFixed(2),
-    milkProduction: faker.number
-      .float({
-        min: 1,
-        max: 50,
-      })
-      .toFixed(2),
+  () => ({
+    id: faker.string.uuid(),
+    identifier: faker.lorem.word(),
+    breedId: faker.helpers.arrayElement(allBreedsData).id,
+    currentWeight: faker.number.float({ min: 1, max: 1000, fractionDigits: 2 }),
+    ecc: faker.number.float({ min: 1, max: 10, fractionDigits: 2 }),
   })
 )

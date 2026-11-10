@@ -1,4 +1,4 @@
-import type { Option, WithId } from '@/core/domain/types'
+import type { Option } from '@/core/domain/types'
 
 export type AnimalMedicationApplicationMethod =
   | 'IM'
@@ -14,25 +14,22 @@ export type AnimalMedicationDetailsModel = {
   applicationMethod: AnimalMedicationApplicationMethod
 }
 
-export type AnimalMedicationDetailsApiResponse = {
-  date: string
-  product: Option
+/** Formato real da API (`GetMedicationByIdOutput` = `ListMedicationOutput`), usado no GET e em cada item da busca. */
+export type AnimalMedicationApiResponse = {
+  id: string
+  animalId: string
+  /** UUID do catálogo `Product` do backend — ainda não religado ao seletor de produto da tela. */
+  productId: string | null
+  applicationDate: string
   appliedDose: string
-  applicationMethod: string
+  applicationWay: string
 }
 
-export type AnimalMedicationModel = WithId<{
+export type AnimalMedicationModel = {
+  id: string
   date: Date
   product: string
   activeIngredient: string
   appliedDose: string
   applicationMethod: string
-}>
-
-export type AnimalMedicationApiResponse = WithId<{
-  date: string
-  product: string
-  activeIngredient: string
-  appliedDose: string
-  applicationMethod: string
-}>
+}

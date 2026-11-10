@@ -1,3 +1,4 @@
+import { buildSearchQuery, toTotalPages } from '@/core/data/helpers'
 import { type HttpClient, HttpStatusCode } from '@/core/data/protocols/http'
 import {
   UnexpectedError,
@@ -5,12 +6,19 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
+import { fromApi } from '../../mappers/animal-disease-api-mapper'
+
 import type {
-  AnimalDiseaseApiResponse,
   AnimalDiseaseModel,
+  AnimalDiseaseApiResponse,
 } from '../../../domain/models/animal-diseases-model'
 import type { GetAnimalDiseasesUseCase } from '../../../domain/use-cases/animal-diseases-use-cases'
-import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
+import type { SearchApiResponse } from '@/core/domain/types'
+
+const SORT_FIELD_MAP: Record<string, string> = {
+  diagnostic: 'diagnosis',
+  diagnosticDate: 'diagnosisDate',
+}
 
 export class RemoteGetAnimalDiseasesUseCase
   implements GetAnimalDiseasesUseCase
@@ -20,7 +28,7 @@ export class RemoteGetAnimalDiseasesUseCase
     private readonly httpClient: HttpClient<
       AnimalDiseaseModel,
       AnimalDiseaseApiResponse,
-      ListApiResponse<AnimalDiseaseModel[]>
+      SearchApiResponse<AnimalDiseaseApiResponse>
     >
   ) {}
 
@@ -31,38 +39,28 @@ export class RemoteGetAnimalDiseasesUseCase
     pagination,
     sort,
   }) => {
-    const mapApiProperties: MapApiProperties<
-      AnimalDiseaseModel,
-      AnimalDiseaseApiResponse
-    > = {
-      id: 'id',
-      diagnosticDate: 'diagnosticDate',
-      diagnostic: 'diagnostic',
-    }
-
     const url = this.url
       .replace(':propertyId', String(propertyId))
       .replace(':animalId', String(animalId))
 
+    const query = buildSearchQuery(
+      { filters, pagination, sort },
+      (field) => SORT_FIELD_MAP[field] ?? field
+    )
+
     const { statusCode, body } = await this.httpClient.request({
-      url: `${url}/search`,
-      method: 'post',
-      filters,
-      pagination,
-      sort,
-      mapApiProperties,
+      url: `${url}/search?${query}`,
+      method: 'get',
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        resources: body.content.map((item) => {
-          return {
-            id: item.id,
-            diagnosticDate: new Date(item.diagnosticDate),
-            diagnostic: item.diagnostic,
-          }
+        resources: body.items.map((item) => {
+          const { diagnostic, diagnosticDate } = fromApi(item)
+
+          return { id: item.id, diagnostic, diagnosticDate }
         }),
-        totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
+        totalPages: toTotalPages(body),
       }
     }
 

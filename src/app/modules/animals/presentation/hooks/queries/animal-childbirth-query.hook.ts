@@ -6,9 +6,9 @@ import toast from 'react-hot-toast'
 import { makeRemoteGetAnimalChildbirthUseCase } from '../../../main/factories/use-cases/animal-childbirths-use-cases'
 
 type Props = {
-  id: number
-  propertyId: number
-  animalId: number
+  id: string
+  propertyId: string
+  animalId: string
 }
 
 export function useAnimalChildbirthQuery({ id, propertyId, animalId }: Props) {

@@ -1,3 +1,4 @@
+import { buildSearchQuery, toTotalPages } from '@/core/data/helpers'
 import { type HttpClient, HttpStatusCode } from '@/core/data/protocols/http'
 import {
   UnexpectedError,
@@ -5,14 +6,25 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
+import { fromApi } from '../../mappers/animal-mastitis-api-mapper'
+
 import type {
-  AnimalMastitisApiResponse,
   AnimalMastitisCmtResults,
   AnimalMastitisModel,
   AnimalMastitisType,
+  AnimalMastitisApiResponse,
 } from '../../../domain/models/animal-mastitides-model'
 import type { GetAnimalMastitidesUseCase } from '../../../domain/use-cases/animal-mastitides-use-cases'
-import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
+import type { SearchApiResponse } from '@/core/domain/types'
+
+const SORT_FIELD_MAP: Record<string, string> = {
+  date: 'diagnoseDate',
+  type: 'mastitisType',
+  ad: 'ad',
+  ae: 'ae',
+  pd: 'pd',
+  pe: 'pe',
+}
 
 export class RemoteGetAnimalMastitidesUseCase
   implements GetAnimalMastitidesUseCase
@@ -22,7 +34,7 @@ export class RemoteGetAnimalMastitidesUseCase
     private readonly httpClient: HttpClient<
       AnimalMastitisModel,
       AnimalMastitisApiResponse,
-      ListApiResponse<AnimalMastitisModel[]>
+      SearchApiResponse<AnimalMastitisApiResponse>
     >
   ) {}
 
@@ -33,58 +45,48 @@ export class RemoteGetAnimalMastitidesUseCase
     pagination,
     sort,
   }) => {
-    const mapApiProperties: MapApiProperties<
-      AnimalMastitisModel,
-      AnimalMastitisApiResponse
-    > = {
-      id: 'id',
-      date: 'date',
-      type: 'type',
-      ad: 'ad',
-      ae: 'ae',
-      pd: 'pd',
-      pe: 'pe',
-    }
-
     const url = this.url
       .replace(':propertyId', String(propertyId))
       .replace(':animalId', String(animalId))
 
+    const query = buildSearchQuery(
+      { filters, pagination, sort },
+      (field) => SORT_FIELD_MAP[field] ?? field
+    )
+
     const { statusCode, body } = await this.httpClient.request({
-      url: `${url}/search`,
-      method: 'post',
-      filters,
-      pagination,
-      sort,
-      mapApiProperties,
+      url: `${url}/search?${query}`,
+      method: 'get',
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
-      return {
-        resources: body.content.map((item) => {
-          const typeMapper: Record<AnimalMastitisType, string> = {
-            CLINICAL: 'Clínica',
-            SUBCLINICAL: 'Subclínica',
-          }
+      const typeMapper: Record<AnimalMastitisType, string> = {
+        CLINICAL: 'Clínica',
+        SUBCLINICAL: 'Subclínica',
+      }
 
-          const conditionMapper: Record<AnimalMastitisCmtResults, string> = {
-            'PLUS-ONE': '+',
-            'PLUS-TWO': '++',
-            'PLUS-THREE': '+++',
-            ABSENT: 'Ausente',
-          }
+      const conditionMapper: Record<AnimalMastitisCmtResults, string> = {
+        'PLUS-ONE': '+',
+        'PLUS-TWO': '++',
+        'PLUS-THREE': '+++',
+        ABSENT: 'Ausente',
+      }
+
+      return {
+        resources: body.items.map((item) => {
+          const { date, type, ad, ae, pd, pe } = fromApi(item)
 
           return {
             id: item.id,
-            date: new Date(item.date),
-            type: typeMapper[item.type] as AnimalMastitisType,
-            ad: conditionMapper[item.ad] as AnimalMastitisCmtResults,
-            ae: conditionMapper[item.ae] as AnimalMastitisCmtResults,
-            pd: conditionMapper[item.pd] as AnimalMastitisCmtResults,
-            pe: conditionMapper[item.pe] as AnimalMastitisCmtResults,
+            date,
+            type: typeMapper[type] as AnimalMastitisType,
+            ad: conditionMapper[ad] as AnimalMastitisCmtResults,
+            ae: conditionMapper[ae] as AnimalMastitisCmtResults,
+            pd: conditionMapper[pd] as AnimalMastitisCmtResults,
+            pe: conditionMapper[pe] as AnimalMastitisCmtResults,
           }
         }),
-        totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
+        totalPages: toTotalPages(body),
       }
     }
 

@@ -3,68 +3,28 @@ import { HttpResponse, type PathParams } from 'msw'
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay, withAuth } from '@/core/mocks/middleware'
-import { filterData, sortData, paginateData } from '@/core/mocks/utils'
+import { parseSearchParams, toSearchResponse } from '@/core/mocks/utils'
 
 import animalMedicationsData from '@database/animalMedicationsData.json'
 
-import type { AnimalMedicationApiResponse } from '../../../domain/models/animal-medications-model'
-import type { MockParams } from '@/core/mocks/types/mock-params-type'
-import type { MockResponse } from '@/core/mocks/types/mock-response-type'
+import { withAnimalId } from '../../utils/with-animal-id'
 
 export const getAnimalMedicationsHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId'>,
-  MockParams<AnimalMedicationApiResponse>,
-  MockResponse<AnimalMedicationApiResponse[]>
+  never,
+  never
 >({
   routePath: '/api/properties/:propertyId/animals/:animalId/medications/search',
-  method: 'post',
+  method: 'get',
   middlewares: [withDelay(), withAuth],
-  resolver: async ({ request }) => {
-    const { filters, page, rows, sort } = await request.json()
-
-    if (!animalMedicationsData.length) {
-      return HttpResponse.json(
-        {
-          content: [],
-          numberOfElements: 0,
-          pageable: {
-            pageSize: 0,
-          },
-        },
-        {
-          status: 404,
-        }
-      )
-    }
-
-    let animalMedications =
-      animalMedicationsData as AnimalMedicationApiResponse[]
-
-    if (filters)
-      animalMedications = filterData<AnimalMedicationApiResponse>(
-        filters,
-        animalMedications
-      )
-    if (sort)
-      animalMedications = sortData<AnimalMedicationApiResponse>(
-        sort,
-        animalMedications
-      )
-    const numberOfElements = animalMedications.length
-    animalMedications = paginateData<AnimalMedicationApiResponse>(
-      { page, perPage: rows },
-      animalMedications
+  resolver: async ({ request, params }) => {
+    const search = parseSearchParams(request)
+    const items = animalMedicationsData.map((item) =>
+      withAnimalId(item, String(params.animalId))
     )
 
-    return HttpResponse.json(
-      {
-        content: animalMedications,
-        numberOfElements,
-        pageable: {
-          pageSize: rows,
-        },
-      },
-      { status: HttpStatusCode.ok }
-    )
+    return HttpResponse.json(toSearchResponse(items, search), {
+      status: HttpStatusCode.ok,
+    })
   },
 })

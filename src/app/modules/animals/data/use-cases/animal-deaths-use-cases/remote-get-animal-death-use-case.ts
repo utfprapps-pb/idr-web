@@ -5,9 +5,11 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
+import { fromApi } from '../../mappers/animal-death-api-mapper'
+
 import type {
   AnimalDeathDetailsModel,
-  AnimalDeathDetailsApiResponse,
+  AnimalDeathApiResponse,
 } from '../../../domain/models/animal-deaths-model'
 import type { GetAnimalDeathUseCase } from '../../../domain/use-cases/animal-deaths-use-cases'
 
@@ -16,7 +18,7 @@ export class RemoteGetAnimalDeathUseCase implements GetAnimalDeathUseCase {
     private readonly url: string,
     private readonly httpClient: HttpClient<
       AnimalDeathDetailsModel,
-      AnimalDeathDetailsApiResponse
+      AnimalDeathApiResponse
     >
   ) {}
 
@@ -35,10 +37,7 @@ export class RemoteGetAnimalDeathUseCase implements GetAnimalDeathUseCase {
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
-      return {
-        date: new Date(body.date),
-        reason: body.reason,
-      }
+      return fromApi(body)
     }
 
     if (statusCode === HttpStatusCode.notFound)
@@ -46,7 +45,7 @@ export class RemoteGetAnimalDeathUseCase implements GetAnimalDeathUseCase {
 
     if (statusCode === HttpStatusCode.forbidden) {
       throw new ForbiddenError(
-        'Você não tem permissão para buscar óbito deste animal.'
+        'Você não tem permissão para buscar o óbito do animal'
       )
     }
 

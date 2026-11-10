@@ -2,11 +2,11 @@ import { RemoteGetAnimalPregnancyDiagnosesUseCase } from '@/app/modules/animals/
 import { makeApiHttpClient } from '@/core/main/factories/http'
 
 import type {
-  AnimalPregnancyDiagnosisModel,
   AnimalPregnancyDiagnosisApiResponse,
-} from '@/app/modules/animals/domain/models/animal-pregnancy-diagnoses-model'
+  AnimalPregnancyDiagnosisModel,
+} from '../../../../domain/models/animal-pregnancy-diagnoses-model'
 import type { GetAnimalPregnancyDiagnosesUseCase } from '@/app/modules/animals/domain/use-cases/animal-pregnancy-diagnoses-use-cases'
-import type { ListApiResponse } from '@/core/domain/types'
+import type { SearchApiResponse } from '@/core/domain/types'
 
 export function makeRemoteGetAnimalPregnancyDiagnosesUseCase(): GetAnimalPregnancyDiagnosesUseCase {
   return new RemoteGetAnimalPregnancyDiagnosesUseCase(
@@ -14,7 +14,7 @@ export function makeRemoteGetAnimalPregnancyDiagnosesUseCase(): GetAnimalPregnan
     makeApiHttpClient<
       AnimalPregnancyDiagnosisModel,
       AnimalPregnancyDiagnosisApiResponse,
-      ListApiResponse<AnimalPregnancyDiagnosisModel[]>
+      SearchApiResponse<AnimalPregnancyDiagnosisApiResponse>
     >()
   )
 }

@@ -1,5 +1,3 @@
-import type { WithId } from '@/core/domain/types'
-
 export type AnimalPurchaseDetailsModel = {
   date: Date
   birthDate: Date
@@ -7,24 +5,20 @@ export type AnimalPurchaseDetailsModel = {
   price: string
 }
 
-export type AnimalPurchaseDetailsApiResponse = {
-  date: string
+/** Formato real da API (`GetAnimalPurchasesByIdOutput` = `ListAnimalPurchasesOutput`), usado no GET e em cada item da busca. */
+export type AnimalPurchaseApiResponse = {
+  id: string
+  animalId: string
+  datePurchase: string
   birthDate: string
-  weight: string
-  price: string
+  value: number
+  weight: number | null
 }
 
-export type AnimalPurchaseModel = WithId<{
+export type AnimalPurchaseModel = {
+  id: string
   date: Date
   birthDate: Date
   weight: string
   price: string
-}>
-
-// todo: refactor to be consistent with Api response
-export type AnimalPurchaseApiResponse = WithId<{
-  date: string
-  birthDate: string
-  weight: string
-  price: string
-}>
+}

@@ -5,6 +5,8 @@ import {
   UnexpectedError,
 } from '@/core/domain/errors'
 
+import { toApi } from '../../mappers/animal-death-api-mapper'
+
 import type { UpdateAnimalDeathUseCase } from '../../../domain/use-cases/animal-deaths-use-cases'
 
 export class RemoteUpdateAnimalDeathUseCase
@@ -26,17 +28,17 @@ export class RemoteUpdateAnimalDeathUseCase
 
     const { statusCode } = await this.httpClient.request({
       url: `${url}/${id}`,
-      method: 'patch',
-      body: animalDeath,
+      method: 'put',
+      body: toApi(animalDeath),
     })
 
-    if (statusCode === HttpStatusCode.noContent) return
+    if (statusCode === HttpStatusCode.ok) return
 
     if (statusCode === HttpStatusCode.badRequest) throw new BadRequestError()
 
     if (statusCode === HttpStatusCode.forbidden) {
       throw new ForbiddenError(
-        'Você não tem permissão para editar este óbito do animal.'
+        'Você não tem permissão para editar o óbito do animal'
       )
     }
 

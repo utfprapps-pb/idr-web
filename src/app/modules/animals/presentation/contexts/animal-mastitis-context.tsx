@@ -12,8 +12,8 @@ import type { AnimalMastitisModel } from '../../domain/models/animal-mastitides-
 import type { AnimalMastitisFilters } from '../types/animal-mastitis-types'
 
 type AnimalMastitisContextValue = {
-  propertyId: number
-  animalId: number
+  propertyId: string
+  animalId: string
   selectedAnimalMastitis?: AnimalMastitisModel
   filters: AnimalMastitisFilters
   handleChangeFilters: (newFilters: AnimalMastitisFilters) => void
@@ -35,7 +35,7 @@ export const AnimalMastitisContext = createContext<AnimalMastitisContextValue>(
 )
 
 type AnimalMastitisProviderProps = PropsWithChildren<{
-  animalId: number
+  animalId: string
 }>
 
 export function AnimalMastitisProvider({
@@ -106,7 +106,7 @@ export function AnimalMastitisProvider({
 
   const providerValues = useMemo(
     () => ({
-      propertyId: Number(params.propertyId),
+      propertyId: params.propertyId ?? '',
       animalId,
       filters,
       handleChangeFilters,

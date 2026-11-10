@@ -6,41 +6,29 @@ import { withDelay, withAuth } from '@/core/mocks/middleware'
 
 import animalPurchasesData from '@database/animalPurchasesData.json'
 
-import type { AnimalPurchaseDetailsApiResponse } from '../../../domain/models/animal-purchases-model'
+import { withAnimalId } from '../../utils/with-animal-id'
+
+import type { AnimalPurchaseApiResponse } from '../../../domain/models/animal-purchases-model'
 
 export const getAnimalPurchaseHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId' | 'id'>,
   never,
-  AnimalPurchaseDetailsApiResponse
+  AnimalPurchaseApiResponse
 >({
   routePath: '/api/properties/:propertyId/animals/:animalId/purchases/:id',
   method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ params }) => {
-    if (!animalPurchasesData.length) {
-      return HttpResponse.json({} as AnimalPurchaseDetailsApiResponse, {
-        status: 404,
+    const found = animalPurchasesData.find((item) => item.id === params.id)
+
+    if (!found) {
+      return HttpResponse.json({} as AnimalPurchaseApiResponse, {
+        status: HttpStatusCode.notFound,
       })
     }
 
-    const animalPurchaseFound = animalPurchasesData.find(
-      (animal) => animal.id === Number(params.id)
-    )
-
-    if (!animalPurchaseFound) {
-      return HttpResponse.json({} as AnimalPurchaseDetailsApiResponse, {
-        status: 404,
-      })
-    }
-
-    return HttpResponse.json(
-      {
-        date: animalPurchaseFound.date,
-        birthDate: animalPurchaseFound.birthDate,
-        weight: animalPurchaseFound.weight,
-        price: animalPurchaseFound.price,
-      },
-      { status: HttpStatusCode.ok }
-    )
+    return HttpResponse.json(withAnimalId(found, String(params.animalId)), {
+      status: HttpStatusCode.ok,
+    })
   },
 })

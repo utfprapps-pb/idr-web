@@ -2,7 +2,7 @@ import { RemoteGetAnimalPregnancyDiagnosisUseCase } from '@/app/modules/animals/
 import { makeApiHttpClient } from '@/core/main/factories/http'
 
 import type {
-  AnimalPregnancyDiagnosisDetailsApiResponse,
+  AnimalPregnancyDiagnosisApiResponse,
   AnimalPregnancyDiagnosisDetailsModel,
 } from '@/app/modules/animals/domain/models/animal-pregnancy-diagnoses-model'
 import type { GetAnimalPregnancyDiagnosisUseCase } from '@/app/modules/animals/domain/use-cases/animal-pregnancy-diagnoses-use-cases'
@@ -12,7 +12,7 @@ export function makeRemoteGetAnimalPregnancyDiagnosisUseCase(): GetAnimalPregnan
     'properties/:propertyId/animals/:animalId/pregnancy-diagnoses',
     makeApiHttpClient<
       AnimalPregnancyDiagnosisDetailsModel,
-      AnimalPregnancyDiagnosisDetailsApiResponse
+      AnimalPregnancyDiagnosisApiResponse
     >()
   )
 }

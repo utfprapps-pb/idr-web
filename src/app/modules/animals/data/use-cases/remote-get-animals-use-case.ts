@@ -1,3 +1,4 @@
+import { buildSearchQuery, toTotalPages } from '@/core/data/helpers'
 import { type HttpClient, HttpStatusCode } from '@/core/data/protocols/http'
 import {
   UnexpectedError,
@@ -10,7 +11,7 @@ import type {
   AnimalModel,
 } from '../../domain/models/animals-model'
 import type { GetAnimalsUseCase } from '../../domain/use-cases'
-import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
+import type { MapApiProperties, SearchApiResponse } from '@/core/domain/types'
 
 export class RemoteGetAnimalsUseCase implements GetAnimalsUseCase {
   constructor(
@@ -18,7 +19,7 @@ export class RemoteGetAnimalsUseCase implements GetAnimalsUseCase {
     private readonly httpClient: HttpClient<
       AnimalModel,
       AnimalApiResponse,
-      ListApiResponse<AnimalApiResponse[]>
+      SearchApiResponse<AnimalApiResponse>
     >
   ) {}
 
@@ -28,37 +29,39 @@ export class RemoteGetAnimalsUseCase implements GetAnimalsUseCase {
     pagination,
     sort,
   }) => {
+    // `breedName` vem na resposta, mas não é coluna do animal no backend —
+    // ordenar por raça usa `breedId` (agrupa, mas não em ordem alfabética).
     const mapApiProperties: MapApiProperties<AnimalModel, AnimalApiResponse> = {
       id: 'id',
-      name: 'name',
-      breed: 'breed',
+      name: 'identifier',
+      breed: 'breedId',
       ecc: 'ecc',
-      weight: 'weight',
-      milkProduction: 'milkProduction',
+      weight: 'currentWeight',
     }
 
     const url = this.url.replace(':propertyId', String(propertyId))
 
+    const query = buildSearchQuery(
+      { filters, pagination, sort },
+      (field) => mapApiProperties[field as keyof AnimalModel]
+    )
+
     const { statusCode, body } = await this.httpClient.request({
-      url: `${url}/search`,
-      method: 'post',
-      filters,
-      pagination,
-      sort,
-      mapApiProperties,
+      url: `${url}/search?${query}`,
+      method: 'get',
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        resources: body.content.map((item) => ({
+        resources: body.items.map((item) => ({
           id: item.id,
-          name: item.name,
-          breed: item.breed,
-          weight: item.weight,
-          ecc: item.ecc,
-          milkProduction: item.milkProduction,
+          name: item.identifier,
+          breed: item.breedName ?? '',
+          weight: item.currentWeight != null ? String(item.currentWeight) : '',
+          ecc: item.ecc != null ? String(item.ecc) : '',
+          milkProduction: '',
         })),
-        totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
+        totalPages: toTotalPages(body),
       }
     }
 

@@ -5,9 +5,11 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
+import { fromApi } from '../../mappers/animal-disease-api-mapper'
+
 import type {
   AnimalDiseaseDetailsModel,
-  AnimalDiseaseDetailsApiResponse,
+  AnimalDiseaseApiResponse,
 } from '../../../domain/models/animal-diseases-model'
 import type { GetAnimalDiseaseUseCase } from '../../../domain/use-cases/animal-diseases-use-cases'
 
@@ -16,7 +18,7 @@ export class RemoteGetAnimalDiseaseUseCase implements GetAnimalDiseaseUseCase {
     private readonly url: string,
     private readonly httpClient: HttpClient<
       AnimalDiseaseDetailsModel,
-      AnimalDiseaseDetailsApiResponse
+      AnimalDiseaseApiResponse
     >
   ) {}
 
@@ -35,10 +37,7 @@ export class RemoteGetAnimalDiseaseUseCase implements GetAnimalDiseaseUseCase {
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
-      return {
-        diagnosticDate: new Date(body.diagnosticDate),
-        diagnostic: body.diagnostic,
-      }
+      return fromApi(body)
     }
 
     if (statusCode === HttpStatusCode.notFound)

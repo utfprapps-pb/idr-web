@@ -3,7 +3,6 @@ import { useMemo, useState } from 'react'
 import { format } from 'date-fns'
 import { MoreHorizontalIcon, PencilIcon, Trash2Icon } from 'lucide-react'
 
-import { moneyMask } from '@/core/masker'
 import { DropdownMenu } from '@/core/presentation/components/ui'
 import { useDebounce } from '@/core/presentation/hooks'
 
@@ -66,7 +65,7 @@ export function useAnimalPurchaseDataTable() {
         cell: ({ row }) => {
           const { original: animalHeiferCalf } = row
 
-          return animalHeiferCalf.weight ? `${animalHeiferCalf.weight} kg` : '-'
+          return animalHeiferCalf.weight || '-'
         },
       },
       {
@@ -75,7 +74,7 @@ export function useAnimalPurchaseDataTable() {
         cell: ({ row }) => {
           const { original: animalPurchase } = row
 
-          return moneyMask(animalPurchase.price)
+          return animalPurchase.price
         },
       },
 

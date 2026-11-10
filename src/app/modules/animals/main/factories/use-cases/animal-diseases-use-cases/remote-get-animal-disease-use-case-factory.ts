@@ -4,16 +4,13 @@ import { RemoteGetAnimalDiseaseUseCase } from '../../../../data/use-cases/animal
 
 import type {
   AnimalDiseaseDetailsModel,
-  AnimalDiseaseDetailsApiResponse,
+  AnimalDiseaseApiResponse,
 } from '../../../../domain/models/animal-diseases-model'
 import type { GetAnimalDiseaseUseCase } from '../../../../domain/use-cases/animal-diseases-use-cases'
 
 export function makeRemoteGetAnimalDiseaseUseCase(): GetAnimalDiseaseUseCase {
   return new RemoteGetAnimalDiseaseUseCase(
     'properties/:propertyId/animals/:animalId/diseases',
-    makeApiHttpClient<
-      AnimalDiseaseDetailsModel,
-      AnimalDiseaseDetailsApiResponse
-    >()
+    makeApiHttpClient<AnimalDiseaseDetailsModel, AnimalDiseaseApiResponse>()
   )
 }

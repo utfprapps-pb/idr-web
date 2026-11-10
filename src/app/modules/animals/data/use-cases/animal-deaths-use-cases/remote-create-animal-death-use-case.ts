@@ -5,6 +5,8 @@ import {
   UnexpectedError,
 } from '@/core/domain/errors'
 
+import { toApi } from '../../mappers/animal-death-api-mapper'
+
 import type { CreateAnimalDeathUseCase } from '../../../domain/use-cases/animal-deaths-use-cases'
 
 export class RemoteCreateAnimalDeathUseCase
@@ -27,16 +29,16 @@ export class RemoteCreateAnimalDeathUseCase
     const { statusCode } = await this.httpClient.request({
       url,
       method: 'post',
-      body: animalDeath,
+      body: toApi(animalDeath),
     })
 
-    if (statusCode === HttpStatusCode.created) return
+    if (statusCode === HttpStatusCode.ok) return
 
     if (statusCode === HttpStatusCode.badRequest) throw new BadRequestError()
 
     if (statusCode === HttpStatusCode.forbidden) {
       throw new ForbiddenError(
-        'Você não tem permissão para criar óbito para este animal.'
+        'Você não tem permissão para registrar o óbito do animal'
       )
     }
 

@@ -4,6 +4,6 @@ export const ANIMAL_INITIAL_FORM_DATA: AnimalFormSchema = {
   name: '',
   breed: {
     label: '',
-    value: 0,
+    value: '',
   },
 }

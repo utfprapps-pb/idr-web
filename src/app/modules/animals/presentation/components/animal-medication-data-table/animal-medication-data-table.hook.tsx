@@ -51,10 +51,12 @@ export function useAnimalMedicationDataTable() {
       {
         accessorKey: 'activeIngredient',
         header: 'Princípio Ativo',
+        enableSorting: false,
       },
       {
         accessorKey: 'product',
         header: 'Produto',
+        enableSorting: false,
       },
       {
         accessorKey: 'appliedDose',

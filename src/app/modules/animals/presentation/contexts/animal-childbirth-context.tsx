@@ -12,8 +12,8 @@ import type { AnimalChildbirthModel } from '../../domain/models/animal-childbirt
 import type { AnimalChildbirthFilters } from '../types/animal-childbirth-types'
 
 type AnimalChildbirthContextValue = {
-  propertyId: number
-  animalId: number
+  propertyId: string
+  animalId: string
   selectedAnimalChildbirth?: AnimalChildbirthModel
   filters: AnimalChildbirthFilters
   handleChangeFilters: (newFilters: AnimalChildbirthFilters) => void
@@ -38,7 +38,7 @@ export const AnimalChildbirthContext =
   )
 
 type AnimalChildbirthProviderProps = PropsWithChildren<{
-  animalId: number
+  animalId: string
 }>
 
 export function AnimalChildbirthProvider({
@@ -109,7 +109,7 @@ export function AnimalChildbirthProvider({
 
   const providerValues = useMemo(
     () => ({
-      propertyId: Number(params.propertyId),
+      propertyId: params.propertyId ?? '',
       animalId,
       filters,
       handleChangeFilters,

@@ -4,7 +4,7 @@ import { RemoteGetAnimalInseminationUseCase } from '../../../../data/use-cases/a
 
 import type {
   AnimalInseminationDetailsModel,
-  AnimalInseminationDetailsApiResponse,
+  AnimalInseminationApiResponse,
 } from '../../../../domain/models/animal-inseminations-model'
 import type { GetAnimalInseminationUseCase } from '../../../../domain/use-cases/animal-inseminations-use-cases'
 
@@ -13,7 +13,7 @@ export function makeRemoteGetAnimalInseminationUseCase(): GetAnimalInseminationU
     'properties/:propertyId/animals/:animalId/inseminations',
     makeApiHttpClient<
       AnimalInseminationDetailsModel,
-      AnimalInseminationDetailsApiResponse
+      AnimalInseminationApiResponse
     >()
   )
 }

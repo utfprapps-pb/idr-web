@@ -5,7 +5,7 @@ export function createEmptyNutritionalBalancingEntry(
 ) {
   return {
     animal: {
-      id: 0,
+      id: '',
       name: '',
       breed: '',
       ecc: '',

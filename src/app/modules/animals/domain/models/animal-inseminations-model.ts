@@ -1,22 +1,18 @@
-import type { Option, WithId } from '@/core/domain/types'
-
 export type AnimalInseminationDetailsModel = {
   date: Date
-  sire: Option
+  sire: string
 }
 
-export type AnimalInseminationDetailsApiResponse = {
-  date: string
-  sire: Option
+/** Formato real da API (`GetInseminationByIdOutput` = `ListInseminationOutput`), usado no GET e em cada item da busca. */
+export type AnimalInseminationApiResponse = {
+  id: string
+  animalId: string
+  iaDate: string
+  bull: string
 }
 
-export type AnimalInseminationModel = WithId<{
+export type AnimalInseminationModel = {
+  id: string
   date: Date
   sire: string
-}>
-
-// todo: refactor to be consistent with Api response
-export type AnimalInseminationApiResponse = WithId<{
-  date: string
-  sire: string
-}>
+}

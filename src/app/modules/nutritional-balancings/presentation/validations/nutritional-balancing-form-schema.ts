@@ -4,7 +4,7 @@ import { onlyNumbersMask } from '@/core/masker'
 import { optionSchema } from '@/core/validation/schemas'
 
 const nutritionalBalancingAnimalSchema = z.object({
-  id: z.number().min(1, { message: 'Animal é obrigatório' }),
+  id: z.string().min(1, { message: 'Animal é obrigatório' }),
   name: z.string().min(1, { message: 'Nome do animal é obrigatório' }),
   breed: z.string(),
   ecc: z.string(),

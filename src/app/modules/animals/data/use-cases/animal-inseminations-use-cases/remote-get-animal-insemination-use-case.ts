@@ -5,9 +5,11 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
+import { fromApi } from '../../mappers/animal-insemination-api-mapper'
+
 import type {
   AnimalInseminationDetailsModel,
-  AnimalInseminationDetailsApiResponse,
+  AnimalInseminationApiResponse,
 } from '../../../domain/models/animal-inseminations-model'
 import type { GetAnimalInseminationUseCase } from '../../../domain/use-cases/animal-inseminations-use-cases'
 
@@ -18,7 +20,7 @@ export class RemoteGetAnimalInseminationUseCase
     private readonly url: string,
     private readonly httpClient: HttpClient<
       AnimalInseminationDetailsModel,
-      AnimalInseminationDetailsApiResponse
+      AnimalInseminationApiResponse
     >
   ) {}
 
@@ -37,10 +39,7 @@ export class RemoteGetAnimalInseminationUseCase
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
-      return {
-        date: new Date(body.date),
-        sire: body.sire,
-      }
+      return fromApi(body)
     }
 
     if (statusCode === HttpStatusCode.notFound)

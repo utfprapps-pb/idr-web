@@ -1,3 +1,4 @@
+import { buildSearchQuery, toTotalPages } from '@/core/data/helpers'
 import { type HttpClient, HttpStatusCode } from '@/core/data/protocols/http'
 import {
   UnexpectedError,
@@ -5,12 +6,19 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
+import { fromApi } from '../../mappers/animal-pregnancy-diagnosis-api-mapper'
+
 import type {
   AnimalPregnancyDiagnosisModel,
   AnimalPregnancyDiagnosisApiResponse,
 } from '../../../domain/models/animal-pregnancy-diagnoses-model'
 import type { GetAnimalPregnancyDiagnosesUseCase } from '../../../domain/use-cases/animal-pregnancy-diagnoses-use-cases'
-import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
+import type { SearchApiResponse } from '@/core/domain/types'
+
+const SORT_FIELD_MAP: Record<string, string> = {
+  date: 'diagnoseDate',
+  lastInseminationDate: 'lastIa',
+}
 
 export class RemoteGetAnimalPregnancyDiagnosesUseCase
   implements GetAnimalPregnancyDiagnosesUseCase
@@ -20,7 +28,7 @@ export class RemoteGetAnimalPregnancyDiagnosesUseCase
     private readonly httpClient: HttpClient<
       AnimalPregnancyDiagnosisModel,
       AnimalPregnancyDiagnosisApiResponse,
-      ListApiResponse<AnimalPregnancyDiagnosisModel[]>
+      SearchApiResponse<AnimalPregnancyDiagnosisApiResponse>
     >
   ) {}
 
@@ -31,38 +39,28 @@ export class RemoteGetAnimalPregnancyDiagnosesUseCase
     pagination,
     sort,
   }) => {
-    const mapApiProperties: MapApiProperties<
-      AnimalPregnancyDiagnosisModel,
-      AnimalPregnancyDiagnosisApiResponse
-    > = {
-      id: 'id',
-      date: 'date',
-      lastInseminationDate: 'lastInseminationDate',
-    }
-
     const url = this.url
       .replace(':propertyId', String(propertyId))
       .replace(':animalId', String(animalId))
 
+    const query = buildSearchQuery(
+      { filters, pagination, sort },
+      (field) => SORT_FIELD_MAP[field] ?? field
+    )
+
     const { statusCode, body } = await this.httpClient.request({
-      url: `${url}/search`,
-      method: 'post',
-      filters,
-      pagination,
-      sort,
-      mapApiProperties,
+      url: `${url}/search?${query}`,
+      method: 'get',
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        resources: body.content.map((item) => {
-          return {
-            id: item.id,
-            date: new Date(item.date),
-            lastInseminationDate: new Date(item.lastInseminationDate),
-          }
+        resources: body.items.map((item) => {
+          const { date, lastInseminationDate } = fromApi(item)
+
+          return { id: item.id, date, lastInseminationDate }
         }),
-        totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
+        totalPages: toTotalPages(body),
       }
     }
 

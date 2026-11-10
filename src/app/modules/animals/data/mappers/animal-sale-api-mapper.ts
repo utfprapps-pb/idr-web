@@ -1,0 +1,86 @@
+import {
+  fromApiWeight,
+  fromLocalDate,
+  toApiWeight,
+  toLocalDate,
+} from '@/core/data/helpers'
+import { formatNumber, unmaskFloat } from '@/core/masker'
+
+import type {
+  AnimalSaleDestination,
+  AnimalSaleDetailsModel,
+  AnimalSaleReason,
+  AnimalSaleApiResponse,
+} from '../../domain/models/animal-sales-model'
+
+/**
+ * Real backend fields: `dateSale` (frontend: `date`), `value`
+ * (frontend: `price`), `destination`/`reason` (mesmo nome de campo,
+ * mas tradução de VALOR de enum — backend em português, frontend em
+ * inglês). `value` é um `BigDecimal` (número puro) no backend, mas o
+ * frontend guarda `price` como string já formatada/mascarada (ver
+ * `input.hook.ts`) — por isso a conversão usa `unmaskFloat`/
+ * `formatNumber`, não é um passthrough de valor.
+ * `weight` segue a mesma regra: número (kg) na API, string mascarada
+ * (`"450,00 kg"`) no formulário.
+ */
+
+type BackendReason = 'VOLUNTARIA' | 'DESCARTE' | 'EMERGENCIA'
+type BackendDestination = 'ABATE' | 'PRODUCAO'
+
+const REASON_TO_FRONTEND: Record<BackendReason, AnimalSaleReason> = {
+  VOLUNTARIA: 'VOLUNTARY',
+  DESCARTE: 'DISCARD',
+  EMERGENCIA: 'EMERGENCY',
+}
+
+const REASON_TO_BACKEND: Record<AnimalSaleReason, BackendReason> = {
+  VOLUNTARY: 'VOLUNTARIA',
+  DISCARD: 'DESCARTE',
+  EMERGENCY: 'EMERGENCIA',
+}
+
+const DESTINATION_TO_FRONTEND: Record<
+  BackendDestination,
+  AnimalSaleDestination
+> = {
+  ABATE: 'SLAUGHTER',
+  PRODUCAO: 'PRODUCTION',
+}
+
+const DESTINATION_TO_BACKEND: Record<
+  AnimalSaleDestination,
+  BackendDestination
+> = {
+  SLAUGHTER: 'ABATE',
+  PRODUCTION: 'PRODUCAO',
+}
+
+export type AnimalSaleApiRequest = {
+  dateSale: string
+  value: number
+  destination: BackendDestination
+  reason: BackendReason
+  weight: number | null
+}
+
+export function toApi(model: AnimalSaleDetailsModel): AnimalSaleApiRequest {
+  return {
+    dateSale: toLocalDate(model.date),
+    value: unmaskFloat(model.price),
+    destination: DESTINATION_TO_BACKEND[model.destination],
+    reason: REASON_TO_BACKEND[model.reason],
+    weight: toApiWeight(model.weight),
+  }
+}
+
+export function fromApi(record: AnimalSaleApiResponse): AnimalSaleDetailsModel {
+  return {
+    date: fromLocalDate(record.dateSale),
+    price: formatNumber(record.value, { prefix: 'R$' }),
+    destination:
+      DESTINATION_TO_FRONTEND[record.destination as BackendDestination],
+    reason: REASON_TO_FRONTEND[record.reason as BackendReason],
+    weight: fromApiWeight(record.weight),
+  }
+}

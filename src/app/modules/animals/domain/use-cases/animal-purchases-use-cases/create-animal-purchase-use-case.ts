@@ -3,8 +3,8 @@ import type { RequestInterface } from '@/core/domain/types'
 
 export type CreateAnimalPurchaseUseCase = RequestInterface<
   {
-    propertyId: number
-    animalId: number
+    propertyId: string
+    animalId: string
     animalPurchase: AnimalPurchaseDetailsModel
   },
   void

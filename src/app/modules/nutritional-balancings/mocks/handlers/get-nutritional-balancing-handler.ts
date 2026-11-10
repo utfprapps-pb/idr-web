@@ -39,7 +39,7 @@ export const getNutritionalBalancingHandler = httpWithMiddleware<
         date: nutritionalBalancingFound.date,
         visitId: nutritionalBalancingFound.visitId,
         animal: {
-          id: nutritionalBalancingFound.id,
+          id: nutritionalBalancingFound.animalId,
           name: nutritionalBalancingFound.animal,
           breed: nutritionalBalancingFound.breed,
           weight: String(nutritionalBalancingFound.weight),

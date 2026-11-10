@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker/locale/pt_BR'
 
 import { animalsData } from './animals.mjs'
+import { allBreedsData } from './breeds.mjs'
 
 export const nutritionalBalancingsDependencies = ['animals']
 
@@ -18,10 +19,16 @@ for (let visitIndex = 0; visitIndex < numberOfVisits; visitIndex += 1) {
       date: visitDate,
       visitId,
       animalId: animal.id,
-      animal: animal.name,
-      breed: animal.breed,
-      weight: +animal.weight,
-      milkProduction: +animal.milkProduction,
+      animal: animal.identifier,
+      breed:
+        allBreedsData.find((breed) => breed.id === animal.breedId)?.breedName ??
+        '',
+      weight: animal.currentWeight,
+      milkProduction: faker.number.float({
+        min: 1,
+        max: 50,
+        fractionDigits: 2,
+      }),
       estimatedMilkProduction: faker.number.float({
         min: 5,
         max: 50,

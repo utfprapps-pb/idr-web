@@ -1,13 +1,13 @@
 import { makeApiHttpClient } from '@/core/main/factories/http'
 
-import { RemoteGetAnimalMastitidesUseCase } from '../../../../data/use-cases/animal-mastitides-use-cases'
+import { RemoteGetAnimalMastitidesUseCase } from '../../../../data/use-cases/animal-mastitides-use-cases/remote-get-animal-mastitides-use-case'
 import {
-  type AnimalMastitisApiResponse,
   type AnimalMastitisModel,
+  AnimalMastitisApiResponse,
 } from '../../../../domain/models/animal-mastitides-model'
 
 import type { GetAnimalMastitidesUseCase } from '../../../../domain/use-cases/animal-mastitides-use-cases'
-import type { ListApiResponse } from '@/core/domain/types'
+import type { SearchApiResponse } from '@/core/domain/types'
 
 export function makeRemoteGetAnimalMastitidesUseCase(): GetAnimalMastitidesUseCase {
   return new RemoteGetAnimalMastitidesUseCase(
@@ -15,7 +15,7 @@ export function makeRemoteGetAnimalMastitidesUseCase(): GetAnimalMastitidesUseCa
     makeApiHttpClient<
       AnimalMastitisModel,
       AnimalMastitisApiResponse,
-      ListApiResponse<AnimalMastitisModel[]>
+      SearchApiResponse<AnimalMastitisApiResponse>
     >()
   )
 }

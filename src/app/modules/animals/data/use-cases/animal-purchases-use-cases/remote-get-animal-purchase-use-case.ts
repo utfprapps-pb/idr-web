@@ -5,9 +5,11 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
+import { fromApi } from '../../mappers/animal-purchase-api-mapper'
+
 import type {
   AnimalPurchaseDetailsModel,
-  AnimalPurchaseDetailsApiResponse,
+  AnimalPurchaseApiResponse,
 } from '../../../domain/models/animal-purchases-model'
 import type { GetAnimalPurchaseUseCase } from '../../../domain/use-cases/animal-purchases-use-cases'
 
@@ -18,7 +20,7 @@ export class RemoteGetAnimalPurchaseUseCase
     private readonly url: string,
     private readonly httpClient: HttpClient<
       AnimalPurchaseDetailsModel,
-      AnimalPurchaseDetailsApiResponse
+      AnimalPurchaseApiResponse
     >
   ) {}
 
@@ -37,12 +39,7 @@ export class RemoteGetAnimalPurchaseUseCase
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
-      return {
-        date: new Date(body.date),
-        birthDate: new Date(body.birthDate),
-        price: body.price,
-        weight: body.weight,
-      }
+      return fromApi(body)
     }
 
     if (statusCode === HttpStatusCode.notFound)

@@ -12,8 +12,8 @@ import type { AnimalPurchaseModel } from '../../domain/models/animal-purchases-m
 import type { AnimalPurchaseFilters } from '../types/animal-purchase-types'
 
 type AnimalPurchaseValue = {
-  propertyId: number
-  animalId: number
+  propertyId: string
+  animalId: string
   selectedAnimalPurchase?: AnimalPurchaseModel
   filters: AnimalPurchaseFilters
   handleChangeFilters: (newFilters: AnimalPurchaseFilters) => void
@@ -35,7 +35,7 @@ export const AnimalPurchaseContext = createContext<AnimalPurchaseValue>(
 )
 
 type AnimalPurchaseProviderProps = PropsWithChildren<{
-  animalId: number
+  animalId: string
 }>
 
 export function AnimalPurchaseProvider({
@@ -106,7 +106,7 @@ export function AnimalPurchaseProvider({
 
   const providerValues = useMemo(
     () => ({
-      propertyId: Number(params.propertyId),
+      propertyId: params.propertyId ?? '',
       animalId,
       filters,
       handleChangeFilters,

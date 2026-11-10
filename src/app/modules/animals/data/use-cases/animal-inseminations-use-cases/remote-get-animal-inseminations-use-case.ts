@@ -1,3 +1,4 @@
+import { buildSearchQuery, toTotalPages } from '@/core/data/helpers'
 import { type HttpClient, HttpStatusCode } from '@/core/data/protocols/http'
 import {
   UnexpectedError,
@@ -5,12 +6,19 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
+import { fromApi } from '../../mappers/animal-insemination-api-mapper'
+
 import type {
-  AnimalInseminationApiResponse,
   AnimalInseminationModel,
+  AnimalInseminationApiResponse,
 } from '../../../domain/models/animal-inseminations-model'
 import type { GetAnimalInseminationsUseCase } from '../../../domain/use-cases/animal-inseminations-use-cases'
-import type { ListApiResponse, MapApiProperties } from '@/core/domain/types'
+import type { SearchApiResponse } from '@/core/domain/types'
+
+const SORT_FIELD_MAP: Record<string, string> = {
+  sire: 'bull',
+  date: 'iaDate',
+}
 
 export class RemoteGetAnimalInseminationsUseCase
   implements GetAnimalInseminationsUseCase
@@ -20,7 +28,7 @@ export class RemoteGetAnimalInseminationsUseCase
     private readonly httpClient: HttpClient<
       AnimalInseminationModel,
       AnimalInseminationApiResponse,
-      ListApiResponse<AnimalInseminationModel[]>
+      SearchApiResponse<AnimalInseminationApiResponse>
     >
   ) {}
 
@@ -31,38 +39,28 @@ export class RemoteGetAnimalInseminationsUseCase
     pagination,
     sort,
   }) => {
-    const mapApiProperties: MapApiProperties<
-      AnimalInseminationModel,
-      AnimalInseminationApiResponse
-    > = {
-      id: 'id',
-      date: 'date',
-      sire: 'sire',
-    }
-
     const url = this.url
       .replace(':propertyId', String(propertyId))
       .replace(':animalId', String(animalId))
 
+    const query = buildSearchQuery(
+      { filters, pagination, sort },
+      (field) => SORT_FIELD_MAP[field] ?? field
+    )
+
     const { statusCode, body } = await this.httpClient.request({
-      url: `${url}/search`,
-      method: 'post',
-      filters,
-      pagination,
-      sort,
-      mapApiProperties,
+      url: `${url}/search?${query}`,
+      method: 'get',
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        resources: body.content.map((item) => {
-          return {
-            id: item.id,
-            date: new Date(item.date),
-            sire: item.sire,
-          }
+        resources: body.items.map((item) => {
+          const { date, sire } = fromApi(item)
+
+          return { id: item.id, date, sire }
         }),
-        totalPages: Math.ceil(body.numberOfElements / body.pageable.pageSize),
+        totalPages: toTotalPages(body),
       }
     }
 

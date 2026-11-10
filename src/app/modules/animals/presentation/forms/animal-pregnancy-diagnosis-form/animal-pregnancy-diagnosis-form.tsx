@@ -2,7 +2,7 @@ import { CreateAnimalPregnancyDiagnosisForm } from './create-animal-pregnancy-di
 import { EditAnimalPregnancyDiagnosisForm } from './edit-animal-pregnancy-diagnosis-form'
 
 type AnimalPregnancyDiagnosisFormProps = {
-  id?: number
+  id?: string
 }
 
 export function AnimalPregnancyDiagnosisForm({

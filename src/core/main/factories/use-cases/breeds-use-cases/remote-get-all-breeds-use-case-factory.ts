@@ -5,7 +5,7 @@ import type {
   BreedApiResponse,
   BreedModel,
 } from '@/core/domain/models/breeds-model'
-import type { ListApiResponse } from '@/core/domain/types'
+import type { SearchApiResponse } from '@/core/domain/types'
 import type { GetAllBreedsUseCase } from '@/core/domain/use-cases/breeds-use-cases'
 
 export function makeRemoteGetAllBreedsUseCase(): GetAllBreedsUseCase {
@@ -14,7 +14,7 @@ export function makeRemoteGetAllBreedsUseCase(): GetAllBreedsUseCase {
     makeApiHttpClient<
       BreedModel,
       BreedApiResponse,
-      ListApiResponse<BreedApiResponse[]>
+      SearchApiResponse<BreedApiResponse>
     >()
   )
 }

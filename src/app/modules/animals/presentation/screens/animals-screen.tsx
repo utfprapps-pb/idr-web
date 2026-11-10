@@ -31,7 +31,10 @@ type Tab = {
 }
 
 export function AnimalsScreen() {
-  const [animalId, setAnimalId] = useState<number | null>(null)
+  const [animalId, setAnimalId] = useState<string | null>(null)
+
+  /** TODO: só a fase bezerra/novilha ainda espera um animalId numérico (sem rota de backend migrada; spec própria); as demais abas já usam o UUID. */
+  const legacyAnimalId = animalId as unknown as number | null
 
   const tabs = useMemo<Tab[]>(
     () => [
@@ -43,8 +46,8 @@ export function AnimalsScreen() {
       {
         key: 'animal-heifer-calf-stages',
         name: 'Fase Bezerra/Novilha',
-        component: animalId && (
-          <AnimalHeiferCalfStagesScreen animalId={animalId} />
+        component: legacyAnimalId && (
+          <AnimalHeiferCalfStagesScreen animalId={legacyAnimalId} />
         ),
       },
       {
@@ -92,7 +95,7 @@ export function AnimalsScreen() {
         component: animalId && <AnimalMastitidesScreen animalId={animalId} />,
       },
     ],
-    [animalId]
+    [legacyAnimalId, animalId]
   )
 
   const [activeTab, setActiveTab] = useState('animal-childbirths')
@@ -105,7 +108,7 @@ export function AnimalsScreen() {
     setActiveTab(tab)
   }, [])
 
-  const handleSelectAnimalId = useCallback((animalId: number | null) => {
+  const handleSelectAnimalId = useCallback((animalId: string | null) => {
     setAnimalId(animalId)
   }, [])
 

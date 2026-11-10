@@ -7,8 +7,8 @@ import type {
 
 export type GetAnimalSalesUseCase = RequestInterface<
   ListParams<AnimalSaleModel> & {
-    propertyId: number
-    animalId: number
+    propertyId: string
+    animalId: string
   },
   ListResponse<AnimalSaleModel>
 >

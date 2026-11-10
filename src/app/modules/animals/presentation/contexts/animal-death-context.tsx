@@ -12,8 +12,8 @@ import type { AnimalDeathModel } from '../../domain/models/animal-deaths-model'
 import type { AnimalDeathFilters } from '../types/animal-death-types'
 
 type AnimalDeathValue = {
-  propertyId: number
-  animalId: number
+  propertyId: string
+  animalId: string
   selectedAnimalDeath?: AnimalDeathModel
   filters: AnimalDeathFilters
   handleChangeFilters: (newFilters: AnimalDeathFilters) => void
@@ -33,7 +33,7 @@ export const AnimalDeathContext = createContext<AnimalDeathValue>(
 )
 
 type AnimalDeathProviderProps = PropsWithChildren<{
-  animalId: number
+  animalId: string
 }>
 
 export function AnimalDeathProvider({
@@ -101,7 +101,7 @@ export function AnimalDeathProvider({
 
   const providerValues = useMemo(
     () => ({
-      propertyId: Number(params.propertyId),
+      propertyId: params.propertyId ?? '',
       animalId,
       filters,
       handleChangeFilters,

@@ -12,8 +12,8 @@ import type { AnimalInseminationModel } from '../../domain/models/animal-insemin
 import type { AnimalInseminationFilters } from '../types/animal-insemination-types'
 
 type AnimalInseminationContextValue = {
-  propertyId: number
-  animalId: number
+  propertyId: string
+  animalId: string
   selectedAnimalInsemination?: AnimalInseminationModel
   filters: AnimalInseminationFilters
   handleChangeFilters: (newFilters: AnimalInseminationFilters) => void
@@ -38,7 +38,7 @@ export const AnimalInseminationContext =
   )
 
 type AnimalInseminationProviderProps = PropsWithChildren<{
-  animalId: number
+  animalId: string
 }>
 
 export function AnimalInseminationProvider({
@@ -111,7 +111,7 @@ export function AnimalInseminationProvider({
 
   const providerValues = useMemo(
     () => ({
-      propertyId: Number(params.propertyId),
+      propertyId: params.propertyId ?? '',
       animalId,
       filters,
       handleChangeFilters,

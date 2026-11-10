@@ -5,6 +5,8 @@ import {
   UnexpectedError,
 } from '@/core/domain/errors'
 
+import { toApi } from '../../mappers/animal-purchase-api-mapper'
+
 import type { UpdateAnimalPurchaseUseCase } from '../../../domain/use-cases/animal-purchases-use-cases'
 
 export class RemoteUpdateAnimalPurchaseUseCase
@@ -26,11 +28,11 @@ export class RemoteUpdateAnimalPurchaseUseCase
 
     const { statusCode } = await this.httpClient.request({
       url: `${url}/${id}`,
-      method: 'patch',
-      body: animalPurchase,
+      method: 'put',
+      body: toApi(animalPurchase),
     })
 
-    if (statusCode === HttpStatusCode.noContent) return
+    if (statusCode === HttpStatusCode.ok) return
 
     if (statusCode === HttpStatusCode.badRequest) throw new BadRequestError()
 

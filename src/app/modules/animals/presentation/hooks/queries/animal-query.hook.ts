@@ -6,8 +6,8 @@ import toast from 'react-hot-toast'
 import { makeRemoteGetAnimalUseCase } from '../../../main/factories/use-cases'
 
 type Props = {
-  id: number
-  propertyId: number
+  id: string
+  propertyId: string
 }
 
 export function useAnimalQuery({ id, propertyId }: Props) {

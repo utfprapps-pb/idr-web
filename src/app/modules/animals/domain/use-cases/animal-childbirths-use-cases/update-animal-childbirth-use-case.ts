@@ -1,12 +1,11 @@
 import type { AnimalChildbirthDetailsModel } from '../../models/animal-childbirths-model'
 import type { RequestInterface } from '@/core/domain/types'
-import type { WithId } from '@/core/domain/types/with-id-type'
 
 export type UpdateAnimalChildbirthUseCase = RequestInterface<
   {
-    propertyId: number
-    animalId: number
-    animalChildbirth: WithId<AnimalChildbirthDetailsModel>
+    propertyId: string
+    animalId: string
+    animalChildbirth: { id: string } & AnimalChildbirthDetailsModel
   },
   void
 >

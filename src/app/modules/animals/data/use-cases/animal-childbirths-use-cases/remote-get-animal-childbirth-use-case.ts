@@ -5,11 +5,11 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
+import { fromApi } from '../../mappers/animal-childbirth-api-mapper'
+
 import type {
-  AnimalChildbirthCondition,
-  AnimalChildbirthDetailsApiResponse,
   AnimalChildbirthDetailsModel,
-  AnimalChildbirthGender,
+  AnimalChildbirthApiResponse,
 } from '../../../domain/models/animal-childbirths-model'
 import type { GetAnimalChildbirthUseCase } from '../../../domain/use-cases/animal-childbirths-use-cases'
 
@@ -20,7 +20,7 @@ export class RemoteGetAnimalChildbirthUseCase
     private readonly url: string,
     private readonly httpClient: HttpClient<
       AnimalChildbirthDetailsModel,
-      AnimalChildbirthDetailsApiResponse
+      AnimalChildbirthApiResponse
     >
   ) {}
 
@@ -39,13 +39,7 @@ export class RemoteGetAnimalChildbirthUseCase
     })
 
     if (statusCode === HttpStatusCode.ok && !!body) {
-      return {
-        date: new Date(body.date),
-        breed: body.breed,
-        condition: body.condition as AnimalChildbirthCondition,
-        gender: body.gender as AnimalChildbirthGender,
-        weight: body.weight,
-      }
+      return fromApi(body)
     }
 
     if (statusCode === HttpStatusCode.notFound)

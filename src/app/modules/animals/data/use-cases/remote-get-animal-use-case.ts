@@ -6,7 +6,7 @@ import {
 } from '@/core/domain/errors'
 
 import type {
-  AnimalDetailsApiResponse,
+  AnimalApiResponse,
   AnimalDetailsModel,
 } from '../../domain/models/animals-model'
 import type { GetAnimalUseCase } from '../../domain/use-cases'
@@ -16,7 +16,7 @@ export class RemoteGetAnimalUseCase implements GetAnimalUseCase {
     private readonly url: string,
     private readonly httpClient: HttpClient<
       AnimalDetailsModel,
-      AnimalDetailsApiResponse
+      AnimalApiResponse
     >
   ) {}
 
@@ -30,11 +30,11 @@ export class RemoteGetAnimalUseCase implements GetAnimalUseCase {
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        name: body.name,
-        breed: body.breed,
-        ecc: body.ecc,
-        weight: body.weight,
-        milkProduction: body.milkProduction,
+        name: body.identifier,
+        breed: { value: body.breedId, label: body.breedName ?? '' },
+        ecc: body.ecc != null ? String(body.ecc) : '',
+        weight: body.currentWeight != null ? String(body.currentWeight) : '',
+        milkProduction: '',
       }
     }
 
