@@ -15,9 +15,12 @@ export type ProblemDetails = {
 export function getProblemDetailMessage(body: unknown): string | undefined {
   if (typeof body !== 'object' || body === null) return undefined
 
-  const { detail, title } = body as ProblemDetails
+  const { detail, title } = body as Record<string, unknown>
 
-  return detail || title || undefined
+  if (typeof detail === 'string' && detail) return detail
+  if (typeof title === 'string' && title) return title
+
+  return undefined
 }
 
 export function getApiErrorMessage(

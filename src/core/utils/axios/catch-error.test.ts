@@ -33,6 +33,18 @@ describe('getProblemDetailMessage', () => {
     ).toBe('Acesso negado')
   })
 
+  it('ignora detail e title que não são string', () => {
+    expect(
+      getProblemDetailMessage({ detail: { x: 1 }, title: 42 })
+    ).toBeUndefined()
+  })
+
+  it('usa o title válido quando o detail não é string', () => {
+    expect(
+      getProblemDetailMessage({ detail: ['a'], title: 'Acesso negado' })
+    ).toBe('Acesso negado')
+  })
+
   it('ignora o formato antigo { message }', () => {
     expect(getProblemDetailMessage({ message: 'x' })).toBeUndefined()
   })
