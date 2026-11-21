@@ -1,5 +1,6 @@
 import { type HttpClient, HttpStatusCode } from '@/core/data/protocols/http'
 import { UnexpectedError } from '@/core/domain/errors'
+import { getProblemDetailMessage } from '@/core/utils'
 
 import type { RequestPasswordRecoveryUseCase } from '../../domain/use-cases'
 
@@ -20,7 +21,6 @@ export class RemoteRequestPasswordRecoveryUseCase
 
     if (statusCode === HttpStatusCode.ok) return
 
-    const apiMessage = (body as { message?: string } | undefined)?.message
-    throw new UnexpectedError(apiMessage)
+    throw new UnexpectedError(getProblemDetailMessage(body))
   }
 }

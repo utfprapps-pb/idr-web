@@ -1,9 +1,8 @@
 import { type HttpClient, HttpStatusCode } from '@/core/data/protocols/http'
-import { NotFoundError, UnexpectedError } from '@/core/domain/errors'
+import { BadRequestError, UnexpectedError } from '@/core/domain/errors'
+import { getProblemDetailMessage } from '@/core/utils'
 
 import type { ResetPasswordUseCase } from '../../domain/use-cases'
-
-type ApiErrorBody = { message?: string }
 
 export class RemoteResetPasswordUseCase implements ResetPasswordUseCase {
   constructor(
@@ -25,10 +24,10 @@ export class RemoteResetPasswordUseCase implements ResetPasswordUseCase {
 
     if (statusCode === HttpStatusCode.ok) return
 
-    const apiMessage = (body as ApiErrorBody | undefined)?.message
+    const apiMessage = getProblemDetailMessage(body)
 
-    if (statusCode === HttpStatusCode.notFound) {
-      throw new NotFoundError(apiMessage ?? 'Código de recuperação inválido')
+    if (statusCode === HttpStatusCode.badRequest) {
+      throw new BadRequestError(apiMessage ?? 'Código de recuperação inválido')
     }
 
     throw new UnexpectedError(apiMessage)
