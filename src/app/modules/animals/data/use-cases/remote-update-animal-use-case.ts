@@ -5,7 +5,8 @@ import {
   UnexpectedError,
 } from '@/core/domain/errors'
 
-import type { AnimalWriteApiRequest } from '../../domain/models/animals-model'
+import { toUpdateRequest } from '../mappers/animal-api-mapper'
+
 import type { UpdateAnimalUseCase } from '../../domain/use-cases'
 
 export class RemoteUpdateAnimalUseCase implements UpdateAnimalUseCase {
@@ -20,15 +21,11 @@ export class RemoteUpdateAnimalUseCase implements UpdateAnimalUseCase {
   }) => {
     const url = this.url.replace(':propertyId', String(propertyId))
 
-    const body: AnimalWriteApiRequest = {
-      propertyId,
-      identifier: animal.name,
-      breedId: animal.breed.value,
-    }
+    const body = toUpdateRequest(animal)
 
     const { statusCode } = await this.httpClient.request({
       url: `${url}/${id}`,
-      method: 'patch',
+      method: 'put',
       body,
     })
 

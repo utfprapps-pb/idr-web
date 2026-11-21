@@ -6,6 +6,8 @@ import {
   ForbiddenError,
 } from '@/core/domain/errors'
 
+import { fromApiListItem } from '../mappers/animal-api-mapper'
+
 import type {
   AnimalApiResponse,
   AnimalModel,
@@ -53,14 +55,7 @@ export class RemoteGetAnimalsUseCase implements GetAnimalsUseCase {
 
     if (statusCode === HttpStatusCode.ok && !!body) {
       return {
-        resources: body.items.map((item) => ({
-          id: item.id,
-          name: item.identifier,
-          breed: item.breedName ?? '',
-          weight: item.currentWeight != null ? String(item.currentWeight) : '',
-          ecc: item.ecc != null ? String(item.ecc) : '',
-          milkProduction: '',
-        })),
+        resources: body.items.map(fromApiListItem),
         totalPages: toTotalPages(body),
       }
     }
