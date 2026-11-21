@@ -2,11 +2,14 @@ import { HttpResponse } from 'msw'
 
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay } from '@/core/mocks/middleware'
+import { problemResponse } from '@/core/mocks/utils'
+
+import type { ProblemDetails } from '@/core/utils'
 
 export const requestPasswordRecoveryHandler = httpWithMiddleware<
   never,
   { email: string },
-  { message: string }
+  { message: string } | ProblemDetails
 >({
   routePath: '/api/v1/email/send-recuperation-code',
   method: 'post',
@@ -20,6 +23,11 @@ export const requestPasswordRecoveryHandler = httpWithMiddleware<
       })
     }
 
-    return HttpResponse.json({ message: 'E-mail inválido' }, { status: 400 })
+    return problemResponse(
+      400,
+      'validacao',
+      'Erro de validação',
+      'Usuário com e-mail não encontrado'
+    )
   },
 })
