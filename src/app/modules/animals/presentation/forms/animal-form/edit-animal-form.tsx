@@ -66,13 +66,7 @@ export function EditAnimalForm() {
         }
 
         await mutateHandleUpdateAnimal({
-          animal: {
-            ...data,
-            id: selectedAnimal.id,
-            ecc: '',
-            milkProduction: '',
-            weight: '',
-          },
+          animal: { ...data, id: selectedAnimal.id },
           propertyId,
         })
         queryClient.invalidateQueries({
@@ -117,7 +111,7 @@ export function EditAnimalForm() {
                   <Loading size="lg" />
                 </div>
               ) : (
-                <AnimalFormInputs />
+                <AnimalFormInputs animalId={selectedAnimal?.id} />
               )}
             </form>
           </ScrollArea.Root>

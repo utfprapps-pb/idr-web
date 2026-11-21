@@ -19,6 +19,7 @@ export function toAnimalApiResponse(
     id: animal.id,
     propertyId,
     animalMotherId: null,
+    animalMotherIdentifier: null,
     breedId: animal.breedId,
     breedName: findBreedName(animal.breedId),
     type: null,

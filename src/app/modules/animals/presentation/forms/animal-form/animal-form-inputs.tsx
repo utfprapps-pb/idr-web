@@ -1,14 +1,100 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { useFormContext } from 'react-hook-form'
 
-import { Combobox, Form, Input } from '@/core/presentation/components/ui'
+import { floatMask } from '@/core/masker'
+import {
+  Combobox,
+  DatePicker,
+  Form,
+  Input,
+  Select,
+} from '@/core/presentation/components/ui'
 import { useAllBreedsQuery, useDebounce } from '@/core/presentation/hooks'
+
+import {
+  ANIMAL_BORN_CONDITIONS,
+  ANIMAL_BREED_TYPES,
+  ANIMAL_GENDERS,
+} from '../../../domain/models/animal-options'
+import { useAnimalContext } from '../../hooks/animal-context.hook'
+import { useAllAnimalsWithFilterQuery } from '../../hooks/queries/all-animals-with-filter-query.hook'
 
 import type { AnimalFormSchema } from '../../validations/animal-form-schema'
 
-export function AnimalFormInputs() {
+const NO_MOTHER = { label: 'Nenhuma', value: '' }
+
+/** O Select não aceita item com valor vazio: este valor representa "não informado". */
+const NOT_INFORMED = '__not_informed__'
+
+type OptionalSelectFieldProps = {
+  name: 'type' | 'gender' | 'bornCondition'
+  label: string
+  placeholder: string
+  values: readonly string[]
+}
+
+function OptionalSelectField({
+  name,
+  label,
+  placeholder,
+  values,
+}: Readonly<OptionalSelectFieldProps>) {
   const form = useFormContext<AnimalFormSchema>()
+
+  return (
+    <Form.Field
+      name={name}
+      control={form.control}
+      render={({ field }) => {
+        // Valor antigo fora da lista continua selecionável, para ser preservado.
+        const options =
+          field.value && !values.includes(field.value)
+            ? [...values, field.value]
+            : values
+
+        return (
+          <Form.Item>
+            <Form.Label>{label}</Form.Label>
+            <Select.Root
+              onValueChange={(value) =>
+                field.onChange(value === NOT_INFORMED ? '' : value)
+              }
+              value={field.value || NOT_INFORMED}
+            >
+              <Form.Control>
+                <Select.Trigger>
+                  <Select.Value placeholder={placeholder} />
+                </Select.Trigger>
+              </Form.Control>
+              <Select.Content>
+                <Select.Item value={NOT_INFORMED}>Não informado</Select.Item>
+                {options.map((value) => (
+                  <Select.Item key={value} value={value}>
+                    {value}
+                  </Select.Item>
+                ))}
+              </Select.Content>
+            </Select.Root>
+            <Form.Message />
+          </Form.Item>
+        )
+      }}
+    />
+  )
+}
+
+type AnimalFormInputsProps = {
+  /** Na edição, o próprio animal não pode ser escolhido como mãe. */
+  animalId?: string
+}
+
+export function AnimalFormInputs({
+  animalId,
+}: Readonly<AnimalFormInputsProps>) {
+  const form = useFormContext<AnimalFormSchema>()
+
+  const { propertyId } = useAnimalContext()
 
   const [searchBreed, setSearchBreed] = useState('')
 
@@ -22,6 +108,26 @@ export function AnimalFormInputs() {
       },
     },
   })
+
+  const [searchMother, setSearchMother] = useState('')
+
+  const debouncedMother = useDebounce({ value: searchMother })
+
+  const { allAnimals, isLoading: isLoadingAnimals } =
+    useAllAnimalsWithFilterQuery({
+      propertyId,
+      filters: { name: { value: debouncedMother, type: 'LIKE' } },
+    })
+
+  const motherOptions = useMemo(
+    () => [
+      NO_MOTHER,
+      ...allAnimals
+        .filter((animal) => animal.value !== animalId)
+        .map(({ label, value }) => ({ label, value })),
+    ],
+    [allAnimals, animalId]
+  )
 
   return (
     <>
@@ -74,6 +180,86 @@ export function AnimalFormInputs() {
             </Form.Item>
           )
         }}
+      />
+
+      <OptionalSelectField
+        name="type"
+        label="Tipo de Raça"
+        placeholder="Selecione o tipo de raça"
+        values={ANIMAL_BREED_TYPES}
+      />
+
+      <OptionalSelectField
+        name="gender"
+        label="Sexo"
+        placeholder="Selecione o sexo"
+        values={ANIMAL_GENDERS}
+      />
+
+      <Form.Field
+        name="mother"
+        control={form.control}
+        render={({ field }) => (
+          <Form.Item>
+            <Form.Label>Mãe</Form.Label>
+            <Form.Control>
+              <Combobox
+                search={searchMother}
+                items={motherOptions}
+                loading={isLoadingAnimals}
+                selected={field.value.value ? field.value : NO_MOTHER}
+                handleSearch={setSearchMother}
+                handleSelect={field.onChange}
+                placeholder="Selecione a mãe (opcional)"
+                emptyMessage="Nenhum animal encontrado"
+                searchPlaceholder="Buscar animal"
+              />
+            </Form.Control>
+            <Form.Message />
+          </Form.Item>
+        )}
+      />
+
+      <Form.Field
+        name="bornDate"
+        control={form.control}
+        render={({ field }) => (
+          <Form.Item>
+            <Form.Label>Data de Nascimento</Form.Label>
+            <Form.Control>
+              <DatePicker
+                date={field.value ?? undefined}
+                onSelect={(date) => field.onChange(date ?? null)}
+              />
+            </Form.Control>
+            <Form.Message />
+          </Form.Item>
+        )}
+      />
+
+      <Form.Field
+        name="bornWeight"
+        control={form.control}
+        render={({ field }) => (
+          <Form.Item>
+            <Form.Label>Peso ao Nascer</Form.Label>
+            <Form.Control>
+              <Input
+                {...field}
+                placeholder="35,0 kg"
+                mask={(value) => floatMask(value, 'kg')}
+              />
+            </Form.Control>
+            <Form.Message />
+          </Form.Item>
+        )}
+      />
+
+      <OptionalSelectField
+        name="bornCondition"
+        label="Condição ao Nascer"
+        placeholder="Selecione a condição ao nascer"
+        values={ANIMAL_BORN_CONDITIONS}
       />
     </>
   )
