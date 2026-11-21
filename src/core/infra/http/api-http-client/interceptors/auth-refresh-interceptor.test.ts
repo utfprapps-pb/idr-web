@@ -213,29 +213,60 @@ describe('createAuthRefreshInterceptor', () => {
     expect(logoutEvents).toBe(1)
   })
 
-  // Bug: `return await api(originalRequest)` fica dentro do `try`. Se a
-  // renovação dá certo mas a requisição repetida falha (500, 422, 403...),
-  // o `catch` trata como falha de renovação: apaga os tokens recém-obtidos,
-  // dispara o logout e repassa o 401 original em vez do erro real.
-  it.fails(
-    'quando a requisição repetida falha, repassa o erro dela e mantém a sessão',
-    async () => {
-      const retryError = makeAxiosError(500, makeConfig())
-      api.mockRejectedValue(retryError)
-      const interceptor = createAuthRefreshInterceptor(api)
+  it('quando a requisição repetida falha, repassa o erro dela e mantém a sessão', async () => {
+    const retryError = makeAxiosError(500, makeConfig())
+    api.mockRejectedValue(retryError)
+    const interceptor = createAuthRefreshInterceptor(api)
+    const config = makeConfig()
 
-      await expect(interceptor(makeAxiosError(401, makeConfig()))).rejects.toBe(
-        retryError
-      )
-      expect(storage.get(AUTH)).toBe('access-novo')
-      expect(logoutEvents).toBe(0)
-    }
-  )
+    await expect(interceptor(makeAxiosError(401, config))).rejects.toBe(
+      retryError
+    )
+    expect(post).toHaveBeenCalledTimes(1)
+    expect(api).toHaveBeenCalledTimes(1)
+    expect(config.headers.Authorization).toBe('Bearer access-novo')
+    expect(storage.get(AUTH)).toBe('access-novo')
+    expect(storage.get(REFRESH_TOKEN)).toBe('refresh-novo')
+    expect(logoutEvents).toBe(0)
+  })
 
-  // A API real (Spring Security sem AuthenticationEntryPoint configurado)
-  // responde 403, não 401, a JWT ausente/expirado/inválido; o interceptor só
-  // renova no 401. O mock (`withAuth`) devolve 401 e esconde a diferença.
-  it.todo(
-    'renova o token quando a API sinaliza JWT expirado (hoje a API real responde 403)'
-  )
+  it('com 401 simultâneos, a falha da primeira repetição não afeta as enfileiradas', async () => {
+    const refresh = deferred<unknown>()
+    post.mockReturnValue(refresh.promise)
+    const first = makeConfig('v1/a')
+    const second = makeConfig('v1/b')
+    const retryError = makeAxiosError(500, first)
+    api.mockImplementation(async (config: InternalAxiosRequestConfig) => {
+      if (config === first) throw retryError
+      return { status: 200, data: 'ok', config }
+    })
+    const interceptor = createAuthRefreshInterceptor(api)
+
+    const firstResult = interceptor(makeAxiosError(401, first))
+    const secondResult = interceptor(makeAxiosError(401, second))
+    refresh.resolve({
+      data: { accessToken: 'access-novo', refreshToken: 'refresh-novo' },
+    })
+
+    await expect(firstResult).rejects.toBe(retryError)
+    await expect(secondResult).resolves.toMatchObject({ status: 200 })
+    expect(post).toHaveBeenCalledTimes(1)
+    expect(second.headers.Authorization).toBe('Bearer access-novo')
+    expect(storage.get(AUTH)).toBe('access-novo')
+    expect(logoutEvents).toBe(0)
+  })
+
+  // A API passou a responder 401 a JWT ausente/expirado/inválido. O 403
+  // significa "sem acesso ao recurso" e não deve disparar a renovação.
+  it('no 403, não renova o token nem desloga', async () => {
+    const interceptor = createAuthRefreshInterceptor(api)
+    const error = makeAxiosError(403, makeConfig())
+
+    await expect(interceptor(error)).rejects.toBe(error)
+    expect(post).not.toHaveBeenCalled()
+    expect(api).not.toHaveBeenCalled()
+    expect(storage.get(AUTH)).toBe('access-antigo')
+    expect(storage.get(REFRESH_TOKEN)).toBe('refresh-antigo')
+    expect(logoutEvents).toBe(0)
+  })
 })
