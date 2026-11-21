@@ -21,6 +21,7 @@
 - `pnpm type:check` runs TypeScript with `tsconfig.app.json`.
 - `pnpm storybook:dev` runs Storybook at `localhost:6006`.
 - `pnpm seed:mock` seeds mock data for local development.
+- `pnpm test` runs Vitest in watch mode; `pnpm test:ci` runs the suite once; `pnpm test:coverage` adds a V8 coverage report.
 
 ## Coding Style & Naming Conventions
 
@@ -34,8 +35,13 @@
 
 ## Testing Guidelines
 
-- No automated test suite is currently configured in this repo.
-- If you add tests, prefer `*.test.ts` or `*.test.tsx` colocated with the feature.
+- Unit tests use Vitest. Name them `*.test.ts` or `*.test.tsx` and colocate them with the code under test: one test file per source file, holding all tests of that unit.
+- Test each behavior once, in the unit that owns it (e.g. weight/date conversion in `src/core/data/helpers`, not again in every mapper).
+- Test doubles for ports live in `src/core/data/test/` (e.g. `HttpClientSpy` for `HttpClient`); reuse them instead of ad-hoc mocks. Never import them from production code.
+- Import `describe`/`it`/`expect`/`vi` from `vitest` explicitly (no globals).
+- Tests run in the `node` environment with `TZ=America/Sao_Paulo` (see `vite.config.ts`), so `yyyy-MM-dd` date handling is checked in the real timezone.
+- Prioritize pure code: helpers in `src/core/data/helpers`, API mappers in `data/mappers`, and remote use cases with a stubbed `HttpClient` (no network).
+- When changing a mapper, helper or remote use case, add or update its test. Use `it.todo` for known gaps instead of asserting wrong behavior.
 - When adding or changing API behavior, update MSW handlers in `src/core/mocks/handlers`.
 
 ## Commit & Pull Request Guidelines

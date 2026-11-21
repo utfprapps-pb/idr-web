@@ -14,7 +14,7 @@ As instruções contidas nos arquivos `GEMINI.md` são mandatos fundamentais e t
   - **Formulários:** `react-hook-form`, `zod`, `@hookform/resolvers`.
   - **UI/Componentes:** `radix-ui`, `tailwind-merge`, `class-variance-authority` (CVA), `lucide-react` (ícones), `@tanstack/react-table` (tabelas).
   - **Feedback/Navegação:** `react-hot-toast`, `react-router-dom` (v6).
-  - **Testes/Mock:** `msw` (Mock Service Worker), `@faker-js/faker`.
+  - **Testes/Mock:** `vitest` (testes unitários), `msw` (Mock Service Worker), `@faker-js/faker`.
 
 ## Arquitetura e Padrões de Módulos (Clean Architecture)
 
