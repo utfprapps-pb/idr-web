@@ -11,58 +11,118 @@ import {
 import { RemoteLoginUseCase } from './remote-login-use-case'
 
 import type { AuthApiResponse, AuthModel } from '../../domain/models/auth-model'
+import type { HttpResponse } from '@/core/data/protocols/http'
 
-const INACTIVE =
-  'Seu cadastro está inativo, solicite a um administrador para ativá-lo'
+const URL = 'login'
 
-function makeSut(statusCode: HttpStatusCode, body?: unknown) {
-  const httpClient = new HttpClientSpy<AuthModel, AuthApiResponse>()
-  httpClient.response = { statusCode, body: body as AuthApiResponse }
-  const sut = new RemoteLoginUseCase('/login', httpClient)
-  return { sut, httpClient }
+const CREDENTIALS = { email: 'tecnico@idr.pr.gov.br', password: 'segredo123' }
+
+function makeSut(response: HttpResponse<AuthApiResponse>) {
+  const httpClientSpy = new HttpClientSpy<AuthModel, AuthApiResponse>()
+  httpClientSpy.response = response
+  const sut = new RemoteLoginUseCase(URL, httpClientSpy)
+
+  return { sut, httpClientSpy }
 }
 
-const params = { email: 'tecnico1@idr.com', password: 'Senha@123' }
-
-describe('RemoteLoginUseCase — erros no formato Problem Details', () => {
-  it('401 lança InvalidCredentialsError', async () => {
-    const { sut } = makeSut(HttpStatusCode.unauthorized, {
-      type: 'urn:idr:problem:credenciais-invalidas',
-      title: 'Credenciais inválidas',
-      detail: 'Usuário ou senha inválidos',
+describe('RemoteLoginUseCase', () => {
+  it('envia POST para a URL com e-mail como username e a senha', async () => {
+    const { sut, httpClientSpy } = makeSut({
+      statusCode: HttpStatusCode.ok,
+      body: { accessToken: 'access', refreshToken: 'refresh' },
     })
 
-    await expect(sut.execute(params)).rejects.toBeInstanceOf(
+    await sut.execute(CREDENTIALS)
+
+    expect(httpClientSpy.requests).toHaveLength(1)
+    expect(httpClientSpy.lastRequest).toEqual({
+      url: URL,
+      method: 'post',
+      body: { username: CREDENTIALS.email, password: CREDENTIALS.password },
+    })
+  })
+
+  it('devolve o access token e o refresh token da resposta 200', async () => {
+    const { sut } = makeSut({
+      statusCode: HttpStatusCode.ok,
+      // campos extras da API não vazam para o modelo
+      body: {
+        accessToken: 'access-token',
+        refreshToken: 'refresh-token',
+        user: { displayName: 'Fulano' },
+      } as AuthApiResponse,
+    })
+
+    await expect(sut.execute(CREDENTIALS)).resolves.toEqual({
+      accessToken: 'access-token',
+      refreshToken: 'refresh-token',
+    })
+  })
+
+  it('lança InvalidCredentialsError no 401', async () => {
+    const { sut } = makeSut({ statusCode: HttpStatusCode.unauthorized })
+
+    await expect(sut.execute(CREDENTIALS)).rejects.toBeInstanceOf(
       InvalidCredentialsError
     )
   })
 
-  it('403 de cadastro inativo usa o detail da API', async () => {
-    const { sut } = makeSut(HttpStatusCode.forbidden, {
-      type: 'urn:idr:problem:cadastro-inativo',
-      title: 'Cadastro inativo',
-      detail: INACTIVE,
+  it('lança ForbiddenError com o detail da API no 403 (cadastro inativo)', async () => {
+    const { sut } = makeSut({
+      statusCode: HttpStatusCode.forbidden,
+      body: {
+        type: 'urn:idr:problem:cadastro-inativo',
+        title: 'Cadastro inativo',
+        detail: 'Seu cadastro está inativo',
+      } as never,
     })
 
-    await expect(sut.execute(params)).rejects.toEqual(
-      new ForbiddenError(INACTIVE)
+    const error = await sut.execute(CREDENTIALS).catch((e: unknown) => e)
+
+    expect(error).toBeInstanceOf(ForbiddenError)
+    expect((error as Error).message).toBe('Seu cadastro está inativo')
+  })
+
+  it('lança ForbiddenError com a mensagem padrão no 403 sem corpo', async () => {
+    const { sut } = makeSut({ statusCode: HttpStatusCode.forbidden })
+
+    await expect(sut.execute(CREDENTIALS)).rejects.toThrow(
+      new ForbiddenError().message
     )
   })
 
-  it('403 sem corpo usa a mensagem padrão do ForbiddenError', async () => {
-    const { sut } = makeSut(HttpStatusCode.forbidden)
+  it('lança UnexpectedError no 200 sem corpo', async () => {
+    const { sut } = makeSut({ statusCode: HttpStatusCode.ok })
 
-    await expect(sut.execute(params)).rejects.toEqual(new ForbiddenError())
+    await expect(sut.execute(CREDENTIALS)).rejects.toBeInstanceOf(
+      UnexpectedError
+    )
   })
 
-  it('500 usa o detail da API', async () => {
-    const { sut } = makeSut(HttpStatusCode.serverError, {
-      title: 'Erro interno',
-      detail: 'Erro inesperado, tente novamente mais tarde',
+  it('ignora o corpo antigo { message } (sem transição)', async () => {
+    const { sut } = makeSut({
+      statusCode: HttpStatusCode.forbidden,
+      body: { message: 'formato antigo' } as never,
     })
 
-    await expect(sut.execute(params)).rejects.toEqual(
-      new UnexpectedError('Erro inesperado, tente novamente mais tarde')
+    await expect(sut.execute(CREDENTIALS)).rejects.toThrow(
+      new ForbiddenError().message
     )
+  })
+
+  it('lança UnexpectedError com o detail da API em outros status', async () => {
+    const { sut } = makeSut({
+      statusCode: HttpStatusCode.serverError,
+      body: {
+        type: 'urn:idr:problem:erro-interno',
+        title: 'Erro interno',
+        detail: 'Falha interna',
+      } as never,
+    })
+
+    const error = await sut.execute(CREDENTIALS).catch((e: unknown) => e)
+
+    expect(error).toBeInstanceOf(UnexpectedError)
+    expect((error as Error).message).toBe('Falha interna')
   })
 })
