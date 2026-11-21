@@ -16,6 +16,7 @@ import { useHookForm } from '@/core/presentation/hooks'
 import { makeRemoteUpdateAnimalUseCase } from '../../../main/factories/use-cases'
 import { useAnimalContext } from '../../hooks/animal-context.hook'
 import { useAnimalQuery } from '../../hooks/queries/animal-query.hook'
+import { refreshAnimalQueries } from '../../hooks/queries/refresh-animal-queries'
 import {
   animalFormSchema,
   type AnimalFormSchema,
@@ -69,10 +70,7 @@ export function EditAnimalForm() {
           animal: { ...data, id: selectedAnimal.id },
           propertyId,
         })
-        queryClient.invalidateQueries({
-          queryKey: ['animals', propertyId],
-          exact: false,
-        })
+        refreshAnimalQueries(queryClient, propertyId, selectedAnimal.id)
         toast.success('Animal foi editado com sucesso')
         reset(ANIMAL_INITIAL_FORM_DATA)
         closeEditAnimalForm()
