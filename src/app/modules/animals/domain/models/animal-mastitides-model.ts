@@ -6,13 +6,14 @@ export type AnimalMastitisCmtResults =
 
 export type AnimalMastitisType = 'CLINICAL' | 'SUBCLINICAL'
 
+/** `''` no tipo ou num quarto: a API devolveu nulo (não informado). */
 export type AnimalMastitisDetailsModel = {
   date: Date | null
-  type: AnimalMastitisType
-  ad: AnimalMastitisCmtResults
-  ae: AnimalMastitisCmtResults
-  pd: AnimalMastitisCmtResults
-  pe: AnimalMastitisCmtResults
+  type: AnimalMastitisType | ''
+  ad: AnimalMastitisCmtResults | ''
+  ae: AnimalMastitisCmtResults | ''
+  pd: AnimalMastitisCmtResults | ''
+  pe: AnimalMastitisCmtResults | ''
   /** Sem campo na tela; guardado do GET e reenviado no PUT para não ser apagado. */
   cmtResult?: string | null
 }
@@ -22,12 +23,13 @@ export type AnimalMastitisApiResponse = {
   id: string
   animalId: string
   diagnoseDate: string | null
-  mastitisType: string
+  /** Tipo e quartos a API aceita nulos. */
+  mastitisType: string | null
   cmtResult: string | null
-  ad: string
-  ae: string
-  pd: string
-  pe: string
+  ad: string | null
+  ae: string | null
+  pd: string | null
+  pe: string | null
 }
 
 export type AnimalMastitisModel = {

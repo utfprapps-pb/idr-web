@@ -7,7 +7,9 @@ import {
 
 import type {
   AnimalChildbirthApiResponse,
+  AnimalChildbirthCondition,
   AnimalChildbirthDetailsModel,
+  AnimalChildbirthGender,
 } from '../../domain/models/animal-childbirths-model'
 
 /**
@@ -16,13 +18,15 @@ import type {
  * (frontend: `calf` option, `value: ''` when no calf is linked).
  * `gender`/`condition` use the same enum values on both sides. `weight` is
  * a number (kg) in the API and a masked string (`"35,50 kg"`) in the form.
+ * `gender`/`condition` nulos (a API aceita) viram `''` no formulário e voltam
+ * como `null`.
  */
 
 export type AnimalChildbirthApiRequest = {
   childbirthDate: string | null
-  gender: AnimalChildbirthDetailsModel['gender']
+  gender: AnimalChildbirthGender | null
   weight: number | null
-  condition: AnimalChildbirthDetailsModel['condition']
+  condition: AnimalChildbirthCondition | null
   breedId: string
   calfId: string | null
 }
@@ -32,9 +36,9 @@ export function toApi(
 ): AnimalChildbirthApiRequest {
   return {
     childbirthDate: toLocalDate(model.date),
-    gender: model.gender,
+    gender: model.gender || null,
     weight: toApiWeight(model.weight),
-    condition: model.condition,
+    condition: model.condition || null,
     breedId: model.breed.value,
     calfId: model.calf.value || null,
   }
@@ -45,9 +49,9 @@ export function fromApi(
 ): AnimalChildbirthDetailsModel {
   return {
     date: fromLocalDate(record.childbirthDate),
-    gender: record.gender,
+    gender: record.gender ?? '',
     weight: fromApiWeight(record.weight),
-    condition: record.condition,
+    condition: record.condition ?? '',
     breed: { value: record.breedId, label: record.breedName ?? '' },
     calf: { value: record.calfId ?? '', label: record.calfIdentifier ?? '' },
   }

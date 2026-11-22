@@ -3,17 +3,14 @@ import { z } from 'zod'
 import {
   optionStringSchema,
   requiredDateSchema,
+  requiredEnumSchema,
 } from '@/core/validation/schemas'
 
 export const animalChildbirthFormSchema = z.object({
   date: requiredDateSchema('Data do parto é obrigatória'),
-  gender: z.enum(['MALE', 'FEMALE'], {
-    message: 'Campo obrigatório',
-  }),
+  gender: requiredEnumSchema(['MALE', 'FEMALE'], 'Campo obrigatório'),
   weight: z.string().min(1, { message: 'Campo obrigatório' }),
-  condition: z.enum(['ALIVE', 'DEAD'], {
-    message: 'Campo obrigatório',
-  }),
+  condition: requiredEnumSchema(['ALIVE', 'DEAD'], 'Campo obrigatório'),
   breed: optionStringSchema.refine(
     ({ label, value }) => label !== '' && value !== '',
     {

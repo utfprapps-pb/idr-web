@@ -8,7 +8,8 @@ export type AnimalInseminationApiResponse = {
   id: string
   animalId: string
   iaDate: string
-  bull: string
+  /** A API aceita nulo; o mapper lê como `''`. */
+  bull: string | null
 }
 
 export type AnimalInseminationModel = {

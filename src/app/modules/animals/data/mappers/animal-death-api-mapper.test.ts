@@ -28,4 +28,8 @@ describe('animal-death-api-mapper', () => {
     expect(model.date).toBeNull()
     expect(toApi(model)).toEqual({ reason: 'Pneumonia', deathDate: null })
   })
+
+  it('lê a causa nula da API (aceita pela API) como vazia', () => {
+    expect(fromApi({ ...record, reason: null }).reason).toBe('')
+  })
 })

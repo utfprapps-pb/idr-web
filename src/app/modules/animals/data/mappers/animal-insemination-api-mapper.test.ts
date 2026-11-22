@@ -18,4 +18,8 @@ describe('animal-insemination-api-mapper', () => {
     expect(model).toEqual({ date: new Date(2024, 5, 10), sire: 'Touro X' })
     expect(toApi(model)).toEqual({ iaDate: '2024-06-10', bull: 'Touro X' })
   })
+
+  it('lê o touro nulo da API (aceito pela API) como vazio', () => {
+    expect(fromApi({ ...record, bull: null }).sire).toBe('')
+  })
 })

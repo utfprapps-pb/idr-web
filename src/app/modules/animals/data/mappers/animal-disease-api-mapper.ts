@@ -29,7 +29,7 @@ export function fromApi(
   record: AnimalDiseaseApiResponse
 ): AnimalDiseaseDetailsModel {
   return {
-    diagnostic: record.diagnosis,
+    diagnostic: record.diagnosis ?? '',
     diagnosticDate: fromLocalDate(record.diagnosisDate),
   }
 }

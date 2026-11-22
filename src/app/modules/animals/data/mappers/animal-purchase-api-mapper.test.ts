@@ -29,4 +29,11 @@ describe('animal-purchase-api-mapper', () => {
       weight: 320.25,
     })
   })
+
+  it('lê o valor nulo da API (aceito pela API) como vazio, ida e volta', () => {
+    const model = fromApi({ ...record, value: null })
+
+    expect(model.price).toBe('')
+    expect(toApi(model).value).toBeNull()
+  })
 })

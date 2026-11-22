@@ -7,7 +7,8 @@ export type AnimalDiseaseDetailsModel = {
 export type AnimalDiseaseApiResponse = {
   id: string
   animalId: string
-  diagnosis: string
+  /** A API aceita nulo; o mapper lê como `''`. */
+  diagnosis: string | null
   diagnosisDate: string | null
 }
 

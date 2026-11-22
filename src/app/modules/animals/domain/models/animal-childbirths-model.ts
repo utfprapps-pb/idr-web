@@ -6,9 +6,11 @@ export type AnimalChildbirthGender = 'MALE' | 'FEMALE'
 
 export type AnimalChildbirthDetailsModel = {
   date: Date | null
-  gender: AnimalChildbirthGender
+  /** `''`: a API devolveu nulo (não informado). */
+  gender: AnimalChildbirthGender | ''
   weight: string
-  condition: AnimalChildbirthCondition
+  /** `''`: a API devolveu nulo (não informado). */
+  condition: AnimalChildbirthCondition | ''
   breed: Option<string>
   /** Vínculo opcional com o bezerro; `value: ''` quando ele não faz parte do rebanho. */
   calf: Option<string>
@@ -19,9 +21,10 @@ export type AnimalChildbirthApiResponse = {
   id: string
   animalId: string
   childbirthDate: string | null
-  gender: AnimalChildbirthGender
+  /** Sexo e condição a API aceita nulos. */
+  gender: AnimalChildbirthGender | null
   weight: number | null
-  condition: AnimalChildbirthCondition
+  condition: AnimalChildbirthCondition | null
   breedId: string
   calfId: string | null
   breedName: string | null

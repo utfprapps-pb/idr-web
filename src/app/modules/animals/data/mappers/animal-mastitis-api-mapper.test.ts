@@ -41,4 +41,24 @@ describe('animal-mastitis-api-mapper', () => {
       cmtResult: 'positivo em AD',
     })
   })
+
+  it('lê tipo e quartos nulos da API (aceitos pela API) como vazios, ida e volta', () => {
+    const model = fromApi({
+      ...record,
+      mastitisType: null,
+      ad: null,
+      ae: null,
+      pd: null,
+      pe: null,
+    })
+
+    expect(model).toMatchObject({ type: '', ad: '', ae: '', pd: '', pe: '' })
+    expect(toApi(model)).toMatchObject({
+      mastitisType: null,
+      ad: null,
+      ae: null,
+      pd: null,
+      pe: null,
+    })
+  })
 })

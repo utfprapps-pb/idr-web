@@ -27,7 +27,7 @@ export function fromApi(
   record: AnimalDeathApiResponse
 ): AnimalDeathDetailsModel {
   return {
-    reason: record.reason,
+    reason: record.reason ?? '',
     date: fromLocalDate(record.deathDate),
   }
 }

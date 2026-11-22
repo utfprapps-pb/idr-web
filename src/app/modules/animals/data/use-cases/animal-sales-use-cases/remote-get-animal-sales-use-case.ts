@@ -80,8 +80,8 @@ export class RemoteGetAnimalSalesUseCase implements GetAnimalSalesUseCase {
           return {
             id: item.id,
             date,
-            destination: destinationMapper[destination],
-            reason: reasonMapper[reason],
+            destination: destination ? destinationMapper[destination] : '',
+            reason: reason ? reasonMapper[reason] : '',
             price,
             weight,
           }

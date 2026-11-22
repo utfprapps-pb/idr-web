@@ -18,13 +18,13 @@ import type {
  * já formatada/mascarada (ver `input.hook.ts`) — por isso a conversão
  * usa `unmaskFloat`/`formatNumber`, não é um passthrough de valor.
  * `weight` segue a mesma regra: número (kg) na API, string mascarada
- * (`"450,00 kg"`) no formulário.
+ * (`"450,00 kg"`) no formulário. `value` nulo (a API aceita) vira `price: ''`.
  */
 
 export type AnimalPurchaseApiRequest = {
   datePurchase: string | null
   birthDate: string | null
-  value: number
+  value: number | null
   weight: number | null
 }
 
@@ -34,7 +34,7 @@ export function toApi(
   return {
     datePurchase: toLocalDate(model.date),
     birthDate: toLocalDate(model.birthDate),
-    value: unmaskFloat(model.price),
+    value: model.price ? unmaskFloat(model.price) : null,
     weight: toApiWeight(model.weight),
   }
 }
@@ -45,7 +45,8 @@ export function fromApi(
   return {
     date: fromLocalDate(record.datePurchase),
     birthDate: fromLocalDate(record.birthDate),
-    price: formatNumber(record.value, { prefix: 'R$' }),
+    price:
+      record.value === null ? '' : formatNumber(record.value, { prefix: 'R$' }),
     weight: fromApiWeight(record.weight),
   }
 }

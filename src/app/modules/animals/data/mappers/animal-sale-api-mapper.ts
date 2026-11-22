@@ -22,7 +22,8 @@ import type {
  * `input.hook.ts`) — por isso a conversão usa `unmaskFloat`/
  * `formatNumber`, não é um passthrough de valor.
  * `weight` segue a mesma regra: número (kg) na API, string mascarada
- * (`"450,00 kg"`) no formulário.
+ * (`"450,00 kg"`) no formulário. Motivo, destino e valor nulos (a API
+ * aceita) viram `''` no formulário e voltam como `null`.
  */
 
 type BackendReason = 'VOLUNTARIA' | 'DESCARTE' | 'EMERGENCIA'
@@ -58,18 +59,20 @@ const DESTINATION_TO_BACKEND: Record<
 
 export type AnimalSaleApiRequest = {
   dateSale: string | null
-  value: number
-  destination: BackendDestination
-  reason: BackendReason
+  value: number | null
+  destination: BackendDestination | null
+  reason: BackendReason | null
   weight: number | null
 }
 
 export function toApi(model: AnimalSaleDetailsModel): AnimalSaleApiRequest {
   return {
     dateSale: toLocalDate(model.date),
-    value: unmaskFloat(model.price),
-    destination: DESTINATION_TO_BACKEND[model.destination],
-    reason: REASON_TO_BACKEND[model.reason],
+    value: model.price ? unmaskFloat(model.price) : null,
+    destination: model.destination
+      ? DESTINATION_TO_BACKEND[model.destination]
+      : null,
+    reason: model.reason ? REASON_TO_BACKEND[model.reason] : null,
     weight: toApiWeight(model.weight),
   }
 }
@@ -77,10 +80,14 @@ export function toApi(model: AnimalSaleDetailsModel): AnimalSaleApiRequest {
 export function fromApi(record: AnimalSaleApiResponse): AnimalSaleDetailsModel {
   return {
     date: fromLocalDate(record.dateSale),
-    price: formatNumber(record.value, { prefix: 'R$' }),
-    destination:
-      DESTINATION_TO_FRONTEND[record.destination as BackendDestination],
-    reason: REASON_TO_FRONTEND[record.reason as BackendReason],
+    price:
+      record.value === null ? '' : formatNumber(record.value, { prefix: 'R$' }),
+    destination: record.destination
+      ? DESTINATION_TO_FRONTEND[record.destination as BackendDestination]
+      : '',
+    reason: record.reason
+      ? REASON_TO_FRONTEND[record.reason as BackendReason]
+      : '',
     weight: fromApiWeight(record.weight),
   }
 }

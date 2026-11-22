@@ -48,4 +48,20 @@ describe('animal-sale-api-mapper', () => {
       weight: 450,
     })
   })
+
+  it('lê motivo, destino e valor nulos da API (aceitos pela API) como vazios, ida e volta', () => {
+    const model = fromApi({
+      ...record,
+      reason: null,
+      destination: null,
+      value: null,
+    })
+
+    expect(model).toMatchObject({ reason: '', destination: '', price: '' })
+    expect(toApi(model)).toMatchObject({
+      reason: null,
+      destination: null,
+      value: null,
+    })
+  })
 })

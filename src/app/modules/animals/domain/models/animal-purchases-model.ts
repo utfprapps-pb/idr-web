@@ -11,7 +11,8 @@ export type AnimalPurchaseApiResponse = {
   animalId: string
   datePurchase: string | null
   birthDate: string | null
-  value: number
+  /** A API aceita nulo; o mapper lê como `''`. */
+  value: number | null
   weight: number | null
 }
 

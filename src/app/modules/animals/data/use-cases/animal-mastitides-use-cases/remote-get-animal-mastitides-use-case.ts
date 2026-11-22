@@ -86,11 +86,11 @@ export class RemoteGetAnimalMastitidesUseCase
           return {
             id: item.id,
             date,
-            type: typeMapper[type] as AnimalMastitisType,
-            ad: conditionMapper[ad] as AnimalMastitisCmtResults,
-            ae: conditionMapper[ae] as AnimalMastitisCmtResults,
-            pd: conditionMapper[pd] as AnimalMastitisCmtResults,
-            pe: conditionMapper[pe] as AnimalMastitisCmtResults,
+            type: (type ? typeMapper[type] : '') as AnimalMastitisType,
+            ad: (ad ? conditionMapper[ad] : '') as AnimalMastitisCmtResults,
+            ae: (ae ? conditionMapper[ae] : '') as AnimalMastitisCmtResults,
+            pd: (pd ? conditionMapper[pd] : '') as AnimalMastitisCmtResults,
+            pe: (pe ? conditionMapper[pe] : '') as AnimalMastitisCmtResults,
           }
         }),
         totalPages: toTotalPages(body),

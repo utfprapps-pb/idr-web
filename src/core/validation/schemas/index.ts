@@ -5,3 +5,4 @@ export {
   createOptionSchemaWithExtraData,
 } from './option-schema'
 export { requiredDateSchema } from './required-date-schema'
+export { requiredEnumSchema } from './required-enum-schema'
