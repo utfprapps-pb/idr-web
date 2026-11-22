@@ -7,9 +7,9 @@ import type { AnimalPurchaseApiResponse } from '../../../domain/models/animal-pu
 
 export type AnimalPurchaseRecord = Omit<AnimalPurchaseApiResponse, 'animalId'>
 
-/** Campos que `AnimalPurchaseApiRequest` não aceita nulos: sem eles o mock responde 400. */
+/** A API não exige nenhum campo da compra (todos aceitam nulo); a lista fica vazia para manter o mesmo fluxo de validação dos outros mocks. */
 export const ANIMAL_PURCHASE_REQUIRED_FIELDS: readonly (keyof AnimalPurchaseApiRequest)[] =
-  ['value']
+  []
 
 export const animalPurchasesStore =
   createEventMockStore<AnimalPurchaseRecord>(animalPurchasesData)

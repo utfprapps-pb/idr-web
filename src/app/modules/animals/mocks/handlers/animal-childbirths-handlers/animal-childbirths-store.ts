@@ -11,9 +11,9 @@ export type AnimalChildbirthRecord = Omit<
   'animalId' | 'breedName' | 'calfIdentifier'
 >
 
-/** Campos que `AnimalChildbirthApiRequest` não aceita nulos: sem eles o mock responde 400. */
+/** Campos que a API exige no parto (validação do agregado `AnimalChildbirth`); o resto aceita nulo. Sem eles o mock responde 400. */
 export const ANIMAL_CHILDBIRTH_REQUIRED_FIELDS: readonly (keyof AnimalChildbirthApiRequest)[] =
-  ['gender', 'condition', 'breedId']
+  ['breedId']
 
 export const animalChildbirthsStore =
   createEventMockStore<AnimalChildbirthRecord>(

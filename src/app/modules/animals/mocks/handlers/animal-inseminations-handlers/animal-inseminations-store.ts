@@ -10,9 +10,9 @@ export type AnimalInseminationRecord = Omit<
   'animalId'
 >
 
-/** Campos que `AnimalInseminationApiRequest` não aceita nulos: sem eles o mock responde 400. */
+/** Campos que a API exige na inseminação (`@NotNull` em `iaDate`); `bull` aceita nulo. Sem eles o mock responde 400. */
 export const ANIMAL_INSEMINATION_REQUIRED_FIELDS: readonly (keyof AnimalInseminationApiRequest)[] =
-  ['iaDate', 'bull']
+  ['iaDate']
 
 export const animalInseminationsStore =
   createEventMockStore<AnimalInseminationRecord>(animalInseminationsData)

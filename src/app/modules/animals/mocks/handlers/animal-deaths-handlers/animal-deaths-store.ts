@@ -7,9 +7,9 @@ import type { AnimalDeathApiResponse } from '../../../domain/models/animal-death
 
 export type AnimalDeathRecord = Omit<AnimalDeathApiResponse, 'animalId'>
 
-/** Campos que `AnimalDeathApiRequest` não aceita nulos: sem eles o mock responde 400. */
+/** A API não exige nenhum campo do óbito (todos aceitam nulo); a lista fica vazia para manter o mesmo fluxo de validação dos outros mocks. */
 export const ANIMAL_DEATH_REQUIRED_FIELDS: readonly (keyof AnimalDeathApiRequest)[] =
-  ['reason']
+  []
 
 export const animalDeathsStore =
   createEventMockStore<AnimalDeathRecord>(animalDeathsData)

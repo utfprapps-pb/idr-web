@@ -7,9 +7,9 @@ import type { AnimalMastitisApiResponse } from '../../../domain/models/animal-ma
 
 export type AnimalMastitisRecord = Omit<AnimalMastitisApiResponse, 'animalId'>
 
-/** Campos que `AnimalMastitisApiRequest` não aceita nulos: sem eles o mock responde 400. */
+/** A API não exige nenhum campo da mastite (todos aceitam nulo); a lista fica vazia para manter o mesmo fluxo de validação dos outros mocks. */
 export const ANIMAL_MASTITIS_REQUIRED_FIELDS: readonly (keyof AnimalMastitisApiRequest)[] =
-  ['mastitisType', 'ad', 'ae', 'pd', 'pe']
+  []
 
 export const animalMastitidesStore =
   createEventMockStore<AnimalMastitisRecord>(animalMastitidesData)

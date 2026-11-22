@@ -7,9 +7,9 @@ import type { AnimalDiseaseApiResponse } from '../../../domain/models/animal-dis
 
 export type AnimalDiseaseRecord = Omit<AnimalDiseaseApiResponse, 'animalId'>
 
-/** Campos que `AnimalDiseaseApiRequest` não aceita nulos: sem eles o mock responde 400. */
+/** A API não exige nenhum campo da doença (todos aceitam nulo); a lista fica vazia para manter o mesmo fluxo de validação dos outros mocks. */
 export const ANIMAL_DISEASE_REQUIRED_FIELDS: readonly (keyof AnimalDiseaseApiRequest)[] =
-  ['diagnosis']
+  []
 
 export const animalDiseasesStore =
   createEventMockStore<AnimalDiseaseRecord>(animalDiseasesData)

@@ -5,19 +5,16 @@ import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withAuth, withDelay } from '@/core/mocks/middleware'
 
 import {
-  missingRequiredFields,
   notFoundProblem,
   requiredFieldsProblem,
 } from '../../utils/event-mock-rules'
+import { missingMedicationFields } from '../../utils/medication-mock-rules'
 import {
   toAnimalMedicationRecord,
   unknownProductProblem,
 } from '../../utils/to-animal-medication-api-response'
 
-import {
-  ANIMAL_MEDICATION_REQUIRED_FIELDS,
-  animalMedicationsStore,
-} from './animal-medications-store'
+import { animalMedicationsStore } from './animal-medications-store'
 
 import type { AnimalMedicationApiRequest } from '../../../data/mappers/animal-medication-api-mapper'
 
@@ -32,10 +29,7 @@ export const updateAnimalMedicationHandler = httpWithMiddleware<
   resolver: async ({ request, params }) => {
     const body = await request.json()
 
-    const missing = missingRequiredFields(
-      body,
-      ANIMAL_MEDICATION_REQUIRED_FIELDS
-    )
+    const missing = missingMedicationFields(body)
     if (missing.length > 0) return requiredFieldsProblem(missing)
 
     const productProblem = unknownProductProblem(body.productId)

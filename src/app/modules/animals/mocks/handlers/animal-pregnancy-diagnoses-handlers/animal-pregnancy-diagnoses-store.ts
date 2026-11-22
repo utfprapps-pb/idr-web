@@ -10,7 +10,7 @@ export type AnimalPregnancyDiagnosisRecord = Omit<
   'animalId'
 >
 
-/** Campos que `AnimalPregnancyDiagnosisApiRequest` não aceita nulos: sem eles o mock responde 400. */
+/** A API não exige nenhum campo do diagnóstico de gestação (todos aceitam nulo); a lista fica vazia para manter o mesmo fluxo de validação dos outros mocks. */
 export const ANIMAL_PREGNANCY_DIAGNOSIS_REQUIRED_FIELDS: readonly (keyof AnimalPregnancyDiagnosisApiRequest)[] =
   []
 
