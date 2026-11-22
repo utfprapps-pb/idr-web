@@ -23,7 +23,7 @@ RUN pnpm seed:mock
 # Gerar build
 RUN pnpm build
 
-FROM nginx:stable-alpine
+FROM nginx:1.30-alpine
 COPY --from=build-step /app/dist /usr/share/nginx/html
 COPY default-custom.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
