@@ -1,5 +1,7 @@
 import { z } from 'zod'
 
+import { notFutureDateValidation } from '@/core/validation/validators'
+
 /** Tamanho das colunas `productName`/`activePrinciple` da medicação na API. */
 export const PRODUCT_TEXT_MAX_LENGTH = 255
 
@@ -9,7 +11,9 @@ export const PRODUCT_TEXT_MAX_LENGTH = 255
  */
 export const animalMedicationFormSchema = z
   .object({
-    date: z.date().max(new Date(), { message: 'Data inválida' }),
+    date: z
+      .date()
+      .refine(notFutureDateValidation, { message: 'Data inválida' }),
     product: z.object({
       label: z.string(),
       value: z.string(),

@@ -1,5 +1,7 @@
 import { z } from 'zod'
 
+import { notFutureDateValidation } from '../validators/not-future-date-validation'
+
 /**
  * Data obrigatória no formulário, até hoje. O tipo admite `null` porque a API
  * aceita evento sem data: o registro abre na edição com o campo vazio e só
@@ -9,7 +11,7 @@ import { z } from 'zod'
 export function requiredDateSchema(message: string) {
   return z
     .date({ required_error: message, invalid_type_error: message })
-    .max(new Date(), { message: 'Data inválida' })
+    .refine(notFutureDateValidation, { message: 'Data inválida' })
     .nullable()
     .refine((date): boolean => date !== null, { message })
 }

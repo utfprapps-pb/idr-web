@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { requiredDateSchema } from './required-date-schema'
 
@@ -27,5 +27,23 @@ describe('requiredDateSchema', () => {
     tomorrow.setDate(tomorrow.getDate() + 1)
 
     expect(messages(tomorrow)).toEqual(['Data inválida'])
+  })
+
+  describe('com a aba aberta na virada do dia', () => {
+    afterEach(() => {
+      vi.useRealTimers()
+    })
+
+    it('aceita a data do novo dia', () => {
+      vi.useFakeTimers()
+      vi.setSystemTime(new Date(2026, 10, 22, 23, 0))
+      const openedYesterday = requiredDateSchema('Data obrigatória')
+
+      vi.setSystemTime(new Date(2026, 10, 23, 0, 30))
+
+      expect(openedYesterday.safeParse(new Date(2026, 10, 23)).success).toBe(
+        true
+      )
+    })
   })
 })
