@@ -40,6 +40,13 @@ export function notFoundProblem(detail: string) {
   )
 }
 
+/** 400 da API ao registrar um segundo óbito para o mesmo animal. */
+export function deathAlreadyRegisteredProblem(animalId: string) {
+  return validationProblem(
+    `O animal com o ID ${animalId} já possui morte registrada`
+  )
+}
+
 export function requiredFieldsProblem(missing: readonly string[]) {
   return validationProblem(
     `Campos obrigatórios não informados: ${missing.join(', ')}`

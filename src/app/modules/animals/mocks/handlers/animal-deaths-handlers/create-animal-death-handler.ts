@@ -5,6 +5,7 @@ import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withAuth, withDelay } from '@/core/mocks/middleware'
 
 import {
+  deathAlreadyRegisteredProblem,
   missingRequiredFields,
   requiredFieldsProblem,
 } from '../../utils/event-mock-rules'
@@ -30,7 +31,13 @@ export const createAnimalDeathHandler = httpWithMiddleware<
     const missing = missingRequiredFields(body, ANIMAL_DEATH_REQUIRED_FIELDS)
     if (missing.length > 0) return requiredFieldsProblem(missing)
 
-    const created = animalDeathsStore.create(String(params.animalId), body)
+    const animalId = String(params.animalId)
+
+    if (animalDeathsStore.list(animalId).length > 0) {
+      return deathAlreadyRegisteredProblem(animalId)
+    }
+
+    const created = animalDeathsStore.create(animalId, body)
 
     return HttpResponse.json(created, { status: HttpStatusCode.ok })
   },

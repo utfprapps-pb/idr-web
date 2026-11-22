@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import {
+  deathAlreadyRegisteredProblem,
   isLocalDateTerm,
   matchesEventDate,
   missingRequiredFields,
@@ -95,6 +96,16 @@ describe('respostas de erro', () => {
     expect(await response.json()).toMatchObject({
       type: 'urn:idr:problem:nao-encontrado',
       detail: 'Óbito não encontrado',
+    })
+  })
+
+  it('400 do segundo óbito do animal, com a mensagem da API', async () => {
+    const response = deathAlreadyRegisteredProblem('animal-1')
+
+    expect(response.status).toBe(400)
+    expect(await response.json()).toMatchObject({
+      type: 'urn:idr:problem:validacao',
+      detail: 'O animal com o ID animal-1 já possui morte registrada',
     })
   })
 })
