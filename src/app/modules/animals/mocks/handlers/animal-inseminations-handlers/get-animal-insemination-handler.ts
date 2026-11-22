@@ -2,33 +2,30 @@ import { HttpResponse, type PathParams } from 'msw'
 
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
-import { withDelay, withAuth } from '@/core/mocks/middleware'
+import { withAuth, withDelay } from '@/core/mocks/middleware'
 
-import animalInseminationsData from '@database/animalInseminationsData.json'
+import { notFoundProblem } from '../../utils/event-mock-rules'
 
-import { withAnimalId } from '../../utils/with-animal-id'
+import { animalInseminationsStore } from './animal-inseminations-store'
 
 import type { AnimalInseminationApiResponse } from '../../../domain/models/animal-inseminations-model'
 
 export const getAnimalInseminationHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId' | 'id'>,
   never,
-  AnimalInseminationApiResponse
+  AnimalInseminationApiResponse | object
 >({
   routePath: '/api/properties/:propertyId/animals/:animalId/inseminations/:id',
   method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ params }) => {
-    const found = animalInseminationsData.find((item) => item.id === params.id)
+    const found = animalInseminationsStore.find(
+      String(params.animalId),
+      String(params.id)
+    )
 
-    if (!found) {
-      return HttpResponse.json({} as AnimalInseminationApiResponse, {
-        status: HttpStatusCode.notFound,
-      })
-    }
+    if (!found) return notFoundProblem('Inseminação não encontrada')
 
-    return HttpResponse.json(withAnimalId(found, String(params.animalId)), {
-      status: HttpStatusCode.ok,
-    })
+    return HttpResponse.json(found, { status: HttpStatusCode.ok })
   },
 })

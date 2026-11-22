@@ -2,33 +2,30 @@ import { HttpResponse, type PathParams } from 'msw'
 
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
-import { withDelay, withAuth } from '@/core/mocks/middleware'
+import { withAuth, withDelay } from '@/core/mocks/middleware'
 
-import animalDeathsData from '@database/animalDeathsData.json'
+import { notFoundProblem } from '../../utils/event-mock-rules'
 
-import { withAnimalId } from '../../utils/with-animal-id'
+import { animalDeathsStore } from './animal-deaths-store'
 
 import type { AnimalDeathApiResponse } from '../../../domain/models/animal-deaths-model'
 
 export const getAnimalDeathHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId' | 'id'>,
   never,
-  AnimalDeathApiResponse
+  AnimalDeathApiResponse | object
 >({
   routePath: '/api/properties/:propertyId/animals/:animalId/deaths/:id',
   method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ params }) => {
-    const found = animalDeathsData.find((item) => item.id === params.id)
+    const found = animalDeathsStore.find(
+      String(params.animalId),
+      String(params.id)
+    )
 
-    if (!found) {
-      return HttpResponse.json({} as AnimalDeathApiResponse, {
-        status: HttpStatusCode.notFound,
-      })
-    }
+    if (!found) return notFoundProblem('Óbito não encontrado')
 
-    return HttpResponse.json(withAnimalId(found, String(params.animalId)), {
-      status: HttpStatusCode.ok,
-    })
+    return HttpResponse.json(found, { status: HttpStatusCode.ok })
   },
 })

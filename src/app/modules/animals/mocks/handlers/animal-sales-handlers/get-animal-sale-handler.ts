@@ -2,33 +2,30 @@ import { HttpResponse, type PathParams } from 'msw'
 
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
-import { withDelay, withAuth } from '@/core/mocks/middleware'
+import { withAuth, withDelay } from '@/core/mocks/middleware'
 
-import animalSalesData from '@database/animalSalesData.json'
+import { notFoundProblem } from '../../utils/event-mock-rules'
 
-import { withAnimalId } from '../../utils/with-animal-id'
+import { animalSalesStore } from './animal-sales-store'
 
 import type { AnimalSaleApiResponse } from '../../../domain/models/animal-sales-model'
 
 export const getAnimalSaleHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId' | 'id'>,
   never,
-  AnimalSaleApiResponse
+  AnimalSaleApiResponse | object
 >({
   routePath: '/api/properties/:propertyId/animals/:animalId/sales/:id',
   method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ params }) => {
-    const found = animalSalesData.find((item) => item.id === params.id)
+    const found = animalSalesStore.find(
+      String(params.animalId),
+      String(params.id)
+    )
 
-    if (!found) {
-      return HttpResponse.json({} as AnimalSaleApiResponse, {
-        status: HttpStatusCode.notFound,
-      })
-    }
+    if (!found) return notFoundProblem('Venda não encontrada')
 
-    return HttpResponse.json(withAnimalId(found, String(params.animalId)), {
-      status: HttpStatusCode.ok,
-    })
+    return HttpResponse.json(found, { status: HttpStatusCode.ok })
   },
 })

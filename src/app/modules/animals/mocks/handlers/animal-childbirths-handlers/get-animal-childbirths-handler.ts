@@ -2,12 +2,13 @@ import { HttpResponse, type PathParams } from 'msw'
 
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
-import { withDelay, withAuth } from '@/core/mocks/middleware'
+import { withAuth, withDelay } from '@/core/mocks/middleware'
 import { parseSearchParams, toSearchResponse } from '@/core/mocks/utils'
 
-import animalChildbirthsData from '@database/animalChildbirthsData.json'
-
+import { matchesEventDate } from '../../utils/event-mock-rules'
 import { toAnimalChildbirthApiResponse } from '../../utils/to-animal-childbirth-api-response'
+
+import { animalChildbirthsStore } from './animal-childbirths-store'
 
 export const getAnimalChildbirthsHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId'>,
@@ -19,12 +20,19 @@ export const getAnimalChildbirthsHandler = httpWithMiddleware<
   middlewares: [withDelay(), withAuth],
   resolver: async ({ request, params }) => {
     const search = parseSearchParams(request)
-    const items = animalChildbirthsData.map((item) =>
-      toAnimalChildbirthApiResponse(item, String(params.animalId))
-    )
+    const items = animalChildbirthsStore
+      .list(String(params.animalId))
+      .map((item) =>
+        toAnimalChildbirthApiResponse(item, String(params.animalId))
+      )
 
-    return HttpResponse.json(toSearchResponse(items, search), {
-      status: HttpStatusCode.ok,
-    })
+    return HttpResponse.json(
+      toSearchResponse(
+        items,
+        search,
+        matchesEventDate<(typeof items)[number]>('childbirthDate')
+      ),
+      { status: HttpStatusCode.ok }
+    )
   },
 })
