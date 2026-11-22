@@ -13,12 +13,20 @@ import type {
   AnimalPurchaseApiResponse,
 } from '../../../domain/models/animal-purchases-model'
 import type { GetAnimalPurchasesUseCase } from '../../../domain/use-cases/animal-purchases-use-cases'
-import type { SearchApiResponse } from '@/core/domain/types'
+import type { MapApiProperties, SearchApiResponse } from '@/core/domain/types'
 
-const SORT_FIELD_MAP: Record<string, string> = {
+/**
+ * Coluna da tabela -> campo da entidade na API (o `sort` do Spring usa o nome
+ * da entidade). Coluna fora do mapa não envia `sort`.
+ */
+const SORT_FIELD_MAP: MapApiProperties<
+  AnimalPurchaseModel,
+  AnimalPurchaseApiResponse
+> = {
   date: 'datePurchase',
   birthDate: 'birthDate',
   price: 'value',
+  weight: 'weight',
 }
 
 export class RemoteGetAnimalPurchasesUseCase
@@ -46,7 +54,7 @@ export class RemoteGetAnimalPurchasesUseCase
 
     const query = buildSearchQuery(
       { filters, pagination, sort },
-      (field) => SORT_FIELD_MAP[field] ?? field
+      (field) => SORT_FIELD_MAP[field as keyof AnimalPurchaseModel]
     )
 
     const { statusCode, body } = await this.httpClient.request({
