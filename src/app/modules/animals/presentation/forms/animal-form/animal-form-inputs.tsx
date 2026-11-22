@@ -20,12 +20,14 @@ import {
 import { useAnimalContext } from '../../hooks/animal-context.hook'
 import { useAllAnimalsWithFilterQuery } from '../../hooks/queries/all-animals-with-filter-query.hook'
 
+import {
+  fromOptionalSelectValue,
+  optionalSelectOptions,
+} from './optional-select-options'
+
 import type { AnimalFormSchema } from '../../validations/animal-form-schema'
 
 const NO_MOTHER = { label: 'Nenhuma', value: '' }
-
-/** O Select não aceita item com valor vazio: este valor representa "não informado". */
-const NOT_INFORMED = '__not_informed__'
 
 type OptionalSelectFieldProps = {
   name: 'type' | 'gender' | 'bornCondition'
@@ -46,40 +48,33 @@ function OptionalSelectField({
     <Form.Field
       name={name}
       control={form.control}
-      render={({ field }) => {
-        // Valor antigo fora da lista continua selecionável, para ser preservado.
-        const options =
-          field.value && !values.includes(field.value)
-            ? [...values, field.value]
-            : values
-
-        return (
-          <Form.Item>
-            <Form.Label>{label}</Form.Label>
-            <Select.Root
-              onValueChange={(value) =>
-                field.onChange(value === NOT_INFORMED ? '' : value)
-              }
-              value={field.value || NOT_INFORMED}
-            >
-              <Form.Control>
-                <Select.Trigger>
-                  <Select.Value placeholder={placeholder} />
-                </Select.Trigger>
-              </Form.Control>
-              <Select.Content>
-                <Select.Item value={NOT_INFORMED}>Não informado</Select.Item>
-                {options.map((value) => (
-                  <Select.Item key={value} value={value}>
-                    {value}
+      render={({ field }) => (
+        <Form.Item>
+          <Form.Label>{label}</Form.Label>
+          <Select.Root
+            onValueChange={(value) =>
+              field.onChange(fromOptionalSelectValue(value))
+            }
+            value={field.value ?? ''}
+          >
+            <Form.Control>
+              <Select.Trigger>
+                <Select.Value placeholder={placeholder} />
+              </Select.Trigger>
+            </Form.Control>
+            <Select.Content>
+              {optionalSelectOptions(field.value ?? '', values).map(
+                (option) => (
+                  <Select.Item key={option.value} value={option.value}>
+                    {option.label}
                   </Select.Item>
-                ))}
-              </Select.Content>
-            </Select.Root>
-            <Form.Message />
-          </Form.Item>
-        )
-      }}
+                )
+              )}
+            </Select.Content>
+          </Select.Root>
+          <Form.Message />
+        </Form.Item>
+      )}
     />
   )
 }
