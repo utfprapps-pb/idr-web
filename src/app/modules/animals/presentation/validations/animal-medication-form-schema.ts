@@ -1,5 +1,8 @@
 import { z } from 'zod'
 
+/** Tamanho das colunas `productName`/`activePrinciple` da medicação na API. */
+export const PRODUCT_TEXT_MAX_LENGTH = 255
+
 /**
  * `product.value` vazio = produto não cadastrado: aí o nome digitado é
  * obrigatório. Do catálogo, nome e princípio ativo vêm do próprio produto.
@@ -12,8 +15,12 @@ export const animalMedicationFormSchema = z
       value: z.string(),
       extraData: z.object({ activePrinciple: z.string() }).optional(),
     }),
-    productName: z.string(),
-    activePrinciple: z.string(),
+    productName: z.string().max(PRODUCT_TEXT_MAX_LENGTH, {
+      message: `Máximo de ${PRODUCT_TEXT_MAX_LENGTH} caracteres`,
+    }),
+    activePrinciple: z.string().max(PRODUCT_TEXT_MAX_LENGTH, {
+      message: `Máximo de ${PRODUCT_TEXT_MAX_LENGTH} caracteres`,
+    }),
     appliedDose: z.string().min(1, { message: 'Campo obrigatório' }),
     applicationMethod: z.enum(['IM', 'IV', 'SC', 'IntraMammary', 'PourOn'], {
       message: 'Campo obrigatório',

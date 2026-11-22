@@ -57,4 +57,29 @@ describe('animalMedicationFormSchema', () => {
     expect(result.success).toBe(false)
     expect(result.error?.issues[0]?.path).toEqual(['productName'])
   })
+
+  it('aceita nome e princípio ativo com até 255 caracteres', () => {
+    expect(
+      messages({
+        ...notRegistered,
+        productName: 'a'.repeat(255),
+        activePrinciple: 'b'.repeat(255),
+      })
+    ).toEqual([])
+  })
+
+  it('recusa nome e princípio ativo com mais de 255 caracteres', () => {
+    const result = animalMedicationFormSchema.safeParse({
+      ...notRegistered,
+      productName: 'a'.repeat(256),
+      activePrinciple: 'b'.repeat(256),
+    })
+
+    expect(
+      result.error?.issues.map(({ path, message }) => [path, message])
+    ).toEqual([
+      [['productName'], 'Máximo de 255 caracteres'],
+      [['activePrinciple'], 'Máximo de 255 caracteres'],
+    ])
+  })
 })

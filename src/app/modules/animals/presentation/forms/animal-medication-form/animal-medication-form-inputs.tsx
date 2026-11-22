@@ -14,7 +14,10 @@ import { Grouper } from '@/core/presentation/components/utils'
 import { useDebounce } from '@/core/presentation/hooks'
 
 import { useAllProductsQuery } from '../../hooks/queries/all-products-query.hook'
-import { AnimalMedicationFormSchema } from '../../validations/animal-medication-form-schema'
+import {
+  type AnimalMedicationFormSchema,
+  PRODUCT_TEXT_MAX_LENGTH,
+} from '../../validations/animal-medication-form-schema'
 
 import type { AnimalMedicationProductOption } from '../../../domain/models/animal-medications-model'
 
@@ -137,6 +140,7 @@ export function AnimalMedicationFormInputs() {
                   <Input
                     {...field}
                     disabled={isCatalogProduct}
+                    maxLength={PRODUCT_TEXT_MAX_LENGTH}
                     placeholder="Nome do produto aplicado"
                     isError={!!error?.message}
                   />
@@ -157,6 +161,7 @@ export function AnimalMedicationFormInputs() {
                 <Input
                   {...field}
                   disabled={isCatalogProduct}
+                  maxLength={PRODUCT_TEXT_MAX_LENGTH}
                   placeholder="Princípio ativo do produto"
                 />
               </Form.Control>
