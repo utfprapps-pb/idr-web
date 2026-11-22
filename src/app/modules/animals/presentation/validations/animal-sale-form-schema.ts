@@ -16,9 +16,12 @@ export const animalSaleFormSchema = z.object({
     ['SLAUGHTER', 'PRODUCTION'],
     'Campo obrigatório'
   ),
-  price: z.string().refine((value) => moneyValidation(value, 0.01), {
-    message: 'O valor mínimo é R$0,01',
-  }),
+  price: z
+    .string()
+    .min(1, { message: 'Valor é obrigatório' })
+    .refine((value) => value === '' || moneyValidation(value, 0.01), {
+      message: 'O valor mínimo é R$0,01',
+    }),
   weight: z.string().min(1, { message: 'Peso obrigatório' }),
 })
 
