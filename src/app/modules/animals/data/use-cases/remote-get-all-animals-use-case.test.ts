@@ -53,7 +53,10 @@ function page(
   }
 }
 
-function makeSut(...responses: HttpResponse<SearchResponse>[]) {
+function makeSutWithMaxPages(
+  maxPages: number,
+  ...responses: HttpResponse<SearchResponse>[]
+) {
   const httpClientSpy = new HttpClientSpy<
     AnimalModel,
     AnimalApiResponse,
@@ -64,15 +67,20 @@ function makeSut(...responses: HttpResponse<SearchResponse>[]) {
   const sut = new RemoteGetAllAnimalsUseCase(
     '/properties/:propertyId/animals',
     httpClientSpy,
-    2
+    2,
+    maxPages
   )
 
   return { sut, httpClientSpy }
 }
 
+function makeSut(...responses: HttpResponse<SearchResponse>[]) {
+  return makeSutWithMaxPages(1000, ...responses)
+}
+
 function requestedPages({
   requests,
-}: ReturnType<typeof makeSut>['httpClientSpy']): string[] {
+}: ReturnType<typeof makeSutWithMaxPages>['httpClientSpy']): string[] {
   return requests.map(({ url }) => {
     const [path, query] = url.split('?')
     const search = new URLSearchParams(query)
@@ -138,6 +146,30 @@ describe('RemoteGetAllAnimalsUseCase', () => {
     await expect(sut.execute({ propertyId: PROPERTY_ID })).rejects.toThrow(
       UnexpectedError
     )
+  })
+
+  it('lança erro ao atingir o limite de páginas sem juntar o total, sem devolver parte do rebanho', async () => {
+    const { sut, httpClientSpy } = makeSutWithMaxPages(
+      2,
+      page(0, 6, [1, 2]),
+      page(1, 6, [3, 4]),
+      page(2, 6, [5, 6])
+    )
+
+    await expect(sut.execute({ propertyId: PROPERTY_ID })).rejects.toThrow(
+      UnexpectedError
+    )
+    expect(httpClientSpy.requests).toHaveLength(2)
+  })
+
+  it('devolve o rebanho quando o total fecha exatamente na última página permitida', async () => {
+    const { sut } = makeSutWithMaxPages(
+      2,
+      page(0, 4, [1, 2]),
+      page(1, 4, [3, 4])
+    )
+
+    expect(await sut.execute({ propertyId: PROPERTY_ID })).toHaveLength(4)
   })
 
   it('traduz 404 e 403 nos erros de domínio', async () => {

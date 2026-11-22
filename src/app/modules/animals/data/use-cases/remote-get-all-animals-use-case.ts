@@ -21,7 +21,10 @@ const MAX_PAGES = 1000
 /**
  * Busca o rebanho inteiro percorrendo `GET /search` página a página: para
  * quando junta `total` itens ou recebe uma página vazia. Qualquer página com
- * erro interrompe a busca (nunca devolve só parte do rebanho).
+ * erro interrompe a busca, e chegar a `maxPages` sem juntar o `total` também
+ * (`UnexpectedError`): o rebanho nunca volta pela metade por causa de erro ou
+ * do limite. Página vazia antes do `total` encerra com o que veio (o servidor
+ * não tem mais itens para entregar).
  */
 export class RemoteGetAllAnimalsUseCase implements GetAllAnimalsUseCase {
   constructor(
@@ -31,7 +34,8 @@ export class RemoteGetAllAnimalsUseCase implements GetAllAnimalsUseCase {
       AnimalApiResponse,
       SearchApiResponse<AnimalApiResponse>
     >,
-    private readonly perPage = 100
+    private readonly perPage = 100,
+    private readonly maxPages = MAX_PAGES
   ) {}
 
   execute: GetAllAnimalsUseCase['execute'] = async ({ propertyId }) =>
@@ -58,12 +62,15 @@ export class RemoteGetAllAnimalsUseCase implements GetAllAnimalsUseCase {
 
     const collected = [...animals, ...body.items.map(fromApiListItem)]
 
-    const done =
-      body.items.length === 0 ||
-      collected.length >= body.total ||
-      page >= MAX_PAGES
+    if (body.items.length === 0 || collected.length >= body.total) {
+      return collected
+    }
 
-    return done ? collected : this.fetchFrom(url, page + 1, collected)
+    if (page >= this.maxPages) {
+      throw new UnexpectedError()
+    }
+
+    return this.fetchFrom(url, page + 1, collected)
   }
 
   private throwError(statusCode: HttpStatusCode): never {
