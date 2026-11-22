@@ -1,3 +1,5 @@
+import { isValid, parseISO } from 'date-fns'
+
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { problemResponse } from '@/core/mocks/utils'
 
@@ -44,15 +46,17 @@ export function requiredFieldsProblem(missing: readonly string[]) {
   )
 }
 
+/** `terms` (sem espaços nas pontas) é uma data `yyyy-MM-dd` que existe. */
 export function isLocalDateTerm(terms: string): boolean {
-  return LOCAL_DATE.test(terms)
+  const trimmed = terms.trim()
+  return LOCAL_DATE.test(trimmed) && isValid(parseISO(trimmed))
 }
 
 /**
- * Busca dos eventos como a API: `terms` no formato `yyyy-MM-dd` filtra pela
- * data do evento; qualquer outro termo devolve todos.
+ * Busca dos eventos como a API: `terms` com uma data `yyyy-MM-dd` válida
+ * filtra pela data do evento; qualquer outro termo devolve todos.
  */
 export function matchesEventDate<TItem>(field: keyof TItem) {
   return (item: TItem, terms: string): boolean =>
-    !isLocalDateTerm(terms) || item[field] === terms
+    !isLocalDateTerm(terms) || item[field] === terms.trim()
 }

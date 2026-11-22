@@ -37,6 +37,15 @@ describe('isLocalDateTerm', () => {
     expect(isLocalDateTerm('2024-06')).toBe(false)
     expect(isLocalDateTerm('pneumonia')).toBe(false)
   })
+
+  it('ignora espaços nas pontas', () => {
+    expect(isLocalDateTerm(' 2024-06-10 ')).toBe(true)
+  })
+
+  it('recusa data no formato certo mas inexistente', () => {
+    expect(isLocalDateTerm('2024-02-30')).toBe(false)
+    expect(isLocalDateTerm('2024-13-01')).toBe(false)
+  })
 })
 
 describe('matchesEventDate', () => {
@@ -51,6 +60,15 @@ describe('matchesEventDate', () => {
   it('com termo que não é data, devolve todos (como a API)', () => {
     expect(matches({ deathDate: '2024-06-11' }, 'pneumonia')).toBe(true)
     expect(matches({ deathDate: null }, 'pneumonia')).toBe(true)
+  })
+
+  it('com espaços nas pontas, filtra pela data', () => {
+    expect(matches({ deathDate: '2024-06-10' }, ' 2024-06-10 ')).toBe(true)
+    expect(matches({ deathDate: '2024-06-11' }, ' 2024-06-10 ')).toBe(false)
+  })
+
+  it('com data inexistente, devolve todos (como a API)', () => {
+    expect(matches({ deathDate: '2024-06-11' }, '2024-02-30')).toBe(true)
   })
 })
 
