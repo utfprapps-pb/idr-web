@@ -1,20 +1,21 @@
-type Owned<TRecord> = { record: TRecord; animalId?: string }
+type Owned<TRecord> = { record: TRecord; animalId: string }
 
 /**
  * Eventos do animal guardados em memória enquanto a página estiver aberta:
- * criar, editar e excluir alteram o que a busca e o GET devolvem. O seed não
- * guarda o animal dono, então vale para qualquer animal (com o `animalId` da
- * rota, como a API devolve); o que for criado fica só no animal da rota.
+ * criar, editar e excluir alteram o que a busca e o GET devolvem. Cada
+ * registro (do seed ou criado) pertence a um animal, e só a rota desse
+ * animal o vê, edita ou exclui, como na API.
  */
 export function createEventMockStore<TRecord extends { id: string }>(
-  seed: TRecord[]
+  seed: (TRecord & { animalId: string })[]
 ) {
-  const records: Owned<TRecord>[] = seed.map((record) => ({ record }))
+  const records: Owned<TRecord>[] = seed.map(({ animalId, ...record }) => ({
+    record: record as unknown as TRecord,
+    animalId,
+  }))
 
   function visible(animalId: string) {
-    return records.filter(
-      (owned) => owned.animalId === undefined || owned.animalId === animalId
-    )
+    return records.filter((owned) => owned.animalId === animalId)
   }
 
   function withAnimalId(record: TRecord, animalId: string) {

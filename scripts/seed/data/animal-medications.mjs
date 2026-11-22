@@ -1,13 +1,14 @@
 import { faker } from '@faker-js/faker/locale/pt_BR'
 
+import { eventsPerAnimal } from './animal-events.mjs'
 import { productsData } from './products.mjs'
 
-export const animalMedicationsDependencies = ['products']
+export const animalMedicationsDependencies = ['products', 'animals']
 
 /**
- * Registros no formato da API do backend (sem `animalId`, que vem da rota do
- * mock). Parte usa um produto do catálogo (nome e princípio ativo copiados
- * dele, como o servidor grava); o resto é produto não cadastrado.
+ * Registros no formato da API do backend, cada um de um animal do seed.
+ * Parte usa um produto do catálogo (nome e princípio ativo copiados dele,
+ * como o servidor grava); o resto é produto não cadastrado.
  */
 function product() {
   if (faker.datatype.boolean()) {
@@ -29,24 +30,15 @@ function product() {
   }
 }
 
-export const animalMedicationsData = Array.from(
-  {
-    length: faker.number.int({
-      min: 1,
-      max: 100,
-    }),
-  },
-  () => ({
-    id: faker.string.uuid(),
-    ...product(),
-    applicationDate: faker.date.past().toISOString().slice(0, 10),
-    appliedDose: faker.number.float({ min: 1, max: 1000 }).toFixed(2),
-    applicationWay: faker.helpers.arrayElement([
-      'IV',
-      'IM',
-      'SC',
-      'IntraMammary',
-      'PourOn',
-    ]),
-  })
-)
+export const animalMedicationsData = eventsPerAnimal(4, () => ({
+  ...product(),
+  applicationDate: faker.date.past().toISOString().slice(0, 10),
+  appliedDose: faker.number.float({ min: 1, max: 1000 }).toFixed(2),
+  applicationWay: faker.helpers.arrayElement([
+    'IV',
+    'IM',
+    'SC',
+    'IntraMammary',
+    'PourOn',
+  ]),
+}))

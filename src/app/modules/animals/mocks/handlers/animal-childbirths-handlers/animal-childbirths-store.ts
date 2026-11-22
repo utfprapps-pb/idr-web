@@ -17,5 +17,5 @@ export const ANIMAL_CHILDBIRTH_REQUIRED_FIELDS: readonly (keyof AnimalChildbirth
 
 export const animalChildbirthsStore =
   createEventMockStore<AnimalChildbirthRecord>(
-    animalChildbirthsData as AnimalChildbirthRecord[]
+    animalChildbirthsData as (AnimalChildbirthRecord & { animalId: string })[]
   )

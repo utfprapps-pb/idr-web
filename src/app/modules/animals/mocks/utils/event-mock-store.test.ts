@@ -6,17 +6,33 @@ type Record = { id: string; note: string }
 
 function makeStore() {
   return createEventMockStore<Record>([
-    { id: 'seed-1', note: 'seed 1' },
-    { id: 'seed-2', note: 'seed 2' },
+    { id: 'seed-1', note: 'seed 1', animalId: 'animal-a' },
+    { id: 'seed-2', note: 'seed 2', animalId: 'animal-a' },
+    { id: 'seed-3', note: 'seed 3', animalId: 'animal-b' },
   ])
 }
 
 describe('createEventMockStore', () => {
-  it('lista o seed em qualquer animal, com o animalId da rota', () => {
-    expect(makeStore().list('animal-a')).toEqual([
+  it('lista só os registros do animal', () => {
+    const store = makeStore()
+
+    expect(store.list('animal-a')).toEqual([
       { id: 'seed-1', note: 'seed 1', animalId: 'animal-a' },
       { id: 'seed-2', note: 'seed 2', animalId: 'animal-a' },
     ])
+    expect(store.list('animal-b')).toEqual([
+      { id: 'seed-3', note: 'seed 3', animalId: 'animal-b' },
+    ])
+    expect(store.list('animal-c')).toEqual([])
+  })
+
+  it('registro do seed não é visto, editado nem excluído por outro animal', () => {
+    const store = makeStore()
+
+    expect(store.find('animal-b', 'seed-1')).toBeUndefined()
+    expect(store.update('animal-b', 'seed-1', { note: 'x' })).toBeUndefined()
+    expect(store.remove('animal-b', 'seed-1')).toBe(false)
+    expect(store.find('animal-a', 'seed-1')?.note).toBe('seed 1')
   })
 
   it('guarda o criado só no animal que o recebeu', () => {
@@ -30,7 +46,7 @@ describe('createEventMockStore', () => {
       animalId: 'animal-a',
     })
     expect(store.list('animal-a')).toHaveLength(3)
-    expect(store.list('animal-b')).toHaveLength(2)
+    expect(store.list('animal-b')).toHaveLength(1)
     expect(store.find('animal-b', created.id)).toBeUndefined()
   })
 
