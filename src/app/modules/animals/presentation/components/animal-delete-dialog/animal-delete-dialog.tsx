@@ -7,6 +7,7 @@ import { AlertDialog } from '@/core/presentation/components/ui'
 
 import { makeRemoteDeleteAnimalUseCase } from '../../../main/factories/use-cases'
 import { useAnimalContext } from '../../hooks/animal-context.hook'
+import { refreshAnimalQueries } from '../../hooks/queries/refresh-animal-queries'
 
 export function AnimalDeleteDialog() {
   const deleteAnimalUseCase = makeRemoteDeleteAnimalUseCase()
@@ -36,10 +37,7 @@ export function AnimalDeleteDialog() {
         animalId: selectedAnimal.id,
       })
 
-      queryClient.invalidateQueries({
-        queryKey: ['animals', propertyId],
-        exact: false,
-      })
+      refreshAnimalQueries(queryClient, propertyId, selectedAnimal.id)
 
       toast.success('Animal removido com sucesso')
     } catch {

@@ -11,6 +11,8 @@ function makeClient() {
   queryClient.setQueryData(['animal', PROPERTY_ID, ANIMAL_ID], { name: 'old' })
   queryClient.setQueryData(['animals', PROPERTY_ID, { page: 1 }], [])
   queryClient.setQueryData(['animal', PROPERTY_ID, 'other'], { name: 'x' })
+  queryClient.setQueryData(['all-animals', PROPERTY_ID], [])
+  queryClient.setQueryData(['all-animals', PROPERTY_ID, { filters: {} }], [])
   return queryClient
 }
 
@@ -49,6 +51,20 @@ describe('refreshAnimalQueries', () => {
     ).toEqual({ name: 'old' })
     expect(
       queryClient.getQueryState(['animals', PROPERTY_ID, { page: 1 }])
+        ?.isInvalidated
+    ).toBe(true)
+  })
+
+  it('invalida a lista completa do rebanho (balanço nutricional e busca da mãe)', () => {
+    const queryClient = makeClient()
+
+    refreshAnimalQueries(queryClient, PROPERTY_ID)
+
+    expect(
+      queryClient.getQueryState(['all-animals', PROPERTY_ID])?.isInvalidated
+    ).toBe(true)
+    expect(
+      queryClient.getQueryState(['all-animals', PROPERTY_ID, { filters: {} }])
         ?.isInvalidated
     ).toBe(true)
   })
