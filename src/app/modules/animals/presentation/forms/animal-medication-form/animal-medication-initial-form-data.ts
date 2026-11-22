@@ -6,6 +6,8 @@ export const ANIMAL_MEDICATION_INITIAL_FORM_DATA: AnimalMedicationFormSchema = {
   appliedDose: '',
   product: {
     label: '',
-    value: 0,
+    value: '',
   },
+  productName: '',
+  activePrinciple: '',
 }

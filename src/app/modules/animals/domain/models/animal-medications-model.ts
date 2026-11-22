@@ -7,9 +7,20 @@ export type AnimalMedicationApplicationMethod =
   | 'IntraMammary'
   | 'PourOn'
 
+/**
+ * Produto da medicação: opção do catálogo `/products` ou, com `value: ''`,
+ * produto não cadastrado (nome e princípio ativo digitados na tela).
+ */
+export type AnimalMedicationProductOption = Option<
+  string,
+  { activePrinciple: string }
+>
+
 export type AnimalMedicationDetailsModel = {
   date: Date
-  product: Option
+  product: AnimalMedicationProductOption
+  productName: string
+  activePrinciple: string
   appliedDose: string
   applicationMethod: AnimalMedicationApplicationMethod
 }
