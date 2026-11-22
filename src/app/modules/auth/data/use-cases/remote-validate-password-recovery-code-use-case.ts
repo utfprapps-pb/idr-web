@@ -1,9 +1,8 @@
 import { type HttpClient, HttpStatusCode } from '@/core/data/protocols/http'
-import { NotFoundError, UnexpectedError } from '@/core/domain/errors'
+import { BadRequestError, UnexpectedError } from '@/core/domain/errors'
+import { getProblemDetailMessage } from '@/core/utils'
 
 import type { ValidatePasswordRecoveryCodeUseCase } from '../../domain/use-cases'
-
-type ApiErrorBody = { message?: string }
 
 export class RemoteValidatePasswordRecoveryCodeUseCase
   implements ValidatePasswordRecoveryCodeUseCase
@@ -22,10 +21,10 @@ export class RemoteValidatePasswordRecoveryCodeUseCase
 
     if (statusCode === HttpStatusCode.ok) return
 
-    const apiMessage = (body as ApiErrorBody | undefined)?.message
+    const apiMessage = getProblemDetailMessage(body)
 
-    if (statusCode === HttpStatusCode.notFound) {
-      throw new NotFoundError(apiMessage ?? 'Código de recuperação inválido')
+    if (statusCode === HttpStatusCode.badRequest) {
+      throw new BadRequestError(apiMessage ?? 'Código de recuperação inválido')
     }
 
     throw new UnexpectedError(apiMessage)

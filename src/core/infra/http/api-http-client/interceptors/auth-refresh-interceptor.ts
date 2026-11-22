@@ -91,11 +91,9 @@ export function createAuthRefreshInterceptor(api: AxiosInstance) {
 
     isRefreshing = true
 
+    let accessToken: string
     try {
-      const accessToken = await refreshAccessToken(refreshToken)
-      flushQueue(null, accessToken)
-      originalRequest.headers.Authorization = `Bearer ${accessToken}`
-      return await api(originalRequest)
+      accessToken = await refreshAccessToken(refreshToken)
     } catch (refreshError) {
       flushQueue(refreshError, null)
       clearTokensAndNotify()
@@ -103,5 +101,9 @@ export function createAuthRefreshInterceptor(api: AxiosInstance) {
     } finally {
       isRefreshing = false
     }
+
+    flushQueue(null, accessToken)
+    originalRequest.headers.Authorization = `Bearer ${accessToken}`
+    return api(originalRequest)
   }
 }
