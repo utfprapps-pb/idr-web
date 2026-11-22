@@ -7,7 +7,8 @@ import {
 
 /**
  * Dublê da porta `HttpClient` para testar os remote use cases sem rede:
- * guarda as requisições recebidas e devolve a `response` configurada.
+ * guarda as requisições recebidas e devolve a `response` configurada — ou,
+ * quando `responses` tem itens, a próxima da fila (uma por requisição).
  * Só para testes; não importar em código de produção.
  */
 export class HttpClientSpy<
@@ -20,6 +21,8 @@ export class HttpClientSpy<
 
   response: HttpResponse<TApiResponse> = { statusCode: HttpStatusCode.ok }
 
+  responses: HttpResponse<TApiResponse>[] = []
+
   get lastRequest(): HttpRequest<TModel, TApiModel> | undefined {
     return this.requests.at(-1)
   }
@@ -29,6 +32,6 @@ export class HttpClientSpy<
   ): Promise<HttpResponse<TApiResponse>> => {
     this.requests.push(data)
 
-    return this.response
+    return this.responses.shift() ?? this.response
   }
 }
