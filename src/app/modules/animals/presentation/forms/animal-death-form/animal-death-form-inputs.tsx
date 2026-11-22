@@ -20,7 +20,7 @@ export function AnimalDeathFormInputs() {
               <Form.Label>Data do Óbito*</Form.Label>
               <Form.Control>
                 <DatePicker
-                  date={field.value}
+                  date={field.value ?? undefined}
                   onSelect={field.onChange}
                   isError={!!error?.message}
                 />

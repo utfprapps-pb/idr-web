@@ -17,8 +17,10 @@ describe('fromLocalDate', () => {
     expect(fromLocalDate('2024-06-10').getDate()).toBe(10)
   })
 
-  // Pendência 10 da matriz: a API aceita data nula na maioria dos eventos.
-  it.todo('trata data nula vinda da API sem quebrar a lista')
+  it('devolve null para data nula ou ausente vinda da API', () => {
+    expect(fromLocalDate(null)).toBeNull()
+    expect(fromLocalDate(undefined)).toBeNull()
+  })
 })
 
 describe('toLocalDate', () => {
@@ -28,6 +30,11 @@ describe('toLocalDate', () => {
 
   it('mantém o dia local mesmo no fim do dia (que já é outro dia em UTC)', () => {
     expect(toLocalDate(new Date(2024, 5, 10, 23, 30))).toBe('2024-06-10')
+  })
+
+  it('devolve null quando o formulário não tem data', () => {
+    expect(toLocalDate(null)).toBeNull()
+    expect(toLocalDate(undefined)).toBeNull()
   })
 
   it('faz ida e volta sem deslocar o dia', () => {

@@ -7,12 +7,19 @@ import { format, parseISO } from 'date-fns'
  * timestamp that can land on another day. These helpers keep the calendar day.
  */
 
-/** `yyyy-MM-dd` -> local midnight of that same day. */
-export function fromLocalDate(value: string): Date {
-  return parseISO(value)
+/**
+ * `yyyy-MM-dd` -> local midnight of that same day. A missing date (the API
+ * accepts `null` in most animal events) stays `null`.
+ */
+export function fromLocalDate(value: string): Date
+export function fromLocalDate(value: string | null | undefined): Date | null
+export function fromLocalDate(value: string | null | undefined): Date | null {
+  return value ? parseISO(value) : null
 }
 
-/** Date picked in the UI -> `yyyy-MM-dd` of its local calendar day. */
-export function toLocalDate(date: Date): string {
-  return format(date, 'yyyy-MM-dd')
+/** Date picked in the UI -> `yyyy-MM-dd` of its local calendar day; no date -> `null`. */
+export function toLocalDate(date: Date): string
+export function toLocalDate(date: Date | null | undefined): string | null
+export function toLocalDate(date: Date | null | undefined): string | null {
+  return date ? format(date, 'yyyy-MM-dd') : null
 }

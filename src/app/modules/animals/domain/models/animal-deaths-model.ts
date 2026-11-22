@@ -1,5 +1,5 @@
 export type AnimalDeathDetailsModel = {
-  date: Date
+  date: Date | null
   reason: string
 }
 
@@ -8,11 +8,11 @@ export type AnimalDeathApiResponse = {
   id: string
   animalId: string
   reason: string
-  deathDate: string
+  deathDate: string | null
 }
 
 export type AnimalDeathModel = {
   id: string
-  date: Date
+  date: Date | null
   reason: string
 }

@@ -5,7 +5,7 @@ export type AnimalChildbirthCondition = 'ALIVE' | 'DEAD'
 export type AnimalChildbirthGender = 'MALE' | 'FEMALE'
 
 export type AnimalChildbirthDetailsModel = {
-  date: Date
+  date: Date | null
   gender: AnimalChildbirthGender
   weight: string
   condition: AnimalChildbirthCondition
@@ -18,7 +18,7 @@ export type AnimalChildbirthDetailsModel = {
 export type AnimalChildbirthApiResponse = {
   id: string
   animalId: string
-  childbirthDate: string
+  childbirthDate: string | null
   gender: AnimalChildbirthGender
   weight: number | null
   condition: AnimalChildbirthCondition

@@ -13,7 +13,7 @@ import type {
 
 export type AnimalDiseaseApiRequest = {
   diagnosis: string
-  diagnosisDate: string
+  diagnosisDate: string | null
 }
 
 export function toApi(

@@ -12,8 +12,8 @@ import type {
  */
 
 export type AnimalPregnancyDiagnosisApiRequest = {
-  diagnoseDate: string
-  lastIa: string
+  diagnoseDate: string | null
+  lastIa: string | null
 }
 
 export function toApi(

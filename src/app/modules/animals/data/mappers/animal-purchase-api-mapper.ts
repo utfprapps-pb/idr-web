@@ -22,8 +22,8 @@ import type {
  */
 
 export type AnimalPurchaseApiRequest = {
-  datePurchase: string
-  birthDate: string
+  datePurchase: string | null
+  birthDate: string | null
   value: number
   weight: number | null
 }

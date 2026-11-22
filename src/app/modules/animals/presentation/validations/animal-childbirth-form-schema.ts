@@ -1,9 +1,12 @@
 import { z } from 'zod'
 
-import { optionStringSchema } from '@/core/validation/schemas'
+import {
+  optionStringSchema,
+  requiredDateSchema,
+} from '@/core/validation/schemas'
 
 export const animalChildbirthFormSchema = z.object({
-  date: z.date().max(new Date(), { message: 'Data inválida' }),
+  date: requiredDateSchema('Data do parto é obrigatória'),
   gender: z.enum(['MALE', 'FEMALE'], {
     message: 'Campo obrigatório',
   }),

@@ -13,7 +13,7 @@ import type {
 
 export type AnimalDeathApiRequest = {
   reason: string
-  deathDate: string
+  deathDate: string | null
 }
 
 export function toApi(model: AnimalDeathDetailsModel): AnimalDeathApiRequest {

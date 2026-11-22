@@ -1,6 +1,6 @@
 export type AnimalPurchaseDetailsModel = {
-  date: Date
-  birthDate: Date
+  date: Date | null
+  birthDate: Date | null
   weight: string
   price: string
 }
@@ -9,16 +9,16 @@ export type AnimalPurchaseDetailsModel = {
 export type AnimalPurchaseApiResponse = {
   id: string
   animalId: string
-  datePurchase: string
-  birthDate: string
+  datePurchase: string | null
+  birthDate: string | null
   value: number
   weight: number | null
 }
 
 export type AnimalPurchaseModel = {
   id: string
-  date: Date
-  birthDate: Date
+  date: Date | null
+  birthDate: Date | null
   weight: string
   price: string
 }

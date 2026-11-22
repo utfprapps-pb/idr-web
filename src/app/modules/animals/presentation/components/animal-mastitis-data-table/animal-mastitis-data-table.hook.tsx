@@ -43,7 +43,9 @@ export function useAnimalMastitisDataTable() {
         cell: ({ row }) => {
           const { original: animalMastitis } = row
 
-          return format(animalMastitis.date, 'dd/MM/yyyy')
+          return animalMastitis.date
+            ? format(animalMastitis.date, 'dd/MM/yyyy')
+            : '-'
         },
       },
       {

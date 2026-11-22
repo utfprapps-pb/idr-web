@@ -7,7 +7,7 @@ export type AnimalMastitisCmtResults =
 export type AnimalMastitisType = 'CLINICAL' | 'SUBCLINICAL'
 
 export type AnimalMastitisDetailsModel = {
-  date: Date
+  date: Date | null
   type: AnimalMastitisType
   ad: AnimalMastitisCmtResults
   ae: AnimalMastitisCmtResults
@@ -21,7 +21,7 @@ export type AnimalMastitisDetailsModel = {
 export type AnimalMastitisApiResponse = {
   id: string
   animalId: string
-  diagnoseDate: string
+  diagnoseDate: string | null
   mastitisType: string
   cmtResult: string | null
   ad: string
@@ -32,7 +32,7 @@ export type AnimalMastitisApiResponse = {
 
 export type AnimalMastitisModel = {
   id: string
-  date: Date
+  date: Date | null
   type: AnimalMastitisType
   ad: AnimalMastitisCmtResults
   ae: AnimalMastitisCmtResults

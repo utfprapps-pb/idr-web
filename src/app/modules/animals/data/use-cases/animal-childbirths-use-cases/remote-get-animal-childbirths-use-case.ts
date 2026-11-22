@@ -63,7 +63,7 @@ export class RemoteGetAnimalChildbirthsUseCase
 
           return {
             id: item.id,
-            date: format(date, 'dd/MM/yyyy'),
+            date: date ? format(date, 'dd/MM/yyyy') : '',
             gender: gender === 'MALE' ? 'Macho' : 'Fêmea',
             weight,
             condition: condition === 'ALIVE' ? 'Vivo' : 'Morto',

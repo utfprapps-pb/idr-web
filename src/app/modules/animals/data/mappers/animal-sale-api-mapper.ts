@@ -57,7 +57,7 @@ const DESTINATION_TO_BACKEND: Record<
 }
 
 export type AnimalSaleApiRequest = {
-  dateSale: string
+  dateSale: string | null
   value: number
   destination: BackendDestination
   reason: BackendReason

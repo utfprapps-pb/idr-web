@@ -15,7 +15,7 @@ import type {
  */
 
 export type AnimalMastitisApiRequest = {
-  diagnoseDate: string
+  diagnoseDate: string | null
   mastitisType: AnimalMastitisType
   ad: AnimalMastitisCmtResults
   ae: AnimalMastitisCmtResults

@@ -21,4 +21,11 @@ describe('animal-death-api-mapper', () => {
       deathDate: '2024-06-10',
     })
   })
+
+  it('mantém a data nula da API como vazia, ida e volta', () => {
+    const model = fromApi({ ...record, deathDate: null })
+
+    expect(model.date).toBeNull()
+    expect(toApi(model)).toEqual({ reason: 'Pneumonia', deathDate: null })
+  })
 })

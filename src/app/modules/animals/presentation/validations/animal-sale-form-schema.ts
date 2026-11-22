@@ -1,13 +1,10 @@
 import { z } from 'zod'
 
+import { requiredDateSchema } from '@/core/validation/schemas'
 import { moneyValidation } from '@/core/validation/validators'
 
 export const animalSaleFormSchema = z.object({
-  date: z
-    .date({
-      required_error: 'Data de venda é obrigatória',
-    })
-    .max(new Date(), { message: 'Data inválida' }),
+  date: requiredDateSchema('Data de venda é obrigatória'),
   reason: z.enum(['VOLUNTARY', 'DISCARD', 'EMERGENCY'], {
     message: 'Campo obrigatório',
   }),

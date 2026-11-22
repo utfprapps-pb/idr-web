@@ -19,7 +19,7 @@ import type {
  */
 
 export type AnimalChildbirthApiRequest = {
-  childbirthDate: string
+  childbirthDate: string | null
   gender: AnimalChildbirthDetailsModel['gender']
   weight: number | null
   condition: AnimalChildbirthDetailsModel['condition']
