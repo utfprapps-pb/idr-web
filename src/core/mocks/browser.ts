@@ -79,6 +79,7 @@ import {
   getAnimalSalesHandler,
   updateAnimalSaleHandler,
 } from '@/app/modules/animals/mocks/handlers/animal-sales-handlers'
+import { getAllProductsHandler } from '@/app/modules/animals/mocks/handlers/products-handlers'
 import {
   loginHandler,
   requestPasswordRecoveryHandler,
@@ -352,6 +353,8 @@ const handlers: HttpHandler[] = [
   getAnimalMedicationHandler,
   getAnimalMedicationsHandler,
   updateAnimalMedicationHandler,
+
+  getAllProductsHandler,
 
   createAnimalMastitisHandler,
   deleteAnimalMastitisHandler,
