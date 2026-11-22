@@ -8,6 +8,8 @@ const record: AnimalMedicationApiResponse = {
   id: 'medication-1',
   animalId: 'animal-1',
   productId: 'product-1',
+  productName: 'Ivomec',
+  activePrinciple: 'Ivermectina',
   applicationDate: '2024-06-10',
   appliedDose: '10 ml',
   applicationWay: 'IM',

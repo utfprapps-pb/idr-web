@@ -18,8 +18,11 @@ export type AnimalMedicationDetailsModel = {
 export type AnimalMedicationApiResponse = {
   id: string
   animalId: string
-  /** UUID do catálogo `Product` do backend — ainda não religado ao seletor de produto da tela. */
+  /** UUID do catálogo `/products`, ou `null` para produto não cadastrado. */
   productId: string | null
+  /** Nome gravado na medicação (do catálogo, quando há `productId`). */
+  productName: string
+  activePrinciple: string | null
   applicationDate: string
   appliedDose: string
   applicationWay: string

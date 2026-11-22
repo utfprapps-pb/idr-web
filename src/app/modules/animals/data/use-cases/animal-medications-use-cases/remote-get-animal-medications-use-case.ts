@@ -74,11 +74,9 @@ export class RemoteGetAnimalMedicationsUseCase
           return {
             id: item.id,
             date: record.date,
-            // A API só devolve `productId`; nome e princípio ativo dependem de
-            // religar o catálogo `Product` (ainda não feito).
-            product: '',
+            product: item.productName,
             appliedDose: floatMask(record.appliedDose, 'mg/ml'),
-            activeIngredient: '',
+            activeIngredient: item.activePrinciple ?? '',
             applicationMethod:
               applicationMethodMapper[record.applicationMethod],
           }
