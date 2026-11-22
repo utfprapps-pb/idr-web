@@ -4,11 +4,10 @@ import {
   InvalidCredentialsError,
   UnexpectedError,
 } from '@/core/domain/errors'
+import { getProblemDetailMessage } from '@/core/utils'
 
 import type { AuthApiResponse, AuthModel } from '../../domain/models/auth-model'
 import type { LoginUseCase } from '../../domain/use-cases'
-
-type ApiErrorBody = { message?: string }
 
 export class RemoteLoginUseCase implements LoginUseCase {
   constructor(
@@ -33,8 +32,7 @@ export class RemoteLoginUseCase implements LoginUseCase {
     }
 
     if (statusCode === HttpStatusCode.forbidden) {
-      const apiMessage = (body as ApiErrorBody | undefined)?.message
-      throw new ForbiddenError(apiMessage)
+      throw new ForbiddenError(getProblemDetailMessage(body))
     }
 
     if (statusCode === HttpStatusCode.ok && !!body) {
@@ -44,7 +42,6 @@ export class RemoteLoginUseCase implements LoginUseCase {
       }
     }
 
-    const apiMessage = (body as ApiErrorBody | undefined)?.message
-    throw new UnexpectedError(apiMessage)
+    throw new UnexpectedError(getProblemDetailMessage(body))
   }
 }

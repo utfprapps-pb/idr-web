@@ -1,5 +1,6 @@
 import { type HttpClient, HttpStatusCode } from '@/core/data/protocols/http'
 import { BadRequestError, UnexpectedError } from '@/core/domain/errors'
+import { getProblemDetailMessage } from '@/core/utils'
 
 import type { CreateUserUseCase } from '../../domain/use-cases'
 
@@ -33,8 +34,7 @@ export class RemoteCreateUserUseCase implements CreateUserUseCase {
 
     if (statusCode === HttpStatusCode.ok) return
 
-    const apiMessage = (responseBody as { message?: string } | undefined)
-      ?.message
+    const apiMessage = getProblemDetailMessage(responseBody)
 
     if (statusCode === HttpStatusCode.badRequest)
       throw new BadRequestError(apiMessage)

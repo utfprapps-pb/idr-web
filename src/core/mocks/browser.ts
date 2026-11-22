@@ -82,6 +82,7 @@ import {
 import { getAllProductsHandler } from '@/app/modules/animals/mocks/handlers/products-handlers'
 import {
   loginHandler,
+  refreshHandler,
   requestPasswordRecoveryHandler,
   validateRecoveryCodeHandler,
   resetPasswordHandler,
@@ -228,6 +229,7 @@ import { getAllBreedsHandler } from './handlers/breeds-handlers'
 
 const handlers: HttpHandler[] = [
   loginHandler,
+  refreshHandler,
   requestPasswordRecoveryHandler,
   validateRecoveryCodeHandler,
   resetPasswordHandler,

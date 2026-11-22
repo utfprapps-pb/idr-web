@@ -3,6 +3,7 @@ import { HttpResponse } from 'msw'
 
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay } from '@/core/mocks/middleware'
+import { problemResponse } from '@/core/mocks/utils'
 
 type Params = {
   username: string
@@ -35,6 +36,11 @@ export const loginHandler = httpWithMiddleware<
       })
     }
 
-    return HttpResponse.json({}, { status: 401 })
+    return problemResponse(
+      401,
+      'credenciais-invalidas',
+      'Credenciais inválidas',
+      'Usuário ou senha inválidos'
+    )
   },
 })

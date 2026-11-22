@@ -3,6 +3,7 @@ import { HttpResponse } from 'msw'
 
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay } from '@/core/mocks/middleware'
+import { problemResponse } from '@/core/mocks/utils'
 
 type Params = {
   token: string
@@ -31,6 +32,11 @@ export const refreshHandler = httpWithMiddleware<
       })
     }
 
-    return HttpResponse.json({}, { status: 401 })
+    return problemResponse(
+      400,
+      'refresh-token-invalido',
+      'Sessão expirada',
+      'Refresh token não encontrado.'
+    )
   },
 })

@@ -2,6 +2,9 @@ import { HttpResponse } from 'msw'
 
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withDelay } from '@/core/mocks/middleware'
+import { problemResponse } from '@/core/mocks/utils'
+
+import type { ProblemDetails } from '@/core/utils'
 
 export const resetPasswordHandler = httpWithMiddleware<
   never,
@@ -11,7 +14,7 @@ export const resetPasswordHandler = httpWithMiddleware<
     password: string
     confirmPassword: string
   },
-  { message: string }
+  { message: string } | ProblemDetails
 >({
   routePath: '/api/v1/email/reset-password',
   method: 'post',
@@ -23,9 +26,11 @@ export const resetPasswordHandler = httpWithMiddleware<
       return HttpResponse.json({ message: 'Senha alterada com sucesso' })
     }
 
-    return HttpResponse.json(
-      { message: 'As senhas não coincidem' },
-      { status: 422 }
+    return problemResponse(
+      400,
+      'validacao',
+      'Erro de validação',
+      'Senhas não conferem'
     )
   },
 })

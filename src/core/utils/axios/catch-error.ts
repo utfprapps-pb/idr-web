@@ -1,9 +1,26 @@
 import { isAxiosError } from 'axios'
 import toast from 'react-hot-toast'
 
-type ApiErrorResponse = {
-  message?: string
+/** Corpo de erro da API no formato Problem Details (RFC 9457). */
+export type ProblemDetails = {
+  type?: string
+  title?: string
+  status?: number
+  detail?: string
+  instance?: string
   errors?: Array<{ field: string; message: string }>
+}
+
+/** Mensagem para o usuário: o `detail` da ocorrência ou, sem ele, o `title` do tipo de erro. */
+export function getProblemDetailMessage(body: unknown): string | undefined {
+  if (typeof body !== 'object' || body === null) return undefined
+
+  const { detail, title } = body as Record<string, unknown>
+
+  if (typeof detail === 'string' && detail) return detail
+  if (typeof title === 'string' && title) return title
+
+  return undefined
 }
 
 export function getApiErrorMessage(
@@ -11,8 +28,7 @@ export function getApiErrorMessage(
   fallback = 'Erro inesperado, tente novamente mais tarde'
 ): string {
   if (isAxiosError(error)) {
-    const data = error.response?.data as ApiErrorResponse | undefined
-    return data?.message ?? fallback
+    return getProblemDetailMessage(error.response?.data) ?? fallback
   }
 
   if (error instanceof Error && error.message) {
