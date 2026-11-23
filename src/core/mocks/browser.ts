@@ -225,6 +225,7 @@ import {
   updateUserPermissionsHandler,
 } from '@/app/modules/users/mocks/handlers'
 
+import { getAllAnimalSizesHandler } from './handlers/animal-sizes-handlers'
 import { getAllBreedsHandler } from './handlers/breeds-handlers'
 
 const handlers: HttpHandler[] = [
@@ -234,6 +235,7 @@ const handlers: HttpHandler[] = [
   validateRecoveryCodeHandler,
   resetPasswordHandler,
 
+  getAllAnimalSizesHandler,
   getAllBreedsHandler,
 
   searchCitiesHandler,
