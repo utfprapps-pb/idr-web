@@ -20,7 +20,7 @@ const ANIMAL_ID = 'e0000000-0000-0000-0000-000000000002'
 const animal: AnimalDetailsModel = {
   name: 'Charmosa',
   breed: { value: 'breed-1', label: 'Jersey' },
-  type: 'Grande',
+  size: { value: 'a5000000-0000-0000-0000-000000000003', label: 'Grande' },
   gender: '',
   mother: { value: '', label: '' },
   bornDate: new Date(2019, 5, 23),

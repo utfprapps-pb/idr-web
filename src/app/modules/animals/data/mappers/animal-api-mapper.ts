@@ -27,7 +27,7 @@ function toWriteRequest(model: AnimalDetailsModel): AnimalCreateApiRequest {
   return {
     identifier: model.name,
     breedId: model.breed.value,
-    type: emptyToNull(model.type),
+    sizeId: emptyToNull(model.size.value),
     gender: emptyToNull(model.gender),
     animalMotherId: emptyToNull(model.mother.value),
     bornDate: model.bornDate ? toLocalDate(model.bornDate) : null,
@@ -52,7 +52,7 @@ export function fromApiDetails(record: AnimalApiResponse): AnimalDetailsModel {
   return {
     name: record.identifier,
     breed: { value: record.breedId, label: record.breedName ?? '' },
-    type: record.type ?? '',
+    size: { value: record.sizeId ?? '', label: record.sizeName ?? '' },
     gender: record.gender ?? '',
     mother: {
       value: record.animalMotherId ?? '',

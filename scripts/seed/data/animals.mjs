@@ -1,9 +1,9 @@
 import { faker } from '@faker-js/faker/locale/pt_BR'
 
+import { allAnimalSizesData } from './animal-sizes.mjs'
 import { allBreedsData } from './breeds.mjs'
 
 // Mesmos valores das listas do formulário (planilha e PDF p. 24).
-const BREED_TYPES = ['Pequena', 'Média', 'Grande', 'Holandês-Zebu', 'Bubalina']
 const GENDERS = ['Fêmea', 'Macho']
 const BORN_CONDITIONS = ['Vivo', 'Morto']
 
@@ -21,7 +21,7 @@ const animals = Array.from(
     id: faker.string.uuid(),
     identifier: faker.lorem.word(),
     breedId: faker.helpers.arrayElement(allBreedsData).id,
-    type: optional(faker.helpers.arrayElement(BREED_TYPES)),
+    sizeId: optional(faker.helpers.arrayElement(allAnimalSizesData).id),
     gender: optional(faker.helpers.arrayElement(GENDERS)),
     bornCondition: optional(faker.helpers.arrayElement(BORN_CONDITIONS)),
     bornDate: optional(

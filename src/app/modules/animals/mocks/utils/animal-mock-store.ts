@@ -9,7 +9,7 @@ export type AnimalSeed = {
   id: string
   identifier: string
   breedId: string
-  type: string | null
+  sizeId: string | null
   gender: string | null
   bornCondition: string | null
   bornDate: string | null
@@ -21,21 +21,30 @@ export type AnimalSeed = {
 
 type AnimalRecord = AnimalSeed & { previousWeight: number | null }
 
-/** Resposta do POST/PUT da API (`CreateAnimalResponse`/`UpdateAnimalResponse`): sem `breedName` nem `animalMotherIdentifier`. */
+/** Resposta do POST/PUT da API (`CreateAnimalResponse`/`UpdateAnimalResponse`): sem `breedName`, `sizeName` nem `animalMotherIdentifier`. */
 export type AnimalSavedApiResponse = Omit<
   AnimalApiResponse,
-  'breedName' | 'animalMotherIdentifier'
+  'breedName' | 'sizeName' | 'animalMotherIdentifier'
 >
+
+/** Referência informada que o catálogo não conhece (a API responde 400); nula é aceita. */
+export function isUnknownReference(
+  id: string | null,
+  findName: (id: string) => string | null
+): boolean {
+  return id != null && findName(id) === null
+}
 
 /**
  * Rebanho guardado em memória enquanto a página estiver aberta: criar,
  * editar e excluir alteram o que a busca e o GET devolvem. O GET resolve
- * `breedName` e `animalMotherIdentifier` a cada leitura (renomear a mãe
+ * `breedName`, `sizeName` e `animalMotherIdentifier` a cada leitura (renomear a mãe
  * aparece na filha). Pesos e ECC não fazem parte do PUT e são mantidos.
  */
 export function createAnimalMockStore(
   seed: AnimalSeed[],
-  findBreedName: (breedId: string) => string | null
+  findBreedName: (breedId: string) => string | null,
+  findSizeName: (sizeId: string) => string | null
 ) {
   const records: AnimalRecord[] = seed.map((animal) => ({
     ...animal,
@@ -55,7 +64,7 @@ export function createAnimalMockStore(
       propertyId,
       animalMotherId: record.animalMotherId,
       breedId: record.breedId,
-      type: record.type,
+      sizeId: record.sizeId,
       identifier: record.identifier,
       gender: record.gender,
       bornCondition: record.bornCondition,
@@ -78,6 +87,7 @@ export function createAnimalMockStore(
     return {
       ...toSaved(record, propertyId),
       breedName: findBreedName(record.breedId),
+      sizeName: record.sizeId ? findSizeName(record.sizeId) : null,
       animalMotherIdentifier: mother?.identifier ?? null,
     }
   }
@@ -87,7 +97,7 @@ export function createAnimalMockStore(
     return {
       identifier: body.identifier,
       breedId: body.breedId,
-      type: body.type,
+      sizeId: body.sizeId,
       gender: body.gender,
       animalMotherId: body.animalMotherId,
       bornDate: body.bornDate,

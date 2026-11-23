@@ -6,7 +6,10 @@ export const ANIMAL_INITIAL_FORM_DATA: AnimalFormSchema = {
     label: '',
     value: '',
   },
-  type: '',
+  size: {
+    label: '',
+    value: '',
+  },
   gender: '',
   mother: {
     label: '',

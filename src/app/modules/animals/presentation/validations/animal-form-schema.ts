@@ -13,7 +13,7 @@ export const animalFormSchema = z.object({
     .refine(({ label, value }) => label !== '' && value !== '', {
       message: 'Raça é obrigatória',
     }),
-  type: z.string(),
+  size: z.object({ label: z.string(), value: z.string() }),
   gender: z.string(),
   mother: z.object({ label: z.string(), value: z.string() }),
   bornDate: z.date().nullable(),

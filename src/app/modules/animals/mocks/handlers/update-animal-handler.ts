@@ -4,11 +4,14 @@ import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withAuth, withDelay } from '@/core/mocks/middleware'
 
+import { isUnknownReference } from '../utils/animal-mock-store'
 import {
   missingRequiredFields,
   notFoundProblem,
   requiredFieldsProblem,
+  validationProblem,
 } from '../utils/event-mock-rules'
+import { findAnimalSizeName } from '../utils/find-animal-size-name'
 
 import { ANIMAL_REQUIRED_FIELDS, animalsStore } from './animals-store'
 
@@ -27,6 +30,9 @@ export const updateAnimalHandler = httpWithMiddleware<
 
     const missing = missingRequiredFields(body, ANIMAL_REQUIRED_FIELDS)
     if (missing.length > 0) return requiredFieldsProblem(missing)
+
+    if (isUnknownReference(body.sizeId, findAnimalSizeName))
+      return validationProblem(`Porte com o ID ${body.sizeId} não encontrado`)
 
     const updated = animalsStore.update(
       String(params.propertyId),

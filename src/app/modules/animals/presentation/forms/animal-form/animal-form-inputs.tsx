@@ -10,18 +10,23 @@ import {
   Input,
   Select,
 } from '@/core/presentation/components/ui'
-import { useAllBreedsQuery, useDebounce } from '@/core/presentation/hooks'
+import {
+  useAllAnimalSizesQuery,
+  useAllBreedsQuery,
+  useDebounce,
+} from '@/core/presentation/hooks'
 
 import {
   ANIMAL_BORN_CONDITIONS,
-  ANIMAL_BREED_TYPES,
   ANIMAL_GENDERS,
 } from '../../../domain/models/animal-options'
 import { useAnimalContext } from '../../hooks/animal-context.hook'
 import { useAllAnimalsWithFilterQuery } from '../../hooks/queries/all-animals-with-filter-query.hook'
 
 import {
+  NOT_INFORMED,
   fromOptionalSelectValue,
+  optionalCatalogOptions,
   optionalSelectOptions,
 } from './optional-select-options'
 
@@ -30,7 +35,7 @@ import type { AnimalFormSchema } from '../../validations/animal-form-schema'
 const NO_MOTHER = { label: 'Nenhuma', value: '' }
 
 type OptionalSelectFieldProps = {
-  name: 'type' | 'gender' | 'bornCondition'
+  name: 'gender' | 'bornCondition'
   label: string
   placeholder: string
   values: readonly string[]
@@ -75,6 +80,56 @@ function OptionalSelectField({
           <Form.Message />
         </Form.Item>
       )}
+    />
+  )
+}
+
+const NO_SIZE = { label: '', value: '' }
+
+/** Porte (tipo de raça) escolhido do catálogo, independente da raça. */
+function AnimalSizeSelectField() {
+  const form = useFormContext<AnimalFormSchema>()
+
+  const { allAnimalSizes } = useAllAnimalSizesQuery()
+
+  return (
+    <Form.Field
+      name="size"
+      control={form.control}
+      render={({ field }) => {
+        const options = optionalCatalogOptions(field.value, allAnimalSizes)
+
+        return (
+          <Form.Item>
+            <Form.Label>Porte (tipo de raça)</Form.Label>
+            <Select.Root
+              onValueChange={(value) =>
+                field.onChange(
+                  value === NOT_INFORMED
+                    ? NO_SIZE
+                    : (options.find((option) => option.value === value) ??
+                        NO_SIZE)
+                )
+              }
+              value={field.value.value}
+            >
+              <Form.Control>
+                <Select.Trigger>
+                  <Select.Value placeholder="Selecione o porte" />
+                </Select.Trigger>
+              </Form.Control>
+              <Select.Content>
+                {options.map((option) => (
+                  <Select.Item key={option.value} value={option.value}>
+                    {option.label}
+                  </Select.Item>
+                ))}
+              </Select.Content>
+            </Select.Root>
+            <Form.Message />
+          </Form.Item>
+        )
+      }}
     />
   )
 }
@@ -177,12 +232,7 @@ export function AnimalFormInputs({
         }}
       />
 
-      <OptionalSelectField
-        name="type"
-        label="Tipo de Raça"
-        placeholder="Selecione o tipo de raça"
-        values={ANIMAL_BREED_TYPES}
-      />
+      <AnimalSizeSelectField />
 
       <OptionalSelectField
         name="gender"

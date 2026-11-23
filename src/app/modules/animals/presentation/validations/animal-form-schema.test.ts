@@ -7,7 +7,7 @@ import type { AnimalDetailsModel } from '../../domain/models/animals-model'
 const onlyRequired: AnimalDetailsModel = {
   name: 'Mimosa',
   breed: { value: 'breed-1', label: 'Jersey' },
-  type: '',
+  size: { value: '', label: '' },
   gender: '',
   mother: { value: '', label: '' },
   bornDate: null,
@@ -39,14 +39,14 @@ describe('animalFormSchema', () => {
 
   it('aceita valor antigo fora da lista, para preservá-lo', () => {
     expect(
-      animalFormSchema.parse({ ...onlyRequired, gender: 'F', type: 'type 1' })
-    ).toMatchObject({ gender: 'F', type: 'type 1' })
+      animalFormSchema.parse({ ...onlyRequired, gender: 'F' })
+    ).toMatchObject({ gender: 'F' })
   })
 
   it('mantém todos os campos preenchidos no resultado', () => {
     const filled: AnimalDetailsModel = {
       ...onlyRequired,
-      type: 'Grande',
+      size: { value: 'a5000000-0000-0000-0000-000000000003', label: 'Grande' },
       gender: 'Fêmea',
       mother: { value: 'mother-1', label: 'Mimosa' },
       bornDate: new Date(2019, 5, 23),

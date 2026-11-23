@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import {
   NOT_INFORMED,
   fromOptionalSelectValue,
+  optionalCatalogOptions,
   optionalSelectOptions,
 } from './optional-select-options'
 
@@ -30,6 +31,43 @@ describe('optionalSelectOptions', () => {
       { value: 'Fêmea', label: 'Fêmea' },
       { value: 'Macho', label: 'Macho' },
       { value: 'Macho castrado', label: 'Macho castrado' },
+    ])
+  })
+})
+
+const CATALOG = [
+  { value: 'size-1', label: 'Pequena' },
+  { value: 'size-3', label: 'Grande' },
+]
+
+const EMPTY = { value: '', label: '' }
+
+describe('optionalCatalogOptions', () => {
+  it('sem seleção: só o catálogo (o placeholder aparece)', () => {
+    expect(optionalCatalogOptions(EMPTY, CATALOG)).toEqual(CATALOG)
+  })
+
+  it('com seleção do catálogo: "Não informado" primeiro, sem duplicar', () => {
+    expect(optionalCatalogOptions(CATALOG[1]!, CATALOG)).toEqual([
+      { value: NOT_INFORMED, label: 'Não informado' },
+      ...CATALOG,
+    ])
+  })
+
+  it('seleção ausente do catálogo continua como opção, com o próprio rótulo', () => {
+    expect(
+      optionalCatalogOptions({ value: 'old', label: 'Antigo' }, CATALOG)
+    ).toEqual([
+      { value: NOT_INFORMED, label: 'Não informado' },
+      ...CATALOG,
+      { value: 'old', label: 'Antigo' },
+    ])
+  })
+
+  it('catálogo vazio (falhou ou carregando) mantém a seleção atual', () => {
+    expect(optionalCatalogOptions(CATALOG[1]!, [])).toEqual([
+      { value: NOT_INFORMED, label: 'Não informado' },
+      CATALOG[1],
     ])
   })
 })

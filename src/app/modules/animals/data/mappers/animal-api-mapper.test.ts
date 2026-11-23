@@ -16,7 +16,8 @@ const record: AnimalApiResponse = {
   animalMotherIdentifier: 'Mimosa',
   breedId: 'breed-1',
   breedName: 'Jersey',
-  type: 'Grande',
+  sizeId: 'a5000000-0000-0000-0000-000000000003',
+  sizeName: 'Grande',
   identifier: 'Charmosa',
   gender: 'Fêmea',
   bornCondition: 'Vivo',
@@ -32,7 +33,8 @@ const emptyRecord: AnimalApiResponse = {
   animalMotherId: null,
   animalMotherIdentifier: null,
   breedName: null,
-  type: null,
+  sizeId: null,
+  sizeName: null,
   gender: null,
   bornCondition: null,
   bornDate: null,
@@ -43,7 +45,7 @@ const emptyRecord: AnimalApiResponse = {
 }
 
 describe('animal-api-mapper', () => {
-  it('lê o detalhe com raça e mãe como opções e a data no dia local', () => {
+  it('lê o detalhe com raça, porte e mãe como opções e a data no dia local', () => {
     const model = fromApiDetails(record)
 
     expect(model.name).toBe('Charmosa')
@@ -52,7 +54,10 @@ describe('animal-api-mapper', () => {
       value: 'e0000000-0000-0000-0000-000000000001',
       label: 'Mimosa',
     })
-    expect(model.type).toBe('Grande')
+    expect(model.size).toEqual({
+      value: 'a5000000-0000-0000-0000-000000000003',
+      label: 'Grande',
+    })
     expect(model.gender).toBe('Fêmea')
     expect(model.bornCondition).toBe('Vivo')
     expect(model.bornDate).toEqual(new Date(2019, 5, 23))
@@ -62,7 +67,7 @@ describe('animal-api-mapper', () => {
     expect(toUpdateRequest(fromApiDetails(record))).toEqual({
       identifier: 'Charmosa',
       breedId: 'breed-1',
-      type: 'Grande',
+      sizeId: 'a5000000-0000-0000-0000-000000000003',
       gender: 'Fêmea',
       animalMotherId: 'e0000000-0000-0000-0000-000000000001',
       bornDate: '2019-06-23',
@@ -75,7 +80,7 @@ describe('animal-api-mapper', () => {
     const model = fromApiDetails(emptyRecord)
 
     expect(model).toMatchObject({
-      type: '',
+      size: { value: '', label: '' },
       gender: '',
       bornCondition: '',
       bornWeight: '',
@@ -85,7 +90,7 @@ describe('animal-api-mapper', () => {
     expect(toUpdateRequest(model)).toEqual({
       identifier: 'Charmosa',
       breedId: 'breed-1',
-      type: null,
+      sizeId: null,
       gender: null,
       animalMotherId: null,
       bornDate: null,
@@ -95,12 +100,13 @@ describe('animal-api-mapper', () => {
   })
 
   it('preserva valor antigo fora da lista na ida e volta', () => {
-    const request = toUpdateRequest(
-      fromApiDetails({ ...record, gender: 'F', type: 'type 1' })
-    )
+    const request = toUpdateRequest(fromApiDetails({ ...record, gender: 'F' }))
 
     expect(request.gender).toBe('F')
-    expect(request.type).toBe('type 1')
+  })
+
+  it('não envia mais o tipo de raça em texto', () => {
+    expect(toCreateRequest(fromApiDetails(record))).not.toHaveProperty('type')
   })
 
   it('cria com o mesmo corpo da edição, sem campos de medida', () => {
