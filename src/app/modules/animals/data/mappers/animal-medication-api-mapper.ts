@@ -9,25 +9,21 @@ import type {
 /**
  * Real backend fields: `applicationDate` (frontend: `date`),
  * `applicationWay` (frontend: `applicationMethod`), `appliedDose`
- * (mesmo nome). Passthrough de valor, só o nome do campo muda.
+ * (mesmo nome).
  *
- * `productId` (UUID real do catálogo `Product`) ↔ `product` (Option
- * do catálogo `input-uses`) ainda não é religado: a API não devolve
- * produto legível, então o GET entrega um produto vazio (o mesmo do
- * formulário inicial) e a tela pede para escolher de novo — em vez de
- * `undefined`, que quebrava o formulário de edição.
+ * A medicação registra o que foi aplicado; o vínculo com o catálogo
+ * `/products` é opcional. `product.value` é o `productId` (vazio = produto
+ * não cadastrado). Nome e princípio ativo saem sempre dos campos do
+ * formulário: com `productId`, o servidor os sobrescreve pelo catálogo.
  */
-
-const NO_PRODUCT: AnimalMedicationDetailsModel['product'] = {
-  label: '',
-  value: 0,
-}
 
 export type AnimalMedicationApiRequest = {
   applicationDate: string
   appliedDose: string
   applicationWay: AnimalMedicationApplicationMethod
-  product: AnimalMedicationDetailsModel['product']
+  productId: string | null
+  productName: string
+  activePrinciple: string | null
 }
 
 export function toApi(
@@ -37,7 +33,9 @@ export function toApi(
     applicationDate: toLocalDate(model.date),
     appliedDose: model.appliedDose,
     applicationWay: model.applicationMethod,
-    product: model.product,
+    productId: model.product.value || null,
+    productName: model.productName.trim(),
+    activePrinciple: model.activePrinciple.trim() || null,
   }
 }
 
@@ -49,6 +47,8 @@ export function fromApi(
     appliedDose: record.appliedDose,
     applicationMethod:
       record.applicationWay as AnimalMedicationApplicationMethod,
-    product: NO_PRODUCT,
+    product: { value: record.productId ?? '', label: record.productName },
+    productName: record.productName,
+    activePrinciple: record.activePrinciple ?? '',
   }
 }

@@ -20,7 +20,7 @@ export function AnimalPregnancyDiagnosisFormInputs() {
               <Form.Label>Data do Diagnóstico*</Form.Label>
               <Form.Control>
                 <DatePicker
-                  date={field.value}
+                  date={field.value ?? undefined}
                   onSelect={field.onChange}
                   isError={!!error?.message}
                 />
@@ -42,7 +42,7 @@ export function AnimalPregnancyDiagnosisFormInputs() {
               <Form.Label>Data da Última Inseminação*</Form.Label>
               <Form.Control>
                 <DatePicker
-                  date={field.value}
+                  date={field.value ?? undefined}
                   onSelect={field.onChange}
                   isError={!!error?.message}
                 />

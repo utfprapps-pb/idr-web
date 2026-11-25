@@ -70,7 +70,7 @@ export function AnimalChildbirthFormInputs() {
               <Form.Label>Data do Parto*</Form.Label>
               <Form.Control>
                 <DatePicker
-                  date={field.value}
+                  date={field.value ?? undefined}
                   onSelect={field.onChange}
                   isError={!!error?.message}
                 />

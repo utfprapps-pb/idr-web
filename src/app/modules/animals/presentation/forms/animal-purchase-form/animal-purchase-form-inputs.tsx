@@ -21,7 +21,7 @@ export function AnimalPurchaseFormInputs() {
               <Form.Label>Data da Compra*</Form.Label>
               <Form.Control>
                 <DatePicker
-                  date={field.value}
+                  date={field.value ?? undefined}
                   onSelect={field.onChange}
                   isError={!!error?.message}
                 />
@@ -43,7 +43,7 @@ export function AnimalPurchaseFormInputs() {
               <Form.Label>Data do Nascimento*</Form.Label>
               <Form.Control>
                 <DatePicker
-                  date={field.value}
+                  date={field.value ?? undefined}
                   onSelect={field.onChange}
                   isError={!!error?.message}
                 />

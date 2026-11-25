@@ -52,7 +52,7 @@ export function AnimalMastitisFormInputs() {
               <Form.Label>Data do Diagnóstico*</Form.Label>
               <Form.Control>
                 <DatePicker
-                  date={field.value}
+                  date={field.value ?? undefined}
                   onSelect={field.onChange}
                   isError={!!error?.message}
                 />

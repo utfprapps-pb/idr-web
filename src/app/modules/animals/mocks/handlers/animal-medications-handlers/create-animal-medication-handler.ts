@@ -1,18 +1,42 @@
-import { HttpResponse, PathParams } from 'msw'
+import { HttpResponse, type PathParams } from 'msw'
 
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withAuth, withDelay } from '@/core/mocks/middleware'
 
-import type { AnimalMedicationDetailsModel } from '../../../domain/models/animal-medications-model'
+import { requiredFieldsProblem } from '../../utils/event-mock-rules'
+import { missingMedicationFields } from '../../utils/medication-mock-rules'
+import {
+  toAnimalMedicationRecord,
+  unknownProductProblem,
+} from '../../utils/to-animal-medication-api-response'
+
+import { animalMedicationsStore } from './animal-medications-store'
+
+import type { AnimalMedicationApiRequest } from '../../../data/mappers/animal-medication-api-mapper'
 
 export const createAnimalMedicationHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId'>,
-  AnimalMedicationDetailsModel,
-  never
+  AnimalMedicationApiRequest,
+  object
 >({
   routePath: '/api/properties/:propertyId/animals/:animalId/medications',
   method: 'post',
   middlewares: [withDelay(), withAuth],
-  resolver: async () => HttpResponse.json({}, { status: HttpStatusCode.ok }),
+  resolver: async ({ request, params }) => {
+    const body = await request.json()
+
+    const missing = missingMedicationFields(body)
+    if (missing.length > 0) return requiredFieldsProblem(missing)
+
+    const productProblem = unknownProductProblem(body.productId)
+    if (productProblem) return productProblem
+
+    const created = animalMedicationsStore.create(
+      String(params.animalId),
+      toAnimalMedicationRecord(body)
+    )
+
+    return HttpResponse.json(created, { status: HttpStatusCode.ok })
+  },
 })

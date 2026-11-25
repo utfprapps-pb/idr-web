@@ -16,6 +16,7 @@ import { useHookForm } from '@/core/presentation/hooks'
 import { makeRemoteUpdateAnimalUseCase } from '../../../main/factories/use-cases'
 import { useAnimalContext } from '../../hooks/animal-context.hook'
 import { useAnimalQuery } from '../../hooks/queries/animal-query.hook'
+import { refreshAnimalQueries } from '../../hooks/queries/refresh-animal-queries'
 import {
   animalFormSchema,
   type AnimalFormSchema,
@@ -66,19 +67,10 @@ export function EditAnimalForm() {
         }
 
         await mutateHandleUpdateAnimal({
-          animal: {
-            ...data,
-            id: selectedAnimal.id,
-            ecc: '',
-            milkProduction: '',
-            weight: '',
-          },
+          animal: { ...data, id: selectedAnimal.id },
           propertyId,
         })
-        queryClient.invalidateQueries({
-          queryKey: ['animals', propertyId],
-          exact: false,
-        })
+        refreshAnimalQueries(queryClient, propertyId, selectedAnimal.id)
         toast.success('Animal foi editado com sucesso')
         reset(ANIMAL_INITIAL_FORM_DATA)
         closeEditAnimalForm()
@@ -112,12 +104,19 @@ export function EditAnimalForm() {
               className="flex flex-col gap-4"
               onSubmit={hookFormSubmit(handleUpdateAnimal)}
             >
-              {isLoading ? (
+              {isLoading && (
                 <div className="flex justify-center h-full items-center">
                   <Loading size="lg" />
                 </div>
-              ) : (
-                <AnimalFormInputs />
+              )}
+              {/* Sem os dados atuais, salvar faria o PUT apagar o que não foi carregado. */}
+              {!isLoading && !animal && (
+                <p className="text-sm text-muted-foreground">
+                  Não foi possível carregar o animal. Feche e tente novamente.
+                </p>
+              )}
+              {!isLoading && animal && (
+                <AnimalFormInputs animalId={selectedAnimal?.id} />
               )}
             </form>
           </ScrollArea.Root>
@@ -128,7 +127,7 @@ export function EditAnimalForm() {
             type="submit"
             form="update-animal-form"
             className="w-full"
-            disabled={form.buttonDisabled}
+            disabled={form.buttonDisabled || !animal}
           >
             Salvar
           </Button>

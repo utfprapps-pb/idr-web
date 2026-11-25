@@ -1,22 +1,27 @@
 import { z } from 'zod'
 
+import {
+  requiredDateSchema,
+  requiredEnumSchema,
+} from '@/core/validation/schemas'
 import { moneyValidation } from '@/core/validation/validators'
 
 export const animalSaleFormSchema = z.object({
-  date: z
-    .date({
-      required_error: 'Data de venda é obrigatória',
-    })
-    .max(new Date(), { message: 'Data inválida' }),
-  reason: z.enum(['VOLUNTARY', 'DISCARD', 'EMERGENCY'], {
-    message: 'Campo obrigatório',
-  }),
-  destination: z.enum(['SLAUGHTER', 'PRODUCTION'], {
-    message: 'Campo obrigatório',
-  }),
-  price: z.string().refine((value) => moneyValidation(value, 0.01), {
-    message: 'O valor mínimo é R$0,01',
-  }),
+  date: requiredDateSchema('Data de venda é obrigatória'),
+  reason: requiredEnumSchema(
+    ['VOLUNTARY', 'DISCARD', 'EMERGENCY'],
+    'Campo obrigatório'
+  ),
+  destination: requiredEnumSchema(
+    ['SLAUGHTER', 'PRODUCTION'],
+    'Campo obrigatório'
+  ),
+  price: z
+    .string()
+    .min(1, { message: 'Valor é obrigatório' })
+    .refine((value) => value === '' || moneyValidation(value, 0.01), {
+      message: 'O valor mínimo é R$0,01',
+    }),
   weight: z.string().min(1, { message: 'Peso obrigatório' }),
 })
 

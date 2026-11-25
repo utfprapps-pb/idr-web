@@ -3,7 +3,7 @@ import { useEffect, useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
-import { makeRemoteGetAnimalsUseCase } from '@/app/modules/animals/main/factories/use-cases'
+import { makeRemoteGetAllAnimalsUseCase } from '@/app/modules/animals/main/factories/use-cases'
 
 import { toAnimalOption } from './to-animal-option'
 
@@ -12,7 +12,7 @@ type Props = {
 }
 
 export function useAllAnimalsQuery({ propertyId }: Props) {
-  const getAnimalsUseCase = makeRemoteGetAnimalsUseCase()
+  const getAllAnimalsUseCase = makeRemoteGetAllAnimalsUseCase()
 
   const {
     data,
@@ -23,21 +23,14 @@ export function useAllAnimalsQuery({ propertyId }: Props) {
   } = useQuery({
     queryKey: ['all-animals', propertyId],
     enabled: !!propertyId,
-    queryFn: () =>
-      getAnimalsUseCase.execute({
-        propertyId,
-        pagination: { page: 1, perPage: 30 },
-      }),
+    queryFn: () => getAllAnimalsUseCase.execute({ propertyId }),
   })
 
   useEffect(() => {
     if (isError) toast.error(error?.message ?? 'Erro ao buscar animais')
   }, [error, isError])
 
-  const allAnimals = useMemo(
-    () => data?.resources.map(toAnimalOption) ?? [],
-    [data]
-  )
+  const allAnimals = useMemo(() => data?.map(toAnimalOption) ?? [], [data])
 
   return {
     allAnimals,

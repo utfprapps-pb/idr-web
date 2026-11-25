@@ -11,16 +11,43 @@ import {
 import { fromApi } from '../../mappers/animal-childbirth-api-mapper'
 
 import type {
+  AnimalChildbirthDetailsModel,
   AnimalChildbirthModel,
   AnimalChildbirthApiResponse,
 } from '../../../domain/models/animal-childbirths-model'
 import type { GetAnimalChildbirthsUseCase } from '../../../domain/use-cases/animal-childbirths-use-cases'
-import type { SearchApiResponse } from '@/core/domain/types'
+import type { MapApiProperties, SearchApiResponse } from '@/core/domain/types'
 
 // `breedName` não é coluna do parto: ordenar por raça usa `breedId`.
-const SORT_FIELD_MAP: Record<string, string> = {
+/**
+ * Coluna da tabela -> campo da entidade na API (o `sort` do Spring usa o nome
+ * da entidade). Coluna fora do mapa não envia `sort`.
+ */
+const SORT_FIELD_MAP: MapApiProperties<
+  AnimalChildbirthModel,
+  AnimalChildbirthApiResponse
+> = {
   date: 'childbirthDate',
+  gender: 'gender',
+  weight: 'weight',
+  condition: 'condition',
   breed: 'breedId',
+}
+
+/** Rótulo na tabela; `''` = a API devolveu nulo (não informado). */
+const GENDER_LABELS: Record<AnimalChildbirthDetailsModel['gender'], string> = {
+  MALE: 'Macho',
+  FEMALE: 'Fêmea',
+  '': '',
+}
+
+const CONDITION_LABELS: Record<
+  AnimalChildbirthDetailsModel['condition'],
+  string
+> = {
+  ALIVE: 'Vivo',
+  DEAD: 'Morto',
+  '': '',
 }
 
 export class RemoteGetAnimalChildbirthsUseCase
@@ -48,7 +75,7 @@ export class RemoteGetAnimalChildbirthsUseCase
 
     const query = buildSearchQuery(
       { filters, pagination, sort },
-      (field) => SORT_FIELD_MAP[field] ?? field
+      (field) => SORT_FIELD_MAP[field as keyof AnimalChildbirthModel]
     )
 
     const { statusCode, body } = await this.httpClient.request({
@@ -63,10 +90,10 @@ export class RemoteGetAnimalChildbirthsUseCase
 
           return {
             id: item.id,
-            date: format(date, 'dd/MM/yyyy'),
-            gender: gender === 'MALE' ? 'Macho' : 'Fêmea',
+            date: date ? format(date, 'dd/MM/yyyy') : '',
+            gender: GENDER_LABELS[gender],
             weight,
-            condition: condition === 'ALIVE' ? 'Vivo' : 'Morto',
+            condition: CONDITION_LABELS[condition],
             breed: breed.label,
           }
         }),

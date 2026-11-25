@@ -14,6 +14,7 @@ import { useHookForm } from '@/core/presentation/hooks'
 
 import { makeRemoteCreateAnimalUseCase } from '../../../main/factories/use-cases'
 import { useAnimalContext } from '../../hooks/animal-context.hook'
+import { refreshAnimalQueries } from '../../hooks/queries/refresh-animal-queries'
 import {
   animalFormSchema,
   type AnimalFormSchema,
@@ -46,18 +47,9 @@ export function CreateAnimalForm() {
       try {
         await mutateHandleCreateAnimal({
           propertyId,
-          animal: {
-            name: data.name,
-            breed: data.breed,
-            ecc: '',
-            weight: '',
-            milkProduction: '',
-          },
+          animal: data,
         })
-        queryClient.invalidateQueries({
-          queryKey: ['animals', propertyId],
-          exact: false,
-        })
+        refreshAnimalQueries(queryClient, propertyId)
         toast.success('Animal foi cadastrado com sucesso')
         reset(ANIMAL_INITIAL_FORM_DATA)
         closeNewAnimalForm()

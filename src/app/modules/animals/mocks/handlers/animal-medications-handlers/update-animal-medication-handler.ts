@@ -1,13 +1,27 @@
-import { HttpResponse, PathParams } from 'msw'
+import { HttpResponse, type PathParams } from 'msw'
 
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
-import { withDelay, withAuth } from '@/core/mocks/middleware'
+import { withAuth, withDelay } from '@/core/mocks/middleware'
+
+import {
+  notFoundProblem,
+  requiredFieldsProblem,
+} from '../../utils/event-mock-rules'
+import { missingMedicationFields } from '../../utils/medication-mock-rules'
+import {
+  toAnimalMedicationRecord,
+  unknownProductProblem,
+} from '../../utils/to-animal-medication-api-response'
+
+import { animalMedicationsStore } from './animal-medications-store'
+
+import type { AnimalMedicationApiRequest } from '../../../data/mappers/animal-medication-api-mapper'
 
 export const updateAnimalMedicationHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId' | 'id'>,
-  Record<string, unknown>,
-  never
+  AnimalMedicationApiRequest,
+  object
 >({
   routePath: '/api/properties/:propertyId/animals/:animalId/medications/:id',
   method: 'put',
@@ -15,9 +29,20 @@ export const updateAnimalMedicationHandler = httpWithMiddleware<
   resolver: async ({ request, params }) => {
     const body = await request.json()
 
-    return HttpResponse.json(
-      { id: params.id, ...body },
-      { status: HttpStatusCode.ok }
+    const missing = missingMedicationFields(body)
+    if (missing.length > 0) return requiredFieldsProblem(missing)
+
+    const productProblem = unknownProductProblem(body.productId)
+    if (productProblem) return productProblem
+
+    const updated = animalMedicationsStore.update(
+      String(params.animalId),
+      String(params.id),
+      toAnimalMedicationRecord(body)
     )
+
+    if (!updated) return notFoundProblem('Medicação não encontrada')
+
+    return HttpResponse.json(updated, { status: HttpStatusCode.ok })
   },
 })

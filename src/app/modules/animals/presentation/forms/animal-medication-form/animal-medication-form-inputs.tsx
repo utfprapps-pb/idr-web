@@ -1,8 +1,7 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { useFormContext } from 'react-hook-form'
 
-import { useAllInputUseProductsQuery } from '@/app/modules/input-uses/presentation/hooks/queries/all-input-use-products-query.hook'
 import { floatMask } from '@/core/masker'
 import {
   DatePicker,
@@ -14,7 +13,18 @@ import {
 import { Grouper } from '@/core/presentation/components/utils'
 import { useDebounce } from '@/core/presentation/hooks'
 
-import { AnimalMedicationFormSchema } from '../../validations/animal-medication-form-schema'
+import { useAllProductsQuery } from '../../hooks/queries/all-products-query.hook'
+import {
+  type AnimalMedicationFormSchema,
+  PRODUCT_TEXT_MAX_LENGTH,
+} from '../../validations/animal-medication-form-schema'
+
+import type { AnimalMedicationProductOption } from '../../../domain/models/animal-medications-model'
+
+const NOT_REGISTERED_PRODUCT: AnimalMedicationProductOption = {
+  label: 'Produto não cadastrado',
+  value: '',
+}
 
 export function AnimalMedicationFormInputs() {
   const form = useFormContext<AnimalMedicationFormSchema>()
@@ -23,17 +33,41 @@ export function AnimalMedicationFormInputs() {
 
   const debouncedProduct = useDebounce({ value: searchProduct })
 
-  const { allInputUseProducts, isLoading: isLoadingAllProducts } =
-    useAllInputUseProductsQuery({
-      filters: {
-        name: {
-          value: debouncedProduct,
-          type: 'LIKE',
-        },
+  const { allProducts, isLoading: isLoadingAllProducts } = useAllProductsQuery({
+    filters: {
+      name: {
+        value: debouncedProduct,
+        type: 'LIKE',
       },
-    })
+    },
+  })
 
-  const selectedProduct = form.watch('product')
+  const productOptions = useMemo(
+    () => [NOT_REGISTERED_PRODUCT, ...allProducts],
+    [allProducts]
+  )
+
+  const isCatalogProduct = !!form.watch('product')?.value
+
+  /** Do catálogo, nome e princípio ativo vêm do produto; senão, são digitados. */
+  const handleSelectProduct = (product: AnimalMedicationProductOption) => {
+    const options = {
+      shouldDirty: true,
+      shouldValidate: form.formState.isSubmitted,
+    }
+
+    form.setValue('product', product, options)
+
+    // Reescolher "não cadastrado" mantém o que já foi digitado.
+    if (!product.value && !isCatalogProduct) return
+
+    form.setValue('productName', product.value ? product.label : '', options)
+    form.setValue(
+      'activePrinciple',
+      product.extraData?.activePrinciple ?? '',
+      options
+    )
+  }
 
   return (
     <>
@@ -59,28 +93,56 @@ export function AnimalMedicationFormInputs() {
         }}
       />
 
+      <Form.Field
+        name="product"
+        control={form.control}
+        render={({ field, fieldState }) => {
+          const { error } = fieldState
+
+          return (
+            <Form.Item>
+              <Form.Label>Produto*</Form.Label>
+              <Form.Control>
+                <Combobox<string, { activePrinciple: string }>
+                  search={searchProduct}
+                  items={productOptions}
+                  loading={isLoadingAllProducts}
+                  selected={
+                    field.value.value ? field.value : NOT_REGISTERED_PRODUCT
+                  }
+                  handleSearch={setSearchProduct}
+                  handleSelect={handleSelectProduct}
+                  isError={!!error}
+                  placeholder="Selecione um produto"
+                  emptyMessage="Nenhum produto encontrado"
+                  searchPlaceholder="Buscar produto"
+                />
+              </Form.Control>
+              <Form.Message />
+            </Form.Item>
+          )
+        }}
+      />
+
       <Grouper>
         <Form.Field
-          name="product"
+          name="productName"
           control={form.control}
           render={({ field, fieldState }) => {
             const { error } = fieldState
 
             return (
               <Form.Item>
-                <Form.Label>Produto*</Form.Label>
+                <Form.Label>
+                  Nome do Produto{isCatalogProduct ? '' : '*'}
+                </Form.Label>
                 <Form.Control>
-                  <Combobox<number, { activeIngredient: string }>
-                    search={searchProduct}
-                    items={allInputUseProducts}
-                    loading={isLoadingAllProducts}
-                    selected={field.value}
-                    handleSearch={setSearchProduct}
-                    handleSelect={field.onChange}
-                    isError={!!error}
-                    placeholder="Selecione um produto"
-                    emptyMessage="Nenhum produto encontrado"
-                    searchPlaceholder="Buscar produto"
+                  <Input
+                    {...field}
+                    disabled={isCatalogProduct}
+                    maxLength={PRODUCT_TEXT_MAX_LENGTH}
+                    placeholder="Nome do produto aplicado"
+                    isError={!!error?.message}
                   />
                 </Form.Control>
                 <Form.Message />
@@ -89,16 +151,24 @@ export function AnimalMedicationFormInputs() {
           }}
         />
 
-        <Form.Item>
-          <Form.Label>Princípio Ativo</Form.Label>
-          <Form.Control>
-            <Input
-              disabled
-              value={selectedProduct?.extraData?.activeIngredient ?? ''}
-              placeholder="Princípio ativo do produto"
-            />
-          </Form.Control>
-        </Form.Item>
+        <Form.Field
+          name="activePrinciple"
+          control={form.control}
+          render={({ field }) => (
+            <Form.Item>
+              <Form.Label>Princípio Ativo</Form.Label>
+              <Form.Control>
+                <Input
+                  {...field}
+                  disabled={isCatalogProduct}
+                  maxLength={PRODUCT_TEXT_MAX_LENGTH}
+                  placeholder="Princípio ativo do produto"
+                />
+              </Form.Control>
+              <Form.Message />
+            </Form.Item>
+          )}
+        />
       </Grouper>
 
       <Form.Field

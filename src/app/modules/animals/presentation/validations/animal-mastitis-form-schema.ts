@@ -1,17 +1,18 @@
 import { z } from 'zod'
 
-const cmtResultsEnum = z.enum(
+import {
+  requiredDateSchema,
+  requiredEnumSchema,
+} from '@/core/validation/schemas'
+
+const cmtResultsEnum = requiredEnumSchema(
   ['PLUS-ONE', 'PLUS-TWO', 'PLUS-THREE', 'ABSENT'],
-  {
-    message: 'Campo obrigatório',
-  }
+  'Campo obrigatório'
 )
 
 export const animalMastitisFormSchema = z.object({
-  date: z.date().max(new Date(), { message: 'Data inválida' }),
-  type: z.enum(['CLINICAL', 'SUBCLINICAL'], {
-    message: 'Campo obrigatório',
-  }),
+  date: requiredDateSchema('Data do diagnóstico é obrigatória'),
+  type: requiredEnumSchema(['CLINICAL', 'SUBCLINICAL'], 'Campo obrigatório'),
   ad: cmtResultsEnum,
   ae: cmtResultsEnum,
   pd: cmtResultsEnum,

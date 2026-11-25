@@ -1,5 +1,5 @@
 export type AnimalDiseaseDetailsModel = {
-  diagnosticDate: Date
+  diagnosticDate: Date | null
   diagnostic: string
 }
 
@@ -7,12 +7,13 @@ export type AnimalDiseaseDetailsModel = {
 export type AnimalDiseaseApiResponse = {
   id: string
   animalId: string
-  diagnosis: string
-  diagnosisDate: string
+  /** A API aceita nulo; o mapper lê como `''`. */
+  diagnosis: string | null
+  diagnosisDate: string | null
 }
 
 export type AnimalDiseaseModel = {
   id: string
-  diagnosticDate: Date
+  diagnosticDate: Date | null
   diagnostic: string
 }

@@ -43,4 +43,11 @@ describe('animal-childbirth-api-mapper', () => {
     expect(model.calf).toEqual({ value: '', label: '' })
     expect(toApi(model).calfId).toBeNull()
   })
+
+  it('lê sexo e condição nulos da API (aceitos pela API) como vazios, ida e volta', () => {
+    const model = fromApi({ ...record, gender: null, condition: null })
+
+    expect(model).toMatchObject({ gender: '', condition: '' })
+    expect(toApi(model)).toMatchObject({ gender: null, condition: null })
+  })
 })

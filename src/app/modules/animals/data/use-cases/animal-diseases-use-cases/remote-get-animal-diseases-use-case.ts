@@ -13,9 +13,16 @@ import type {
   AnimalDiseaseApiResponse,
 } from '../../../domain/models/animal-diseases-model'
 import type { GetAnimalDiseasesUseCase } from '../../../domain/use-cases/animal-diseases-use-cases'
-import type { SearchApiResponse } from '@/core/domain/types'
+import type { MapApiProperties, SearchApiResponse } from '@/core/domain/types'
 
-const SORT_FIELD_MAP: Record<string, string> = {
+/**
+ * Coluna da tabela -> campo da entidade na API (o `sort` do Spring usa o nome
+ * da entidade). Coluna fora do mapa não envia `sort`.
+ */
+const SORT_FIELD_MAP: MapApiProperties<
+  AnimalDiseaseModel,
+  AnimalDiseaseApiResponse
+> = {
   diagnostic: 'diagnosis',
   diagnosticDate: 'diagnosisDate',
 }
@@ -45,7 +52,7 @@ export class RemoteGetAnimalDiseasesUseCase
 
     const query = buildSearchQuery(
       { filters, pagination, sort },
-      (field) => SORT_FIELD_MAP[field] ?? field
+      (field) => SORT_FIELD_MAP[field as keyof AnimalDiseaseModel]
     )
 
     const { statusCode, body } = await this.httpClient.request({

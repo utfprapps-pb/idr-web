@@ -40,6 +40,7 @@ export function useAnimalChildbirthDataTable() {
       {
         accessorKey: 'date',
         header: 'Data do parto',
+        cell: ({ row }) => row.original.date || '-',
       },
       {
         accessorKey: 'gender',

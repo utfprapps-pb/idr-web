@@ -9,6 +9,8 @@ import { Command } from '../command'
 import { Loading } from '../loading'
 import { Popover } from '../popover'
 
+import { findByCommandValue, toCommandValue } from './combobox-value'
+
 import type { Option } from '@/core/domain/types'
 
 export type ComboboxProps<
@@ -97,10 +99,11 @@ export function Combobox<
                 {items.map((item) => (
                   <Command.Item
                     key={String(item.value)}
-                    value={String(item.value)}
+                    value={toCommandValue(item.value)}
                     onSelect={(currentValue) => {
-                      const selectedItem = items.find(
-                        (it) => String(it.value) === currentValue
+                      const selectedItem = findByCommandValue(
+                        items,
+                        currentValue
                       )
 
                       if (selectedItem) {

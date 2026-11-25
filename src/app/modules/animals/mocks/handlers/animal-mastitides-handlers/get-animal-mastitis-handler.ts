@@ -2,33 +2,30 @@ import { HttpResponse, type PathParams } from 'msw'
 
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
-import { withDelay, withAuth } from '@/core/mocks/middleware'
+import { withAuth, withDelay } from '@/core/mocks/middleware'
 
-import animalMastitidesData from '@database/animalMastitidesData.json'
+import { notFoundProblem } from '../../utils/event-mock-rules'
 
-import { withAnimalId } from '../../utils/with-animal-id'
+import { animalMastitidesStore } from './animal-mastitides-store'
 
 import type { AnimalMastitisApiResponse } from '../../../domain/models/animal-mastitides-model'
 
 export const getAnimalMastitisHandler = httpWithMiddleware<
   PathParams<'propertyId' | 'animalId' | 'id'>,
   never,
-  AnimalMastitisApiResponse
+  AnimalMastitisApiResponse | object
 >({
   routePath: '/api/properties/:propertyId/animals/:animalId/mastitides/:id',
   method: 'get',
   middlewares: [withDelay(), withAuth],
   resolver: async ({ params }) => {
-    const found = animalMastitidesData.find((item) => item.id === params.id)
+    const found = animalMastitidesStore.find(
+      String(params.animalId),
+      String(params.id)
+    )
 
-    if (!found) {
-      return HttpResponse.json({} as AnimalMastitisApiResponse, {
-        status: HttpStatusCode.notFound,
-      })
-    }
+    if (!found) return notFoundProblem('Mastite não encontrada')
 
-    return HttpResponse.json(withAnimalId(found, String(params.animalId)), {
-      status: HttpStatusCode.ok,
-    })
+    return HttpResponse.json(found, { status: HttpStatusCode.ok })
   },
 })

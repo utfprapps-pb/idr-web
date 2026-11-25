@@ -13,7 +13,7 @@ import type {
 
 export type AnimalDiseaseApiRequest = {
   diagnosis: string
-  diagnosisDate: string
+  diagnosisDate: string | null
 }
 
 export function toApi(
@@ -29,7 +29,7 @@ export function fromApi(
   record: AnimalDiseaseApiResponse
 ): AnimalDiseaseDetailsModel {
   return {
-    diagnostic: record.diagnosis,
+    diagnostic: record.diagnosis ?? '',
     diagnosticDate: fromLocalDate(record.diagnosisDate),
   }
 }

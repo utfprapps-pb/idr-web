@@ -30,6 +30,6 @@ export function fromApi(
 ): AnimalInseminationDetailsModel {
   return {
     date: fromLocalDate(record.iaDate),
-    sire: record.bull,
+    sire: record.bull ?? '',
   }
 }

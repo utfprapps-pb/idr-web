@@ -52,14 +52,6 @@ export function EditAnimalMedicationForm() {
       values: {
         ...animalMedication,
         appliedDose: floatMask(animalMedication.appliedDose, 'mg/ml'),
-        product: {
-          ...animalMedication.product,
-          extraData: {
-            activeIngredient: String(
-              animalMedication.product.extraData?.activeIngredient ?? ''
-            ),
-          },
-        },
       },
     }),
     resolver: zodResolver(animalMedicationFormSchema),

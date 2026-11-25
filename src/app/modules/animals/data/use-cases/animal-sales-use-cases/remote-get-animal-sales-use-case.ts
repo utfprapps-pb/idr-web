@@ -15,14 +15,20 @@ import type {
   AnimalSaleApiResponse,
 } from '../../../domain/models/animal-sales-model'
 import type { GetAnimalSalesUseCase } from '../../../domain/use-cases/animal-sales-use-cases'
-import type { SearchApiResponse } from '@/core/domain/types'
+import type { MapApiProperties, SearchApiResponse } from '@/core/domain/types'
 
-const SORT_FIELD_MAP: Record<string, string> = {
-  date: 'dateSale',
-  price: 'value',
-  destination: 'destination',
-  reason: 'reason',
-}
+/**
+ * Coluna da tabela -> campo da entidade na API (o `sort` do Spring usa o nome
+ * da entidade). Coluna fora do mapa não envia `sort`.
+ */
+const SORT_FIELD_MAP: MapApiProperties<AnimalSaleModel, AnimalSaleApiResponse> =
+  {
+    date: 'dateSale',
+    price: 'value',
+    destination: 'destination',
+    reason: 'reason',
+    weight: 'weight',
+  }
 
 export class RemoteGetAnimalSalesUseCase implements GetAnimalSalesUseCase {
   constructor(
@@ -47,7 +53,7 @@ export class RemoteGetAnimalSalesUseCase implements GetAnimalSalesUseCase {
 
     const query = buildSearchQuery(
       { filters, pagination, sort },
-      (field) => SORT_FIELD_MAP[field] ?? field
+      (field) => SORT_FIELD_MAP[field as keyof AnimalSaleModel]
     )
 
     const { statusCode, body } = await this.httpClient.request({
@@ -74,8 +80,8 @@ export class RemoteGetAnimalSalesUseCase implements GetAnimalSalesUseCase {
           return {
             id: item.id,
             date,
-            destination: destinationMapper[destination],
-            reason: reasonMapper[reason],
+            destination: destination ? destinationMapper[destination] : '',
+            reason: reason ? reasonMapper[reason] : '',
             price,
             weight,
           }

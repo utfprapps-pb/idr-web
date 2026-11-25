@@ -1,16 +1,12 @@
 import { z } from 'zod'
 
+import { requiredDateSchema } from '@/core/validation/schemas'
+
 export const animalPregnancyDiagnosisFormSchema = z.object({
-  date: z
-    .date({
-      required_error: 'Data do diagnóstico é obrigatória',
-    })
-    .max(new Date(), { message: 'Data inválida' }),
-  lastInseminationDate: z
-    .date({
-      required_error: 'Data da última inseminação é obrigatória',
-    })
-    .max(new Date(), { message: 'Data inválida' }),
+  date: requiredDateSchema('Data do diagnóstico é obrigatória'),
+  lastInseminationDate: requiredDateSchema(
+    'Data da última inseminação é obrigatória'
+  ),
 })
 
 export type AnimalPregnancyDiagnosisFormSchema = z.infer<

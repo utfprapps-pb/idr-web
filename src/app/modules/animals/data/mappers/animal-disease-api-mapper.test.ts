@@ -24,4 +24,8 @@ describe('animal-disease-api-mapper', () => {
       diagnosisDate: '2024-06-10',
     })
   })
+
+  it('lê o diagnóstico nulo da API (aceito pela API) como vazio', () => {
+    expect(fromApi({ ...record, diagnosis: null }).diagnostic).toBe('')
+  })
 })

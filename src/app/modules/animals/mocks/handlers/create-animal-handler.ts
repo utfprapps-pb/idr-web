@@ -1,18 +1,41 @@
-import { HttpResponse, PathParams } from 'msw'
+import { HttpResponse, type PathParams } from 'msw'
 
 import { HttpStatusCode } from '@/core/data/protocols/http'
 import { httpWithMiddleware } from '@/core/mocks/lib'
 import { withAuth, withDelay } from '@/core/mocks/middleware'
 
-import type { AnimalDetailsModel } from '../../domain/models/animals-model'
+import { isUnknownReference } from '../utils/animal-mock-store'
+import {
+  missingRequiredFields,
+  requiredFieldsProblem,
+  validationProblem,
+} from '../utils/event-mock-rules'
+import { findAnimalSizeName } from '../utils/find-animal-size-name'
+
+import { ANIMAL_REQUIRED_FIELDS, animalsStore } from './animals-store'
+
+import type { AnimalCreateApiRequest } from '../../domain/models/animals-model'
 
 export const createAnimalHandler = httpWithMiddleware<
   PathParams<'propertyId'>,
-  AnimalDetailsModel,
-  never
+  AnimalCreateApiRequest,
+  object
 >({
   routePath: '/api/properties/:propertyId/animals',
   method: 'post',
   middlewares: [withDelay(), withAuth],
-  resolver: async () => HttpResponse.json({}, { status: HttpStatusCode.ok }),
+  resolver: async ({ request, params }) => {
+    const body = await request.json()
+
+    const missing = missingRequiredFields(body, ANIMAL_REQUIRED_FIELDS)
+    if (missing.length > 0) return requiredFieldsProblem(missing)
+
+    if (isUnknownReference(body.sizeId, findAnimalSizeName))
+      return validationProblem(`Porte com o ID ${body.sizeId} não encontrado`)
+
+    return HttpResponse.json(
+      animalsStore.create(String(params.propertyId), body),
+      { status: HttpStatusCode.ok }
+    )
+  },
 })

@@ -13,7 +13,7 @@ import type {
 
 export type AnimalDeathApiRequest = {
   reason: string
-  deathDate: string
+  deathDate: string | null
 }
 
 export function toApi(model: AnimalDeathDetailsModel): AnimalDeathApiRequest {
@@ -27,7 +27,7 @@ export function fromApi(
   record: AnimalDeathApiResponse
 ): AnimalDeathDetailsModel {
   return {
-    reason: record.reason,
+    reason: record.reason ?? '',
     date: fromLocalDate(record.deathDate),
   }
 }

@@ -1,5 +1,6 @@
 export * from './create-animal-use-case'
 export * from './delete-animal-use-case'
+export * from './get-all-animals-use-case'
 export * from './get-animals-use-case'
 export * from './get-animal-use-case'
 export * from './update-animal-use-case'

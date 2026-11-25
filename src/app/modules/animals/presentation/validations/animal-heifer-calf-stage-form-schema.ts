@@ -1,7 +1,11 @@
 import { z } from 'zod'
 
+import { notFutureDateValidation } from '@/core/validation/validators'
+
 export const animalHeiferCalfStageFormSchema = z.object({
-  weighingDate: z.date().max(new Date(), { message: 'Data inválida' }),
+  weighingDate: z
+    .date()
+    .refine(notFutureDateValidation, { message: 'Data inválida' }),
   ecc: z.string().min(1, { message: 'Campo obrigatório' }),
   age: z.object({
     years: z.string().min(1, { message: 'Campo obrigatório' }),
@@ -46,9 +50,9 @@ export const animalHeiferCalfStageFormSchema = z.object({
     }),
     minWeight: z.string().min(1, { message: 'Campo obrigatório' }),
     fromDate: z.date(),
-    carriedOut: z.date().max(new Date(), {
-      message: 'Data inválida',
-    }),
+    carriedOut: z
+      .date()
+      .refine(notFutureDateValidation, { message: 'Data inválida' }),
     artificialInseminationNumber: z.string().min(1, {
       message: 'Campo obrigatório',
     }),

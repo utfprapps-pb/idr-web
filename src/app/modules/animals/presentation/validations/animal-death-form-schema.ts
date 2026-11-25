@@ -1,11 +1,9 @@
 import { z } from 'zod'
 
+import { requiredDateSchema } from '@/core/validation/schemas'
+
 export const animalDeathFormSchema = z.object({
-  date: z
-    .date({
-      required_error: 'Data do óbito é obrigatória',
-    })
-    .max(new Date(), { message: 'Data inválida' }),
+  date: requiredDateSchema('Data do óbito é obrigatória'),
   reason: z.string().min(1, {
     message: 'Causa do óbito é obrigatória',
   }),
