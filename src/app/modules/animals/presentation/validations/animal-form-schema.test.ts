@@ -31,6 +31,18 @@ describe('animalFormSchema', () => {
     ])
   })
 
+  it('recusa data de nascimento no futuro', () => {
+    const tomorrow = new Date()
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    expect(messages({ ...onlyRequired, bornDate: tomorrow })).toEqual([
+      'Data inválida',
+    ])
+  })
+
+  it('aceita data de nascimento de hoje', () => {
+    expect(messages({ ...onlyRequired, bornDate: new Date() })).toEqual([])
+  })
+
   it('exige a raça', () => {
     expect(
       messages({ ...onlyRequired, breed: { value: '', label: '' } })

@@ -268,13 +268,14 @@ export function AnimalFormInputs({
       <Form.Field
         name="bornDate"
         control={form.control}
-        render={({ field }) => (
+        render={({ field, fieldState: { error } }) => (
           <Form.Item>
             <Form.Label>Data de Nascimento</Form.Label>
             <Form.Control>
               <DatePicker
                 date={field.value ?? undefined}
                 onSelect={(date) => field.onChange(date ?? null)}
+                isError={!!error?.message}
               />
             </Form.Control>
             <Form.Message />
