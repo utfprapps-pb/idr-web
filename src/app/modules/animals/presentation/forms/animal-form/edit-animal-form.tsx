@@ -104,11 +104,18 @@ export function EditAnimalForm() {
               className="flex flex-col gap-4"
               onSubmit={hookFormSubmit(handleUpdateAnimal)}
             >
-              {isLoading ? (
+              {isLoading && (
                 <div className="flex justify-center h-full items-center">
                   <Loading size="lg" />
                 </div>
-              ) : (
+              )}
+              {/* Sem os dados atuais, salvar faria o PUT apagar o que não foi carregado. */}
+              {!isLoading && !animal && (
+                <p className="text-sm text-muted-foreground">
+                  Não foi possível carregar o animal. Feche e tente novamente.
+                </p>
+              )}
+              {!isLoading && animal && (
                 <AnimalFormInputs animalId={selectedAnimal?.id} />
               )}
             </form>
@@ -120,7 +127,7 @@ export function EditAnimalForm() {
             type="submit"
             form="update-animal-form"
             className="w-full"
-            disabled={form.buttonDisabled}
+            disabled={form.buttonDisabled || !animal}
           >
             Salvar
           </Button>
